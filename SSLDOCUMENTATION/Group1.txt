@@ -10,9 +10,9 @@ Copy the server.crt and server.key into
 
 Next, copy httpd-vhosts.conf to C:\xampp\apache\conf\extra
 
-Replace host file with C:\Windows\System32\drivers\etc
+Replace host file at C:\Windows\System32\drivers\etc
 
-Go Xampp>Config button>php.ini
+Go XAMPP>Config button>php.ini
 	uncomment "extension=openssl"
 
 Win+R>certmgr.msc
