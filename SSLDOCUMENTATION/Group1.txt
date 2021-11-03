@@ -24,3 +24,6 @@ Navigate to where you stored server.crt>Complete installation(CHOOSE YES)
 Visit www.swapamc.com(should see "lock" icon)
 
 
+For firefox(because firefox like to be anal)
+See also security.enterprise_roots.enabled on the about:config page.
+
