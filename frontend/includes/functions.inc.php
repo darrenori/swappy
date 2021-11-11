@@ -79,7 +79,7 @@ function uidExists($conn, $username, $email)
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $name, $email, $username, $pwd)
 {
-    $sql = "INSERT INTO users (user_email, user_username, user_password, user_fname, user_lname, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood) VALUES (?,?,?,?,?,?,?,?,?);";
+    $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood) VALUES (?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -89,9 +89,12 @@ function createUser($conn, $name, $email, $username, $pwd)
     //password hashing
     $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
     $placeholder = "iamafunnydawg";
+    
 
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
-    mysqli_stmt_bind_param($stmt, "sssssssss", $email, $username, $hashedPwd, $name, $name, $placeholder, $placeholder, $placeholder, $placeholder);
+    //darren: is "s" necessary? any other methods?
+
+    mysqli_stmt_bind_param($stmt, "sssssssss", $username, $hashedPwd, $name, $name, $email, $placeholder, $placeholder, $placeholder, $placeholder);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);

@@ -13,7 +13,7 @@ include_once 'header.php';
         <button type="submit" name="submit">Login</button>
     </form>
 
-    <?php
+    <?php #are you sure you want to use get..?
     if (isset($_GET["error"])) {
         if ($_GET["error"] == "emptyinput") {
             echo "<p>Fill in all fields!</p>";
