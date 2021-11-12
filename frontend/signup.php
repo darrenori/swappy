@@ -31,7 +31,7 @@ if (isset($_GET["error"])) {
         echo "<p>Choose a proper email!</p>";
     }
     else if ($_GET["error"] == "passwordsdontmatch"){
-        echo "<p>Choose a proper username!</p>";
+        echo "<p>Password dont match!</p>";
     }
     else if ($_GET["error"] == "stmtfailed"){
         echo "<p>Something went wrong, try again!</p>";

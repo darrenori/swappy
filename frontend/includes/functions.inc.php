@@ -50,7 +50,7 @@ function pwdMatch($pwd, $pwdRepeat)
 // creates prepared statements so it runs into the db without input?
 function uidExists($conn, $username, $email)
 {
-    $sql = "SELECT * FROM users WHERE user_username =? OR user_email =?;";
+    $sql = "SELECT * FROM users WHERE user_username =? OR username_email =?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -81,6 +81,7 @@ function createUser($conn, $name, $email, $username, $pwd)
 {
     $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood) VALUES (?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
+    
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
         exit();
