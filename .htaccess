@@ -1,7 +1,7 @@
 # rewrite engine settings:
 RewriteEngine On
 RewriteBase /swapproj/
-RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-f
 Options -Indexes
 # rewrite rules:
 RewriteRule . index.php [NC,L]
