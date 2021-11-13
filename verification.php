@@ -20,7 +20,7 @@ function generateNumericOTP($n) {
 	for ($i = 1; $i <= $n; $i++) {
 		$result .= substr($generator, (rand()%(strlen($generator))), 1);
 	}
-
+//sup
 	// Return result
 	return $result;
 }
