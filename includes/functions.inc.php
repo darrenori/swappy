@@ -104,44 +104,47 @@ function createUser($conn, $name, $email, $username, $pwd)
 
 
 
-    //////////////LOGIN FUNCTIONS////////////////
-    //checks for empty input boxes
-    function emptyInputLogin($username, $pwd)
-    {
-        $result=false;
-        if (empty($username) || empty($pwd)) {
-            $result = true;
-        } else {
-            $result = false;
-        }
-        return $result;
+    
+}
+
+
+//////////////LOGIN FUNCTIONS////////////////
+//checks for empty input boxes
+function emptyInputLogin($username, $pwd)
+{
+    $result=false;
+    if (empty($username) || empty($pwd)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+//logs in user whether username or email is used
+function loginUser($conn, $username, $pwd)
+{
+    $uidExists = uidExists($conn, $username, $username);
+
+    if ($uidExists === false) {
+        header("location: ../swapproj/login?error=wronglogin");
+        exit();
     }
 
-    //logs in user whether username or email is used
-    function loginUser($conn, $username, $pwd)
-    {
-        $uidExists = uidExists($conn, $username, $username);
+    $pwdHashed = $uidExists["user_password"];
+    $checkPwd = password_verify($pwd, $pwdHashed);
 
-        if ($uidExists === false) {
-            header("location: ../swapproj/login?error=wronglogin");
-            exit();
-        }
+    if ($checkPwd === false) {
+        header("location: ../swapproj/login?error=wronglogin");
+        exit();
+    } elseif ($checkPwd === true){
+        //session started
+        session_start();
 
-        $pwdHashed = $uidExists["user_password"];
-        $checkPwd = password_verify($pwd, $pwdHashed);
-
-        if ($checkPwd === false) {
-            header("location: ../swapproj/login?error=wronglogin");
-            exit();
-        } elseif ($checkPwd === true){
-            //session started
-            session_start();
-
-            //session superglobal
-            $_SESSION["userid"] = $uidExists["user_id"];
-            $_SESSION["username"] = $uidExists["user_username"];
-            header("location: ../swaproj/index.html");
-            exit();
-        }
+        //session superglobal
+        $_SESSION["userid"] = $uidExists["user_id"];
+        $_SESSION["username"] = $uidExists["user_username"];
+        header("location: ../swapproj/index.html");
+        exit();
     }
 }

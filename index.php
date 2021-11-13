@@ -1,4 +1,5 @@
 <?php
+//root is www.swapamc.com/swapproj/ . when you create a new route -> will be www.swapamc.com/swapproj/test
 
 require_once __DIR__ . '/config/__init.php';
 require_once __DIR__ . '/router/index.php';
@@ -12,8 +13,10 @@ $router->get('/', 'index.html');
 
 //login page route handling
 $router->get('/login', 'login.php');
+$router->get('/login?error=emptyinput', 'login.php');
 
-
+//login inc route handling
+$router->post('/inclogin', 'includes/login.inc.php');
 
 
 
