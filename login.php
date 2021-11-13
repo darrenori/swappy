@@ -8,7 +8,8 @@
 
 <section class="signup-form">
     <h2>Login</h2>
-    <form action="/swapproj/inclogin" method="POST">
+    
+    <form action="/swapproj/logininc" method="POST">
         <br><label for="uid"> Email or Username:</label><br>
         <input type="text" id="uid" name="uid" placeholder="Email/Username...">
         <br><label for="pwd">Password:</label><br>

@@ -14,9 +14,10 @@ $router->get('/', 'index.html');
 //login page route handling
 $router->get('/login', 'login.php');
 $router->get('/login?error=emptyinput', 'login.php');
+$router->get('/login?error=wronglogin', 'login.php');
 
 //login inc route handling
-$router->post('/inclogin', 'includes/login.inc.php');
+$router->post('/logininc', 'includes/login.inc.php');
 
 
 
@@ -32,4 +33,5 @@ $router->get('/signup?error=none', 'signup.php');
 
 //signup inc route handling
 $router->post('/incsignup', 'includes/signup.inc.php');
+
 

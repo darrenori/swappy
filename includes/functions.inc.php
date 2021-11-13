@@ -144,7 +144,7 @@ function loginUser($conn, $username, $pwd)
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
-        header("location: ../swapproj/index.html");
+        header("location: ../swapproj/zephputcodehere");
         exit();
     }
 }
