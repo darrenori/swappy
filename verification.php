@@ -1,5 +1,5 @@
 <?php
-//BOOYEA I CAN actually pull files from git already
+
 // Function to generate OTP
 function generateNumericOTP($n) {
 	
