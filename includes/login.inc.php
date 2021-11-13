@@ -15,7 +15,7 @@ if (isset($_POST["submit"])) {
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
     if ( $loginempty !== false) {
-        header("location: ../login.php?error=emptyinput");
+        header("location: ../swapproj/login.php?error=emptyinput");
         exit();
     }else{
         echo "got problem uh";

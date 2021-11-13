@@ -1,11 +1,15 @@
 <?php
 
 include_once 'header.php';
+class Signup {
+    
+}
+
 ?>
 
 <section class="signup-form">
     <h2>Sign Up</h2>
-    <form action="includes/signup.inc.php" method="POST">
+    <form action="/swapproj/incsignup" method="POST">
         <label for="name">Full Name:</label><br>
         <input type="text" id="name" name="name" placeholder="Full name...">
         <br><label for="email">Email Address:</label><br>

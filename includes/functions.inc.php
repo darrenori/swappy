@@ -53,7 +53,7 @@ function uidExists($conn, $username, $email)
     $sql = "SELECT * FROM users WHERE user_username =? OR username_email =?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../signup.php?error=stmtfailed");
+        header("location: ../swapproj/signup?error=stmtfailed");
         exit();
     }
 
@@ -83,7 +83,7 @@ function createUser($conn, $name, $email, $username, $pwd)
     $stmt = mysqli_stmt_init($conn);
     
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../signup.php?error=stmtfailed");
+        header("location: ../swapproj/signup?error=stmtfailed");
         exit();
     }
 
@@ -99,7 +99,7 @@ function createUser($conn, $name, $email, $username, $pwd)
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
-    header("location: ../signup.php?error=none");
+    header("location: ../swapproj/signup?error=none");
     exit();
 
 
@@ -123,7 +123,7 @@ function createUser($conn, $name, $email, $username, $pwd)
         $uidExists = uidExists($conn, $username, $username);
 
         if ($uidExists === false) {
-            header("location: ../login.php?error=wronglogin");
+            header("location: ../swapproj/login?error=wronglogin");
             exit();
         }
 
@@ -131,7 +131,7 @@ function createUser($conn, $name, $email, $username, $pwd)
         $checkPwd = password_verify($pwd, $pwdHashed);
 
         if ($checkPwd === false) {
-            header("location: ../login.php?error=wronglogin");
+            header("location: ../swapproj/login?error=wronglogin");
             exit();
         } elseif ($checkPwd === true){
             //session started
@@ -140,7 +140,7 @@ function createUser($conn, $name, $email, $username, $pwd)
             //session superglobal
             $_SESSION["userid"] = $uidExists["user_id"];
             $_SESSION["username"] = $uidExists["user_username"];
-            header("location: ../index.php");
+            header("location: ../swaproj/index.html");
             exit();
         }
     }
