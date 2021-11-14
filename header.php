@@ -22,7 +22,7 @@ session_start();
                 echo '<li><a href="include/lougout.inc.php">Log out</a></li>';
             }else {
                 echo'<li><a href="signup.php">Sign up</a></li>';
-                echo '<li><a href="login.php">Login</a></li>';
+                echo '<li><a href="/login">Login</a></li>';
             }
             ?>
             <li><a href="verification.php">Verification</a></li>
