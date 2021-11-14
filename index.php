@@ -34,4 +34,7 @@ $router->get('/signup?error=none', 'signup.php');
 //signup inc route handling
 $router->post('/incsignup', 'includes/signup.inc.php');
 
+//post login route handling
+$router->get('/campus', 'campus.php');
+
 

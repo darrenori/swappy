@@ -141,6 +141,10 @@ function loginUser($conn, $username, $pwd)
         //session started
         session_start();
 
+        //Taking the current time
+        $_SESSION['start'] = time();
+        //Setting the time to end session
+        $_SESSION['expire'] = $_SESSION['start'] + (10);
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
