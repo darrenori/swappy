@@ -15,11 +15,12 @@ $router->get('/', 'index.html');
 $router->get('/login', 'login.php');
 $router->get('/login?error=emptyinput', 'login.php');
 $router->get('/login?error=wronglogin', 'login.php');
+$router->get('/login?error=emptycaptcha', 'login.php');
+$router->get('/login?error=badcaptcha', 'login.php');
+$router->get('/login?error=goodcaptcha', 'login.php');
 
 //login inc route handling
 $router->post('/logininc', 'includes/login.inc.php');
-
-
 
 
 //signup route handling
