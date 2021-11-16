@@ -19,7 +19,7 @@
     }
     // to refresh the webpage and ask the user to login again
     // refresh time should always be longer than session expire time
-    header("Refresh:12");
+    header("Refresh:13");
         ?>
 <html>
     <body>
