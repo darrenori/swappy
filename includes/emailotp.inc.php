@@ -27,7 +27,7 @@ if (isset($_POST["submit"])) {
         exit();
     } else {
         echo "goodotp";
-        header("location: ../swapproj/campus");
+        header("location: ../swapproj/googleauthentication");
         exit();
     }
 

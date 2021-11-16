@@ -1,6 +1,8 @@
 <?php
 session_start();
 echo "original password". $_SESSION["emailotp"];
+echo "you are".$_SESSION["username"];
+
 ?>
 <section class="signup-form">
     <h2>OTP</h2>
