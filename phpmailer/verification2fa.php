@@ -1,11 +1,9 @@
-session_start();
 
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 require 'includes/Exception.php';
 require 'includes/PHPMailer.php';
 require 'includes/SMTP.php';
-
 
 
 class VerificationCode
@@ -75,6 +73,8 @@ class VerificationCode
     
     public function getHTMLMessage(){
         $this->code=$this->getVerificationCode();
+        session_start();
+        $_SESSION["emailotp"]=$this->code;
         $htmlMessage="
         <!DOCTYPE html>
         <html>

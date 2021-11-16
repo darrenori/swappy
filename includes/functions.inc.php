@@ -34,15 +34,18 @@ function invalidEmail($email)
     }
     return $result;
 }
-//checks if passwords match
+//checks if passwords match also used for otp verification
 function pwdMatch($pwd, $pwdRepeat)
 {
     $result = false;
     if ($pwd !== $pwdRepeat) {
         $result = true;
+        echo "true".$result;
     } else {
         $result = false;
+        echo "false".$result;
     }
+    
     return $result;
 }
 
@@ -151,13 +154,10 @@ function loginUser($conn, $username, $pwd)
         header("location: ../swapproj/login?error=wronglogin");
         exit();
     } elseif ($checkPwd === true) {
-        //session started
-        session_start();
-
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
-        header("location: ../swapproj/campus");
+        header("location: ../swapproj/emailverification");
         exit();
     }
 }

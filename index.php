@@ -35,7 +35,14 @@ $router->get('/signup?error=none', 'signup.php');
 //signup inc route handling
 $router->post('/incsignup', 'includes/signup.inc.php');
 
-//signup inc route handling
+//pre verification route handling
+$router->get('/emailverification', 'phpmailer/emailotp.php');
+$router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
+
+//pre verification inc route handling
+$router->post('/emailverificationinc', 'includes/emailotp.inc.php');
+
+//post login route handling
 $router->get('/campus', 'campus.php');
 
 

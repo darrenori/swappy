@@ -28,14 +28,6 @@ class Router {
 
         $uri = $_SERVER['REQUEST_URI'];
 
-        
-        
-
-        
-
-
-        
-
         if ($uri === $route) {
             $this->handled = true;
             return include_once (views . $view);
