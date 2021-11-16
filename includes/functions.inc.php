@@ -110,13 +110,15 @@ function createUser($conn, $name, $email, $username, $pwd)
 // Function to generate random secret for google auth
 function generateRandomString($length = 16)
 {
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $characters = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+
+    
 }
 
 

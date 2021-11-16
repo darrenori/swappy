@@ -1,9 +1,6 @@
 <?php
 
 session_start();
-echo "<h3> PHP List All Session Variables</h3>";
-foreach ($_SESSION as $key => $val)
-echo $key . " " . $val . "<br/>";
 require_once 'includes/dbh.inc.php';
 require_once 'includes/functions.inc.php';
 require 'googleauth/vendor/autoload.php';
@@ -15,6 +12,11 @@ $uidExists = uidExists($conn, $username, $username);
 //GOOGLE AUTH QR CODE GENERATED
 $_SESSION['usersecret'] = $uidExists['user_secret'];
 $randomsecret = $_SESSION['usersecret'];
+
+
+echo "<h3> PHP List All Session Variables</h3>";
+foreach ($_SESSION as $key => $val)
+echo $key . " " . $val . "<br/>";
 
 //Generates the qr code and puts it in html
 $link = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($uidExists['user_username'], $randomsecret, 'swapamc.com');
