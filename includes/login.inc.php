@@ -2,26 +2,22 @@
 
 if (isset($_POST["submit"])) {
 
-
+    // gets the username password and captcha input
     $username = $_POST["uid"];
-    echo $username;
     $pwd = $_POST["pwd"];
-    echo $pwd;
     $captchaa = $_POST['g-recaptcha-response'];
-    echo $captchaa;
-    $captchaa = $_POST['g-recaptcha-response'];
-    echo $captchaa;
+
+    
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
-    require_once 'index.php';
+    //imports the verification code class that will be used in login user functions.inc.php
+    require_once 'phpmailer/verification2fa.php';
 
 
 
-    ////Checks CAPTCHA/////
+    ////Checks if inputs are empty, invalid
     $loginempty = emptyInputLogin($username, $pwd);
-    echo $loginempty;
     $failedCaptcha = failedCaptcha($captchaa);
-    echo $failedCaptcha;
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
     if ($loginempty !== false) {
@@ -43,7 +39,9 @@ if (isset($_POST["submit"])) {
     }
 
 
+    // if there are no errors, the user is logged in
     loginUser($conn, $username, $pwd);
+
 } else {
     header("location: ../swapproj/login");
     exit();

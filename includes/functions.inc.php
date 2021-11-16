@@ -140,7 +140,7 @@ function loginUser($conn, $username, $pwd)
     }
 
     // pass your recipient's email
-    $vc = new VerificationCode($uidExists["user_email"]);
+    $vc = new VerificationCode($uidExists["username_email"]);
     $vc->sendMail(); // MAIL SENT SUCCESSFULLY
 
 
