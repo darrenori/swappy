@@ -9,12 +9,15 @@ if (isset($_POST["submit"])) {
     echo $pwd;
     $captchaa = $_POST['g-recaptcha-response'];
     echo $captchaa;
+    $captchaa = $_POST['g-recaptcha-response'];
+    echo $captchaa;
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
+    require_once 'index.php';
+
+
 
     ////Checks CAPTCHA/////
-
-
     $loginempty = emptyInputLogin($username, $pwd);
     echo $loginempty;
     $failedCaptcha = failedCaptcha($captchaa);
@@ -37,10 +40,10 @@ if (isset($_POST["submit"])) {
     } else if ($failedCaptcha === "good captcha") {
         header("location: ../swapproj/login?error=goodcaptcha");
         exit();
-    } 
+    }
 
 
-        loginUser($conn, $username, $pwd);
+    loginUser($conn, $username, $pwd);
 } else {
     header("location: ../swapproj/login");
     exit();

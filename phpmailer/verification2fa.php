@@ -90,7 +90,7 @@ class VerificationCode
 }
 
 ///move to functions.inc.php
-// pass your recipient's email
+// // pass your recipient's email
 $vc=new VerificationCode('darrennorii@gmail.com');
 $vc->sendMail(); // MAIL SENT SUCCESSFULLY
 

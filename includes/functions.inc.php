@@ -117,6 +117,18 @@ function emptyInputLogin($username, $pwd)
     return $result;
 }
 
+//checks for email otp
+function verification2fa($email)
+{
+    $result = false;
+    if (empty($username) || empty($pwd)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd)
 {
@@ -126,6 +138,11 @@ function loginUser($conn, $username, $pwd)
         header("location: ../swapproj/login?error=wronglogin");
         exit();
     }
+
+    // pass your recipient's email
+    $vc = new VerificationCode($uidExists["user_email"]);
+    $vc->sendMail(); // MAIL SENT SUCCESSFULLY
+
 
     $pwdHashed = $uidExists["user_password"];
     $checkPwd = password_verify($pwd, $pwdHashed);
@@ -144,36 +161,35 @@ function loginUser($conn, $username, $pwd)
         exit();
     }
 }
-    //checks for empty input boxes
-    function failedCaptcha($captcha)
-    {
-        $result = false;
-        if (!isset($captcha) || empty($captcha)) {
-            //runs if captcha is empty
-            
-            $result = "empty captcha";
-            echo $result;
+//checks for empty input boxes
+function failedCaptcha($captcha)
+{
+    $result = false;
+    if (!isset($captcha) || empty($captcha)) {
+        //runs if captcha is empty
+
+        $result = "empty captcha";
+        echo $result;
+    } else {
+        //runs if captcha received input
+        $secret = '6LceTzMdAAAAAOpz-EsYoCKZGnAXCzF3lv-FsFfF';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($response);
+
+        if ($response->success) {
+            // What happens when the CAPTCHA was entered incorrectly
+            $result = true;
+            echo "bad captcha";
         } else {
-            //runs if captcha received input
-            $secret = '6LceTzMdAAAAAOpz-EsYoCKZGnAXCzF3lv-FsFfF';
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            $response = json_decode($response);
-
-            if ($response->success) {
-                // What happens when the CAPTCHA was entered incorrectly
-                $result = true;
-                echo "bad captcha";
-            } else {
-                // Your code here to handle a successful verification
-                $result = false;
-                echo "good captcha";
-            }
+            // Your code here to handle a successful verification
+            $result = false;
+            echo "good captcha";
         }
-        return $result;
     }
-
+    return $result;
+}
