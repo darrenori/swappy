@@ -84,10 +84,10 @@ class Router {
         $uri = $_SERVER['REQUEST_URI'];
 
         
-        echo $uri;
-        echo '<br>';
-        echo $route;
-        echo '<br>';
+        // echo $uri;
+        // echo '<br>';
+        // echo $route;
+        // echo '<br>';
 
         if ($uri === $route) {
             $this->handled = true;

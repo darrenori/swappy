@@ -17,7 +17,7 @@ $router->get('/login', 'login.php');
 // $router->get('/login?error=wronglogin', 'login.php');
 
 // //login inc route handling
-// $router->post('/logininc', 'includes/login.inc.php');
+$router->post('/logininc', 'includes/login.inc.php');
 
 
 
@@ -39,4 +39,18 @@ $router->get('/campus', 'campus.php');
 
 //store route
 $router->get('/allstores','store/allstores.php');
+$router->get('/allstores/store','store/store.php');
 
+//product route
+$router->get('/allproducts','product/allproducts.php');
+$router->get('/allproducts/product','product/product.php');
+
+
+
+$router->get('/allproducts/product/script','product/product.function.js');
+
+//addtoproduct
+$router->post('/allproducts/product/addtocart','product/addtocart.php');
+
+//viewcart
+$router->get('/allproducts/product/viewcart','product/viewcart.php');
