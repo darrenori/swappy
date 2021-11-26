@@ -148,6 +148,7 @@ function loginUser($conn, $username, $pwd)
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
+        $_SESSION['LAST_ACTIVE_TIME']=time();
         header("location: ../swapproj/campus");
         exit();
     }

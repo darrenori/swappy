@@ -20,7 +20,24 @@ if (isset($_POST["submit"])) {
     }else{
         echo "got problem uh";
     }
-
+    //remember me codes
+    if(!empty($_POST["remember"]))
+    {
+        setcookie("user_login",$_POST["uid"],time()+ (10 * 365 * 24 * 60 * 60));
+        setcookie("user_pwd",$_POST["pwd"],time()+ (10 * 365 * 24 * 60 * 60));
+    }
+    else
+    {
+        if(isset($_COOKIE["user_login"]))
+        {
+            setcookie("user_login","");
+        }
+        if(isset($_COOKIE["user_pwd"]))
+        {
+            setcookie("user_pwd","");
+        }
+    }
+    //end of remember me codes
     loginUser($conn,$username, $pwd);
 
 

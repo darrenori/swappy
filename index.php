@@ -37,4 +37,6 @@ $router->post('/incsignup', 'includes/signup.inc.php');
 //post login route handling
 $router->get('/campus', 'campus.php');
 
+$router->post('/check','user_auth.php');
 
+$router->get('/logout','logout.php');
