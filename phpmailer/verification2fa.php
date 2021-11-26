@@ -1,4 +1,5 @@
 
+
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 require 'includes/Exception.php';
@@ -91,7 +92,7 @@ class VerificationCode
 
 ///move to functions.inc.php
 // // pass your recipient's email
-$vc=new VerificationCode('darrennorii@gmail.com');
+$vc=new VerificationCode('');
 $vc->sendMail(); // MAIL SENT SUCCESSFULLY
 
 //feed user email to function above^^

@@ -1,8 +1,7 @@
 <?php
+session_start();
+if (isset($_POST["submit"]) &&  $_SESSION['loginstate']==="A") {
 
-if (isset($_POST["submit"])) {
-
-    session_start();
     // gets the username password and captcha input
     $userinput = (int)$_POST["emailotp"];
     $useremailotp = $_SESSION["emailotp"];
@@ -27,6 +26,8 @@ if (isset($_POST["submit"])) {
         exit();
     } else {
         echo "goodotp";
+        $_SESSION['loginstate']="B";
+        unset($_SESSION['loginState']);
         header("location: ../swapproj/googleauthentication");
         exit();
     }
@@ -34,7 +35,13 @@ if (isset($_POST["submit"])) {
     // // if there are no errors, the user is logged in
     // loginUser($conn, $username, $pwd);
 
+} elseif ($_SESSION['loginstate'] === "B") {
+    header("location: ../swapproj/googleauthentication");
+    exit();
+} elseif ($_SESSION['loginstate'] === "OK") {
+    header("location: ../swapproj/campus");
+    exit();
 } else {
-    header("location: ../swapproj/emailverification");
+    header("location: ../swapproj/login");
     exit();
 }

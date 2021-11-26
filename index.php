@@ -51,5 +51,9 @@ $router->post('/googleauthenticationinc', 'includes/googleauth.inc.php');
 
 //post login route handling
 $router->get('/campus', 'campus.php');
+$router->post('/logout', 'includes/logout.inc.php');
+
+
+$router->post('/check','user_auth.php');
 
 

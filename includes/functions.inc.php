@@ -117,8 +117,6 @@ function generateRandomString($length = 16)
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
-
-    
 }
 
 
@@ -157,10 +155,6 @@ function loginUser($conn, $username, $pwd)
         exit();
     }
 
-    // OTP email
-    $vc = new VerificationCode($uidExists["username_email"]);
-    $vc->sendMail(); // MAIL SENT SUCCESSFULLY
-
     $pwdHashed = $uidExists["user_password"];
     $checkPwd = password_verify($pwd, $pwdHashed);
 
@@ -168,9 +162,22 @@ function loginUser($conn, $username, $pwd)
         header("location: ../swapproj/login?error=wronglogin");
         exit();
     } elseif ($checkPwd === true) {
+        // OTP email
+
+        $vc = new VerificationCode($uidExists["username_email"]);
+        $vc->sendMail(); // MAIL SENT SUCCESSFULLY
+
+        //Taking the current time
+        $_SESSION['start'] = time();
+        //Setting the time to end session
+        $_SESSION['expire'] = $_SESSION['start'] + (50);
+
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
+        $_SESSION["loginstate"] = "A";
+        $_SESSION['LAST_ACTIVE_TIME']=time();
+
         header("location: ../swapproj/emailverification");
         exit();
     }

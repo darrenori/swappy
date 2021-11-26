@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
-// THIS CODE RUNS WHEN LOGIN BUTTON IS CLICKED
+// THIS CODE RUNS WHEN LOGIN BUTTON IS CLICKED 
+
+
+session_start();
 
 if (isset($_POST["submit"])) {
 
@@ -38,6 +41,27 @@ if (isset($_POST["submit"])) {
         header("location: ../swapproj/login?error=goodcaptcha");
         exit();
     }
+
+
+        //remember me codes
+        if(!empty($_POST["remember"]))
+        {
+            setcookie("user_login",$_POST["uid"],time()+ (10 * 365 * 24 * 60 * 60));
+            setcookie("user_pwd",$_POST["pwd"],time()+ (10 * 365 * 24 * 60 * 60));
+        }
+        else
+        {
+            if(isset($_COOKIE["user_login"]))
+            {
+                setcookie("user_login","");
+            }
+            if(isset($_COOKIE["user_pwd"]))
+            {
+                setcookie("user_pwd","");
+            }
+        }
+        //end of remember me codes
+    
 
 
     // if there are no errors, the user is logged in

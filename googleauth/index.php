@@ -20,8 +20,6 @@ $link = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($user_username, $secre
 
 ?>
 
-<!DOCTYPE html>
-<html>
 
 <body>
     <form action="" method="post">
