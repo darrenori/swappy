@@ -25,17 +25,62 @@ $router->post('/logininc', 'includes/login.inc.php');
 
 //signup route handling
 $router->get('/signup', 'signup.php');
-$router->get('/signup?error=emptyinput', 'signup.php');
-$router->get('/signup?error=invaliduid', 'signup.php');
-$router->get('/signup?error=invalidemail', 'signup.php');
-$router->get('/signup?error=passwordsdontmatch', 'signup.php');
-$router->get('/signup?error=usernametaken', 'signup.php');
-$router->get('/signup?error=none', 'signup.php');
+// $router->get('/signup?error=emptyinput', 'signup.php');
+// $router->get('/signup?error=invaliduid', 'signup.php');
+// $router->get('/signup?error=invalidemail', 'signup.php');
+// $router->get('/signup?error=passwordsdontmatch', 'signup.php');
+// $router->get('/signup?error=usernametaken', 'signup.php');
+// $router->get('/signup?error=none', 'signup.php');
 
 //signup inc route handling
 $router->post('/incsignup', 'includes/signup.inc.php');
 
-//signup inc route handling
+//pre verification route handling
+$router->get('/emailverification', 'phpmailer/emailotp.php');
+$router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
+
+//pre verification inc route handling
+$router->post('/emailverificationinc', 'includes/emailotp.inc.php');
+
+//google auth route handling
+$router->get('/googleauthentication', 'googleauth/googleauthotp.php');
+$router->get('/googleauthentication?error=badotp', 'googleauth/googleauthotp.php');
+
+//google auth inc route handling
+$router->post('/googleauthenticationinc', 'includes/googleauth.inc.php');
+
+//post login route handling
 $router->get('/campus', 'campus.php');
+$router->post('/logout', 'includes/logout.inc.php');
+$router->get('/logout', 'includes/logout.inc.php');
 
 
+$router->post('/check','includes/user_auth.php');
+
+
+
+
+
+
+
+
+
+
+
+//store route
+$router->get('/allstores','store/allstores.php');
+$router->get('/allstores/store','store/store.php');
+
+//product route
+$router->get('/allproducts','product/allproducts.php');
+$router->get('/allproducts/product','product/product.php');
+
+
+
+$router->get('/allproducts/product/script','product/product.function.js');
+
+//addtoproduct
+$router->post('/allproducts/product/addtocart','product/addtocart.php');
+
+//viewcart
+$router->get('/allproducts/product/viewcart','product/viewcart.php');

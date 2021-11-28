@@ -6,6 +6,23 @@
 
 </html>
 <?php
+//session started
+session_start();
+if (isset($_SESSION['loginstate'])) {
+    if ($_SESSION['loginstate'] === "A") {
+        header("location: ../swapproj/emailverification");
+        exit();
+    } elseif ($_SESSION['loginstate'] === "B") {
+        header("location: ../swapproj/googleauthentication");
+        exit();
+    } elseif ($_SESSION['loginstate'] === "OK") {
+        header("location: ../swapproj/campus");
+        exit();
+    }else {
+        header("location: ../swapproj/logout");
+        exit();
+    }
+}
 
 // include_once 'header.php';
 
@@ -17,16 +34,17 @@
     <h2>Login</h2>
 
     <form action="/swapproj/logininc" method="POST">
-        <br><label for="uid"> Email or Username:</label><br>
-        <input type="text" id="uid" name="uid" placeholder="Email/Username...">
+    <br><label for="uid"> Email or Username:</label><br>
+        <input type="text" id="uid" name="uid" placeholder="Email/Username..." value="<?php if(isset($_COOKIE["user_login"])) {echo $_COOKIE["user_login"]; } ?>" >
         <br><label for="pwd">Password:</label><br>
-        <input type="password" id="pwd" name="pwd" placeholder="Password...">
+        <input type="password" id="pwd" name="pwd" placeholder="Password..." value="<?php if(isset($_COOKIE["user_pwd"])) {echo $_COOKIE["user_pwd"]; } ?>">
+        <br><input type ="checkbox" name="remember" label for="remember-me" <?php if(isset($_COOKIE["user_login"])) { ?> checked <?php } ?>> Remember me
         <div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div>
         <button type="submit" name="submit">Login</button>
     </form>
 
     <?php #are you sure you want to use get..?
-    
+
     if (isset($_GET["error"])) {
         if ($_GET["error"] == "emptyinput") {
             echo "<p>Fill in all fields!</p>";
