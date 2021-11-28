@@ -34,15 +34,18 @@ function invalidEmail($email)
     }
     return $result;
 }
-//checks if passwords match
+//checks if passwords match also used for otp verification
 function pwdMatch($pwd, $pwdRepeat)
 {
     $result = false;
     if ($pwd !== $pwdRepeat) {
         $result = true;
+        echo "true" . $result;
     } else {
         $result = false;
+        echo "false" . $result;
     }
+
     return $result;
 }
 
@@ -74,12 +77,12 @@ function uidExists($conn, $username, $email)
     mysqli_stmt_close($stmt);
 }
 
-
+######ATTENTION ADDED 1 MORE COLUMN IN SQL DATABASE CALLED USER_SECRET FOR GOOGLE AUTH
 // check if username already exists 
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $name, $email, $username, $pwd)
 {
-    $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood) VALUES (?,?,?,?,?,?,?,?,?);";
+    $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood, user_secret) VALUES (?,?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -90,23 +93,48 @@ function createUser($conn, $name, $email, $username, $pwd)
     //password hashing
     $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
     $placeholder = "iamafunnydawg";
-
+    $randomsecret = generateRandomString();
 
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
     //darren: is "s" necessary? any other methods?
 
-    mysqli_stmt_bind_param($stmt, "sssssssss", $username, $hashedPwd, $name, $name, $email, $placeholder, $placeholder, $placeholder, $placeholder);
+    mysqli_stmt_bind_param($stmt, "ssssssssss", $username, $hashedPwd, $name, $name, $email, $placeholder, $placeholder, $placeholder, $placeholder, $randomsecret);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
+
+
     header("location: ../swapproj/signup?error=none");
     exit();
+}
+// Function to generate random secret for google auth
+function generateRandomString($length = 16)
+{
+    $characters = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
 }
 
 
 //////////////LOGIN FUNCTIONS////////////////
 //checks for empty input boxes
 function emptyInputLogin($username, $pwd)
+{
+    $result = false;
+    if (empty($username) || empty($pwd)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+//checks for email otp
+function verification2fa($email)
 {
     $result = false;
     if (empty($username) || empty($pwd)) {
@@ -134,46 +162,55 @@ function loginUser($conn, $username, $pwd)
         header("location: ../swapproj/login?error=wronglogin");
         exit();
     } elseif ($checkPwd === true) {
-        //session started
-        session_start();
+        // OTP email
+
+        $vc = new VerificationCode($uidExists["username_email"]);
+        $vc->sendMail(); // MAIL SENT SUCCESSFULLY
+
+        //Taking the current time
+        $_SESSION['start'] = time();
+        //Setting the time to end session
+        $_SESSION['expire'] = $_SESSION['start'] + (50);
 
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
-        header("location: ../swapproj/campus");
+        $_SESSION["loginstate"] = "A";
+        $_SESSION['LAST_ACTIVE_TIME']=time();
+
+        header("location: ../swapproj/emailverification");
         exit();
     }
 }
-    //checks for empty input boxes
-    function failedCaptcha($captcha)
-    {
-        $result = false;
-        if (!isset($captcha) || empty($captcha)) {
-            //runs if captcha is empty
-            
-            $result = "empty captcha";
-            echo $result;
+//checks for empty input boxes
+function failedCaptcha($captcha)
+{
+    $result = false;
+    if (!isset($captcha) || empty($captcha)) {
+        //runs if captcha is empty
+
+        $result = "empty captcha";
+        echo $result;
+    } else {
+        //runs if captcha received input
+        $secret = '6LceTzMdAAAAAOpz-EsYoCKZGnAXCzF3lv-FsFfF';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($response);
+
+        if ($response->success) {
+            // What happens when the CAPTCHA was entered incorrectly
+            $result = true;
+            echo "bad captcha";
         } else {
-            //runs if captcha received input
-            $secret = '6LceTzMdAAAAAOpz-EsYoCKZGnAXCzF3lv-FsFfF';
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            $response = json_decode($response);
-
-            if ($response->success) {
-                // What happens when the CAPTCHA was entered incorrectly
-                $result = true;
-                echo "bad captcha";
-            } else {
-                // Your code here to handle a successful verification
-                $result = false;
-                echo "good captcha";
-            }
+            // Your code here to handle a successful verification
+            $result = false;
+            echo "good captcha";
         }
-        return $result;
     }
-
+    return $result;
+}
