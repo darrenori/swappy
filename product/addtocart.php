@@ -30,6 +30,8 @@
     $productid = $_SESSION["productid"];
     $quantity = $_POST["quantity"];
 
+   
+
     
 
     
@@ -41,6 +43,10 @@
     INNER JOIN mydb.type 
     ON mydb.type.type_id = mydb.product_type.type_id 
     WHERE  mydb.product_type.product_id =$productid;");
+
+    //new
+    $checkIfValuesTampered = [];
+
 
 
     //this query is to check that there hasnt been interception
@@ -54,6 +60,11 @@
         while($checkempty = $query->fetch()){
             $db_type=strval($db_type);
             $db_type = preg_replace('/\s+/', '_', $db_type);
+
+
+            
+            array_push($checkIfValuesTampered,$db_type_choice);
+
         
             
             for($i=0;$i<sizeof($postinformation);$i++){
@@ -81,9 +92,25 @@
                 }
             }
             
+
             
 
             
+        }
+
+
+        
+
+        for($i=0;$i<sizeof($checkIfValuesTampered);$i++){
+
+            if($checkIfValuesTampered[$i]==$db_type_choice){
+                echo "found";
+                break;
+            }
+
+            if($checkIfValuesTampered[$i]==sizeof($checkIfValuesTampered)){
+                echo "interception has been detected. We are logging you off";
+            }
         }
 
         if(!$checkempty){ //if the product has no types
@@ -191,8 +218,10 @@
         }
     
     }
+
     
-   header("location: ../product/viewcart");
+    
+   //header("location: ../product/viewcart");
 
    
     
