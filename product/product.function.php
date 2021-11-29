@@ -42,6 +42,9 @@ function getTypeForProduct($productid, $conn){
     }
 }
 
+
+
+
 function getVariantsFromTypes($type,$productid,$conn){
     
     $query=$conn->prepare("SELECT type_choice,additional_costs FROM mydb.product_type 
@@ -84,6 +87,61 @@ function getVariantsFromTypes($type,$productid,$conn){
 
     }
 }
+
+function getVariantsFromTypesUsingName($type,$name,$conn){
+
+    
+    
+    if(strpos($type,'_')==true){
+        $type = str_replace('_', ' ', $type);
+    }
+
+    
+    
+
+    
+    $query=$conn->prepare("SELECT type_choice,additional_costs,product_price FROM mydb.product_type 
+    INNER JOIN mydb.products 
+    ON mydb.products.product_id = mydb.product_type.product_id 
+    INNER JOIN mydb.type 
+    ON mydb.type.type_id = mydb.product_type.type_id 
+    WHERE mydb.type.type = '$type' AND product_name ='$name';");
+
+    $choice = [];
+    $addcosts = [];
+   
+    
+
+    if($query->execute()){
+        
+        //convert to array. 
+        //$query->bind_result() works too
+        $result = $query->get_result();
+        $array = $result->fetch_all(MYSQLI_ASSOC);
+
+        $totalrows = sizeof($array);
+
+        //print_r($array);
+
+        for($i=0;$i<$totalrows;$i++){
+            $choice[$i] = $array[$i]['type_choice'];
+            
+            $addcosts[$i] = $array[$i]['additional_costs'];
+            
+
+        }
+
+        
+
+
+        $info = [$choice,$addcosts];
+        return $info;
+
+        
+
+    }
+}
+
 
 function checkIfIdExists($conn){
         

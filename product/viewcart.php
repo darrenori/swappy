@@ -23,6 +23,10 @@
 
 
         }
+        session_start();
+        $_SESSION['cartarray'] = $cartidrows;
+        $_SESSION['productarray'] = $productnamerows;
+        $_SESSION['productprice'] = $productpricerows;
     }
 
     $query->close();
@@ -40,7 +44,8 @@
 
         if($query->execute()){
             $query->bind_result($cartidnow,$type,$variant,$additionalcosts,$quantity,$price);
-            echo $productnamerows[$i]."(".$productpricerows[$i].")"."<br>";
+            
+            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$i'>".$productnamerows[$i]."</a>"."(".$productpricerows[$i].")"."<br>";
             
             //if there are types
 

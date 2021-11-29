@@ -64,7 +64,7 @@
         $variant = $info[$i][0];
         $pricevariant = $info[$i][1];
         for($j=0;$j<sizeof($variant);$j++){
-            if($pricevariant[$j]!= null && $pricevariant != "" && $pricevariant!=0){
+            if($pricevariant[$j]!= null && $pricevariant[$j] != "" && $pricevariant[$j]!=0){
                 echo "<span class='optionscontainer'>"."<span>".$variant[$j] ."</span> "."+S$"."<span id='price$variant[$j]'>".$pricevariant[$j]."</span>" ."<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]'>"."</span>";
                 echo "<br>";
             } else {

@@ -12,6 +12,11 @@
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+
+
+
+
+
     
 
     foreach ($_POST as $key => $value) {
@@ -25,6 +30,15 @@
     if(!isset($postinformation)){
         //if they tryna enter funny business yo
     }
+
+    
+
+
+
+
+
+
+
     
     session_start();
     $productid = $_SESSION["productid"];
@@ -46,6 +60,8 @@
 
     //new
     $checkIfValuesTampered = [];
+
+
 
 
 
@@ -110,6 +126,7 @@
 
             if($checkIfValuesTampered[$i]==sizeof($checkIfValuesTampered)){
                 echo "interception has been detected. We are logging you off";
+                
             }
         }
 
@@ -221,7 +238,7 @@
 
     
     
-   //header("location: ../product/viewcart");
+   header("location: ../product/viewcart");
 
    
     
