@@ -21,8 +21,8 @@ if (!isset($_SESSION['loginstate'])) {
 
 
 echo "<h3> PHP List All Session Variables</h3>";
-foreach ($_SESSION as $key => $val)
-echo $key . " " . $val . "<br/>";
+// foreach ($_SESSION as $key => $val)
+// echo $key . " " . $val . "<br/>";
 require_once 'includes/dbh.inc.php';
 require_once 'includes/functions.inc.php';
 require 'googleauth/vendor/autoload.php';

@@ -96,7 +96,7 @@ function createUser($conn, $name, $email, $username, $pwd)
     $randomsecret = generateRandomString();
 
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
-    //darren: is "s" necessary? any other methods?
+    
 
     mysqli_stmt_bind_param($stmt, "ssssssssss", $username, $hashedPwd, $name, $name, $email, $placeholder, $placeholder, $placeholder, $placeholder, $randomsecret);
     mysqli_stmt_execute($stmt);
@@ -170,11 +170,12 @@ function loginUser($conn, $username, $pwd)
         //Taking the current time
         $_SESSION['start'] = time();
         //Setting the time to end session
-        $_SESSION['expire'] = $_SESSION['start'] + (50);
+        $_SESSION['expire'] = $_SESSION['start'] + (200);
 
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
+        $_SESSION["role"] = $uidExists["user_role"];
         $_SESSION["loginstate"] = "A";
         $_SESSION['LAST_ACTIVE_TIME']=time();
 

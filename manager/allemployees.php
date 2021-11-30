@@ -40,6 +40,7 @@
         echo "<th>"."Address"."</th>";
         echo "<th>"."Edit"."</th>";
         echo "<th>"."Delete"."</th>";
+        echo "<th>"."Tasks"."</th>";
         echo "</tr>";
 
 
@@ -57,6 +58,7 @@
             echo "<td>".$address."</td>";
             echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$id'><input type=button name=edit value=edit></a>"."</td>";
             echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$id'><input type=button name=delete value=delete></a>"."</td>";
+            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$id'><input type=button name=delete value=tasks></a>"."</td>";
 
 
 
