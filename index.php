@@ -13,11 +13,11 @@ $router->get('/', 'index.html');
 
 //login page route handling
 $router->get('/login', 'login.php');
-$router->get('/login?error=emptyinput', 'login.php');
-$router->get('/login?error=wronglogin', 'login.php');
-$router->get('/login?error=emptycaptcha', 'login.php');
-$router->get('/login?error=badcaptcha', 'login.php');
-$router->get('/login?error=goodcaptcha', 'login.php');
+// $router->get('/login?error=emptyinput', 'login.php');
+// $router->get('/login?error=wronglogin', 'login.php');
+// $router->get('/login?error=emptycaptcha', 'login.php');
+// $router->get('/login?error=badcaptcha', 'login.php');
+// $router->get('/login?error=goodcaptcha', 'login.php');
 
 //login inc route handling
 $router->post('/logininc', 'includes/login.inc.php');
@@ -84,3 +84,53 @@ $router->post('/allproducts/product/addtocart','product/addtocart.php');
 
 //viewcart
 $router->get('/allproducts/product/viewcart','product/viewcart.php');
+
+
+//editcart
+$router->get('/allproducts/product/editcart','product/editcart.php');
+
+//includes change
+$router->post('/allproducts/product/changes','product/includes/change.php');
+$router->post('/allproducts/product/delete','product/includes/delete.php');
+
+//userprofile
+$router->get('/userprofile','profile/userprofile.php');
+$router->post('/userprofile','profile/userprofile.php');
+
+//editprofile
+$router->post('/updateprofile','profile/updateprofile.php');
+$router->post('/deleteprofile','profile/deleteprofile.php');
+
+
+//employeemanager
+$router->get('/employeemanager','manager/allemployees.php');
+
+//employee edit 
+$router->get('/employeemanager/edit','manager/editemployees.php');
+$router->post('/employeemanager/editinc','manager/includes/edit.inc.php');
+
+//employee delete
+$router->get('/employeemanager/delete','manager/deleteemployees.php');
+$router->get('/employeemanager/deleteinc','manager/includes/delete.inc.php');
+
+//employeeadd
+$router->get('/employeemanager/adduser','manager/addemployees.php');
+$router->post('/employeemanager/adduserinc','manager/includes/add.inc.php');
+
+//taskview
+$router->get('/employeemanager/taskmanager','tasks/alltasks.php');
+$router->post('/employeemanager/taskmanager','tasks/alltasks.php');
+
+//taskadd
+$router->get('/employeemanager/taskmanager/addtask','tasks/addtasks.php');
+$router->post('/employeemanager/taskmanager','tasks/alltasks.php');
+
+$router->post('/employeemanager/taskmanager/addtaskinc','tasks/includes/addtasks.inc.php');
+
+//taskedit
+$router->get('/employeemanager/taskmanager/edittask','tasks/edittasks.php');
+$router->post('/employeemanager/taskmanager/edittaskinc','tasks/includes/edittasks.inc.php');
+
+//taskdelete
+$router->get('/employeemanager/taskmanager/deletetask','tasks/includes/deletetasks.inc.php');
+
