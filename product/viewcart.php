@@ -1,11 +1,14 @@
 <?php
+
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
-    
+
+    session_start();
+    $userid = $_SESSION['userid'];
     $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
     INNER JOIN mydb.products
     ON mydb.user_cart.product_id = mydb.products.product_id
-    WHERE user_id = 1");
+    WHERE user_id = $userid");
     $cartidrows = [];
     $productnamerows = [];
     $productpricerows = [];
@@ -23,7 +26,7 @@
 
 
         }
-        session_start();
+        
         $_SESSION['cartarray'] = $cartidrows;
         $_SESSION['productarray'] = $productnamerows;
         $_SESSION['productprice'] = $productpricerows;
