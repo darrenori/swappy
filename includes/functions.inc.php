@@ -80,7 +80,7 @@ function uidExists($conn, $username, $email)
 ######ATTENTION ADDED 1 MORE COLUMN IN SQL DATABASE CALLED USER_SECRET FOR GOOGLE AUTH
 // check if username already exists 
 // creates prepared statements so it runs into the db without input?
-function createUser($conn, $name, $email, $username, $pwd)
+function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood)
 {
     $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood, user_secret) VALUES (?,?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
@@ -94,11 +94,12 @@ function createUser($conn, $name, $email, $username, $pwd)
     $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
     $placeholder = "iamafunnydawg";
     $randomsecret = generateRandomString();
+    $date = date('m/d/Y h:i:s a', time());
 
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
     
 
-    mysqli_stmt_bind_param($stmt, "ssssssssss", $username, $hashedPwd, $name, $name, $email, $placeholder, $placeholder, $placeholder, $placeholder, $randomsecret);
+    mysqli_stmt_bind_param($stmt, "ssssssssss", $username, $hashedPwd, $firstname, $lastname, $email, $phonenumber, $date, $primaryschool, $favouritefood, $randomsecret);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);

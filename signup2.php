@@ -12,23 +12,21 @@ class Signup {
     <form action="/swapproj/incsignup" method="POST">
     <label for="firstname">First Name:</label><br>
         <input type="text" id="firstname" name="firstname" placeholder="Full name...">
-        <br><label for="lastname">Last Name:</label><br>
+        <label for="lastname">Last Name:</label><br>
         <input type="text" id="lastname" name="lastname" placeholder="Last name...">
-        <br><label for="uid">Username:</label><br>
-        <input type="text" id="uid" name="uid" placeholder="Username...">
-        <br><label for="phonenumber">Phone Number:</label><br>
-        <input type="text" id="phonenumber" name="phonenumber" placeholder="Phone...">
         <br><label for="email">Email Address:</label><br>
         <input type="text" id="email" name="email" placeholder="Email...">
+        <br><label for="uid">Username:</label><br>
+        <input type="text" id="uid" name="uid" placeholder="Username...">
         <br><label for="pwd">Password:</label><br>
         <input type="password" id="pwd" name="pwd" placeholder="Password...">
         <br><label for="email">Repeat Password:</label><br>
         <input type="password" id="pwdrepeat" name="pwdrepeat" placeholder="Repeat Password...">
-        <br><label for="primaryschool">Primary School:</label><br>
+        <label for="primaryschool">Primary School:</label><br>
         <input type="text" id="primaryschool" name="primaryschool" placeholder="Primary school...">
-        <br><label for="favouritefood">Favourite Food:</label><br>
+        <label for="favouritefood">Favourite Food:</label><br>
         <input type="text" id="favouritefood" name="favouritefood" placeholder="Favourite food...">
-        <br><br><button type="submit" name="submit">Sign Up</button>
+        <button type="submit" name="submit">Sign Up</button>
     </form>
 
 <?php
@@ -53,7 +51,6 @@ if (isset($_GET["error"])) {
     }
     else if ($_GET["error"] == "none"){
         echo "<p>You have signed up!</p>";
-        header("location: ../swapproj/login");
     }
 }
 

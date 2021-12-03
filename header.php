@@ -18,11 +18,11 @@ session_start();
             <li><a href="index.php">Home</a></li>
             <?php
             if (isset($_SESSION["username"])) {
-                echo'<li><a href="profile.php">Profile</a></li>';
-                echo '<li><a href="include/lougout.inc.php">Log out</a></li>';
+                echo'<li><a href="/swapproj/userprofile">Profile</a></li>';
+                echo '<li><a href="/swapproj/logout">Log out</a></li>';
             }else {
-                echo'<li><a href="signup.php">Sign up</a></li>';
-                echo '<li><a href="/login">Login</a></li>';
+                echo'<li><a href="/swapporj/signup">Sign up</a></li>';
+                echo '<li><a href="/swapproj/login">Login</a></li>';
             }
             ?>
             <li><a href="verification.php">Verification</a></li>

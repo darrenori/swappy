@@ -1,11 +1,15 @@
 <?php
 
 if (isset($_POST["submit"])) {
-    $name = $_POST["name"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
     $email = $_POST["email"];
+    $phonenumber = $_POST["phonenumber"];
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $pwdRepeat = $_POST["pwdrepeat"];
+    $primaryschool = $_POST["primaryschool"];
+    $favouritefood = $_POST["favouritefood"];
 
 
     require_once 'dbh.inc.php';
@@ -13,7 +17,7 @@ if (isset($_POST["submit"])) {
 
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
-    if (emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) !== false) {
+    if (emptyInputSignup($firstname, $email, $username, $pwd, $pwdRepeat) !== false) {
         header("location: ../swapproj/signup?error=emptyinput");
         exit();
     }
@@ -34,7 +38,7 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    createUser($conn, $name, $email, $username, $pwd);
+    createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood);
 
 }
 else{
