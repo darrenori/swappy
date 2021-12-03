@@ -104,8 +104,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_past_purchases` (
   `user_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `store_id` INT NOT NULL,
-  `purchase_addresslinetwo` VARCHAR(45) NULL,
-  `purchase_addresslinetwo` VARCHAR(45) NULL,
   `type_id` INT NOT NULL,
   `purchase_time` VARCHAR(45) NOT NULL,
   `purchase_quantity` VARCHAR(45) NOT NULL,
