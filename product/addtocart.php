@@ -187,10 +187,10 @@
     $cartidrandom = floatval(rand(pow(10, 8-1), pow(10, 8)-1));
     //echo "<br>RANDOM" .$cartidrandom."<br>";
 
-    
+    $userid = $_SESSION['userid'];
     
     $query->close();
-    $query=$conn->prepare("INSERT INTO mydb.user_cart (mydb.user_cart.cart_id,mydb.user_cart.user_id, mydb.user_cart.product_id,mydb.user_cart.quantity,mydb.user_cart.price) VALUES ($cartidrandom,1,$productid,$quantity,$total);");
+    $query=$conn->prepare("INSERT INTO mydb.user_cart (mydb.user_cart.cart_id,mydb.user_cart.user_id, mydb.user_cart.product_id,mydb.user_cart.quantity,mydb.user_cart.price) VALUES ($cartidrandom,$userid,$productid,$quantity,$total);");
     
     
     if($query->execute()){

@@ -10,7 +10,7 @@ $_SESSION['cart'] = $order;
 $price = $_SESSION['productprice'][$order];
 
 
-$userid = 1;
+$userid = $_SESSION['userid'];
 
 
 if (!isset($_GET['cart']) || !isset($_SESSION['cartarray']) || !isset($_SESSION['productarray']) || !isset($_SESSION['productprice'])) {
