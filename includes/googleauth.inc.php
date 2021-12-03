@@ -18,6 +18,7 @@ if (isset($_POST['submit'])) {
 
     if ($g->checkCode($secret, $code)) {
         $_SESSION['loginstate'] = "OK";
+        
         header("location: ../swapproj/campus");
         exit();
     } else {
