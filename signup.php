@@ -53,7 +53,7 @@ if (isset($_GET["error"])) {
     }
     else if ($_GET["error"] == "none"){
         echo "<p>You have signed up!</p>";
-        header("location: ../swapproj/login");
+        header("location: ../swapproj/googleauth/");
     }
 }
 

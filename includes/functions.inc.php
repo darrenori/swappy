@@ -82,6 +82,7 @@ function uidExists($conn, $username, $email)
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood)
 {
+    session_start();
     $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood, user_secret) VALUES (?,?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
 
@@ -109,9 +110,10 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
+    $_SESSION['username'] =$username;
+    $_SESSION['loginstate'] ="Z";
 
-
-    header("location: ../swapproj/signup?error=none");
+    header("location: ../swapproj/googleauthentication");
     exit();
 }
 // Function to generate random secret for google auth
