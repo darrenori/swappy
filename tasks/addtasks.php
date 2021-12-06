@@ -19,7 +19,7 @@
         
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
-    $fname = $_SESSION['employeefname'];
+    $userusername = $_SESSION['userusername'];
     
     $userid = $_SESSION['userid'];
     $role = $_SESSION['role'];
@@ -46,7 +46,7 @@
     echo "<br><br>";
 
     echo "Assigned to:"."<br>";
-    echo $_SESSION['employeefname']."<br>";
+    echo $_SESSION['userusername']."<br>";
 
 
     echo "Assigned by:"."<br>";

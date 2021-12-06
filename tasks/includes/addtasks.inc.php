@@ -56,7 +56,7 @@
         echo "valid";
         $taskname = $_POST['taskname'];
         $taskdetails = $_POST['taskdetails'];
-        $fname = $_SESSION['employeefname'];
+        $userusername = $_SESSION['userusername'];
         $employeeid = $_SESSION['employeeid'];
         $assignedby = $_SESSION['username'];
         
@@ -65,7 +65,7 @@
         
 
         $query=$conn->prepare("INSERT INTO mydb.employees_task (working_id,task_name,task_details,task_progress,
-        task_assignedby,task_dateassigned,task_datefinish) VALUES ($employeeid,'$taskname','$taskdetails',0,'$assignedby','$now','$selectedDate');");
+        task_assignedby,task_dateassigned,task_datetofinish) VALUES ($employeeid,'$taskname','$taskdetails',0,'$assignedby','$now','$selectedDate');");
 
         if($query->execute()){
             echo "done";

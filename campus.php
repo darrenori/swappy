@@ -1,6 +1,9 @@
 <?php
 
 require("includes/user_auth.php");
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
+
 
 // deals with url stuff
 if (!isset($_SESSION['loginstate'])) {
@@ -20,6 +23,14 @@ if (!isset($_SESSION['loginstate'])) {
 
 
 echo "<h3> You are logged in! :D</h3>";
+
+if(isset($_COOKIE['jwt'])){
+    $token = $_COOKIE['jwt'];
+    $info = jwtdecrypt($token);
+
+
+    
+}
 // foreach ($_SESSION as $key => $val)
 //     echo $key . " " . $val . "<br/>";
 

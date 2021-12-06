@@ -42,14 +42,14 @@ if(badInput([$employeeid])==0){
 }
 
 
-$query = $conn->prepare("SELECT task_id,task_name,task_details,task_progress,working_fname,task_assignedby,task_dateassigned,task_datefinish,task_dateedited
-FROM mydb.employees_task 
-INNER JOIN mydb.working_employees
+$query = $conn->prepare("SELECT user_username,task_id,task_name,task_details,task_progress,task_assignedby,task_dateassigned,task_datetofinish,task_dateedited
+FROM mydb.working_employees
+INNER JOIN mydb.employees_task
 ON working_employees.working_id = employees_task.working_id
-WHERE working_employees.working_id = $employeeid;");
+WHERE working_employees.working_id = $employeeid");
 
 if($query->execute()){
-    $query->bind_result($taskid,$name,$details,$progress,$fname,$assignedby,$dateassigned,$datefinish,$edited);
+    $query->bind_result($employeeusername,$taskid,$name,$details,$progress,$assignedby,$dateassigned,$datefinish,$edited);
 
     echo "<table>";
         echo "<tr>";
@@ -66,6 +66,7 @@ if($query->execute()){
         echo "</tr>";
 
     while($query->fetch()){
+        $_SESSION['userusername'] = $employeeusername;
         echo "<tr>";
         echo "<td>".$name."</td>";
         echo "<td>".$details."</td>";
@@ -86,7 +87,7 @@ if($query->execute()){
         echo "<td>".$dateassigned."</td>";
         echo "<td>".$datefinish."</td>";
 
-        $_SESSION['employeefname'] = $fname;
+        
         echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager/edittask?task=$taskid'><input type=button name=edit value=edit></a>"."</td>";
         echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager/deletetask?task=$taskid'><input type=button name=edit value=delete></a>"."</td>";
         if(isset($edited)){
