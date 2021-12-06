@@ -29,6 +29,25 @@ class Pages {
         );
     }
 
+    public function updateauth($array,$iat,$exp){
+        $payload = array(
+            'iss' => 'http://www.swapamc.com/swapproj', //issuer
+            'audience' => 'http://www.swapamc.com/', //audience
+            'iat' => $iat, //time JWT was issued
+            'exp' => $exp, //time JWT expires
+            'array' => $array
+        );
+
+        $jwt = JWT::encode($payload,$this->key,'HS512');
+        return array(
+            'token'=>$jwt,
+            'expires'=>$exp
+        );
+
+        
+
+    }
+
 
     public function read($token){
         $headers = apache_request_headers();

@@ -90,6 +90,9 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
         header("location: ../swapproj/signup?error=stmtfailed");
         exit();
     }
+
+
+    //hashing
     $pepper = "AWiokdfnkFNKKHHDBJXLL28838jkuiu54859dnkkmid93E1928485";
     //password hashing
     //we created a pepper that will persist across all users, the purpose is to secure the password such that people will need access to this file to read the pepper
@@ -100,9 +103,10 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     $hashedPwd = password_hash($hashedPwd, PASSWORD_DEFAULT);
 
 
+
+
     $randomsecret = generateRandomString();
     $date = date('m/d/Y h:i:s a', time());
-
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
     
 
@@ -110,8 +114,10 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
+
     $_SESSION['username'] =$username;
     $_SESSION['loginstate'] ="Z";
+
 
     header("location: ../swapproj/googleauthentication");
     exit();
@@ -155,7 +161,7 @@ function verification2fa($email)
 }
 
 //logs in user whether username or email is used
-function loginUser($conn, $username, $pwd)
+function loginUser($conn, $username, $pwd,$remember)
 {
     $uidExists = uidExists($conn, $username, $username);
 
@@ -163,6 +169,7 @@ function loginUser($conn, $username, $pwd)
         header("location: ../swapproj/login?error=wronglogin");
         exit();
     }
+
     $pepper = "AWiokdfnkFNKKHHDBJXLL28838jkuiu54859dnkkmid93E1928485";
     $pwdHashed = $uidExists["user_password"];
     $pwd = hash_hmac("sha256",$pwd,$pepper);
@@ -186,15 +193,64 @@ function loginUser($conn, $username, $pwd)
         //session superglobal
         $_SESSION["userid"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["user_username"];
-        $_SESSION["useremail"] = $uidExists["username_email"];
+        $_SESSION['useremail'] = $uidExists['username_email'];
         $_SESSION["role"] = $uidExists["user_role"];
         $_SESSION["loginstate"] = "A";
         $_SESSION['LAST_ACTIVE_TIME']=time();
+
+        $array['role'] = $uidExists["user_role"];
+        $array['username'] = $uidExists["user_username"];
+        $array['loginstate'] = 'A';
+
+        $encrypted = jwtencrypt($array);
+        if($remember==true){
+            //they checked "rememberme"
+            setCookieSameSite('jwt',$encrypted,time()+86400); //1 day
+
+        } elseif($remember==false) {
+            setCookieSameSite('jwt',$encrypted,0); //0 means cookie dies when closed
+            
+        }
+        
+
+        
+
+        
 
         header("location: ../swapproj/emailverification");
         exit();
     }
 }
+
+
+function jwtencrypt($array){
+    $objpages = new Pages();
+    $encrypted = $objpages->auth($array);
+
+    if($encrypted){
+        $encrypted = $encrypted['token'];
+    }
+    
+    
+    return $encrypted;
+
+}
+
+function jwtdecrypt($token){
+    $objpages = new Pages();
+    $decrypted = $objpages->read($token);
+    if($decrypted){
+        $decrypted = json_decode(json_encode($decrypted),true);
+    }
+
+    return $decrypted;
+    
+}
+
+
+
+
+
 //checks for empty input boxes
 function failedCaptcha($captcha)
 {
@@ -226,4 +282,31 @@ function failedCaptcha($captcha)
         }
     }
     return $result;
+}
+
+
+function setCookieSameSite(string $name, string $value,$expire){
+
+    
+    $domain = 'www.swapamc.com';
+    $samesite = 'Strict';
+    $secure = true;
+    $httponly = true;
+    $path = '/';
+    
+
+    if (PHP_VERSION_ID < 70300) {
+        setcookie($name, $value, $expire, $path . '; samesite=' . $samesite, $domain, $secure, $httponly);
+        return;
+    } else 
+    setcookie($name, $value, [
+        'expires' => $expire,
+        'path' => $path,
+        'domain' => $domain,
+        'samesite' => $samesite,
+        'secure' => $secure,
+        'httponly' => $httponly,
+    ]);
+
+
 }
