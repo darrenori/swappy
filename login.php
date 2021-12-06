@@ -27,6 +27,8 @@ if (isset($_SESSION['loginstate'])) {
 // include_once 'header.php';
 
 
+print_r(apache_request_headers());
+
 
 ?>
 
@@ -35,10 +37,10 @@ if (isset($_SESSION['loginstate'])) {
 
     <form action="/swapproj/logininc" method="POST">
     <br><label for="uid"> Email or Username:</label><br>
-        <input type="text" id="uid" name="uid" placeholder="Email/Username..." value="<?php if(isset($_COOKIE["user_login"])) {echo $_COOKIE["user_login"]; } ?>" >
+        <input type="text" id="uid" name="uid" placeholder="Email/Username..."  >
         <br><label for="pwd">Password:</label><br>
-        <input type="password" id="pwd" name="pwd" placeholder="Password..." value="<?php if(isset($_COOKIE["user_pwd"])) {echo $_COOKIE["user_pwd"]; } ?>">
-        <br><input type ="checkbox" name="remember" label for="remember-me" <?php if(isset($_COOKIE["user_login"])) { ?> checked <?php } ?>> Remember me
+        <input type="password" id="pwd" name="pwd" placeholder="Password...">
+        <br><input type ="checkbox" name="remember" label for="remember-me" > Remember me
         <div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div>
         <button type="submit" name="submit">Login</button>
     </form>

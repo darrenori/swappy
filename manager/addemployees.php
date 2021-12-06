@@ -22,18 +22,33 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
 
 echo "<form method=POST action=../employeemanager/adduserinc>";
- echo "First Name:"."<br>";
- echo "<input type=text name=fname>"."<br><br>";
- echo "Last Name:"."<br>";
- echo "<input type=text name=lname>"."<br><br>";
- echo "Role:"."<br>";
+ echo "Username:"."<br>";
+ echo "<input type=text name=username>"."<br><br>";
+ echo "Working Role:"."<br>";
  echo "<input type=text name=role>"."<br><br>";
  echo "Number:"."<br>";
  echo "<input type=text name=number>"."<br><br>";
- echo "Address:"."<br>";
- echo "<input type=text name=address>"."<br><br>";
+ echo "Department:"."<br>";
+ echo "<input type=text name=department>"."<br><br>";
+ echo "Hourly Wage:"."<br>";
+ echo "<input type=text name=pay>"."<br><br>";
  echo "<input type=submit>";
 echo "</form>";
+
+if(isset($_GET['error'])){
+    if($_GET['error']=='usernamefailed'){
+        echo "Make sure employee creates an account first!";
+    }
+
+    if($_GET['error']=='employeeexists'){
+        echo "Employee already exists!";
+    }
+
+    
+    
+}
+
+
 
 
 

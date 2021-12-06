@@ -9,7 +9,7 @@ require_once __DIR__ . '/router/index.php';
 $router = new Router();
 
 //main page route handling
-$router->get('/', 'index.html');
+$router->get('/', 'beforeloggedin.php');
 
 //login page route handling
 $router->get('/login', 'login.php');
@@ -134,4 +134,6 @@ $router->post('/employeemanager/taskmanager/edittaskinc','tasks/includes/edittas
 
 //taskdelete
 $router->get('/employeemanager/taskmanager/deletetask','tasks/includes/deletetasks.inc.php');
+
+$router->get('/pages','auth/pages.php');
 

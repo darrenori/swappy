@@ -23,23 +23,21 @@
     if($role==6||$role==5||$role==3){
         
     } else {
-        echo "ur a fake";
+        header("location: https://www.swapamc.com/swapproj/login");
     }
 
     $query =$conn->prepare("SELECT * FROM mydb.working_employees;");
 
 
     if($query->execute()){
-        $query->bind_result($id,$fname,$lname,$employeerole,$number,$address);
+        $query->bind_result($id,$username,$role,$number,$department,$perhourpay);
         echo "<table>";
         echo "<tr>";
-        echo "<th>"."First Name"."</th>";
-        echo "<th>"."Last Name"."</th>";
-        echo "<th>"."Employee Role"."</th>";
+        echo "<th>"."Username"."</th>";
+        echo "<th>"."Role"."</th>";
         echo "<th>"."Number"."</th>";
-        echo "<th>"."Address"."</th>";
-        echo "<th>"."Edit"."</th>";
-        echo "<th>"."Delete"."</th>";
+        echo "<th>"."Department"."</th>";
+        echo "<th>"."Hourly Wage"."</th>";
         echo "</tr>";
 
 
@@ -50,13 +48,14 @@
 
             echo "<tr>";
 
-            echo "<td>".$fname."</td>";
-            echo "<td>".$lname."</td>";
-            echo "<td>".$employeerole."</td>";
+            echo "<td>".$username."</td>";
+            echo "<td>".$role."</td>";
             echo "<td>".$number."</td>";
-            echo "<td>".$address."</td>";
-            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$id'><input type=button name=edit value=edit></a>"."</td>";
-            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$id'><input type=button name=delete value=delete></a>"."</td>";
+            echo "<td>".$department."</td>";
+            echo "<td> $".$perhourpay."</td>";
+            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$id'><input type=button name=edit value=edit></a><br>";
+            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$id'><input type=button name=delete value=delete></a><br>";
+            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$id'><input type=button name=delete value=tasks></a>"."</td>";
 
 
 

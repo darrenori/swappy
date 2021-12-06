@@ -33,7 +33,7 @@ if(badInput([$employeeid])==0){
 }
 
 
-$query = $conn->prepare("SELECT working_fname,working_lname,working_role,working_number,working_address FROM mydb.working_employees WHERE working_id = $employeeid;");
+$query = $conn->prepare("SELECT user_username,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees WHERE working_id = $employeeid;");
 if(!$query){
     echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
 }
@@ -41,21 +41,20 @@ if(!$query){
 
 
 if($query->execute()){
-    $query->bind_result($fname,$lname,$role,$number,$address);
+    $query->bind_result($username,$role,$number,$department,$perhourpay);
     
     echo "<form method=POST action=../employeemanager/editinc>";
 
     if($query->fetch()){
-        echo "First Name:"."<br>";
-        echo "<input type=text name=fname value=$fname>"."<br><br>";
-        echo "Last Name:"."<br>";
-        echo "<input type=text name=lname value=$lname>"."<br><br>";
+        
         echo "Role:"."<br>";
         echo "<input type=text name=role value=$role>"."<br><br>";
         echo "Number:"."<br>";
         echo "<input type=text name=number value=$number>"."<br><br>";
-        echo "Address:"."<br>";
-        echo "<input type=text name=address value=$address>"."<br><br>";
+        echo "Department:"."<br>";
+        echo "<input type=text name=department value=$department>"."<br><br>";
+        echo "Hourly wage:"."<br>";
+        echo "<input type=text name=pay value=$perhourpay>"."<br><br>";
     }
 
     echo "<input type=submit>";

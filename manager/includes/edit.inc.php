@@ -31,14 +31,14 @@ foreach ($_POST as $key => $value) {
         $postinformation[$key] = $value;
     }
 }
-$fname = $postinformation['fname'];
-$lname = $postinformation['lname'];
+
 $role = $postinformation['role'];
 $number = $postinformation['number'];
-$address = $postinformation['address'];
+$department = $postinformation['department'];
+$perhourpay = $postinformation['pay'];
 
 
-if(badInput([$fname,$lname,$role,$number,$address])==0){
+if(badInput([$role,$number,$department,$perhourpay])==0){
     $_SESSION['employeeid'] = $employeeid;
     
 } else {
@@ -47,8 +47,8 @@ if(badInput([$fname,$lname,$role,$number,$address])==0){
 
 
 
-$query = $conn->prepare("UPDATE mydb.working_employees SET working_fname = '$fname', working_lname = '$lname', 
-working_role  = '$role', working_number = '$number',working_address = '$address'
+$query = $conn->prepare("UPDATE mydb.working_employees SET working_role = '$role', working_number = '$number', 
+working_department  = '$department', working_perhourpay = '$perhourpay'
 WHERE working_id = $employeeid;");
 
 if(!$query){
