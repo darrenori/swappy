@@ -44,8 +44,8 @@ $router->post('/emailverificationinc', 'includes/emailotp.inc.php');
 
 //google auth route handling
 $router->get('/googleauthentication', 'googleauth/googleauthotplogin.php');
-$router->get('/googleauthenticationimp', 'googleauth/googleauthotp.php');
-$router->get('/googleauthentication?error=badotp', 'googleauth/googleauthotp.php');
+// $router->get('/googleauthenticationimp', 'googleauth/googleauthotp.php');
+// $router->get('/googleauthentication?error=badotp', 'googleauth/googleauthotplogin.php');
 
 //google auth inc route handling
 $router->post('/googleauthenticationinc', 'includes/googleauth.inc.php');

@@ -27,7 +27,10 @@ if (isset($_SESSION['loginstate'])) {
 // include_once 'header.php';
 
 
-print_r(apache_request_headers());
+// print_r(apache_request_headers());
+echo "<h3> PHP List All Session Variables</h3>";    
+foreach ($_SESSION as $key => $val)
+echo $key . " " . $val . "<br/>";
 
 
 ?>

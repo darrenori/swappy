@@ -17,14 +17,19 @@ if (isset($_POST['submit'])) {
     echo "Check if $code is valid: ";
 
     if ($g->checkCode($secret, $code)) {
-        $_SESSION['loginstate'] = "OK";
-        
-        header("location: ../swapproj/campus");
-        exit();
+        if ($_SESSION['loginstate'] === "B") {
+            $_SESSION['loginstate'] = "OK";
+            header("location: ../swapproj/campus");
+            exit();
+        } elseif ($_SESSION['loginstate'] === "Z") {
+            echo "You have successfully created an account.";
+            unset($_SESSION['loginstate']);
+            session_destroy();
+            header("location: ../swapproj/login");
+            exit();
+        }
     } else {
         header("location: ../swapproj/googleauthentication?error=badotp");
         exit();
     }
 }
-
-

@@ -30,9 +30,6 @@ if (!isset($_SESSION['loginstate'])) {
     //Generates the qr code and puts it in html
     $link = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($uidExists['user_username'], $randomsecret, 'swapamc.com');
 
-
-
-
 ?>
 <!-- here's code to prevent back button -->
     <script type="text/javascript">
