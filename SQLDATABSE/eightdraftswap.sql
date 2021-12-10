@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`users` (
   `user_card_number` VARCHAR(16) NULL,
   `user_card_expiry` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
-  UNIQUE INDEX `user_username_UNIQUE` (`user_username` ASC) VISIBLE)
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) ,
+  UNIQUE INDEX `user_username_UNIQUE` (`user_username` ASC) )
 ENGINE = InnoDB;
 
 
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`store` (
   `store_status` INT(1) NULL,
   `store_rating` INT(1) NULL,
   PRIMARY KEY (`store_id`),
-  UNIQUE INDEX `store_id_UNIQUE` (`store_id` ASC) VISIBLE,
-  UNIQUE INDEX `store_name_UNIQUE` (`store_name` ASC) VISIBLE)
+  UNIQUE INDEX `store_id_UNIQUE` (`store_id` ASC) ,
+  UNIQUE INDEX `store_name_UNIQUE` (`store_name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -113,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_past_purchases` (
   `purchase_addresslinetwo` VARCHAR(254) NULL,
   `purchase_postalcode` INT(6) NULL,
   PRIMARY KEY (`purchase_id`),
-  INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `store_id_idx` (`store_id` ASC) VISIBLE,
-  INDEX `product_id_idx` (`product_id` ASC) VISIBLE,
-  INDEX `type_id_purchase_idx` (`type_id` ASC) VISIBLE,
+  INDEX `user_id_idx` (`user_id` ASC) ,
+  INDEX `store_id_idx` (`store_id` ASC) ,
+  INDEX `product_id_idx` (`product_id` ASC) ,
+  INDEX `type_id_purchase_idx` (`type_id` ASC) ,
   CONSTRAINT `user_id_purchase`
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`users` (`user_id`)
@@ -156,8 +156,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`storecat` (
   `cat_id` INT NOT NULL,
   `store_id` INT NOT NULL,
-  INDEX `cat_id_idx` (`cat_id` ASC) VISIBLE,
-  INDEX `store_id_idx` (`store_id` ASC) VISIBLE,
+  INDEX `cat_id_idx` (`cat_id` ASC) ,
+  INDEX `store_id_idx` (`store_id` ASC) ,
   CONSTRAINT `cat_id_storecat`
     FOREIGN KEY (`cat_id`)
     REFERENCES `mydb`.`category` (`cat_id`)
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`working_employees` (
   `working_department` TEXT NOT NULL,
   `working_perhourpay` INT NOT NULL,
   PRIMARY KEY (`working_id`),
-  INDEX `user_id_working_idx` (`user_id` ASC) VISIBLE,
+  INDEX `user_id_working_idx` (`user_id` ASC) ,
   CONSTRAINT `user_id_working`
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`users` (`user_id`)
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`employee_attendance` (
   `attendance_out_time` VARCHAR(4) NOT NULL,
   `attendance_valid_absence` INT(1) NULL,
   PRIMARY KEY (`attendance_id`),
-  INDEX `working_id_idx` (`working_id` ASC) VISIBLE,
+  INDEX `working_id_idx` (`working_id` ASC) ,
   CONSTRAINT `working_id_attendance`
     FOREIGN KEY (`working_id`)
     REFERENCES `mydb`.`working_employees` (`working_id`)
@@ -247,8 +247,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_booking` (
   `booking_end` VARCHAR(4) NULL,
   `booking_status` INT NULL,
   PRIMARY KEY (`booking_id`),
-  INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `place_id_idx` (`place_id` ASC) VISIBLE,
+  INDEX `user_id_idx` (`user_id` ASC) ,
+  INDEX `place_id_idx` (`place_id` ASC) ,
   CONSTRAINT `user_id_booking`
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`users` (`user_id`)
@@ -269,8 +269,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`product_type` (
   `product_id` INT NOT NULL,
   `type_id` INT NOT NULL,
   PRIMARY KEY (`product_id`, `type_id`),
-  INDEX `prodtype_product_id_idx` (`product_id` ASC) VISIBLE,
-  INDEX `prodtype_type_id_idx` (`type_id` ASC) VISIBLE,
+  INDEX `prodtype_product_id_idx` (`product_id` ASC) ,
+  INDEX `prodtype_type_id_idx` (`type_id` ASC) ,
   CONSTRAINT `prodtype_product_id`
     FOREIGN KEY (`product_id`)
     REFERENCES `mydb`.`products` (`product_id`)
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`storeprod` (
   `store_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   PRIMARY KEY (`store_id`, `product_id`),
-  INDEX `storeprod_product_id_idx` (`product_id` ASC) VISIBLE,
+  INDEX `storeprod_product_id_idx` (`product_id` ASC) ,
   CONSTRAINT `storeprod_store_id`
     FOREIGN KEY (`store_id`)
     REFERENCES `mydb`.`store` (`store_id`)
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`employees_task` (
   `task_dateassigned` VARCHAR(45) NOT NULL,
   `task_datetofinish` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`task_id`),
-  INDEX `task_working_id_idx` (`working_id` ASC) VISIBLE,
+  INDEX `task_working_id_idx` (`working_id` ASC) ,
   CONSTRAINT `task_working_id`
     FOREIGN KEY (`working_id`)
     REFERENCES `mydb`.`working_employees` (`working_id`)
@@ -336,8 +336,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_cart` (
   `quantity` INT NULL,
   `price` FLOAT NULL,
   PRIMARY KEY (`cart_id`),
-  INDEX `product_id_cart_idx` (`product_id` ASC) VISIBLE,
-  INDEX `user_id_cart_idx` (`user_id` ASC) VISIBLE,
+  INDEX `product_id_cart_idx` (`product_id` ASC) ,
+  INDEX `user_id_cart_idx` (`user_id` ASC) ,
   CONSTRAINT `product_id_cart`
     FOREIGN KEY (`product_id`)
     REFERENCES `mydb`.`products` (`product_id`)
@@ -361,7 +361,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`cart_typevariants` (
   `cart_additionalcosts` VARCHAR(45) NULL,
   `cart_id` INT NOT NULL,
   PRIMARY KEY (`cart_typevariants_id`),
-  INDEX `cart_typevariants_card_id_idx` (`cart_id` ASC) VISIBLE,
+  INDEX `cart_typevariants_card_id_idx` (`cart_id` ASC) ,
   CONSTRAINT `cart_typevariants_card_id`
     FOREIGN KEY (`cart_id`)
     REFERENCES `mydb`.`user_cart` (`cart_id`)
@@ -406,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`notification` (
   `level` INT NULL,
   `type` VARCHAR(45) NULL,
   PRIMARY KEY (`idnotification`),
-  INDEX `user_noti_idx` (`user_id` ASC) VISIBLE,
+  INDEX `user_noti_idx` (`user_id` ASC) ,
   CONSTRAINT `user_noti`
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`users` (`user_id`)
