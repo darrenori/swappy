@@ -73,6 +73,10 @@ class VerificationCode
     }
     
     public function getHTMLMessage(){
+
+    // Might want to use some if else statements here if we want to have time limit. 
+    // the following code is the generation of the email format including the code, so if we want to send an email
+    // without the new code we will probably need if else statements here too
         $this->code=$this->getVerificationCode();
         session_start();
         $_SESSION["emailotp"]=$this->code;
@@ -90,21 +94,9 @@ class VerificationCode
     
 }
 
-///move to functions.inc.php
-// // pass your recipient's email
+
 $vc=new VerificationCode('');
 $vc->sendMail(); // MAIL SENT SUCCESSFULLY
-
-//feed user email to function above^^
-
-
-
-
-//create input box for OTP
-//create columns to store OTP in database for comparing
-//create column to store secret for google auth
-//include_once ../phpmailer/index.php in login.inc.php (returned errornned to find how to fix)
-//test if email received from user clicking login
 
 ?>
 

@@ -13,7 +13,7 @@ if (!$conn) {
 } else {
   //echo "Connected successfully";
 }
-?>
+
 
 
 

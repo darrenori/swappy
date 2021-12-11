@@ -60,5 +60,11 @@ class Pages {
         } catch (\Exception $e){
             return false;
         }
+
+        //return all headers? ZEPH
+        // foreach ($headers as $header => $value) {
+        //     echo "$header: $value <br />\n";
+        // }
+        
     }
 }

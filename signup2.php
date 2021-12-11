@@ -5,6 +5,9 @@ class Signup {
     
 }
 
+
+//  this file is for the second page of signing up
+
 ?>
 
 <section class="signup-form">

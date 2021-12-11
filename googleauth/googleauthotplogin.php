@@ -10,7 +10,7 @@ if (!isset($_SESSION['loginstate'])) {
 } elseif ($_SESSION['loginstate'] === "A") {
     header("location: ../swapproj/emailverification");
     exit();
-} elseif ($_SESSION['loginstate'] === "OK") {
+} elseif ($_SESSION['loginstate'] === "OK" and isset($_SESSION['username'])) {
     header("location: ../swapproj/campus");
     exit();
 } elseif ($_SESSION['loginstate'] === "Z") {
@@ -67,6 +67,7 @@ if (!isset($_SESSION['loginstate'])) {
     exit();
 }
 
+/////THIS is the code if user accesses page through the login page
 
 
 echo "<h3> PHP List All Session Variables</h3>";
@@ -76,6 +77,7 @@ require_once 'includes/dbh.inc.php';
 require_once 'includes/functions.inc.php';
 require 'googleauth/vendor/autoload.php';
 
+//All is required for login is the username for user to identify code from google auth code.
 $username = $_SESSION['username'];
 
 $uidExists = uidExists($conn, $username, $username);
