@@ -1,25 +1,35 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION['loginstate'])) {
-        header("location: https://www.swapamc.com/swapproj/login");
-        exit();
-    } elseif ($_SESSION['loginstate'] === "A") {
-        header("location: https://www.swapamc.com/swapproj/emailverification");
-        exit();
-    } elseif ($_SESSION['loginstate'] === "B") {
-        header("location: https://www.swapamc.com/swapproj/googleauthentication");
-        exit();
-    } elseif (!$_SESSION['loginstate'] === "OK") {
-        header("location: https://www.swapamc.com/swapproj/logout");
-        exit();
-    }
-    
-    
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)){
         
+        $jwtarrayinformation = $jwtarray['array'];
+
+    } else {
+        header("location: ../product/viewcart");
+    }
+
+    // if (!isset($jwtarrayinformation['loginstate'])) {
+    //     header("location: https://www.swapamc.com/swapproj/login");
+    //     exit();
+    // } elseif ($jwtarrayinformation['loginstate'] === "A") {
+    //     header("location: https://www.swapamc.com/swapproj/emailverification");
+    //     exit();
+    // } elseif ($jwtarrayinformation['loginstate'] === "B") {
+    //     header("location: https://www.swapamc.com/swapproj/googleauthentication");
+    //     exit();
+    // } elseif (!$jwtarrayinformation['loginstate'] === "OK") {
+    //     header("location: https://www.swapamc.com/swapproj/logout");
+    //     exit();
+    // }
+    
+    
+    
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
-    $userusername = $_SESSION['userusername'];
+    $userusername = $jwtarrayinformation['userusername'];
     
     $userid = $_SESSION['userid'];
     $role = $_SESSION['role'];
@@ -46,11 +56,11 @@
     echo "<br><br>";
 
     echo "Assigned to:"."<br>";
-    echo $_SESSION['userusername']."<br>";
+    echo $jwtarrayinformation['userusername']."<br>";
 
 
     echo "Assigned by:"."<br>";
-    echo $_SESSION['username']."<br>";
+    echo $jwtarrayinformation['username']."<br>";
     
     echo "<br><br>";
     echo "<input type='submit'>";

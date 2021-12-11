@@ -1,19 +1,15 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    } else {
+        
+        header("location: ../product/viewcart");
+    }
 
 
 
@@ -22,18 +18,19 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc
 
 
 if(isset($_GET['user'])){
-
+    
     $employeeid = $_GET['user'];
 }
 
 if(badInput([$employeeid])==0){
-    $_SESSION['employeeid'] = $employeeid;
+    $arraytogivejwt['employeeid'] = $employeeid;
+    jwtupdate($arraytogivejwt);
 } else {
     //kick them out
 }
 
 
-$query = $conn->prepare("SELECT user_username,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees WHERE working_id = $employeeid;");
+$query = $conn->prepare("SELECT working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees WHERE working_id = $employeeid;");
 if(!$query){
     echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
 }
@@ -41,7 +38,7 @@ if(!$query){
 
 
 if($query->execute()){
-    $query->bind_result($username,$role,$number,$department,$perhourpay);
+    $query->bind_result($role,$number,$department,$perhourpay);
     
     echo "<form method=POST action=../employeemanager/editinc>";
 

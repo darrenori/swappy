@@ -1,32 +1,83 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/product.function.php';
-session_start();
-$order = $_GET['cart'];
-$cartarray = $_SESSION['cartarray'];
-$productname = $_SESSION['productarray'];
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+if(isset($jwtarray)&&$jwtarray==true){
+    
+    $jwtarrayinformation = $jwtarray['array'];
 
-$_SESSION['cart'] = $order;
-$price = $_SESSION['productprice'][$order];
-
-
-$userid = $_SESSION['userid'];
-
-
-if (!isset($_GET['cart']) || !isset($_SESSION['cartarray']) || !isset($_SESSION['productarray']) || !isset($_SESSION['productprice'])) {
-    header("location: ../product/viewcart");
-} elseif (!is_numeric($_GET['cart'])) {
-    header("location: ../product/viewcart");
-} elseif (sizeof($_SESSION['cartarray']) < $_GET['cart']) {
+} else {
     header("location: ../product/viewcart");
 }
+//print_r(apache_request_headers());
+
+
+
+
+
+// $cartarray = $_SESSION['cartarray'];
+// $productname = $_SESSION['productarray'];
+
+// $_SESSION['cart'] = $order;
+// $price = $_SESSION['productprice'][$order];
+
+
+
+
+
+// if (!isset($_GET['cart']) || !isset($_SESSION['cartarray']) || !isset($_SESSION['productarray']) || !isset($_SESSION['productprice'])) {
+//     header("location: ../product/viewcart");
+// } elseif (!is_numeric($_GET['cart'])) {
+//     header("location: ../product/viewcart");
+// } elseif (sizeof($_SESSION['cartarray']) < $_GET['cart']) {
+//     header("location: ../product/viewcart");
+// } else {
+//     $order = $_GET['cart'];
+// }
+
+
+$userid = $jwtarrayinformation['userid'];
+
+if(!isset($_GET['cart'])){
+    header("location: ../product/viewcart");
+
+    
+} elseif(!is_numeric($_GET['cart'])){
+    header("location: ../product/viewcart");
+
+} else {
+    $cartid = $_GET['cart'];
+    $query = $conn->prepare("SELECT product_name, product_price FROM mydb.user_cart
+    INNER JOIN mydb.products
+    ON mydb.user_cart.product_id = mydb.products.product_id
+    WHERE cart_id = $cartid;");
+
+    if($query->execute()){
+        $query->bind_result($name,$price);
+
+        if($query->fetch()){
+            $productname = $name;
+            $price = $price;
+
+            $arraytogivejwt['productname'] = $productname;
+            $arraytogivejwt['productprice'] = $price;
+            $arraytogivejwt['cartid'] = $cartid;
+            jwtupdate($arraytogivejwt);
+        }
+    }
+
+}
+
+$query->close();
+
 
 
 
 $query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
     INNER JOIN mydb.user_cart
     ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-    where mydb.cart_typevariants.cart_id=$cartarray[$order];");
+    where mydb.cart_typevariants.cart_id=$cartid;");
 $alltypes = [];
 
 if ($query->execute()) {
@@ -39,7 +90,7 @@ if ($query->execute()) {
     }
 }
 
-echo "<h2>" . $productname[$order] . "(".$price.")"."</h2>";
+echo "<h2>" . $productname . "(".$price.")"."</h2>";
 
 
 
@@ -56,7 +107,7 @@ if (isset($selectedchoices)) {
 
     echo "<form method='POST'>";
     for ($i = 0; $i < $numberofTypes; $i++) {
-        $info[$i] = getVariantsFromTypesUsingName($alltypes[$i], $productname[$order], $conn);
+        $info[$i] = getVariantsFromTypesUsingName($alltypes[$i], $productname, $conn);
 
         // print_r($info[$i]);
 
@@ -113,12 +164,13 @@ if (isset($selectedchoices)) {
 } else {
     //if product has no tytpwes
     
-    $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartarray[$order];");
+    $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartid;");
 
     if($query->execute()){
         $query->bind_result($quantity,$total);
 
         if($query->fetch()){
+            echo "<form method='POST'>";
             echo "<p>Quantity: </p>";
             echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
 
@@ -138,8 +190,6 @@ if (isset($selectedchoices)) {
 
     
 }
-
-
 
 
 

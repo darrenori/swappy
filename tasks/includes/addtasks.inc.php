@@ -1,20 +1,15 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['loginstate'])) {
-        header("location: https://www.swapamc.com/swapproj/login");
-        exit();
-    } elseif ($_SESSION['loginstate'] === "A") {
-        header("location: https://www.swapamc.com/swapproj/emailverification");
-        exit();
-    } elseif ($_SESSION['loginstate'] === "B") {
-        header("location: https://www.swapamc.com/swapproj/googleauthentication");
-        exit();
-    } elseif (!$_SESSION['loginstate'] === "OK") {
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+    
+    } else {
         header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }
-
+    
     
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';
@@ -56,9 +51,9 @@
         echo "valid";
         $taskname = $_POST['taskname'];
         $taskdetails = $_POST['taskdetails'];
-        $userusername = $_SESSION['userusername'];
-        $employeeid = $_SESSION['employeeid'];
-        $assignedby = $_SESSION['username'];
+        $userusername = $jwtarrayinformation['userusername'];
+        $employeeid = $jwtarrayinformation['employeeid'];
+        $assignedby = $jwtarrayinformation['username'];
         
 
         print_r($postinformation);

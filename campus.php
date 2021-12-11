@@ -25,8 +25,8 @@ if (!isset($_SESSION['loginstate'])) {
 echo "<h3> You are logged in! :D</h3>";
 
 if(isset($_COOKIE['jwt'])){
-    $token = $_COOKIE['jwt'];
-    $info = jwtdecrypt($token);
+    //$token = $_COOKIE['jwt'];
+    $info = jwtdecrypt();
 
 
     

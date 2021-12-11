@@ -1,26 +1,22 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
 
+    } else {
+        
+        header("location: ../product/viewcart");
+    }
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
 
-if(isset($_SESSION['employeeid'])){
-    $employeeid = $_SESSION['employeeid'];
+if(isset($jwtarrayinformation['employeeid'])){
+    $employeeid = $jwtarrayinformation['employeeid'];
 }
 
 
@@ -39,7 +35,7 @@ $perhourpay = $postinformation['pay'];
 
 
 if(badInput([$role,$number,$department,$perhourpay])==0){
-    $_SESSION['employeeid'] = $employeeid;
+    $jwtarrayinformation['employeeid'] = $employeeid;
     
 } else {
     //kick them out

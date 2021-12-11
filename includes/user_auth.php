@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
 if(isset($_COOKIE['jwt'])){
     $token = $_COOKIE['jwt'];
-    $info = jwtdecrypt($token);
+    $info = jwtdecrypt();
     $iat  = $info['iat'];
     $exp = $info['exp'];
     echo "expiry time ".$exp;

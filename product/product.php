@@ -6,18 +6,40 @@
     //db con
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
+
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+if(isset($jwtarray)&&$jwtarray==true){
+    
+    $jwtarrayinformation = $jwtarray['array'];
+
+} else {
+    header("location: ../product/viewcart");
+}
     
 
     checkIfIdExists($conn);
     
-
-    $id=$_GET["id"];
+    if(isset($_GET['id'])){
+        if(is_numeric($_GET['id'])){
+            $id=$_GET["id"];
+        } else {
+            header("location: ../allproducts");
+        }
+    } else {
+        header("location: ../allproducts");
+    }
+    
     $query=$conn->prepare("SELECT * FROM mydb.storeprod
     INNER JOIN mydb.products
     ON mydb.products.product_id = mydb.storeprod.product_id
     INNER JOIN mydb.store
     ON mydb.store.store_id = mydb.storeprod.store_id
     WHERE mydb.storeprod.product_id = $id");
+
+
+    
             
     if($query->execute()){
         
@@ -103,8 +125,19 @@
 
    //store initial session variables
    session_start();
-   $_SESSION["productid"] = $id;
-   $_SESSION["progresscheckout"] = 'A';
+
+
+   
+
+   
+   
+   //update jwt
+   require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+   $arraytogivejwt['productid'] = $id;
+   $arraytogivejwt['progresscheckout'] = 'A';
+   jwtupdate($arraytogivejwt);
+
+//    print_r(apache_request_headers()); 
 
 
    

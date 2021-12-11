@@ -1,13 +1,29 @@
 <?php
 
-    session_start();
+    //read
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    $jwtarray_insidearray = $jwtarray['array'];
+    
 
-    //take note
-    if(!isset($_SESSION["progresscheckout"])){
-        header("location: ../product/viewcart");
-    } elseif($_SESSION["progresscheckout"]!='A'){
+
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    } else {
         header("location: ../product/viewcart");
     }
+
+
+    
+    if(!isset($jwtarray_insidearray["progresscheckout"])){
+        header("location: ../product/viewcart");
+    } elseif($jwtarray_insidearray["progresscheckout"]!='A'){
+        header("location: ../product/viewcart");
+    } 
+
+    
     
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
@@ -41,7 +57,7 @@
 
     
     session_start();
-    $productid = $_SESSION["productid"];
+    $productid = $jwtarray_insidearray["productid"];
     $quantity = $_POST["quantity"];
 
    
@@ -187,7 +203,9 @@
     $cartidrandom = floatval(rand(pow(10, 8-1), pow(10, 8)-1));
     //echo "<br>RANDOM" .$cartidrandom."<br>";
 
-    $userid = $_SESSION['userid'];
+
+    print_r($jwtarray_insidearray);
+    $userid = $jwtarray_insidearray['userid'];
     
     $query->close();
     $query=$conn->prepare("INSERT INTO mydb.user_cart (mydb.user_cart.cart_id,mydb.user_cart.user_id, mydb.user_cart.product_id,mydb.user_cart.quantity,mydb.user_cart.price) VALUES ($cartidrandom,$userid,$productid,$quantity,$total);");

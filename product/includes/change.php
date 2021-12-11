@@ -4,11 +4,22 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
     session_start();
 
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    } else {
+        header("location: ../product/viewcart");
+        
+    }
+
 
     //take note
-    if(!isset($_SESSION["progresscheckout"])){
+    if(!isset($jwtarrayinformation["progresscheckout"])){
         header("location: ../product/viewcart");
-    } elseif($_SESSION["progresscheckout"]!='A'){
+    } elseif($jwtarrayinformation["progresscheckout"]!='A'){
         header("location: ../product/viewcart");
     }
 
@@ -30,12 +41,15 @@
 
 
 
-    $cart = $_SESSION['cart'];
-    $productname = $_SESSION['productarray'][$cart];
+    // 
+
+    print_r(apache_request_headers());
+    $productname = $jwtarrayinformation['productname'];
+    $cartid = $jwtarrayinformation['cartid'];
     $selectedchoices = [];
     $checkIfValuesTampered = [];
     $quantity = $_POST['quantity'];
-    $cartarray = $_SESSION['cartarray'];
+    //$cartarray = $_SESSION['cartarray'];
 
     $query=$conn->prepare("SELECT type,type_choice,additional_costs,product_price FROM mydb.product_type 
     INNER JOIN mydb.products 
@@ -150,7 +164,7 @@
 
     $query->close();
     
-    $cartid = $cartarray[$cart];
+    
     $getAdditionalCumulative = [];
     
     foreach ($validtypes as $key => $value) {
@@ -220,7 +234,7 @@
 
 
 
-
+    
 
     
 

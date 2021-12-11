@@ -1,19 +1,15 @@
 <?php 
-session_start();
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+if(isset($jwtarray)){
+    
+    $jwtarrayinformation = $jwtarray['array'];
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
+} else {
     header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }
+
 
 
     
@@ -21,8 +17,8 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
 
 
-$userid = $_SESSION['userid'];
-$role = $_SESSION['role'];
+$userid = $jwtarrayinformation['userid'];
+$role = $jwtarrayinformation['role'];
 if($role==6||$role==5||$role==3){
     
 } else {
@@ -32,20 +28,44 @@ if($role==6||$role==5||$role==3){
 if(isset($_GET['user'])){
 
     $employeeid = $_GET['user'];
-    $_SESSION['employeeid'] = $_GET['user'];
+    if(badInput([$employeeid])==0){
+        $arraytogivejwt['employeeid'] = $employeeid;
+
+        $query=$conn->prepare("SELECT user_username FROM mydb.users WHERE user_id = 1");
+
+        if($query->execute()){
+            $query->bind_result($user_username);
+            if($query->fetch()){
+                $arraytogivejwt['userusername'] = $user_username;
+                jwtupdate($arraytogivejwt);
+
+
+            }
+        }
+
+        $query->close();
+
+
+        
+    } else {
+        //kick them out
+    }
+
+    
 }
 
-if(badInput([$employeeid])==0){
-    $_SESSION['employeeid'] = $employeeid;
-} else {
-    //kick them out
-}
+
+
+
+
 
 
 $query = $conn->prepare("SELECT user_username,task_id,task_name,task_details,task_progress,task_assignedby,task_dateassigned,task_datetofinish,task_dateedited
 FROM mydb.working_employees
 INNER JOIN mydb.employees_task
 ON working_employees.working_id = employees_task.working_id
+INNER JOIN mydb.users
+ON mydb.users.user_id = mydb.working_employees.user_id
 WHERE working_employees.working_id = $employeeid");
 
 if($query->execute()){
@@ -66,7 +86,10 @@ if($query->execute()){
         echo "</tr>";
 
     while($query->fetch()){
-        $_SESSION['userusername'] = $employeeusername;
+        //$_SESSION['userusername'] = $employeeusername;
+        
+        
+
         echo "<tr>";
         echo "<td>".$name."</td>";
         echo "<td>".$details."</td>";
@@ -103,6 +126,8 @@ if($query->execute()){
         
 
     }
+
+    
 
     echo "</table>";
 

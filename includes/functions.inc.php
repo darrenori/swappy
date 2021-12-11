@@ -11,7 +11,7 @@ function emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat)
     }
     return $result;
 }
-//checks username input this function does not allow any username that contains characters not listed within the square brackets
+//checks username input (im not sure what the error is here)
 function invalidUid($username)
 {
     $result = false;
@@ -77,7 +77,7 @@ function uidExists($conn, $username, $email)
     mysqli_stmt_close($stmt);
 }
 
-
+######ATTENTION ADDED 1 MORE COLUMN IN SQL DATABASE CALLED USER_SECRET FOR GOOGLE AUTH
 // check if username already exists 
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood)
@@ -201,6 +201,7 @@ function loginUser($conn, $username, $pwd,$remember)
         $array['role'] = $uidExists["user_role"];
         $array['username'] = $uidExists["user_username"];
         $array['loginstate'] = 'A';
+        $array['userid'] = $uidExists["user_id"]; 
 
         $encrypted = jwtencrypt($array);
         if($remember==true){
@@ -236,17 +237,66 @@ function jwtencrypt($array){
 
 }
 
-function jwtdecrypt($token){
+function jwtdecrypt(){
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
+    
+
+    if(isset($_COOKIE['jwt'])){
+        $token = $_COOKIE['jwt'];
+    }
+
+    
+
+
     $objpages = new Pages();
     $decrypted = $objpages->read($token);
     if($decrypted){
         $decrypted = json_decode(json_encode($decrypted),true);
     }
-
+    
     return $decrypted;
     
 }
 
+function jwtupdate($newarray){
+    $pages = new Pages();
+    if(isset($_COOKIE['jwt'])){
+
+        $cookie = $_COOKIE['jwt'];
+        $cookie = $pages->read($cookie); //verify if token valid. returns null if its not
+
+        if($cookie!=null){
+
+            
+            $cookie = json_decode(json_encode($cookie), true); //convert to array
+            $array = $cookie['array'];
+
+            foreach($newarray as $key => $val){
+                $array[$key] = $val;
+            }
+           
+
+
+            
+            //update instead of replace
+            $iat = $cookie['iat'];
+            $exp = $cookie['exp'];
+
+            $updateInfo = $pages->updateauth($array,$iat,$exp);
+            $updateInfo = $updateInfo['token'];
+            
+
+            //push to cookie
+            setCookieSameSite('jwt',$updateInfo,time()+86400);
+            
+
+
+
+            
+       }
+
+   }
+}
 
 
 

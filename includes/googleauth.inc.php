@@ -32,7 +32,4 @@ if (isset($_POST['submit'])) {
         header("location: ../swapproj/googleauthentication?error=badotp");
         exit();
     }
-} else {
-    header("location: ../swapproj/googleauthentication?error=badotp");
-    exit();
 }

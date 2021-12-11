@@ -1,18 +1,13 @@
 <?php
 
-session_start();
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+if(isset($jwtarray)){
+    
+    $jwtarrayinformation = $jwtarray['array'];
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
+} else {
+    //header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }
 
@@ -47,8 +42,8 @@ if(isset($_POST['name'])&&isset($_POST['details'])&&isset($_POST['progress'])&&i
     
 }
 
-$taskid = $_SESSION['task'];
-$employeeid = $_SESSION['employeeid'];
+$taskid = $jwtarrayinformation['task'];
+$employeeid = $jwtarrayinformation['employeeid'];
 
 date_default_timezone_set('Asia/Singapore');
 $now = time();
