@@ -20,6 +20,12 @@ if (!isset($_SESSION['loginstate'])) {
     exit();
 }
 
+echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
+echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
+
+echo "<h3> PHP List All Session Variables</h3>";
+foreach ($_SESSION as $key => $val)
+echo $key . " " . $val . "<br/>";
 
 
 echo "<h3> You are logged in! :D</h3>";

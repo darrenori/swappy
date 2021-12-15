@@ -80,6 +80,9 @@ if($query->execute()){
         }
         
         
+    }else {
+        header("location: ../swapproj/userprofile?error=stmtfailed");
+        exit();
     }
 
 }

@@ -49,7 +49,8 @@
         echo "</table>";
         
     } else {
-        echo "faile";
+        header("location: ../swapproj/allstores/store?error=stmtfailed");
+        exit();
     }
 
 

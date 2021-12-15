@@ -1,7 +1,7 @@
 <?php 
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
     session_start();
 
 
@@ -114,7 +114,11 @@
                         
                         
                     }
+                } else {
+                    header("location: ../swapproj/allproducts/product/changes?error=stmtfailed");
+                    exit();
                 }
+                
             }
 
 
@@ -209,6 +213,9 @@
     if($query->execute()){
         echo "all done!";
         header("location: ../product/viewcart");
+    } else {
+        header("location: ../swapproj/allproducts/product/changes?error=stmtfailed");
+        exit();
     }
 
 

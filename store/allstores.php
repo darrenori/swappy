@@ -21,6 +21,9 @@
 
             
         }
+    }else {
+        header("location: ../swapproj/allstores?error=stmtfailed");
+        exit();
     }
 
     

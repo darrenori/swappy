@@ -1,6 +1,6 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/product.function.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
 session_start();
 $order = $_GET['cart'];
 $cartarray = $_SESSION['cartarray'];
@@ -134,6 +134,9 @@ if (isset($selectedchoices)) {
         }
 
 
+    }else {
+        header("location: ../swapproj/allproducts/product/editcart?error=stmtfailed");
+        exit();
     }
 
     

@@ -24,15 +24,19 @@ if(isset($_GET['user'])){
     $employeeid = $_GET['user'];
 }
 
-if(badInput([$employeeid])==0){
-    $_SESSION['employeeid'] = $employeeid;
-} else {
-    //kick them out
+if(badInput([$employeeid])!==false){
+    header("location: ../employeemanager?error=badinput");
+    exit();
 }
 
+$_SESSION['employeeid'] = $employeeid;
 $query=$conn->prepare("DELETE FROM mydb.working_employees WHERE working_id = $employeeid");
 
 if($query->execute()){
     header("location: https://www.swapamc.com/swapproj/employeemanager");
+}else{
+    header("location: ../employeemanager?error=stmtfailed");
+    exit();
 }
+
 ?>

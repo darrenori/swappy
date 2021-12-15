@@ -38,12 +38,12 @@ $department = $postinformation['department'];
 $perhourpay = $postinformation['pay'];
 
 
-if(badInput([$role,$number,$department,$perhourpay])==0){
-    $_SESSION['employeeid'] = $employeeid;
-    
-} else {
-    //kick them out
+if(badInput([$role,$number,$department,$perhourpay])!==false){
+    header("location: ../employeemanager?error=badinput");
+    exit();
 }
+
+$_SESSION['employeeid'] = $employeeid;
 
 
 
@@ -51,8 +51,10 @@ $query = $conn->prepare("UPDATE mydb.working_employees SET working_role = '$role
 working_department  = '$department', working_perhourpay = '$perhourpay'
 WHERE working_id = $employeeid;");
 
-if(!$query){
+if(!$query->execute()){
     echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
+    header("location: ../employeemanager/edit?error=stmtfailed");
+    exit();
 }
 
 if($query->execute()){

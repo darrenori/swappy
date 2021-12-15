@@ -18,5 +18,9 @@
 
         header("location: ../swapproj/login");
         exit();
+    } else {
+        header("location: ../swapproj/allproducts/profile/deleteprofile?error=stmtfailed");
+        exit();
     }
+
 ?>

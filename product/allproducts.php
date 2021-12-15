@@ -17,11 +17,12 @@
         while($query->fetch()){
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$id'>$name  </a>";
             echo "<br>";
-            
-
-            
         }
+    }else {
+        header("location: ../swapproj/allproducts?error=stmtfailed");
+        exit();
     }
+
 
     
 

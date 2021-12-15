@@ -78,7 +78,7 @@ $router->get('/allproducts/product','product/product.php');
 
 
 
-$router->get('/allproducts/product/script','product/product.function.js');
+$router->get('/allproducts/product/script','product/productfunctions.inc.php');
 
 //addtoproduct
 $router->post('/allproducts/product/addtocart','product/addtocart.php');

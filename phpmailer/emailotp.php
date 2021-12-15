@@ -33,8 +33,8 @@ echo $date = date('m/d/Y h:i:s a', time());
     <form action="/swapproj/emailverificationinc" method="POST">
         <br><label for="emailotp"> Input your verification code</label><br>
         <input type="text" id="emailotp" name="emailotp" placeholder="Verification code...">
-        <button type="submit" name="resend">Resend Email</button>
         <button type="submit" name="submit">Submit</button>
+        <button type="submit" name="resend">Resend Email</button>
         
     </form>
 

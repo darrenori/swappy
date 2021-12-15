@@ -25,83 +25,67 @@ function invalidEmail($email)
 
 
 
-function usernameExists($conn, $username,$id)
+function usernameExists($conn, $username, $id)
 {
     $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE user_username = '$username'");
-    $uid='';
-    
+    $uid = '';
 
 
-    if($query->execute()){
+
+    if ($query->execute()) {
         $query->bind_result($uid);
-        if($query->fetch()){
+        if ($query->fetch()) {
 
-            if(isset($uid)){
-                if($uid!=$id){
+            if (isset($uid)) {
+                if ($uid != $id) {
                     return true;
                     //username already exists
                 }
             }
-            
-
-            
-            
         }
+    } else {
+        header("location: ../swapproj/allproducts/product/changes?error=stmtfailed");
+        exit();
     }
-    
-    
-
-    
 }
 
 
-function emailExists($conn, $email,$id)
+function emailExists($conn, $email, $id)
 {
     $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email'");
-    $uid='';
+    $uid = '';
 
 
-    if($query->execute()){
+    if ($query->execute()) {
         $query->bind_result($uid);
-        if($query->fetch()){
+        if ($query->fetch()) {
 
-            if(isset($uid)){
-                if($uid!=$id){
+            if (isset($uid)) {
+                if ($uid != $id) {
                     return true;
                     //username already exists
                 }
             }
-            
-
-            
-            
         }
     }
-    
-
 }
 
-function badInput($array){
+function badInput($array)
+{
     $pattern = "/^(?=.{1,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/i";
 
-    for($i=0;$i<sizeof($array);$i++){
+    for ($i = 0; $i < sizeof($array); $i++) {
         $input = $array[$i];
-        $a = !(preg_match($pattern,$input));
+        $a = !(preg_match($pattern, $input));
 
-        if($a==1){
+        if ($a == 1) {
             return true;
         }
     }
-    
+
     return false;
 
     //0 is valid input
 
 
 }
-
-
-
-
-
-?>
