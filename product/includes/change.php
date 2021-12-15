@@ -43,7 +43,7 @@
 
     // 
 
-    print_r(apache_request_headers());
+   // print_r(apache_request_headers());
     $productname = $jwtarrayinformation['productname'];
     $cartid = $jwtarrayinformation['cartid'];
     $selectedchoices = [];
@@ -152,6 +152,103 @@
 
         $total = $typestotalcost + $db_product_price;
         $total = $quantity * $total;
+
+        $query->close();
+    
+    
+        $getAdditionalCumulative = [];
+        
+        foreach ($validtypes as $key => $value) {
+            
+            $choice = $value[0];
+            $additional = $value[1];
+            array_push($getAdditionalCumulative,$additional);
+
+            
+
+            //change types
+
+            $query = $conn->prepare("UPDATE mydb.cart_typevariants SET cart_typevariants_variant = '$choice', 
+            cart_additionalcosts ='$additional'
+            WHERE cart_typevariants_type = '$key' AND cart_id = $cartid;");
+
+
+            if(!$query){
+                echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
+            }
+
+            if($query->execute()){
+                //success
+            } else {
+                echo mysqli_error($query);
+            }
+            
+            $query->close();
+
+
+
+
+
+
+
+
+
+            
+            
+        }
+
+
+        //change price at cart table
+        $total = $db_product_price;
+
+        for($i=0;$i<sizeof($getAdditionalCumulative);$i++){
+            $total = $total + $getAdditionalCumulative[$i];
+        }
+
+        $total = $quantity*$total;
+
+        $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = '$quantity',
+        price ='$total'
+        WHERE cart_id = $cartid;");
+
+        if($query->execute()){
+            echo "all done!";
+            header("location: ../product/viewcart");
+        }
+    } else {
+
+        //no types
+
+        $query=$conn->prepare("SELECT product_price FROM mydb.products
+        WHERE  product_name ='$productname';");
+
+        if ($query->execute()) {
+            $query->bind_result($db_product_price);
+
+            $query->fetch();
+
+        }
+
+        $query->close();
+
+        $total = $db_product_price * $quantity;
+        $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = '$quantity',
+        price ='$total'
+        WHERE cart_id = $cartid;");
+
+        
+
+        // echo $db_product_price . "<br>";
+
+
+
+        echo $total . "<br>";
+        echo $quantity . "<br>";
+        if($query->execute()){
+            //echo "all done!";
+            header("location: ../product/viewcart");
+        }
+
     }
 
     // if(isset($typestotalcost)){
@@ -159,71 +256,9 @@
     // } 
 
 
-    print_r($validtypes);
-    //echo "<br>";//update types. update 
-
-    $query->close();
     
+
     
-    $getAdditionalCumulative = [];
-    
-    foreach ($validtypes as $key => $value) {
-        
-        $choice = $value[0];
-        $additional = $value[1];
-        array_push($getAdditionalCumulative,$additional);
-
-        
-
-        //change types
-
-        $query = $conn->prepare("UPDATE mydb.cart_typevariants SET cart_typevariants_variant = '$choice', 
-        cart_additionalcosts ='$additional'
-        WHERE cart_typevariants_type = '$key' AND cart_id = $cartid;");
-
-
-        if(!$query){
-            echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
-        }
-
-        if($query->execute()){
-            //success
-        } else {
-            echo mysqli_error($query);
-        }
-        
-        $query->close();
-
-
-
-
-
-
-
-
-
-        
-        
-    }
-
-
-    //change price at cart table
-    $total = $db_product_price;
-
-    for($i=0;$i<sizeof($getAdditionalCumulative);$i++){
-        $total = $total + $getAdditionalCumulative[$i];
-    }
-
-    $total = $quantity*$total;
-
-    $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = '$quantity',
-    price ='$total'
-    WHERE cart_id = $cartid;");
-
-    if($query->execute()){
-        echo "all done!";
-        header("location: ../product/viewcart");
-    }
 
 
     

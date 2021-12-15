@@ -4,13 +4,13 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
     $jwtarray = jwtdecrypt();
     
 
-if(isset($jwtarray)&&$jwtarray==true){
+// if(isset($jwtarray)&&$jwtarray==true){
         
-    $jwtarrayinformation = $jwtarray['array'];
+//     $jwtarrayinformation = $jwtarray['array'];
 
-} else {
-    header("location: ../product/viewcart");
-}
+// } else {
+//     header("location: ../product/viewcart");
+// }
     
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
