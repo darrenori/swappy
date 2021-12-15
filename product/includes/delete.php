@@ -1,37 +1,37 @@
-<?php
+<?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
-session_start();
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+    session_start();
 
 
-//take note
-if (!isset($_SESSION["progresscheckout"])) {
-    header("location: ../product/viewcart");
-} elseif ($_SESSION["progresscheckout"] != 'A') {
-    header("location: ../product/viewcart");
-}
-
-foreach ($_POST as $key => $value) {
-    //echo "$key = $value<br>";
-
-    if ($key != "quantity") {
-        $postinformation[$key] = $value;
+    //take note
+    if(!isset($_SESSION["progresscheckout"])){
+        header("location: ../product/viewcart");
+    } elseif($_SESSION["progresscheckout"]!='A'){
+        header("location: ../product/viewcart");
     }
-}
 
-$cart = $_SESSION['cart'];
-$cartarray = $_SESSION['cartarray'];
+    foreach ($_POST as $key => $value) {
+        //echo "$key = $value<br>";
+        
+        if($key!="quantity"){
+            $postinformation[$key] = $value;
+        }
+    }
 
-$cartid = $cartarray[$cart];
+    $cart = $_SESSION['cart'];
+    $cartarray = $_SESSION['cartarray'];
 
-$query = $conn->prepare("DELETE FROM mydb.user_cart WHERE cart_id = $cartid");
+    $cartid = $cartarray[$cart];
 
-if ($query->execute()) {
+    $query = $conn->prepare("DELETE FROM mydb.user_cart WHERE cart_id = $cartid");
 
-    echo "done";
-    header("location: ../product/viewcart");
-} else {
-    header("location: ../swapproj/allproducts/product/delete?error=stmtfailed");
-    exit();
-}
+    if($query->execute()){
+
+        echo "done";
+        header("location: ../product/viewcart");
+    }
+
+
+?>

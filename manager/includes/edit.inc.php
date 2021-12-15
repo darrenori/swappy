@@ -22,6 +22,9 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc
 if(isset($_SESSION['employeeid'])){
     $employeeid = $_SESSION['employeeid'];
 }
+else{
+    echo "Error";
+}
 
 
 foreach ($_POST as $key => $value) {
@@ -38,12 +41,12 @@ $department = $postinformation['department'];
 $perhourpay = $postinformation['pay'];
 
 
-if(badInput([$role,$number,$department,$perhourpay])!==false){
-    header("location: ../employeemanager?error=badinput");
-    exit();
+if(badInput([$role,$number,$department,$perhourpay])==0){
+    $_SESSION['employeeid'] = $employeeid;
+    
+} else {
+    //kick them out
 }
-
-$_SESSION['employeeid'] = $employeeid;
 
 
 
@@ -51,10 +54,8 @@ $query = $conn->prepare("UPDATE mydb.working_employees SET working_role = '$role
 working_department  = '$department', working_perhourpay = '$perhourpay'
 WHERE working_id = $employeeid;");
 
-if(!$query->execute()){
+if(!$query){
     echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
-    header("location: ../employeemanager/edit?error=stmtfailed");
-    exit();
 }
 
 if($query->execute()){

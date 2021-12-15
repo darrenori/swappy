@@ -5,7 +5,7 @@
 
     //db con
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
     
 
     checkIfIdExists($conn);
@@ -44,8 +44,7 @@
         
         
     } else {
-        header("location: ../swapproj/allproducts/product?error=stmtfailed");
-        exit();
+        echo "faile";
     }
 
 

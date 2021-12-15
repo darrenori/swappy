@@ -15,6 +15,8 @@ if(isset($_COOKIE['jwt'])){
     if(isset($_POST['type']) && $_POST['type']=='ajax'){
     
         if(time()>$exp){
+            header("location: ../logout");
+            exit();
             echo "logout";
         }
     }
@@ -22,6 +24,8 @@ if(isset($_COOKIE['jwt'])){
 
 
 } else {
+    header("location: ../logout");
+    exit();
     echo "logout";
 }
 

@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
 
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
-    if (emptyInputSignup($firstname, $email, $username, $pwd, $pwdRepeat) !== false) {
+    if (emptyInputSignup($firstname, $lastname, $email, $phonenumber $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood) !== false) {
         header("location: ../swapproj/signup?error=emptyinput");
         exit();
     }

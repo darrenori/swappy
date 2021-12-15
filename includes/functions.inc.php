@@ -1,17 +1,17 @@
 <?php
 
 //checks for empty boxes
-function emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat)
+function emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood)
 {
     $result = false;
-    if (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat)) {
+    if (empty($firstname) || empty($lastname) || empty($email) || empty($phonenumber) || empty($username) || empty($pwd) || empty($pwdRepeat) || empty($primaryschool) || empty($favouritefood) ) {
         $result = true;
     } else {
         $result = false;
     }
     return $result;
 }
-//checks username input this function does not allow any username that contains characters not listed within the square brackets
+//checks username input (im not sure what the error is here)
 function invalidUid($username)
 {
     $result = false;
@@ -77,7 +77,7 @@ function uidExists($conn, $username, $email)
     mysqli_stmt_close($stmt);
 }
 
-
+######ATTENTION ADDED 1 MORE COLUMN IN SQL DATABASE CALLED USER_SECRET FOR GOOGLE AUTH
 // check if username already exists 
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood)

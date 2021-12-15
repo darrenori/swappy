@@ -1,11 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 session_start();
 session_unset();
 session_destroy();
-if (isset($_COOKIE['jwt'])) {
-    setCookieSameSite('jwt', '',time()-36000);
-}
+setcookie('jwt', '', time()-36000, '/' . '; samesite=' . 'Strict', 'www.swapamc.com', true, true);
 
 
 header("location: ../swapproj/login");

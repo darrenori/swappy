@@ -20,23 +20,22 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
 
 if(isset($_GET['user'])){
-
     $employeeid = $_GET['user'];
 }
+else{
+    echo "Error";
+}
 
-if(badInput([$employeeid])!==false){
-    header("location: ../employeemanager?error=badinput");
+if(badInput([$employeeid])==0){
+    $_SESSION['employeeid'] = $employeeid;
+} else {
+    //kick them out
+    header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }
 
-$_SESSION['employeeid'] = $employeeid;
 $query=$conn->prepare("DELETE FROM mydb.working_employees WHERE working_id = $employeeid");
-
 if($query->execute()){
     header("location: https://www.swapamc.com/swapproj/employeemanager");
-}else{
-    header("location: ../employeemanager?error=stmtfailed");
-    exit();
 }
-
 ?>

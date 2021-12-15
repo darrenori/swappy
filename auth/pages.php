@@ -50,8 +50,8 @@ class Pages {
 
 
     public function read($token){
-        $headers = apache_request_headers();
-        //$token = str_replace();
+        //$headers = apache_request_headers();
+        $token = str_replace();
     
 
         try {
@@ -60,11 +60,5 @@ class Pages {
         } catch (\Exception $e){
             return false;
         }
-
-        //return all headers? ZEPH
-        // foreach ($headers as $header => $value) {
-        //     echo "$header: $value <br />\n";
-        // }
-        
     }
 }
