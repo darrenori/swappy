@@ -6,6 +6,10 @@
 -- Generation Time: Dec 15, 2021 at 04:29 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema swap
+-- -----------------------------------------------------
 USE `mydb` ;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
