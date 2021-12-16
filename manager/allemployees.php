@@ -17,6 +17,9 @@ if (!isset($_SESSION['loginstate'])) {
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+unset($_SESSION['userusername']);
+unset($_SESSION['employeeid']);
+unset($_SESSION['task']);
 
 $userid = $_SESSION['userid'];
 $role = $_SESSION['role'];
@@ -56,7 +59,7 @@ if ($query->execute()) {
         echo "<td> $" . $perhourpay . "</td>";
         echo "<td>" . "<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$id'><input type=button name=edit value=edit></a><br>";
         echo "<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$id'><input type=button name=delete value=delete></a><br>";
-        echo "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$id'><input type=button name=delete value=tasks></a>" . "</td>";
+        echo "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$id'><input type=button name=tasks value=tasks></a>" . "</td>";
 
 
 
@@ -64,8 +67,15 @@ if ($query->execute()) {
     }
 }
 
-echo "<a href='https://www.swapamc.com/swapproj/employeemanager/adduser'><input type=button name=edit value=Add users></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts><input type=button name=allproducts value=Storefront></a>";
+echo "<a href='https://www.swapamc.com/swapproj/employeemanager/adduser'><input type=button name=edit value='Add users'></a>";
+echo "<a href='https://www.swapamc.com/swapproj/allproducts><input type=button name=allproducts value='Storefront'></a>";
+
+
+
+echo "<h3> PHP List All Session Variables</h3>";
+foreach ($_SESSION as $key => $val)
+echo $key . " " . $val . "<br/>";
+
 
 
 

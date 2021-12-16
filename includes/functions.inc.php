@@ -106,6 +106,9 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
 
 
     $randomsecret = generateRandomString();
+    //var username =sessionStorage.getItem("username")
+    // print(username);
+    
     $date = date('m/d/Y h:i:s a', time());
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
     

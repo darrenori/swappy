@@ -38,9 +38,7 @@ if(isset($_POST['name'])&&isset($_POST['details'])&&isset($_POST['progress'])&&i
 
     
 
-    if(badInput([$name,$details,$progress,$assignedby])==0){
-        
-    } else {
+    if(badInput([$name,$details,$progress,$assignedby])!==false){
         //kick em
     }
 

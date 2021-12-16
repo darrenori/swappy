@@ -37,20 +37,20 @@ if(isset($_GET['task'])){
 
 
 
-$query = $conn->prepare("SELECT task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
+$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
 
 if($query->execute()){
-    $query->bind_result($name,$details,$progress,$assignedby);
+    $query->bind_result($employeeid,$name,$details,$progress,$assignedby);
 
     if($query->fetch()){
         //0 is received 1 is in progress 2 is waiting for check
-
+        echo $name;
         echo "<form method=POST action='https://www.swapamc.com/swapproj/employeemanager/taskmanager/edittaskinc'>";
         echo "Task name"."<br><br>";
-        echo "<input type=text name='name' value=$name>"."<br><br>";
+        echo "<input type=text name='name' value='".$name."'>"."<br><br>";
 
         echo "Details"."<br><br>";
-        echo "<input type=text name='details' value=$details>"."<br><br>";
+        echo "<input type=text name='details' multiple='multiple' value='".$details."'>"."<br><br>";
 
         echo "Progress"."<br><br>";
 
@@ -86,6 +86,7 @@ if($query->execute()){
 
 
         echo "</form>";
+        echo "<br><a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=".$employeeid."'>Back</a>";
 
         
 
