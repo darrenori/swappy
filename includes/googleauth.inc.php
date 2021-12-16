@@ -5,6 +5,8 @@ if (isset($_POST['submit'])) {
     require_once 'googleauth/vendor/autoload.php';
 
     $secret = $_SESSION['usersecret'];
+    //removing our session as soon as we won't need it anymore reduces the attack surface.
+    unset($_SESSION['usersecret']);
     $code = $_POST['googleauthotp'];
     $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
 

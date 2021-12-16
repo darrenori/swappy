@@ -30,6 +30,7 @@ if (isset($_POST["submit"]) &&  $_SESSION['loginstate'] === "A") {
     ////Checks if inputs are not identical
     $failedverification = pwdMatch($userinput, $useremailotp);
     echo $failedverification;
+    unset($_SESSION["emailotp"]);
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     if ($failedverification !== false) {
         echo "badotp";
