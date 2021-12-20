@@ -16,7 +16,6 @@ if(isset($jwtarray)){
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
 
-
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
 if($role==6||$role==5||$role==3){

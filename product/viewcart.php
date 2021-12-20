@@ -12,7 +12,6 @@
     
 
 
-$jwtarray = jwtdecrypt();
 if(isset($jwtarray)&&$jwtarray==true){
     $jwtarrayinformation = $jwtarray['array'];
 

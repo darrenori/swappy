@@ -137,3 +137,6 @@ $router->get('/employeemanager/taskmanager/deletetask','tasks/includes/deletetas
 
 $router->get('/pages','auth/pages.php');
 
+
+//check quantity left
+$router->post('/checkquantity','product/includes/checkproduct.inc.php');

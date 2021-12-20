@@ -87,10 +87,15 @@
         $pricevariant = $info[$i][1];
         for($j=0;$j<sizeof($variant);$j++){
             if($pricevariant[$j]!= null && $pricevariant[$j] != "" && $pricevariant[$j]!=0){
-                echo "<span class='optionscontainer'>"."<span>".$variant[$j] ."</span> "."+S$"."<span id='price$variant[$j]'>".$pricevariant[$j]."</span>" ."<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]'>"."</span>";
+                echo "<span class='optionscontainer'>".
+                    "<span>".$variant[$j] ."</span> ".
+                    "+S$"."<span id='price$variant[$j]'>".$pricevariant[$j]."</span>" .
+                    "<input class='checkbox $alltypes[$i]' name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]'>".
+                "</span>";
                 echo "<br>";
             } else {
-                echo $variant[$j]  ."<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]'>";
+                echo $variant[$j]  ."<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' 
+                type=radio name='$alltypes[$i]'>";
                 echo "<br>";
                 
             }
@@ -109,8 +114,11 @@
     };
 
 
+    echo "<p id='left'></p>";
+
    echo "<p>Quantity: </p>";
-   echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=1>"."<br><br>";
+   
+   echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' min=1 max=100  value=1>"."<br><br>";
 
    echo "Total Costs: <br>";
    
@@ -140,6 +148,9 @@
 //    print_r(apache_request_headers()); 
 
 
+
+
+
    
 
 
@@ -147,6 +158,8 @@
 ?>
 
 <html>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
      <!-- <script src='https://www.swapamc.com/swapproj/allproducts/product/script'></script> -->
     <script type="text/javascript">
@@ -185,15 +198,83 @@
             var total = (quantity * priceforone).toFixed(2);
             document.getElementById("price").innerHTML = "$"+total;
 
+
+            calculateInventory();
+
         }
 
-        // function checkOrUncheck(id){
-        //     console.log(id);
-        //     if(document.getElementById(id).checked = true){
-        //         document.getElementById(id).checked = false;
+        function calculateInventory(){
+
+            var typesandvariants = {}; //use json style array as we want to push to ajax
+
+            typesandvariants['type'] = 'ajax';
+            typesandvariants['product_name'] = <?php echo json_encode($product_name); ?>;
+            
+            //cgeckbox are inputfield
+            var checkboxesarray = document.getElementsByClassName("checkbox");
+            for (let i = 0; i < checkboxesarray.length; i++) {
+               
+                if (checkboxesarray[i].checked){
+
+                    typesandvariants[checkboxesarray[i].getAttribute("name")] = checkboxesarray[i].getAttribute("value");
+
+                   
+                }
+            }
+
+            
+            
+
+            var jsonString = JSON.stringify(typesandvariants);
+
+            
+
+
+            
+            jQuery.ajax({
+                url:'https://www.swapamc.com/swapproj/checkquantity',
+                type:'post',
+                data: {info:jsonString},
                 
-        //     }
-        // }
+
+                success:function(result){
+
+                    console.log(result);
+
+
+
+                    if(result!=null&&result!=''){
+
+                        // console.log(result);
+                        document.getElementById("left").innerHTML = "ONLY "+result+" REMAINING";
+                        
+                        document.getElementById("quantity").setAttribute("max",result);
+
+                        // if(document.getElementById("quantity").value>result){
+                        //     document.getElementById("quantity").value = result;
+                        //     document.getElementById("quantity").setAttribute("value",result);
+
+                        // }
+                        
+                    }
+
+                    
+                    
+                    
+                }
+
+            });
+
+
+            
+
+
+        }
+
+        //initalise - if product has no types, run this
+        calculateInventory();
+
+        
 
 
 
@@ -204,6 +285,7 @@
 
   
     </script>
+
 
 
 </html>

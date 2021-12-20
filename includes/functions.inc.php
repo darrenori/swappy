@@ -360,3 +360,55 @@ function setCookieSameSite(string $name, string $value,$expire){
 
 
 }
+
+function calculateProductCode($array){
+
+
+    $string = '';
+
+    
+    $string = $array['product_name'];
+    
+
+    foreach($array as $key => $val) { 
+
+        //check for bad input
+
+        $pattern = "/^(?=.{1,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/i";
+
+
+        $a = !(preg_match($pattern,$key));
+        $b = !(preg_match($pattern,$val));
+
+        if($a==1 || $b==1){
+            break; //break out of the loop, so code wont be able to match at all
+        }
+
+        $key = preg_replace('/\s+/', '_', $key);
+        $val = preg_replace('/\s+/', '_', $val);
+
+        
+        
+        
+
+        
+        if($key!='type'&&$key!='product_name'){ 
+
+            
+
+            $string = $string. ','.$key .',' .$val;
+
+
+
+        }
+    }
+
+    //echo $string;
+
+    
+
+    return md5($string);
+
+    
+
+}

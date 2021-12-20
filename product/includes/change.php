@@ -48,8 +48,60 @@
     $cartid = $jwtarrayinformation['cartid'];
     $selectedchoices = [];
     $checkIfValuesTampered = [];
-    $quantity = $_POST['quantity'];
+    if(isset($_POST['quantity'])){
+        $quantity = $_POST['quantity'];
+
+    }
+    
     //$cartarray = $_SESSION['cartarray'];
+
+
+
+
+
+
+    //check if there's enough quantity
+    $toGetProductCode = $postinformation;
+    $toGetProductCode['product_name'] = $productname;
+    $productcode =  calculateProductCode($toGetProductCode);
+
+
+    $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = '$productcode';");
+    if(!$query){
+        echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
+    }
+
+    if($query->execute()){
+
+        $query->bind_result($qnleft);
+
+        if($query->fetch()){
+            $qnleft = $qnleft;
+        }
+
+
+
+    } else {
+        echo mysqli_error($query);
+    }
+
+    if($quantity>$qnleft){
+        // echo $quantity. "<br>";
+        // echo $qnleft . "<br>";
+        
+        header("location: ../product/viewcart");
+        exit;
+    }
+
+    $query->close();
+
+
+
+
+
+
+
+
 
     $query=$conn->prepare("SELECT type,type_choice,additional_costs,product_price FROM mydb.product_type 
     INNER JOIN mydb.products 
@@ -251,29 +303,6 @@
 
     }
 
-    // if(isset($typestotalcost)){
-        
-    // } 
-
-
-    
-
-    
-
-
-    
-
-    
-
-
-
-
-
-    
-
-    
-
-   
 
 
 
