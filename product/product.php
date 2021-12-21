@@ -16,10 +16,10 @@
 //     $jwtarrayinformation = $jwtarray['array'];
 
 // } else {
-//     header("location: ../product/viewcart");
+//     header("location: ../logout");
 // }
     
-
+    
     checkIfIdExists($conn);
     
     if(isset($_GET['id'])){
@@ -151,13 +151,18 @@
 
     echo "<h2>Reviews</h2>";
 
-    echo "<form method='POST' action='/swapproj/addreview'>";
+    echo "<form method='POST' action='/swapproj/addreview' enctype='multipart/form-data'>";
 
     echo "<p>Comment:</p>";
     echo "<input type='text' name='comment'>";
 
+
     echo "<p>Rating:</p>";
     echo "<input type='number' max=5 min=1 name='rating'>";
+
+
+    echo "<p>Image:</p>";
+    echo "<input type='file' name='image'>";
     echo "<br><br>";
 
     echo "<input type='submit'>";

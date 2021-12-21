@@ -19,12 +19,15 @@
     
 
 
+   
     if(isset($jwtarray)&&$jwtarray==true){
         
         $jwtarrayinformation = $jwtarray['array'];
-
+    
     } else {
-        header("location: ../product/viewcart");
+        
+        header("location: https://www.swapamc.com/swapproj/logout");
+        exit();
     }
 
 

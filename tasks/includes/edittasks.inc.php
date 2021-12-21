@@ -2,14 +2,16 @@
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 $jwtarray = jwtdecrypt();
-if(isset($jwtarray)){
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
     
-    $jwtarrayinformation = $jwtarray['array'];
+    } else {
+        
+        header("location: https://www.swapamc.com/swapproj/logout");
+        exit();
+    }
 
-} else {
-    //header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';

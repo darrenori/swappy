@@ -1,12 +1,13 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-    $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)){
+$jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
         
         $jwtarrayinformation = $jwtarray['array'];
     
     } else {
+        
         header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }

@@ -106,7 +106,10 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
 
 
     $randomsecret = generateRandomString();
+    date_default_timezone_set('Asia/Singapore');
     $date = date('m/d/Y h:i:s a', time());
+    $date = time();
+    $date = date('Y-m-d', $date)." ".date('H:i:s');
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
     
 
@@ -410,5 +413,23 @@ function calculateProductCode($array){
     return md5($string);
 
     
+
+}
+
+function badInput($array){
+    $pattern = "/^(?=.{1,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/i";
+
+    for($i=0;$i<sizeof($array);$i++){
+        $input = $array[$i];
+        $a = !(preg_match($pattern,$input));
+
+        if($a==1){
+            return true;
+        }
+    }
+    
+    return false;
+
+    //0 is valid input
 
 }

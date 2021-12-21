@@ -97,19 +97,7 @@ class Router {
 
 
 
-    function pictures($route,$view){
-        $uri = $_SERVER['REQUEST_URI'];
-        $route = "/swapproj" . $route;
-
-        
-        if($uri==$route){
-            $this->handled = true;
-            header('Content-Type: image/png');
-            return include_once (views . $view);
-        }
-        
-        
-    }
+    
 
 
     /**

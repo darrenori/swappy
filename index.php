@@ -146,31 +146,4 @@ $router->get('/image','images/showimage.php');
 
 
 
-
-
-
-
-
-
-
-// class Pictures {
-//     function __construct() {
-
-//     }
-
-//     function display($name){
-//         require_once __DIR__ . '/config/__init.php';
-//         require_once __DIR__ . '/router/index.php';
-
-
-
-//         $router = new Router();
-//         $route = '/images' . '/' . $name;
-//         $actual = 'images/' . $name;
-
-//         $router->pictures($route,$actual);
-
-//     }
-
-
-// }
+$router->post('/addreview','reviews/includes/addreview.inc.php');

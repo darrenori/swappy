@@ -8,16 +8,16 @@
     
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
     $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
     
-    
+    } else {
+        
+        header("location: https://www.swapamc.com/swapproj/logout");
+        exit();
+    }
 
-
-if(isset($jwtarray)&&$jwtarray==true){
-    $jwtarrayinformation = $jwtarray['array'];
-
-} else {
-    header("location: ../product/viewcart");
-}
 $userid = $jwtarrayinformation['userid'];
     
     $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
