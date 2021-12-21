@@ -166,10 +166,10 @@
     echo "</form>";
 
     
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
-    $image = new Image();
-    $src = $image->show("images/wite.jpg");
-    echo '<img src="'.$src.'" />';
+    // require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
+    // $image = new Image();
+    // $src = $image->show("images/wite.jpg");
+    // echo '<img src="'.$src.'" />';
 
 
     
