@@ -9,6 +9,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    
 // $jwtarray = jwtdecrypt();
 // if(isset($jwtarray)&&$jwtarray==true){
     
@@ -148,16 +149,45 @@
 //    print_r(apache_request_headers()); 
 
 
+    echo "<h2>Reviews</h2>";
 
+    echo "<form method='POST' action='/swapproj/addreview'>";
 
+    echo "<p>Comment:</p>";
+    echo "<input type='text' name='comment'>";
 
-   
+    echo "<p>Rating:</p>";
+    echo "<input type='number' max=5 min=1 name='rating'>";
+    echo "<br><br>";
+
+    echo "<input type='submit'>";
+    
+
+    echo "</form>";
+
+    
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
+    $image = new Image();
+    $src = $image->show("images/wite.jpg");
+    echo '<img src="'.$src.'" />';
 
 
     
+   
+    
+    
+    
+
 ?>
 
+
+
+
 <html>
+
+
+
+
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

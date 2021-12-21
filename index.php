@@ -140,3 +140,37 @@ $router->get('/pages','auth/pages.php');
 
 //check quantity left
 $router->post('/checkquantity','product/includes/checkproduct.inc.php');
+
+//image
+$router->get('/image','images/showimage.php');
+
+
+
+
+
+
+
+
+
+
+// class Pictures {
+//     function __construct() {
+
+//     }
+
+//     function display($name){
+//         require_once __DIR__ . '/config/__init.php';
+//         require_once __DIR__ . '/router/index.php';
+
+
+
+//         $router = new Router();
+//         $route = '/images' . '/' . $name;
+//         $actual = 'images/' . $name;
+
+//         $router->pictures($route,$actual);
+
+//     }
+
+
+// }
