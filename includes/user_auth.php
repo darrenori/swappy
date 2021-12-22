@@ -1,28 +1,28 @@
 <?php
 
-session_start();
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
-if(isset($_COOKIE['jwt'])){
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+
+if (isset($_COOKIE['jwt'])) {
     $token = $_COOKIE['jwt'];
-    $info = jwtdecrypt($token);
+    $info = jwtdecrypt();
     $iat  = $info['iat'];
     $exp = $info['exp'];
-    echo "expiry time ".$exp;
+    echo "expiry time " . $exp;
     echo "<br>" . "now time " .  time();
 
-    if(isset($_POST['type']) && $_POST['type']=='ajax'){
-    
-        if(time()>$exp){
-            echo "logout";
+    if (isset($_POST['type']) && $_POST['type'] == 'ajax') {
+
+        if (time() > $exp) {
+            header("location: ../logout");
+            exit();
         }
     }
-
-
-
 } else {
-    echo "logout";
+    header("location: ../logout");
+    exit();
 }
 
 
@@ -48,16 +48,3 @@ if(isset($_COOKIE['jwt'])){
 //     }
 //     $_SESSION['LAST_ACTIVE_TIME']=time();
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-

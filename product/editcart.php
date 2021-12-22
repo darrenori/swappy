@@ -1,26 +1,27 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
-session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $order = $_GET['cart'];
-$cartarray = $_SESSION['cartarray'];
-$productname = $_SESSION['productarray'];
+$cartarray = $jwtarrayinformation['cartarray'];
+$productname = $jwtarrayinformation['productarray'];
 
-$_SESSION['cart'] = $order;
-$price = $_SESSION['productprice'][$order];
-
-
-$userid = $_SESSION['userid'];
+$jwtarrayinformation['cart'] = $order;
+$price = $jwtarrayinformation['productprice'][$order];
 
 
-if (!isset($_GET['cart']) || !isset($_SESSION['cartarray']) || !isset($_SESSION['productarray']) || !isset($_SESSION['productprice'])) {
+$userid = $jwtarrayinformation['userid'];
+
+
+if (!isset($_GET['cart']) || !isset($jwtarrayinformation['cartarray']) || !isset($jwtarrayinformation['productarray']) || !isset($jwtarrayinformation['productprice'])) {
     header("location: ../product/viewcart");
 } elseif (!is_numeric($_GET['cart'])) {
     header("location: ../product/viewcart");
-} elseif (sizeof($_SESSION['cartarray']) < $_GET['cart']) {
+} elseif (sizeof($jwtarrayinformation['cartarray']) < $_GET['cart']) {
     header("location: ../product/viewcart");
 }
-
+jwtupdate($jwtarrayinformation);
 
 
 $query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
@@ -39,7 +40,7 @@ if ($query->execute()) {
     }
 }
 
-echo "<h2>" . $productname[$order] . "(".$price.")"."</h2>";
+echo "<h2>" . $productname[$order] . "(" . $price . ")" . "</h2>";
 
 
 
@@ -69,28 +70,24 @@ if (isset($selectedchoices)) {
 
         for ($j = 0; $j < sizeof($variant); $j++) {
             if ($pricevariant[$j] != null && $pricevariant[$j] != "" && $pricevariant[$j] != 0) {
-                
+
                 //what the user has chosen before when adding to cart
-                if($selectedchoices[$alltypes[$i]]==$variant[$j]){
+                if ($selectedchoices[$alltypes[$i]] == $variant[$j]) {
                     echo "<span class='optionscontainer'>" . "<span>" . $variant[$j] . "</span> " . "+S$" . "<span id='price$variant[$j]'>" . $pricevariant[$j] . "</span>" . "<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]' checked >" . "</span>";
                     echo "<br>";
                 } else {
                     echo "<span class='optionscontainer'>" . "<span>" . $variant[$j] . "</span> " . "+S$" . "<span id='price$variant[$j]'>" . $pricevariant[$j] . "</span>" . "<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]' >" . "</span>";
                     echo "<br>";
                 }
-
-                
             } else {
 
-                if($selectedchoices[$alltypes[$i]]==$variant[$j]){
+                if ($selectedchoices[$alltypes[$i]] == $variant[$j]) {
                     echo $variant[$j]  . "<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]' checked>";
                     echo "<br>";
                 } else {
                     echo $variant[$j]  . "<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]'>";
                     echo "<br>";
                 }
-
-                
             }
         }
 
@@ -112,13 +109,13 @@ if (isset($selectedchoices)) {
     echo "</form>";
 } else {
     //if product has no tytpwes
-    
+
     $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartarray[$order];");
 
-    if($query->execute()){
-        $query->bind_result($quantity,$total);
+    if ($query->execute()) {
+        $query->bind_result($quantity, $total);
 
-        if($query->fetch()){
+        if ($query->fetch()) {
             echo "<p>Quantity: </p>";
             echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
 
@@ -132,14 +129,10 @@ if (isset($selectedchoices)) {
 
             echo "</form>";
         }
-
-
-    }else {
+    } else {
         header("location: ../swapproj/allproducts/product/editcart?error=stmtfailed");
         exit();
     }
-
-    
 }
 
 

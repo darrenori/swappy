@@ -2,13 +2,14 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
-session_start();
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 
 
 //take note
-if (!isset($_SESSION["progresscheckout"])) {
+if (!isset($jwtarrayinformation["progresscheckout"])) {
     header("location: ../product/viewcart");
-} elseif ($_SESSION["progresscheckout"] != 'A') {
+} elseif ($jwtarrayinformation["progresscheckout"] != 'A') {
     header("location: ../product/viewcart");
 }
 
@@ -20,8 +21,8 @@ foreach ($_POST as $key => $value) {
     }
 }
 
-$cart = $_SESSION['cart'];
-$cartarray = $_SESSION['cartarray'];
+$cart = $jwtarrayinformation['cart'];
+$cartarray = $jwtarrayinformation['cartarray'];
 
 $cartid = $cartarray[$cart];
 

@@ -1,22 +1,7 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
-
-
-
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employee.inc.php';
 
@@ -29,7 +14,8 @@ if (badInput([$employeeid]) !== false) {
     header("location: https://www.swapamc.com/swapproj/employeemanager");
     exit;
 }
-$_SESSION['employeeid'] = $employeeid;
+$jwtarrayinformation['employeeid'] = $employeeid;
+jwtupdate($jwtarrayinformation);
 
 
 

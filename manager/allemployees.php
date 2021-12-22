@@ -1,29 +1,36 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['loginstate'])) {
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
+
+if (!isset($jwtarrayinformation['loginstate'])) {
     header("location: https://www.swapamc.com/swapproj/login");
     exit();
-} elseif ($_SESSION['loginstate'] === "A") {
+} elseif ($jwtarrayinformation['loginstate'] === "A") {
     header("location: https://www.swapamc.com/swapproj/emailverification");
     exit();
-} elseif ($_SESSION['loginstate'] === "B") {
+} elseif ($jwtarrayinformation['loginstate'] === "B") {
     header("location: https://www.swapamc.com/swapproj/googleauthentication");
     exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
+} elseif (!$jwtarrayinformation['loginstate'] === "OK") {
     header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-unset($_SESSION['userusername']);
-unset($_SESSION['employeeid']);
-unset($_SESSION['task']);
+unset($jwtarrayinformation['userusername']);
+unset($jwtarrayinformation['employeeid']);
+unset($jwtarrayinformation['task']);
+jwtupdate($jwtarrayinformation);
 
-$userid = $_SESSION['userid'];
-$role = $_SESSION['role'];
-if ($role == 6 || $role == 5 || $role == 3) {
+$userid = $jwtarrayinformation['userid'];
+$role = $jwtarrayinformation['role'];
+if($role=='6'||$role=='5'||$role=='3'){
+
+    
 } else {
     header("location: https://www.swapamc.com/swapproj/login");
 }
@@ -34,7 +41,7 @@ $query = $conn->prepare("SELECT mydb.users.user_id, user_username, working_id,wo
 
 
 if ($query->execute()) {
-    $query->bind_result($user_id,$username, $id, $role, $number, $department, $perhourpay);
+    $query->bind_result($user_id, $username, $id, $role, $number, $department, $perhourpay);
     echo "<table>";
     echo "<tr>";
     echo "<th>" . "Username" . "</th>";
@@ -73,8 +80,8 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts><input type='button'
 
 
 echo "<h3> PHP List All Session Variables</h3>";
-foreach ($_SESSION as $key => $val)
-echo $key . " " . $val . "<br/>";
+foreach ($jwtarrayinformation as $key => $val)
+    echo $key . " " . $val . "<br/>";
 
 
 

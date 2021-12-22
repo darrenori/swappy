@@ -2,13 +2,14 @@
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
-    session_start();
-
+    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    
 
     //take note
-    if(!isset($_SESSION["progresscheckout"])){
+    if(!isset($jwtarrayinformation["progresscheckout"])){
         header("location: ../product/viewcart");
-    } elseif($_SESSION["progresscheckout"]!='A'){
+    } elseif($jwtarrayinformation["progresscheckout"]!='A'){
         header("location: ../product/viewcart");
     }
 
@@ -30,12 +31,12 @@
 
 
 
-    $cart = $_SESSION['cart'];
-    $productname = $_SESSION['productarray'][$cart];
+    $cart = $jwtarrayinformation['cart'];
+    $productname = $jwtarrayinformation['productarray'][$cart];
     $selectedchoices = [];
     $checkIfValuesTampered = [];
     $quantity = $_POST['quantity'];
-    $cartarray = $_SESSION['cartarray'];
+    $cartarray = $jwtarrayinformation['cartarray'];
 
     $query=$conn->prepare("SELECT type,type_choice,additional_costs,product_price FROM mydb.product_type 
     INNER JOIN mydb.products 

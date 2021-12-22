@@ -1,56 +1,89 @@
-
 <?php
 session_start();
-if (!isset($_SESSION['loginstate'])) {
-    header("location: ../swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: ../swapproj/googleauthentication");
-    exit();
-} elseif ($_SESSION['loginstate'] === "OK") {
-    header("location: ../swapproj/campus");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "A") {
-    header("location: ../swapproj/logout");
-    exit();
-}
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/verification2fa.php';
+
+$jwtarray = jwtdecrypt();
+if (isset($jwtarray) && $jwtarray == true) {
 
 
-echo "original password". $_SESSION["emailotp"];
-echo "you are".$_SESSION["username"];
-echo "<br>";
-date_default_timezone_set('Asia/Singapore');
-echo $date = date('m/d/Y h:i:s a', time());
+
+    ## use $jwtinformation["key"] to retrieve the values 
+    ## keys and values can be viewed on campus.php page
+    $jwtarrayinformation = $jwtarray['array'];
+    foreach ($jwtarrayinformation as $key => $val)
+        if (gettype($val) != "array") {
+            echo $key . " " . $val . "<br/>";
+        }
+    $vc = new VerificationCode($jwtarrayinformation["useremail"]);
+    $vc->sendMail(); // MAIL SENT SUCCESSFULLY
+
+
+    if (!isset($jwtarrayinformation['loginstate'])) {
+        header("location: https://www.swapproj/login");
+        exit();
+    } elseif ($jwtarrayinformation['loginstate'] === "B") {
+        header("location: https://www.swapproj/googleauthentication");
+        exit();
+    } elseif ($jwtarrayinformation['loginstate'] === "OK"  and isset($jwtarrayinformation['username'])) {
+        header("location: https://www.swapproj/campus");
+        exit();
+    } elseif (!$jwtarrayinformation['loginstate'] === "A") {
+        header("location: https://www.swapproj/logout");
+        exit();
+    }
+
+
+    echo "Current OTP pass" . $jwtarrayinformation["emailotp"];
+    echo "you are" . $jwtarrayinformation["username"];
+    echo "<br>";
+    date_default_timezone_set('Asia/Singapore');
+    echo $date = date('m/d/Y h:i:s a', time());
 ?>
 
 
 
-<script type="text/javascript">  function preventBack() {window.history.forward();}  setTimeout("preventBack()", 0);  window.onunload = function () {null};</script>
-<section class="signup-form">
+    <script type="text/javascript">
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function() {
+            null
+        };
+    </script>
+    <section class="signup-form">
 
-    <h2>Email OTP</h2>
+        <h2>Email OTP</h2>
 
-    <form action="/swapproj/emailverificationinc" method="POST">
-        <br><label for="emailotp"> Input your verification code</label><br>
-        <input type="text" id="emailotp" name="emailotp" placeholder="Verification code...">
-        <button type="submit" name="submit">Submit</button>
-        <button type="submit" name="resend">Resend Email</button>
-        
-    </form>
+        <form action="/swapproj/emailverificationinc" method="POST">
+            <br><label for="emailotp"> Input your verification code</label><br>
+            <input type="text" id="emailotp" name="emailotp" placeholder="Verification code...">
+            <button type="submit" name="submit">Submit</button>
+            <button type="submit" name="resend">Resend Email</button>
 
-</section>
+        </form>
+
+    </section>
 
 
 <?php
-if (isset($_GET["error"])) {
-    if ($_GET["error"] == "badotp") {
-        echo "<p>Badotp</p>";
+    if (isset($_GET["error"])) {
+        if ($_GET["error"] == "badotp") {
+            echo "<p>Badotp</p>";
+        }
     }
+    // display resend otp
+    if (isset($_GET["resend"])) {
+        if ($_GET["resend"] == "resend") {
+            echo "resending otp";
+        }
+    }
+} else {
+
+    header("location: https://www.swapamc.com/swapproj/logout");
+    exit();
 }
-// display resend otp
-if (isset($_GET["resend"])) {
-    if ($_GET["resend"] == "resend") {
-        echo "resending otp";
-       }
-} 
+
 ?>

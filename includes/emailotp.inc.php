@@ -1,58 +1,81 @@
 <?php
 session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
-//resend email otp
-if (isset($_POST["resend"])) {
-    require 'phpmailer/verification2fa.php';
-    require 'functions.inc.php';
-    $vc = new VerificationCode($_SESSION['useremail']);
-    $vc->sendMail();
-    echo "resending OTP";
-    header("location: ../swapproj/emailverification?resend=resend");
-    exit();
-}
+$jwtarray = jwtdecrypt();
+if (isset($jwtarray) && $jwtarray == true) {
 
-if (isset($_POST["submit"]) &&  $_SESSION['loginstate'] === "A") {
+    ## use $jwtinformation["key"] to retrieve the values 
+    ## keys and values can be viewed on campus.php page
+    $jwtarrayinformation = $jwtarray['array'];
 
-    // gets the username password and captcha input
-    $userinput = (int)$_POST["emailotp"];
-    $useremailotp = $_SESSION["emailotp"];
-    // echo "original password". $useremailotp.gettype($useremailotp);
-    // echo "user input password". $userinput.gettype($userinput);
-
-    require_once 'functions.inc.php';
-    #####the verification2fa.php file is only required if we plan to implement resending of email and code. 
-    //there is a phenomenon that when the page is refreshed, a new code is generated into the session storage
-    //however an email is not sent, this is interesting and will require more looking into. 
-    //this is also a problem because if the user refreshes/fills in a bad otp, they will have no idea what the otp is.
-    // require_once 'phpmailer/verification2fa.php';
-
-    ////Checks if inputs are not identical
-    $failedverification = pwdMatch($userinput, $useremailotp);
-    echo $failedverification;
-    unset($_SESSION["emailotp"]);
-    // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
-    if ($failedverification !== false) {
-        echo "badotp";
-        header("location: ../swapproj/emailverification?error=badotp");
-        exit();
-    } else {
-        echo "goodotp";
-        $_SESSION['loginstate'] = "B";
-        header("location: ../swapproj/googleauthentication");
+    //resend email otp
+    if (isset($_POST["resend"])) {
+        require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/verification2fa.php';
+        $vc = new VerificationCode($jwtarrayinformation['useremail']);
+        $vc->sendMail();
+        echo "resending OTP";
+        header("location: ../swapproj/emailverification?resend=resend");
         exit();
     }
 
-    // // if there are no errors, the user is logged in
-    // loginUser($conn, $username, $pwd);
+    if (isset($_POST["submit"]) &&  $jwtarrayinformation['loginstate'] === "A") {
 
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: ../swapproj/googleauthentication");
-    exit();
-} elseif ($_SESSION['loginstate'] === "OK") {
-    header("location: ../swapproj/campus");
-    exit();
+        // gets the username password and captcha input
+        $userinput = (int)$_POST["emailotp"];
+        $useremailotp = $jwtarrayinformation["emailotp"];
+
+        require_once 'functions.inc.php';
+        #####the verification2fa.php file is only required if we plan to implement resending of email and code. 
+        //there is a phenomenon that when the page is refreshed, a new code is generated into the session storage
+        //however an email is not sent, this is interesting and will require more looking into. 
+        //this is also a problem because if the user refreshes/fills in a bad otp, they will have no idea what the otp is.
+        // require_once 'phpmailer/verification2fa.php';
+
+        ////Checks if inputs are not identical
+        $failedverification = pwdMatch($userinput, $useremailotp);
+        echo $failedverification;
+
+        // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
+        if ($failedverification !== false) {
+            echo "badotp";
+            jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
+            header("location: ../swapproj/emailverification?error=badotp");
+            exit();
+        } else {
+            echo "goodotp";
+            $jwtarrayinformation['loginstate'] = "B";
+            //removes 'emailotp' from the array
+            unset($jwtarrayinformation["emailotp"]);
+            echo ("this is jwtarrayinfo");
+            echo "<p><br><br>";
+            var_dump($jwtarrayinformation);
+            echo "</p><br><br>";
+
+            jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
+
+            $jwtarray = jwtdecrypt();
+            echo "<p>";
+            var_dump($jwtarray);
+            echo "</p>";
+    
+            exit;
+            header("location: ../swapproj/googleauthentication");
+            exit();
+        }
+    } elseif ($jwtarrayinformation['loginstate'] === "B") {
+        header("location: ../swapproj/googleauthentication");
+        exit();
+    } elseif ($jwtarrayinformation['loginstate'] === "OK" and isset($jwtarrayinformation['username'])) {
+        header("location: ../swapproj/campus");
+        exit();
+    } else {
+        header("location: ../swapproj/login");
+        exit();
+    }
 } else {
-    header("location: ../swapproj/login");
+
+    header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }

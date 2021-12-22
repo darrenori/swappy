@@ -1,28 +1,13 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
-
-
-
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employee.inc.php';
-$userusername = $_SESSION['userusername'];
+$userusername = $jwtarrayinformation['userusername'];
 
-$userid = $_SESSION['userid'];
-$role = $_SESSION['role'];
+$userid = $jwtarrayinformation['userid'];
+$role = $jwtarrayinformation['role'];
 if ($role == 6 || $role == 5 || $role == 3) {
 
 
@@ -44,11 +29,11 @@ if ($role == 6 || $role == 5 || $role == 3) {
     echo "<br><br>";
 
     echo "Assigned to:" . "<br>";
-    echo $_SESSION['userusername'] . "<br>";
+    echo $jwtarrayinformation['userusername'] . "<br>";
 
 
     echo "Assigned by:" . "<br>";
-    echo $_SESSION['username'] . "<br>";
+    echo $jwtarrayinformation['username'] . "<br>";
 
     echo "<br><br>";
     echo "<input type='submit'>";
@@ -61,6 +46,9 @@ if ($role == 6 || $role == 5 || $role == 3) {
             echo "INVALID DATE";
         }
     }
+
+    jwtupdate($jwtarrayinformation);
+
 } else {
     echo "ur a fake";
     header("location: https://www.swapamc.com/swapproj/campus?error=unauthoriseduser");

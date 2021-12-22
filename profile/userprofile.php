@@ -1,25 +1,10 @@
 <?php 
 require("includes/user_auth.php");
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 
-
-
-// deals with url stuff
-if (!isset($_SESSION['loginstate'])) {
-    header("location: ../login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: ../emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: ../googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: ../logout");
-    exit();
-}
-
-$userid = $_SESSION['userid'];
+$userid = $jwtarrayinformation['userid'];
 
 
 $query = $conn->prepare("SELECT user_username, user_fname,user_lname,user_role,username_email,

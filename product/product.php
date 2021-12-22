@@ -6,7 +6,9 @@
     //db con
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/includes/productfunctions.inc.php';
-    
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+
 
     checkIfIdExists($conn);
     
@@ -104,8 +106,9 @@
 
    //store initial session variables
    session_start();
-   $_SESSION["productid"] = $id;
-   $_SESSION["progresscheckout"] = 'A';
+   $jwtarrayinformation["productid"] = $id;
+   $jwtarrayinformation["progresscheckout"] = 'A';
+   jwtupdate($jwtarrayinformation);
 
 
    

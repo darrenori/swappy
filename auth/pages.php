@@ -30,6 +30,8 @@ class Pages {
     }
 
     public function updateauth($array,$iat,$exp){
+
+        
         $payload = array(
             'iss' => 'http://www.swapamc.com/swapproj', //issuer
             'audience' => 'http://www.swapamc.com/', //audience
@@ -50,7 +52,7 @@ class Pages {
 
 
     public function read($token){
-        $headers = apache_request_headers();
+        // $headers = apache_request_headers();
         //$token = str_replace();
     
 
@@ -61,7 +63,6 @@ class Pages {
             return false;
         }
 
-        //return all headers? ZEPH
         // foreach ($headers as $header => $value) {
         //     echo "$header: $value <br />\n";
         // }

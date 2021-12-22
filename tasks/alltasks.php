@@ -1,49 +1,36 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($_SESSION['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($_SESSION['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$_SESSION['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
-
-
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employee.inc.php';
 
 
-$userid = $_SESSION['userid'];
-$role = $_SESSION['role'];
+$userid = $jwtarrayinformation['userid'];
+$role = $jwtarrayinformation['role'];
 if ($role == 6 || $role == 5 || $role == 3) {
 
-    if (isset($_GET['user'])) {
-
-        $employeeid = $_GET['user'];
-        $_SESSION['employeeid'] = $_GET['user'];
+    if (!isset($_GET['user'])) {
+        header("location: https://www.swapamc.com/swapproj/taskmanager?error=nouserselected");
+        exit;
     }
-
-    if (badInput([$employeeid]) !== false) {
+    if (badInput([$employeeid]) === true) {
         header("location: https://www.swapamc.com/swapproj/taskmanager?error=badinput");
         exit;
     }
-    $_SESSION['employeeid'] = $employeeid;
+    ///here's where all the juicy code is.
+
+
+    $employeeid = $_GET['user'];
+    $jwtarrayinformation['employeeid'] = $employeeid;
 
     $query = $conn->prepare("SELECT user_username,task_id,task_name,task_details,task_progress,task_assignedby,task_dateassigned,task_datetofinish,task_dateedited
-FROM mydb.working_employees
-LEFT OUTER JOIN mydb.employees_task
-ON working_employees.working_id = employees_task.working_id
-INNER JOIN mydb.users
-ON mydb.working_employees.user_id = mydb.users.user_id 
-WHERE working_employees.working_id = " . $employeeid . ";");
+        FROM mydb.working_employees
+        LEFT OUTER JOIN mydb.employees_task
+        ON working_employees.working_id = employees_task.working_id
+        INNER JOIN mydb.users
+        ON mydb.working_employees.user_id = mydb.users.user_id 
+        WHERE working_employees.working_id = " . $employeeid . ";");
 
     if ($query->execute()) {
         $query->bind_result($employeeusername, $taskid, $name, $details, $progress, $assignedby, $dateassigned, $datefinish, $edited);
@@ -63,7 +50,7 @@ WHERE working_employees.working_id = " . $employeeid . ";");
         echo "</tr>";
 
         while ($query->fetch()) {
-            $_SESSION['userusername'] = $employeeusername;
+            $jwtarrayinformation['userusername'] = $employeeusername;
             //checks if task exists, otherwise does not run
             if (!$taskid) {
                 break;
@@ -107,13 +94,10 @@ WHERE working_employees.working_id = " . $employeeid . ";");
 
 
 
-
-
-
-
     echo "<h3> PHP List All Session Variables</h3>";
-    foreach ($_SESSION as $key => $val)
+    foreach ($jwtarrayinformation as $key => $val)
         echo $key . " " . $val . "<br/>";
+    jwtupdate($jwtarrayinformation);
 } else {
     echo "ur a fake";
 }

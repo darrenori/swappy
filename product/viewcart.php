@@ -2,9 +2,10 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 
-session_start();
-$userid = $_SESSION['userid'];
+$userid = $jwtarrayinformation['userid'];
 $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
     INNER JOIN mydb.products
     ON mydb.user_cart.product_id = mydb.products.product_id
@@ -25,9 +26,10 @@ if ($query->execute()) {
         array_push($arrayforemptytypes, [$emptyquantity, $emptyprice]);
     }
 
-    $_SESSION['cartarray'] = $cartidrows;
-    $_SESSION['productarray'] = $productnamerows;
-    $_SESSION['productprice'] = $productpricerows;
+    $jwtarrayinformation['cartarray'] = $cartidrows;
+    $jwtarrayinformation['productarray'] = $productnamerows;
+    $jwtarrayinformation['productprice'] = $productpricerows;
+    jwtupdate($jwtarrayinformation);
 } else {
     header("location: ../swapproj/allproducts/product/viewcart?error=stmtfailed");
     exit();
