@@ -25,7 +25,7 @@ if(isset($jwtarray)&&$jwtarray==true){
 if(isset($_POST['comment'])&&$_POST['comment']!=null){
     if(isset($_POST['rating'])&&$_POST['rating']!=null){
 
-        if(isset($_FILES['image'])&&$_FILES['image']!=null){
+        if(isset($_FILES['image'])&&$_FILES['image']!=null&&$_FILES['size']!=0){
             $rating = $_POST['rating'];
             $comment = $_POST['comment'];
             $error = $_FILES['image']['error'];
@@ -63,7 +63,7 @@ if(isset($_POST['comment'])&&$_POST['comment']!=null){
 
 
 //is injection/xss detected
-if(badInput([$rating,$comment])==1){
+if(badInputTwo([$rating,$comment])==1){
     header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=malicious");
 }
 
@@ -72,7 +72,7 @@ if(badInput([$rating,$comment])==1){
 
 
 
-if ($img_size > 125000) {
+if ($img_size > 3025000) {
     $em = "filetoolarge";
     header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=$em");
 }else {
@@ -93,15 +93,24 @@ if ($img_size > 125000) {
         print_r($now);
 
         $query=$conn->prepare("INSERT INTO mydb.reviews (review_product_id,review_user_id,review_comment,review_rating,review_pic,review_total_likes,review_total_dislikes,review_date) VALUES ('$productid','$userid','$comment','$rating','$img_upload_path','0','0','$now');");
+        
+        if(!$query){
+            $em = 'Something went wrong';
+            header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=$em");
+            exit();
+        }
+        
         if($query->execute()){
             echo "Success";
         } else {
             $em = 'Something went wrong';
             header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=$em");
+            exit();
         }
         
-    }else {
+    } else {
         $em = "You can't upload files of this type";
         header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=$em");
+        exit();
     }
 }

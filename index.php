@@ -147,3 +147,6 @@ $router->get('/image','images/showimage.php');
 
 
 $router->post('/addreview','reviews/includes/addreview.inc.php');
+$router->post('/editreview','reviews/includes/editreview.inc.php');
+$router->get('/deletereview','reviews/includes/deletereview.inc.php');
+
