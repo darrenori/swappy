@@ -18,7 +18,7 @@ if(isset($jwtarray)&&$jwtarray==true){
 $useridsignedin = $jwtarrayinformation['userid'];
 
 
-//check if user allowed to edit review x
+
 
 
 foreach ($_POST as $key => $value) {
@@ -71,8 +71,8 @@ if(isset($_FILES['image'])&&$_FILES['image']!=null&&$_FILES['size']!=0){
 
 //can user edit the specifi review
 
-
-$query = $conn->prepare("SELECT mydb.users.user_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_id = 9;");
+//check if user allowed to edit review x
+$query = $conn->prepare("SELECT mydb.users.user_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_id = '$id';");
 
 if(!$query){
     header("location: https://www.swapamc.com/swapproj/allproducts/product?id=".$jwtarrayinformation['productid']."&error=unknown");
@@ -103,7 +103,7 @@ $query->close();
 
 
 if(isset($imageempty)&&$imageempty==1){
-    //if image was not uploaded
+    //if user dont want to upload image
 
     $query=$conn->prepare("UPDATE mydb.reviews SET review_comment = '$comment', review_rating = '$rating', edited = '1' WHERE review_id='$id'");
             

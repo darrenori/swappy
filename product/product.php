@@ -228,13 +228,16 @@ if(isset($jwtarray)&&$jwtarray==true){
 
 
     $signedinuserid = $jwtarrayinformation['userid'];
+    $signedinrole = $jwtarrayinformation['role'];
+
+    
     
     
     
 
 
     //get all parents
-    $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,review_pic FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = $id AND childof_id IS null;");
+    $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,review_pic,user_role FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = $id AND childof_id IS null;");
     if($query->execute()){
         $result = $query->get_result();
         $allparents = $result->fetch_all(MYSQLI_ASSOC);
@@ -252,66 +255,162 @@ if(isset($jwtarray)&&$jwtarray==true){
         
 
         if($signedinuserid==$allparents[$i]['user_id']){
-            //if review posted by user currently signed in
-
-            $reviewidparent = $allparents[$i]['review_id'];
-            $profilepicture = $image->show($allparents[$i]['review_pic']);
-
-            echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-
-            echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
-
-            echo "<div id='image$reviewidparent'>";
-            echo '<img  width="100px" src="'.$profilepicture.'" />';
-            echo "</div>";
-
-            echo "<br>";
-
-            echo "<div id='comment$reviewidparent'>";
-            echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-            echo "</div>";
-
-            echo "<div id='rating$reviewidparent'>";
-            echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-            echo "</div>";
 
 
-            echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-            echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-            echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+            if($allparents[$i]['user_role']==6){
+                //if review posted by user currently signed in
 
-            echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
+                $reviewidparent = $allparents[$i]['review_id'];
+                $profilepicture = $image->show($allparents[$i]['review_pic']);
+
+                echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
+
+                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+
+                echo "<div id='image$reviewidparent'>";
+                echo '<img  width="100px" src="'.$profilepicture.'" />';
+                echo "</div>";
+
+                echo "<br>";
+
+                echo "<div id='comment$reviewidparent'>";
+                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
+                echo "</div>";
+
+                echo "<div id='rating$reviewidparent'>";
+                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                echo "</div>";
 
 
-            echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
-            echo "<br><br>";
-            echo "<a style='display:none' id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+
+                echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
+
+
+                echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
+                echo "<br><br>";
+                echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
+
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                
+
+                echo "</form>";
+
+                echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
+                echo "<input type='text' name='comment' placeholder='comment'>";
+                echo "<input type='submit'>";
+                echo "</form>";
+
+            } else {
+                //if review posted by user currently signed in
+
+                $reviewidparent = $allparents[$i]['review_id'];
+                $profilepicture = $image->show($allparents[$i]['review_pic']);
+
+                echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
+
+                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+
+                echo "<div id='image$reviewidparent'>";
+                echo '<img  width="100px" src="'.$profilepicture.'" />';
+                echo "</div>";
+
+                echo "<br>";
+
+                echo "<div id='comment$reviewidparent'>";
+                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
+                echo "</div>";
+
+                echo "<div id='rating$reviewidparent'>";
+                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                echo "</div>";
+
+
+                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+
+                echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
+
+
+                echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
+                echo "<br><br>";
+
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                
+
+                echo "</form>";
+            }
             
 
-            echo "</form>";
 
 
-
-            // echo "<a href='"."edit"."'>"."Edit". "</a>";
-            // echo "<br>";
-            // echo "<a href='"."delete"."'>"."Delete". "</a>";
+            
 
         } else {
-            $profilepicture = $image->show($allparents[$i]['review_pic']);
+            $reviewidparent = $allparents[$i]['review_id'];
+            
+            
+            if($signedinrole==6){
+                //if now is admin
+                $profilepicture = $image->show($allparents[$i]['review_pic']);
+                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+                echo '<img width="100px" src="'.$profilepicture.'" />';
+                echo "<br>";
+                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
+                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+                echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
 
-            echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
-            echo '<img width="100px" src="'.$profilepicture.'" />';
-            echo "<br>";
-            echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-            echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-            echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-            echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-            echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+                echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
+                echo "<input type='text' name='comment' placeholder='comment'>";
+                echo "<input type='submit'>";
+                echo "</form>";
+
+                
+            } else {
+                $profilepicture = $image->show($allparents[$i]['review_pic']);
+                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+                echo '<img width="100px" src="'.$profilepicture.'" />';
+                echo "<br>";
+                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
+                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+                
+            }
+            
         }
 
         
         
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if(array_key_exists($allparents[$i]['review_id'],$parentchild)){
             //if there are more child elements
@@ -344,60 +443,136 @@ if(isset($jwtarray)&&$jwtarray==true){
                 while($query->fetch()){
                     
                     if($signedinuserid==$uid){
-                        //if review posted by user currently signed in
+                            //if review posted by user currently signed in
+
+
+                        if($signedinrole==6){
+                            //only admin can reply >:)
+                            
+                            // $profilepicture = $image->show($reviewpic);
             
-                        $profilepicture = $image->show($reviewpic);
+                            echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
+                
+                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                
+                            // echo "<div id='image$reviewid' style='margin-left:30px'>";
+                            // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                            // echo "</div>";
+                
+                            //echo "<br>";
+                
+                            echo "<div id='comment$reviewid' style='margin-left:30px'>";
+                            echo "<p>Comment: ".$comment."</p>";
+                            echo "</div>";
+                
+                            // echo "<div id='rating$reviewid' style='margin-left:30px'>";
+                            // echo "<p>Rating: ".$rating."</p>";
+                            // echo "</div>";
+                
+                
+                            echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                
+                            echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
+                            echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
+                
+                
+                            echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
+                            echo "<br><br>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            
+                            
+                            echo "</form>";
+
+                            echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
+                            echo "<input type='text' name='comment' placeholder='comment'>";
+                            echo "<input type='submit'>";
+                            echo "</form>";
+                            
+
+                        } else {
+                            // $profilepicture = $image->show($reviewpic);
             
-                        echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-            
-                        echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-            
-                        echo "<div id='image$reviewid' style='margin-left:30px'>";
-                        echo '<img  width="100px" src="'.$profilepicture.'" />';
-                        echo "</div>";
-            
-                        echo "<br>";
-            
-                        echo "<div id='comment$reviewid' style='margin-left:30px'>";
-                        echo "<p>Comment: ".$comment."</p>";
-                        echo "</div>";
-            
-                        echo "<div id='rating$reviewid' style='margin-left:30px'>";
-                        echo "<p>Rating: ".$rating."</p>";
-                        echo "</div>";
-            
-            
-                        echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
-                        echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
-                        echo "<p style='margin-left:30px'>Date: ".$date."</p>";
-            
-                        echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
-            
-            
-                        echo "<button style='margin-left:30px' type='submit' id='submit$reviewid' style='display:none'>Submit</button>";
-                        echo "<br><br>";
-                        echo "<a style='margin-left:30px' style='display:none' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
+                
+                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                
+                            // echo "<div id='image$reviewid' style='margin-left:30px'>";
+                            // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                            // echo "</div>";
+                
+                            //echo "<br>";
+                
+                            echo "<div id='comment$reviewid' style='margin-left:30px'>";
+                            echo "<p>Comment: ".$comment."</p>";
+                            echo "</div>";
+                
+                            // echo "<div id='rating$reviewid' style='margin-left:30px'>";
+                            // echo "<p>Rating: ".$rating."</p>";
+                            // echo "</div>";
+                
+                
+                            echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                
+                            echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
+                
+                
+                            echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
+                            echo "<br><br>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            
+                            
+                            echo "</form>";
+                           
+                        }
                         
             
-                        echo "</form>";
+                        
             
             
             
-                        // echo "<a href='"."edit"."'>"."Edit". "</a>";
-                        // echo "<br>";
-                        // echo "<a href='"."delete"."'>"."Delete". "</a>";
+                       
             
                     } else {
-                        $profilepicture = $image->show($reviewpic);
+                        if($signedinrole==6){
+                            //$profilepicture = $image->show($reviewpic);
             
-                        echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-                        echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
-                        echo "<br>";
-                        echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
-                        echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
-                        echo "<p  style='margin-left:30px'>Likes: ".$likes."</p>";
-                        echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
-                        echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                            //echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
+                            //echo "<br>";
+                            echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
+                            //echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
+                            echo "<p  style='margin-left:30px'>Likes: ".$likes."</p>";
+                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                            echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+
+
+                            echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
+                            echo "<input type='text' name='comment' placeholder='comment'>";
+                            echo "<input type='submit'>";
+                            echo "</form>";
+                            
+
+                        } else {
+                            //$profilepicture = $image->show($reviewpic);
+            
+                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                            //echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
+                           // echo "<br>";
+                            echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
+                            //echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
+                            echo "<p  style='margin-left:30px'>Likes: ".$likes."</p>";
+                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                            
+
+                        }
+                        
                     }
 
                 }
@@ -506,6 +681,8 @@ if(isset($jwtarray)&&$jwtarray==true){
             var submitid = "submit"+reviewid;
             var editbutton = "editbutton"+reviewid;
             var deleteid = "delete"+reviewid;
+            var replybutton = "replybutton"+reviewid;
+            console.log(replybutton);
 
 
             document.getElementById(commentid).innerHTML = "<input type='text' name='comment' placeholder='Comment'>";
@@ -513,10 +690,20 @@ if(isset($jwtarray)&&$jwtarray==true){
             document.getElementById(ratingid).innerHTML = "<input type='text' name='rating' placeholder='Rating'><input name='id' value="+reviewid+" style=display:none>";
             document.getElementById(submitid).style.display = "";
             document.getElementById(editbutton).style.display    = "none";
+            document.getElementById(replybutton).style.display    = "none";
 
             document.getElementById(deleteid).style.display    = "";
 
 
+
+        }
+
+
+        function replyReview(reviewid){
+        
+
+            var replybox = "replybox"+reviewid;
+            document.getElementById(replybox).style.display    = "";
 
         }
 
