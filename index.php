@@ -151,3 +151,4 @@ $router->post('/editreview','reviews/includes/editreview.inc.php');
 $router->get('/deletereview','reviews/includes/deletereview.inc.php');
 
 $router->post('/replyreview','reviews/includes/reply.inc.php');
+$router->post('/likeordislike','reviews/includes/likeordislike.inc.php');

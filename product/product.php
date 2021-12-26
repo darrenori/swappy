@@ -232,7 +232,98 @@ if(isset($jwtarray)&&$jwtarray==true){
 
     
     
+    // $query = $conn->prepare("")
+
+
+    //explanation for code is repeated below
+    $listwhichuserliked = [];
+    $listwhichuserdisliked=[];
+
     
+
+    $query=$conn->prepare("SELECT user_id,review_id,liked FROM mydb.likedby WHERE product_id = '$id';");
+    if($query->execute()){
+        $query->bind_result($uid,$rid,$liked);
+        while($query->fetch()){
+            
+
+
+            if($signedinuserid==$uid){
+                if($liked==1){
+                    array_push($listwhichuserliked,$rid);
+                } else {
+                    array_push($listwhichuserdisliked,$rid);
+
+                }
+                
+            }
+
+
+            // $currentid = $rid;
+            // if(isset($previd)&&$currentid==$previd){
+
+            //     if($liked==1){
+            //         array_push($usersarray,$uid);
+            //         $whichuserliked[$rid] = $usersarray;
+
+            //     } else {
+            //         array_push($usersarray,$uid);
+            //         $whichuserdisliked[$rid] = $usersarray;
+
+            //     }
+                
+                
+
+            // } else {
+            //     //if new rid
+            //     $usersarray = [];
+
+            //     if($liked==1){
+            //         array_push($usersarray,$uid);
+            //         $whichuserliked[$rid] = $usersarray;
+
+            //     } else {
+            //         array_push($usersarray,$uid);
+            //         $whichuserdisliked[$rid] = $usersarray;
+
+            //     }
+                
+                
+            // }
+
+            // $previd = $rid;
+        }
+
+
+
+    }
+
+
+    $query->close();
+
+    
+    print_r($listwhichuserliked);
+
+
+
+
+    
+
+    
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
     
 
 
@@ -262,6 +353,8 @@ if(isset($jwtarray)&&$jwtarray==true){
 
                 $reviewidparent = $allparents[$i]['review_id'];
                 $profilepicture = $image->show($allparents[$i]['review_pic']);
+                $likes = $allparents[$i]['review_total_likes'];
+                $dislikes = $allparents[$i]['review_total_dislikes'];
 
                 echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
 
@@ -281,9 +374,36 @@ if(isset($jwtarray)&&$jwtarray==true){
                 echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
                 echo "</div>";
 
+                echo "<div id=likeordislikecontainer$reviewidparent>";
 
-                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+
+                if(in_array($reviewidparent,$listwhichuserliked)){
+                    //if its liked already
+                    
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                } else {
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                }
+
+                if(in_array($reviewidparent,$listwhichuserdisliked)){
+                    //if its disliked already
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                } else {
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                }
+
+                echo "</div>";
+                
+                
+
+                
+
+
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
 
                 echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
@@ -308,6 +428,8 @@ if(isset($jwtarray)&&$jwtarray==true){
 
                 $reviewidparent = $allparents[$i]['review_id'];
                 $profilepicture = $image->show($allparents[$i]['review_pic']);
+                $likes = $allparents[$i]['review_total_likes'];
+                $dislikes = $allparents[$i]['review_total_dislikes'];
 
                 echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
 
@@ -328,8 +450,34 @@ if(isset($jwtarray)&&$jwtarray==true){
                 echo "</div>";
 
 
-                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                // echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                // echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+
+                echo "<div id=likeordislikecontainer$reviewidparent>";
+
+                if(in_array($reviewidparent,$listwhichuserliked)){
+                    //if its liked already
+                    
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                } else {
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                }
+
+                if(in_array($reviewidparent,$listwhichuserdisliked)){
+                    //if its disliked already
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                } else {
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                }
+
+                echo "</div>";
+
+
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
 
                 echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
@@ -354,6 +502,8 @@ if(isset($jwtarray)&&$jwtarray==true){
             
             
             if($signedinrole==6){
+                $likes = $allparents[$i]['review_total_likes'];
+                $dislikes = $allparents[$i]['review_total_dislikes'];
                 //if now is admin
                 $profilepicture = $image->show($allparents[$i]['review_pic']);
                 echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
@@ -361,8 +511,32 @@ if(isset($jwtarray)&&$jwtarray==true){
                 echo "<br>";
                 echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
                 echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+
+
+                echo "<div id=likeordislikecontainer$reviewidparent>";
+                if(in_array($reviewidparent,$listwhichuserliked)){
+                    //if its liked already
+                    
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                } else {
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                }
+
+                if(in_array($reviewidparent,$listwhichuserdisliked)){
+                    //if its disliked already
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                } else {
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                }
+                echo "</div>";
+
+
+
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
                 echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
                 echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
@@ -375,13 +549,42 @@ if(isset($jwtarray)&&$jwtarray==true){
                 
             } else {
                 $profilepicture = $image->show($allparents[$i]['review_pic']);
+                $likes = $allparents[$i]['review_total_likes'];
+                $dislikes = $allparents[$i]['review_total_dislikes'];
                 echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
                 echo '<img width="100px" src="'.$profilepicture.'" />';
                 echo "<br>";
                 echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
                 echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-                echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+
+
+                echo "<div id=likeordislikecontainer$reviewidparent>";
+
+                
+                if(in_array($reviewidparent,$listwhichuserliked)){
+                    //if its liked already
+                    
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                } else {
+                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                }
+
+                if(in_array($reviewidparent,$listwhichuserdisliked)){
+                    //if its disliked already
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                } else {
+                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                }
+
+                echo "</div>";
+
+
+
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
                 
             }
@@ -465,13 +668,42 @@ if(isset($jwtarray)&&$jwtarray==true){
                             echo "<p>Comment: ".$comment."</p>";
                             echo "</div>";
                 
-                            // echo "<div id='rating$reviewid' style='margin-left:30px'>";
-                            // echo "<p>Rating: ".$rating."</p>";
-                            // echo "</div>";
+                            
                 
                 
-                            echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
-                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                            // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+
+
+                            echo "<div id=likeordislikecontainer$reviewid>";
+                            if(in_array($reviewid,$listwhichuserliked)){
+                                //if its liked already
+                                
+                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+            
+                            }
+            
+                            if(in_array($reviewid,$listwhichuserdisliked)){
+                                //if its disliked already
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                            }
+                            echo "</div>";
+
+
+
+
+
+
+
+                            
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                 
                             echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
@@ -513,8 +745,35 @@ if(isset($jwtarray)&&$jwtarray==true){
                             // echo "</div>";
                 
                 
-                            echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
-                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+                            // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                            // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+
+                            echo "<div id=likeordislikecontainer$reviewid>";
+
+                            if(in_array($reviewid,$listwhichuserliked)){
+                                //if its liked already
+                                
+                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+            
+                            }
+            
+                            if(in_array($reviewid,$listwhichuserdisliked)){
+                                //if its disliked already
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                            }
+                            echo "</div>";
+
+
+
+
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                 
                             echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
@@ -545,8 +804,34 @@ if(isset($jwtarray)&&$jwtarray==true){
                             //echo "<br>";
                             echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
                             //echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
-                            echo "<p  style='margin-left:30px'>Likes: ".$likes."</p>";
-                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+
+
+                            echo "<div id=likeordislikecontainer$reviewid>";
+                            if(in_array($reviewid,$listwhichuserliked)){
+                                //if its liked already
+                                
+                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+            
+                            }
+            
+                            if(in_array($reviewid,$listwhichuserdisliked)){
+                                //if its disliked already
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                            }
+
+                            echo"</div>";
+
+
+
+
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                             echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
                             echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
@@ -565,9 +850,38 @@ if(isset($jwtarray)&&$jwtarray==true){
                             //echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
                            // echo "<br>";
                             echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
-                            //echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
-                            echo "<p  style='margin-left:30px'>Likes: ".$likes."</p>";
-                            echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+
+
+
+                            echo "<div id=likeordislikecontainer$reviewid>";
+                            if(in_array($reviewid,$listwhichuserliked)){
+                                //if its liked already
+                                
+                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+            
+                            }
+            
+                            if(in_array($reviewid,$listwhichuserdisliked)){
+                                //if its disliked already
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                            } else {
+                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                            }
+                            echo "</div>";
+
+
+
+
+
+
+
+
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                             
 
@@ -589,29 +903,6 @@ if(isset($jwtarray)&&$jwtarray==true){
 
     }
 
-    // if($query->execute()){
-    //     $query->bind_result($reviewid,$username,$profilepicture,$comment,$rating,$likes,$dislikes,$date,$childofid,$reviewpic);
-
-    //     while($query->fetch()){
-    //         if($childofid==null){
-                // $profilepicture = $image->show($reviewpic);
-                // echo "<p>Username: ".$username."</p>";
-                // echo '<img width="100px" src="'.$profilepicture.'" />';
-                // echo "<br>";
-                // echo "<p>Comment: ".$comment."</p>";
-                // echo "<p>Rating: ".$rating."</p>";
-                // echo "<p>Likes: ".$likes."</p>";
-                // echo "<p>Dislikes: ".$dislikes."</p>";
-                // echo "<p>Date: ".$date."</p>";
-
-    //         } else {
-                
-    //         }
-            
-    //     }
-    // }
-    
-   
     
     
     
@@ -673,10 +964,81 @@ if(isset($jwtarray)&&$jwtarray==true){
         }
 
 
+        function likeOrDislike(reviewid,likeordislike,likes,dislikes){
+            
+            var array= {};
+            array['type'] = 'ajax';
+            array['reviewid'] = reviewid;
+            array['likeordislike'] = likeordislike;
+
+            var jsonString = JSON.stringify(array);
+            jQuery.ajax({
+                url:'https://www.swapamc.com/swapproj/likeordislike',
+                type:'post',
+                data: {info:jsonString},
+                
+
+                success:function(result){
+
+                    
+
+
+
+                    if(result!=null&&result!=''){
+                        var response = JSON.parse(result);
+                        if(response['likes']!=null||response['dislikes']!=null){
+                            likes = response['likes'];
+                            dislikes = response['dislikes'];
+                        }
+
+                        
+
+                        if(true){
+
+                            
+                            if(likeordislike==1){
+                                //if liked
+                                
+                                var x= 
+                                "<p id='likes$reviewid'>Likes: "+likes+"</p>"+
+                                "<h4 id='likesbutton$reviewid'>Liked</h4>"+
+                                "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
+                                "<button id='dislikesbutton"+reviewid+"' type='button' onclick='likeOrDislike("+reviewid+",0,"+likes+","+dislikes+")'>Dislike</button>";
+
+                            } else if(likeordislike==0){
+                            
+
+                                var x ="<p id='likes$reviewid'>Likes: "+likes+"</p>"+
+                                "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike("+reviewid+",1,"+likes+","+dislikes+")'>Like</button>"+
+                                "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
+                                "<h4 id='dislikesbutton"+reviewid+"'>Disliked</h4>";
+                            }
+
+                            var box  = "likeordislikecontainer"+reviewid;
+
+                            // console.log(box);
+                            // console.log(x);
+
+                            document.getElementById(box).innerHTML = x;
+
+                        }
+
+                        
+                        
+                    }
+
+                    
+                    
+                    
+                }
+
+            });
+        }
+
         function editReview(reviewid){
 
             var commentid = "comment"+reviewid;
-            var imageid = "image"+reviewid;
+            //var imageid = "image"+reviewid;
             var ratingid = "rating"+reviewid;
             var submitid = "submit"+reviewid;
             var editbutton = "editbutton"+reviewid;
@@ -686,7 +1048,8 @@ if(isset($jwtarray)&&$jwtarray==true){
 
 
             document.getElementById(commentid).innerHTML = "<input type='text' name='comment' placeholder='Comment'>";
-            document.getElementById(imageid).innerHTML = "<input type='file' name='image'>";
+            
+            //document.getElementById(imageid).innerHTML = "<input type='file' name='image'>";
             document.getElementById(ratingid).innerHTML = "<input type='text' name='rating' placeholder='Rating'><input name='id' value="+reviewid+" style=display:none>";
             document.getElementById(submitid).style.display = "";
             document.getElementById(editbutton).style.display    = "none";
@@ -779,7 +1142,7 @@ if(isset($jwtarray)&&$jwtarray==true){
         calculateInventory();
 
         
-
+        
 
 
 

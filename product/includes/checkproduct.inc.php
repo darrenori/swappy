@@ -53,6 +53,26 @@ function calculateProductCode($array){
 
 }
 
+
+
+function badInputThree($array){
+    $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+
+    foreach($array as $key=>$val){
+        
+        $a = !(preg_match($pattern,$val));
+
+        if($a==1){
+            return true;
+        }
+    }
+    
+    return false;
+
+    //0 is valid input
+
+}
+
 if(isset($_POST)){
     $postinformation = $_POST;
 
@@ -68,6 +88,14 @@ if(isset($_POST)){
     $postinformation = json_decode($postinformation, true);
 
     //line for regex here
+    ##NEW------------------------------------------------
+    
+    
+    if(badInputThree($postinformation)==1){
+        header("location: https://www.swapamc.com/swapproj/campus");
+
+    }
+
 
 
 
@@ -77,16 +105,7 @@ if(isset($_POST)){
 
 if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
-
-
-    
-    
-
-
-    
     $productcode =  calculateProductCode($postinformation);
-
-    
 
     if(isset($productcode)){
         //cannot use required once fr ajax!
@@ -112,12 +131,6 @@ if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
     }
 
-    
-    
-    
-
-
-    
 
 }
 
