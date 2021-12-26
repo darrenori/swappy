@@ -27,7 +27,7 @@ foreach ($_POST as $key => $value) {
 
 //check get data
 //check if get data is empty/malicious
-$information_needed = ['comment','rating','id'];
+$information_needed = ['comment','id'];
 
 for($i=0;$i<sizeof($information_needed);$i++){
     if(isset($_POST[$information_needed[$i]])&&$_POST[$information_needed[$i]]!=null){
@@ -44,7 +44,28 @@ for($i=0;$i<sizeof($information_needed);$i++){
 }
 
 $comment = $_POST['comment'];
-$rating = $_POST['rating'];
+
+if(isset($_POST['rating'])&&$_POST['rating']!=null){
+
+    
+
+    
+    $rating = $_POST['rating'];
+    if(badInputTwo([$rating])==1){
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=".$jwtarrayinformation['productid']."&error=malicious");
+        exit();
+    }
+    
+    
+} else {
+    $rating = 5;
+    //default to 5 star
+
+    
+    
+    
+}
+
 $id = $_POST['id'];
 
 // //check image properly

@@ -13,10 +13,7 @@ if(isset($jwtarray)&&$jwtarray==true){
     $jwtarrayinformation = $jwtarray['array'];
     $productid = $jwtarrayinformation['productid'];
     $userid = $jwtarrayinformation['userid'];
-    
-
 } else {
-    
     header("location: https://www.swapamc.com/swapproj/logout");
     exit();
 }
@@ -25,7 +22,7 @@ if(isset($jwtarray)&&$jwtarray==true){
 if(isset($_POST['comment'])&&$_POST['comment']!=null){
     if(isset($_POST['rating'])&&$_POST['rating']!=null){
 
-        if(isset($_FILES['image'])&&$_FILES['image']!=null&&$_FILES['size']!=0){
+        if(isset($_FILES['image'])&&$_FILES['image']!=null&&$_FILES['image']['size']!=0){
             $rating = $_POST['rating'];
             $comment = $_POST['comment'];
             $error = $_FILES['image']['error'];
@@ -36,6 +33,7 @@ if(isset($_POST['comment'])&&$_POST['comment']!=null){
                 $img_name = $_FILES['image']['name'];
 	            $img_size = $_FILES['image']['size'];
 	            $tmp_name = $_FILES['image']['tmp_name'];
+                
 	
             }
             

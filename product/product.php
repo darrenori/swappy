@@ -602,19 +602,6 @@ if(isset($jwtarray)&&$jwtarray==true){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         if(array_key_exists($allparents[$i]['review_id'],$parentchild)){
             //if there are more child elements
             $parentid = $allparents[$i]['review_id'];
@@ -639,9 +626,7 @@ if(isset($jwtarray)&&$jwtarray==true){
             }
 
             $query = $conn->prepare($beforequery);
-
             if($query->execute()){
-
                 $query->bind_result($uid,$reviewid,$username,$profilepicture,$comment,$rating,$likes,$dislikes,$date,$childofid,$reviewpic);
                 while($query->fetch()){
                     
@@ -720,6 +705,7 @@ if(isset($jwtarray)&&$jwtarray==true){
                             echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
                             echo "<input type='text' name='comment' placeholder='comment'>";
                             echo "<input type='submit'>";
+                            
                             echo "</form>";
                             
 
@@ -1037,8 +1023,10 @@ if(isset($jwtarray)&&$jwtarray==true){
 
         function editReview(reviewid){
 
+            
+
             var commentid = "comment"+reviewid;
-            //var imageid = "image"+reviewid;
+            var imageid = "image"+reviewid;
             var ratingid = "rating"+reviewid;
             var submitid = "submit"+reviewid;
             var editbutton = "editbutton"+reviewid;
@@ -1046,18 +1034,35 @@ if(isset($jwtarray)&&$jwtarray==true){
             var replybutton = "replybutton"+reviewid;
             console.log(replybutton);
 
-
-            document.getElementById(commentid).innerHTML = "<input type='text' name='comment' placeholder='Comment'>";
             
-            //document.getElementById(imageid).innerHTML = "<input type='file' name='image'>";
-            document.getElementById(ratingid).innerHTML = "<input type='text' name='rating' placeholder='Rating'><input name='id' value="+reviewid+" style=display:none>";
-            document.getElementById(submitid).style.display = "";
-            document.getElementById(editbutton).style.display    = "none";
-            document.getElementById(replybutton).style.display    = "none";
+            if(document.getElementById(commentid)){
+                document.getElementById(commentid).innerHTML = "<input type='text' name='comment' placeholder='Comment'><input name='id' value="+reviewid+" style=display:none>";
+            }
 
-            document.getElementById(deleteid).style.display    = "";
+            if(document.getElementById(ratingid)){
+                
+                document.getElementById(ratingid).innerHTML = "<input type='text' name='rating' placeholder='Rating'>";
+            }
 
+            if(document.getElementById(submitid)){
+                document.getElementById(submitid).style.display= "";
 
+            }
+
+            if(document.getElementById(editbutton)){
+                document.getElementById(editbutton).style.display = "none";
+            }
+
+            if(document.getElementById(replybutton)){
+                document.getElementById(replybutton).style.display = "none";
+            }
+             
+            if(document.getElementById(deleteid)){
+                document.getElementById(deleteid).style.display= "";
+            }
+               
+
+                
 
         }
 

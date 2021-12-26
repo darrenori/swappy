@@ -152,3 +152,6 @@ $router->get('/deletereview','reviews/includes/deletereview.inc.php');
 
 $router->post('/replyreview','reviews/includes/reply.inc.php');
 $router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
+
+
+$router->get('/home','home.php');
