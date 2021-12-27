@@ -41,6 +41,8 @@ if (isset($jwtarray) && $jwtarray == true) {
 }
 
 
+
+//strip the url because str_contains cannot take specail characters.
 $currenturlstripped = preg_replace('/[^a-zA-Z0-9]+/', '', $_SERVER['REQUEST_URI']);
 
 
@@ -53,7 +55,7 @@ if ((int)$role < 0 || (int)$role > 6) {
     exit;
 }
 
-
+///changes the allowed urls depending on the role number
 if ($role === (int)0) {
     //if user is authorised user.. 
     $notallowedauthuser = ['allstores', 'employeemanager',/*employee tasks page */];
@@ -74,6 +76,7 @@ if ($role === (int)0) {
 } else if ($role === (int)6) {
     //if user is server admin I CAN DO ANYTHING
 }
+//if url contains any text from the unallowed urls, the user is considered unauthorized
 foreach ($notallowedauthuser as $key => $val) {
     $unauthorised = str_contains($currenturlstripped, $val);
     if ($unauthorised !== false) {
