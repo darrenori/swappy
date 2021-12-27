@@ -25,6 +25,8 @@ foreach ($_POST as $key => $value) {
 
 $cart = $jwtarrayinformation['cart'];
 $cartarray = $jwtarrayinformation['cartarray'];
+unset($jwtarrayinformation['cartarray']);
+jwtupdate($jwtarrayinformation);
 
 $cartid = $cartarray[$cart];
 

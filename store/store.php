@@ -8,7 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/store/storefunctions.inc.php';
 
 
-checkIfIdExists($conn);
+checkIfStoreIdExists($conn);
 
 
 foreach ($_GET as $key => $val) { // converts old value to new value
@@ -20,6 +20,8 @@ foreach ($_GET as $key => $val) { // converts old value to new value
         $val = htmlspecialchars($val, ENT_QUOTES);
     }
 }
+//if checkIfIdExists has run, the following line of code will be safe
+$id = $_GET["id"];
 try {
 $query = $conn->prepare("SELECT * FROM mydb.storeprod INNER JOIN mydb.store 
     ON mydb.store.store_id = mydb.storeprod.store_id 
@@ -82,9 +84,7 @@ try {
     echo "</table>";
 
 //types
-//if checkIfIdExists has run, the following line of code will be safe
-$id = $_GET["id"];
-$alltypes = getTypeForProduct($id, $conn);
+$alltypes = getTypeForStoreProduct($id, $conn);
 
 print_r($alltypes);
 echo "<br>";
@@ -96,7 +96,7 @@ echo "<br>";
 
 $numberofTypes = sizeof($alltypes);
 for ($i = 0; $i < $numberofTypes; $i++) {
-    $info[$i] = getVariantsFromTypes($alltypes[$i], $id, $conn);
+    $info[$i] = getVariantsFromStoreTypes($alltypes[$i], $id, $conn);
 };
 
 

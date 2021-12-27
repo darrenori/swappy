@@ -3,35 +3,17 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-
-
-if (!isset($jwtarrayinformation['loginstate'])) {
-    header("location: https://www.swapamc.com/swapproj/login");
-    exit();
-} elseif ($jwtarrayinformation['loginstate'] === "A") {
-    header("location: https://www.swapamc.com/swapproj/emailverification");
-    exit();
-} elseif ($jwtarrayinformation['loginstate'] === "B") {
-    header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    exit();
-} elseif (!$jwtarrayinformation['loginstate'] === "OK") {
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
-
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-unset($jwtarrayinformation['userusername']);
+unset($jwtarrayinformation['employeeusername']);
 unset($jwtarrayinformation['employeeid']);
-unset($jwtarrayinformation['task']);
 jwtupdate($jwtarrayinformation);
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
-if ($role == '6' || $role == '5' || $role == '3') {
-} else {
-    header("location: https://www.swapamc.com/swapproj/logout");
-}
+// if ($role == '6' || $role == '5' || $role == '3') {
+// } else {
+//     header("location: https://www.swapamc.com/swapproj/logout");
+// }
 
 
 // throws error "Statment Preparation failed" when statement fails
@@ -101,7 +83,7 @@ echo "<a href='https://www.swapamc.com/swapproj/campus'><input type=button name=
 
 
 
-echo "<h3> PHP List All Session Variables</h3>";
+echo "<h3> PHP List All JWT Session Variables</h3>";
 var_dump($jwtarrayinformation);
 
 

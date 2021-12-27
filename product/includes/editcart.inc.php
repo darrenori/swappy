@@ -9,6 +9,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 
+
 //take note
 if (!isset($jwtarrayinformation["progresscheckout"])) {
     header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart");
@@ -32,6 +33,8 @@ $selectedchoices = [];
 $checkIfValuesTampered = [];
 $quantity = $_POST['quantity'];
 $cartarray = $jwtarrayinformation['cartarray'];
+unset($jwtarrayinformation['cartarray']);
+jwtupdate($jwtarrayinformation);
 $cartid = $cartarray[$cart];
 
 
@@ -50,7 +53,7 @@ try {
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
     //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement");
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement");
     exit;
 }
 // throws error "Statment Execution failed" when statement fails
@@ -61,7 +64,7 @@ try {
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement"); //    echo mysqli_error($query);
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement"); //    echo mysqli_error($query);
 
     exit;
 }
@@ -131,7 +134,7 @@ while ($checkempty = $query->fetch()) {
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
             //change header location accordingly
-            header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement");
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement");
             exit;
         }
         // throws error "Statment Execution failed" when statement fails
@@ -142,7 +145,7 @@ while ($checkempty = $query->fetch()) {
             }
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
-            header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement"); //    echo mysqli_error($query);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement"); //    echo mysqli_error($query);
 
             exit;
         }
@@ -201,7 +204,7 @@ foreach ($validtypes as $key => $value) {
     } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
         //change header location accordingly
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement");
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement");
         exit;
     }
     // throws error "Statment Execution failed" when statement fails
@@ -212,7 +215,7 @@ foreach ($validtypes as $key => $value) {
         }
     } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement"); //    echo mysqli_error($query);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement"); //    echo mysqli_error($query);
 
         exit;
     }
@@ -240,7 +243,7 @@ try {
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
     //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement");
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement");
     exit;
 }
 // throws error "Statment Execution failed" when statement fails
@@ -251,7 +254,7 @@ try {
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=".$cartid."&error=badstatement"); //    echo mysqli_error($query);
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartid . "&error=badstatement"); //    echo mysqli_error($query);
 
     exit;
 }

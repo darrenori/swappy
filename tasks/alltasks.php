@@ -1,10 +1,10 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
-
+unset($jwtarrayinformation['task']);
+jwtupdate($jwtarrayinformation);
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
@@ -81,7 +81,7 @@ if ($role == 6 || $role == 5 || $role == 3) {
         echo "</tr>";
 
         while ($query->fetch()) {
-            $jwtarrayinformation['userusername'] = $employeeusername;
+            $jwtarrayinformation['employeeusername'] = $employeeusername;
             //checks if task exists, otherwise does not run
             if (!$taskid) {
                 break;
