@@ -81,7 +81,7 @@ $router->get('/allproducts/product','product/product.php');
 $router->get('/allproducts/product/script','product/productfunctions.inc.php');
 
 //addtoproduct
-$router->post('/allproducts/product/addtocart','product/addtocart.php');
+$router->post('/allproducts/product/addtocart','product/includes/addtocart.inc.php');
 
 //viewcart
 $router->get('/allproducts/product/viewcart','product/viewcart.php');
@@ -91,16 +91,16 @@ $router->get('/allproducts/product/viewcart','product/viewcart.php');
 $router->get('/allproducts/product/editcart','product/editcart.php');
 
 //includes change
-$router->post('/allproducts/product/changes','product/includes/change.php');
-$router->post('/allproducts/product/delete','product/includes/delete.php');
+$router->post('/allproducts/product/changes','product/includes/editcart.inc.php');
+$router->post('/allproducts/product/delete','product/includes/deletecart.inc.php');
 
 //userprofile
 $router->get('/userprofile','profile/userprofile.php');
 $router->post('/userprofile','profile/userprofile.php');
 
 //editprofile
-$router->post('/updateprofile','profile/updateprofile.php');
-$router->post('/deleteprofile','profile/deleteprofile.php');
+$router->post('/updateprofile','profile/includes/updateprofile.inc.php');
+$router->post('/deleteprofile','profile/includes/deleteprofile.inc.php');
 
 
 //employeemanager

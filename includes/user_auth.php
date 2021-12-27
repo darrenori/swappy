@@ -1,7 +1,6 @@
 <?php
 
 
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
@@ -16,13 +15,19 @@ if (isset($_COOKIE['jwt'])) {
     if (isset($_POST['type']) && $_POST['type'] == 'ajax') {
 
         if (time() > $exp) {
-            header("location: ../logout");
+            // var_dump($_COOKIE);
+            // exit;        
+            header("location: https://www.swapamc.com/swapproj/logout");
             exit();
         }
     }
 } else {
-    header("location: ../logout");
-    exit();
+    // var_dump($_COOKIE);
+    // exit;
+    
+    header("location: https://www.swapamc.com/swapproj/logout");
+    exit;
+
 }
 
 
@@ -42,7 +47,7 @@ if (isset($_COOKIE['jwt'])) {
 //     if(isset($_SESSION['LAST_ACTIVE_TIME'])){
 //         if((time()-$_SESSION['LAST_ACTIVE_TIME'])>1000000){
 //             echo "dead" . "wowww";
-//             //header("location: ../swapproj/login");
+//             //header("location: https://www.swapamc.com/swapproj/login");
 //             session_destroy();
 //         }
 //     }

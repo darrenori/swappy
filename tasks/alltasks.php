@@ -3,17 +3,26 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employee.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
+
+//calls function from employeefunctions.inc.php
+checkIfEmployeeIdExists($conn);
+
+
 if ($role == 6 || $role == 5 || $role == 3) {
 
     if (!isset($_GET['user'])) {
         header("location: https://www.swapamc.com/swapproj/taskmanager?error=nouserselected");
         exit;
     }
+    //if checkIfIdExists has run, the following line of code will be safe
+
+    $employeeid = $_GET['user'];
+    $jwtarrayinformation['employeeid'] = $employeeid;
     if (badInput([$employeeid]) === true) {
         header("location: https://www.swapamc.com/swapproj/taskmanager?error=badinput");
         exit;
@@ -21,9 +30,7 @@ if ($role == 6 || $role == 5 || $role == 3) {
     ///here's where all the juicy code is.
 
 
-    $employeeid = $_GET['user'];
-    $jwtarrayinformation['employeeid'] = $employeeid;
-
+    try {
     $query = $conn->prepare("SELECT user_username,task_id,task_name,task_details,task_progress,task_assignedby,task_dateassigned,task_datetofinish,task_dateedited
         FROM mydb.working_employees
         LEFT OUTER JOIN mydb.employees_task
@@ -31,8 +38,32 @@ if ($role == 6 || $role == 5 || $role == 3) {
         INNER JOIN mydb.users
         ON mydb.working_employees.user_id = mydb.users.user_id 
         WHERE working_employees.working_id = " . $employeeid . ";");
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(alltasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/employeemanager?page=tasks&error=badstatement");
+            exit;
+        }
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed (alltasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/employeemanager?page=tasks&error=badstatement"); //    echo mysqli_error($query);
+        
+            exit;
+        }
+        
 
-    if ($query->execute()) {
+        
+
         $query->bind_result($employeeusername, $taskid, $name, $details, $progress, $assignedby, $dateassigned, $datefinish, $edited);
 
         echo "<table>";
@@ -95,12 +126,19 @@ if ($role == 6 || $role == 5 || $role == 3) {
 
 
     echo "<h3> PHP List All Session Variables</h3>";
-    foreach ($jwtarrayinformation as $key => $val)
-        echo $key . " " . $val . "<br/>";
+    foreach ($jwtarrayinformation as $key => $val){
+        echo "Key: ".$key;
+        if (gettype($val)!=="array") {
+        echo  " " . $val . "<br/>";
+        }else{
+            foreach ($val as $k => $v){
+                if (gettype($v)!=="array") {
+                echo "- Key of val: ".$k . " " . $v . "<br/>";
+                }
+            }
+        }
+    }
     jwtupdate($jwtarrayinformation);
-} else {
-    echo "ur a fake";
-}
 
 
 

@@ -81,7 +81,7 @@ if (isset($jwtarray) && $jwtarray == true) {
 
     echo "<h3> PHP List All JWT Session Variables</h3>";
     foreach ($jwtarrayinformation as $key => $val)
-    echo $key . " " . $val . "<br/>";
+        echo $key . " " . $val . "<br/>";
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     require 'googleauth/vendor/autoload.php';

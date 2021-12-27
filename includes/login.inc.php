@@ -38,20 +38,21 @@ if (isset($_POST["submit"])) {
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);
    if ($loginempty !== false) {
-        header("location: ../swapproj/login?error=emptyinput");
+        header("location: https://www.swapamc.com/swapproj/login?error=emptyinput");
         exit();
     }
     // returns failedcaptcha if failed captcha
-    if ($failedCaptcha === "empty captcha") {
-        header("location: ../swapproj/login?error=emptycaptcha");
-        exit();
-    } else if ($failedCaptcha === "bad captcha") {
-        header("location: ../swapproj/login?error=badcaptcha");
-        exit();
-    } else if ($failedCaptcha === "good captcha") {
-        header("location: ../swapproj/login?error=goodcaptcha");
-        exit();
-    }
+    //commented out cos no wifi
+    // if ($failedCaptcha === "empty captcha") {
+    //     header("location: https://www.swapamc.com/swapproj/login?error=emptycaptcha");
+    //     exit();
+    // } else if ($failedCaptcha === "bad captcha") {
+    //     header("location: https://www.swapamc.com/swapproj/login?error=badcaptcha");
+    //     exit();
+    // } else if ($failedCaptcha === "good captcha") {
+    //     header("location: https://www.swapamc.com/swapproj/login?error=goodcaptcha");
+    //     exit();
+    // }
 
 
     //remember me codes
@@ -87,6 +88,6 @@ if (isset($_POST["submit"])) {
 
 
     } else {
-        header("location: ../swapproj/login?error=notsubmit");
+        header("location: https://www.swapamc.com/swapproj/login?error=notsubmit");
         exit();
 }

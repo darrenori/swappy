@@ -28,19 +28,41 @@ jwtupdate($jwtarrayinformation);
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
-if($role=='6'||$role=='5'||$role=='3'){
-
-    
+if ($role == '6' || $role == '5' || $role == '3') {
 } else {
-    header("location: https://www.swapamc.com/swapproj/login");
+    header("location: https://www.swapamc.com/swapproj/logout");
 }
 
-$query = $conn->prepare("SELECT mydb.users.user_id, user_username, working_id,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees 
+
+// throws error "Statment Preparation failed" when statement fails
+try {
+    $query = $conn->prepare("SELECT mydb.users.user_id, user_username, working_id,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees 
     INNER JOIN mydb.users
     ON mydb.working_employees.user_id = mydb.users.user_id;");
 
+    if ($query === false) {
+        throw new Exception("Statement Preparation failed(allemployees)");
+    }
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
+    exit;
 
-if ($query->execute()) {
+}
+// throws error "Statment Execution failed" when statement fails
+try {
+    $execute =$query->execute();
+    if ($execute === false) {
+        throw new Exception("Statement Execution failed (allemployees)");
+    }
+
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
+    exit;
+}
+
+
     $query->bind_result($user_id, $username, $id, $role, $number, $department, $perhourpay);
     echo "<table>";
     echo "<tr>";
@@ -72,18 +94,15 @@ if ($query->execute()) {
 
         echo "</tr>";
     }
-}
+
 
 echo "<a href='https://www.swapamc.com/swapproj/employeemanager/adduser'><input type='button' name='edit' value='Add users'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts><input type='button' name='allproducts' value='Storefront'></a>";
+echo "<a href='https://www.swapamc.com/swapproj/campus'><input type=button name=employeemanager value='Home'></a>";
 
 
 
 echo "<h3> PHP List All Session Variables</h3>";
-foreach ($jwtarrayinformation as $key => $val)
-    echo $key . " " . $val . "<br/>";
-
-
+var_dump($jwtarrayinformation);
 
 
 

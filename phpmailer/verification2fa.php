@@ -81,11 +81,6 @@ class VerificationCode
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
         $jwtarray = jwtdecrypt();
-        echo "<p>";
-        var_dump($jwtarray);
-        echo "</p>";
-
-
         if (isset($jwtarray) && $jwtarray == true) {
 
             ## use $jwtinformation["key"] to retrieve the values 
@@ -93,7 +88,7 @@ class VerificationCode
             $jwtarrayinformation = $jwtarray['array'];
 
             $jwtarrayinformation["emailotp"] = $this->code;
-            echo "I am jwtarrayinformation['emailotp']:  ".$jwtarrayinformation['emailotp'];
+            echo "I am jwtarrayinformation['emailotp']:  ".$jwtarrayinformation['emailotp']."<br><br><br>";
             $htmlMessage = "
         <!DOCTYPE html>
         <html>
@@ -106,18 +101,7 @@ class VerificationCode
         jwtupdate($jwtarrayinformation);
         
 
-        $jwtarray = jwtdecrypt();
-        echo "<p>";
-        var_dump($jwtarray);
-        echo "</p>";
-        jwtencrypt($jwtarrayinformation);
-        
-
-        $jwtarray = jwtdecrypt();
-        echo "<p>";
-        var_dump($jwtarray);
-        echo "</p>";
-
+    
             return $htmlMessage;
         } else {
 

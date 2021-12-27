@@ -21,21 +21,21 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 
     if (!isset($jwtarrayinformation['loginstate'])) {
-        header("location: https://www.swapproj/login");
+        header("location: https://www.swapamc.com/swapproj/login");
         exit();
     } elseif ($jwtarrayinformation['loginstate'] === "B") {
-        header("location: https://www.swapproj/googleauthentication");
+        header("location: https://www.swapamc.com/swapproj/googleauthentication");
         exit();
     } elseif ($jwtarrayinformation['loginstate'] === "OK"  and isset($jwtarrayinformation['username'])) {
-        header("location: https://www.swapproj/campus");
+        header("location: https://www.swapamc.com/swapproj/campus");
         exit();
     } elseif (!$jwtarrayinformation['loginstate'] === "A") {
-        header("location: https://www.swapproj/logout");
+        header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }
 
 
-    echo "Current OTP pass" . $jwtarrayinformation["emailotp"];
+    echo "Current OTP pass is unavailable cos JWT LAGGGGGG T^T check your email bruddah"; //. $jwtarrayinformation["emailotp"]
     echo "you are" . $jwtarrayinformation["username"];
     echo "<br>";
     date_default_timezone_set('Asia/Singapore');
@@ -70,13 +70,17 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 <?php
     if (isset($_GET["error"])) {
-        if ($_GET["error"] == "badotp") {
+        $error=htmlspecialchars($_GET["error"]);
+
+        if ($error == "badotp") {
             echo "<p>Badotp</p>";
         }
     }
     // display resend otp
     if (isset($_GET["resend"])) {
-        if ($_GET["resend"] == "resend") {
+        $getresend=htmlspecialchars($_GET["resend"]);
+
+        if ($getresend == "resend") {
             echo "resending otp";
         }
     }

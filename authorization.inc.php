@@ -6,14 +6,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
 $jwtarray = jwtdecrypt();
-echo gettype($jwtarray);
-echo $jwtarray ? 'true': 'false';
+// echo gettype($jwtarray);
+// echo $jwtarray ? 'true': 'false';
 
 if (isset($jwtarray) && $jwtarray == true) {
 
     ## use $jwtinformation["key"] to retrieve the values 
     ## keys and values can be viewed on campus.php page
     $jwtarrayinformation = $jwtarray['array'];
+    // var_dump($jwtarrayinformation);
+
 
 
     if (!isset($jwtarrayinformation['loginstate'])) {

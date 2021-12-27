@@ -3,7 +3,7 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employee.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 $userusername = $jwtarrayinformation['userusername'];
 
 $userid = $jwtarrayinformation['userid'];
@@ -40,15 +40,14 @@ if ($role == 6 || $role == 5 || $role == 3) {
 
     echo "</form>";
 
-
+    #checked by debugger, deemed unharmful
     if (isset($_GET['error'])) {
-        if ($_GET['error'] = 'baddate') {
+        if ($_GET['error'] === 'baddate') {
             echo "INVALID DATE";
         }
     }
 
     jwtupdate($jwtarrayinformation);
-
 } else {
     echo "ur a fake";
     header("location: https://www.swapamc.com/swapproj/campus?error=unauthoriseduser");

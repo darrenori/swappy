@@ -3,7 +3,36 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+
+if (!isset($_GET['cart']) || !isset($jwtarrayinformation['cartarray']) || !isset($jwtarrayinformation['productarray']) || !isset($jwtarrayinformation['productprice'])) {
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
+    exit;
+} elseif (!is_numeric($_GET['cart'])) {
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
+    exit;
+} elseif (sizeof($jwtarrayinformation['cartarray']) < $_GET['cart']) {
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
+    exit;
+}
+//renders any scripts into html form of special char e.g., & = &amp
+foreach ($_GET as $key => $val) {
+    if (gettype($key) == "string" && $key !=="0") {
+        $goodkey = htmlentities($key);
+        $_GET[$goodkey] = $_GET[$key];
+        unset($_GET[$key]);
+    }
+    //only checks if of string type (integers will not run through htmlspecialchars)
+    if (gettype($val) == "string") {
+        $goodval = htmlentities($val);
+        $_GET[$goodkey] = $goodval;
+    }
+    if (empty($val)) {
+        $_GET[$goodkey] = "0";
+    }
+}
+
 $order = $_GET['cart'];
+
 $cartarray = $jwtarrayinformation['cartarray'];
 $productname = $jwtarrayinformation['productarray'];
 
@@ -14,30 +43,43 @@ $price = $jwtarrayinformation['productprice'][$order];
 $userid = $jwtarrayinformation['userid'];
 
 
-if (!isset($_GET['cart']) || !isset($jwtarrayinformation['cartarray']) || !isset($jwtarrayinformation['productarray']) || !isset($jwtarrayinformation['productprice'])) {
-    header("location: ../product/viewcart");
-} elseif (!is_numeric($_GET['cart'])) {
-    header("location: ../product/viewcart");
-} elseif (sizeof($jwtarrayinformation['cartarray']) < $_GET['cart']) {
-    header("location: ../product/viewcart");
-}
 jwtupdate($jwtarrayinformation);
 
-
-$query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
+try {
+    $query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
     INNER JOIN mydb.user_cart
     ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
     where mydb.cart_typevariants.cart_id=$cartarray[$order];");
-$alltypes = [];
-
-if ($query->execute()) {
-    $query->bind_result($type, $variant, $total, $quantity);
-
-    while ($query->fetch()) {
-        array_push($alltypes, $type);
-
-        $selectedchoices[$type] = $variant;
+    if ($query === false) {
+        //change filename accordingly
+        throw new Exception("Statement Preparation failed(editcart)");
     }
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    //change header location accordingly
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement");
+    exit;
+}
+$alltypes = [];
+// throws error "Statment Execution failed" when statement fails
+try {
+    $execute = $query->execute();
+    if ($execute === false) {
+        throw new Exception("Statement Execution failed (editcart)");
+    }
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement"); //    echo mysqli_error($query);
+
+    exit;
+}
+
+$query->bind_result($type, $variant, $total, $quantity);
+
+while ($query->fetch()) {
+    array_push($alltypes, $type);
+
+    $selectedchoices[$type] = $variant;
 }
 
 echo "<h2>" . $productname[$order] . "(" . $price . ")" . "</h2>";
@@ -108,30 +150,54 @@ if (isset($selectedchoices)) {
 
     echo "</form>";
 } else {
-    //if product has no tytpwes
-
-    $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartarray[$order];");
-
-    if ($query->execute()) {
-        $query->bind_result($quantity, $total);
-
-        if ($query->fetch()) {
-            echo "<p>Quantity: </p>";
-            echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
-
-            echo "Total Costs: <br>";
 
 
-            echo "<p id='price'>" . "$" . $total . "</p>";
-
-            echo "<input type='submit' value='edit' formaction='/swapproj/allproducts/product/changes'>";
-            echo "<input type='submit' value='delete' formaction='/swapproj/allproducts/product/delete' >";
-
-            echo "</form>";
+    try {
+        $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartarray[$order];");
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(editcart)");
         }
-    } else {
-        header("location: ../swapproj/allproducts/product/editcart?error=stmtfailed");
-        exit();
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement");
+        exit;
+    }
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (editcart)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement"); //    echo mysqli_error($query);
+
+        exit;
+    }
+
+
+
+
+    //if product has no types
+
+
+    $query->bind_result($quantity, $total);
+
+    if ($query->fetch()) {
+        echo "<p>Quantity: </p>";
+        echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
+
+        echo "Total Costs: <br>";
+
+
+        echo "<p id='price'>" . "$" . $total . "</p>";
+
+        echo "<input type='submit' value='edit' formaction='/swapproj/allproducts/product/changes'>";
+        echo "<input type='submit' value='delete' formaction='/swapproj/allproducts/product/delete' >";
+
+        echo "</form>";
     }
 }
 

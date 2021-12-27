@@ -3,7 +3,7 @@
 //checks for empty boxes
 function emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood)
 {
-    $result = false;
+    $result = true;
     if (empty($firstname) || empty($lastname) || empty($email) || empty($phonenumber) || empty($username) || empty($pwd) || empty($pwdRepeat) || empty($primaryschool) || empty($favouritefood)) {
         $result = true;
     } else {
@@ -14,11 +14,25 @@ function emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username
 //checks username input this function does not allow any username that contains characters not listed within the square brackets
 function invalidUid($username)
 {
-    $result = false;
-    if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
+    $result = true;
+    if (!preg_match("/^[a-zA-Z0-9._]*$/", $username)) {
         $result = true;
     } else {
         $result = false;
+    }
+    return $result;
+}
+//checks username input this function does not allow any username that contains characters not listed within the square brackets
+function badInput($array)
+{
+    $result = true;
+    foreach ($array as $key => $val) {
+
+        if (!preg_match("/^pwd|^email/", $key) && !preg_match("/^[a-zA-Z0-9\s]*$/", $val)) {
+            return $key;
+        } else {
+            $result = false;
+        }
     }
     return $result;
 }
@@ -26,18 +40,23 @@ function invalidUid($username)
 //checks if an email exists
 function invalidEmail($email)
 {
-    $result = false;
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $result = true;
+
+    if (!filter_var($email, FILTER_SANITIZE_EMAIL)) {
         $result = true;
     } else {
-        $result = false;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $result = true;
+        } else {
+            $result = false;
+        }
     }
     return $result;
 }
 //checks if passwords match also used for otp verification
 function pwdMatch($pwd, $pwdRepeat)
 {
-    $result = false;
+    $result = true;
     if ($pwd !== $pwdRepeat) {
         $result = true;
         echo "true" . $result;
@@ -108,9 +127,11 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     $randomsecret = generateRandomString();
     //var username =sessionStorage.getItem("username")
     // print(username);
+    $t = time();
 
     date_default_timezone_set('Asia/Singapore');
-    $date = date('Y-m-d H:i:s a', time() . " " . date('H:i:s'));
+    $date = date('Y-m-d H:i:s', time()); //. " " . date('H:i:s')
+    echo "<br><br>" . $date;
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
 
 
@@ -123,7 +144,16 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     $array['loginstate'] = "Z";
 
 
-    jwtencrypt($array);
+    // for debugging, ignore 
+    //echo "<p>";
+    // var_dump($array);
+    // echo "<br><br><br>";
+    // echo gettype($array);
+    // echo "</p>";
+
+
+    $encrypted = jwtencrypt($array);
+    setCookieSameSite('jwt', $encrypted, 0); //0 means cookie dies when closed
 
 
     header("location: https://www.swapamc.com/swapproj/googleauthentication");
@@ -146,7 +176,7 @@ function generateRandomString($length = 16)
 //checks for empty input boxes
 function emptyInputLogin($username, $pwd)
 {
-    $result = false;
+    $result = true;
     if (empty($username) || empty($pwd)) {
         $result = true;
     } else {
@@ -158,7 +188,7 @@ function emptyInputLogin($username, $pwd)
 //checks for email otp
 function verification2fa($email)
 {
-    $result = false;
+    $result = true;
     if (empty($username) || empty($pwd)) {
         $result = true;
     } else {
@@ -234,10 +264,23 @@ function loginUser($conn, $username, $pwd, $remember)
 function jwtencrypt($array)
 {
     $objpages = new Pages();
+
+
+    //renders any scripts into html form of special char e.g., & = &amp
+    foreach ($array as $key => $val) {
+        if (gettype($key) == "string") {
+            $key = htmlspecialchars($key, ENT_QUOTES);
+        }
+        //only checks if of string type (integers will not run through htmlspecialchars)
+        if (gettype($val) == "string") {
+            $val = htmlspecialchars($val, ENT_QUOTES);
+        }
+    }
     $encrypted = $objpages->auth($array);
 
     if ($encrypted) {
         $encrypted = $encrypted['token'];
+        echo "object has been uploaded Kek";
     }
 
 
@@ -282,11 +325,19 @@ function jwtupdate($newarray)
             $array = $cookie['array'];
 
             foreach ($newarray as $key => $val) { // converts old value to new value
+                //renders any scripts into html form of special char e.g., & = &amp
+                if (gettype($key) == "string") {
+                    $key = htmlspecialchars($key, ENT_QUOTES);
+                }
+                //only checks if of string type (integers will not run through htmlspecialchars)
+                if (gettype($val) == "string") {
+                    $val = htmlspecialchars($val, ENT_QUOTES);
+                }
                 $array[$key] = $val;
             }
 
             foreach ($array as $key => $val) { // if new array does not contain item from old array(deleted) then remove it from old array
-                if (!array_key_exists($key,$newarray)) {
+                if (!array_key_exists($key, $newarray)) {
                     unset($array[$key]);
                 }
             }
@@ -311,7 +362,7 @@ function jwtupdate($newarray)
 //checks for empty input boxes
 function failedCaptcha($captcha)
 {
-    $result = false;
+    $result = true;
     if (!isset($captcha) || empty($captcha)) {
         //runs if captcha is empty
 

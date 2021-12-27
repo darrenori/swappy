@@ -47,14 +47,36 @@ if ($verifyTime == 0) {
 
     print_r($postinformation);
 
-
+    try {
     $query = $conn->prepare("INSERT INTO mydb.employees_task (working_id,task_name,task_details,task_progress,
         task_assignedby,task_dateassigned,task_datetofinish) VALUES ($employeeid,'$taskname','$taskdetails',0,'$assignedby','$now','$selectedDate');");
+                if ($query === false) {
+                    //change filename accordingly
+                    throw new Exception("Statement Preparation failed(addtaskss.inc)");
+                }
+            } catch (Exception $e) {
+                echo 'Message: ' . $e->getMessage();
+                //change header location accordingly
+                header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=".$employeeid."&error=badstatement");
+                exit;
+            }
+            // throws error "Statment Execution failed" when statement fails
+            try {
+                $execute = $query->execute();
+                if ($execute === false) {
+                    throw new Exception("Statement Execution failed (addtasks.inc)");
+                }
+            } catch (Exception $e) {
+                echo 'Message: ' . $e->getMessage();
+                header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=".$employeeid."&error=badstatement"); //    echo mysqli_error($query);
+            
+                exit;
+            }
+    
 
-    if ($query->execute()) {
-        echo "done";
-    }
 
 
-    header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$employeeid");
+
+    header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=".$employeeid);
+    exit;
 }

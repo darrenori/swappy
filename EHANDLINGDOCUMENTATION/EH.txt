@@ -1,0 +1,8 @@
+## hiding errors from people
+
+To do this you can edit 3 settings within your php.ini
+​
+
+display_errors if set to false it will suppress errors;
+log_errors store errors into a log file;
+error_reporting configures which type of errors trigger a report;

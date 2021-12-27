@@ -13,8 +13,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
 //session started
 $jwtarray = jwtdecrypt();
-echo gettype($jwtarray);
-echo $jwtarray ? 'true' : 'false';
 
 if (isset($jwtarray) && $jwtarray == true) {
     ## use $jwtinformation["key"] to retrieve the values 
@@ -65,15 +63,16 @@ if (isset($jwtarray) && $jwtarray == true) {
     <?php #are you sure you want to use get..?
 
     if (isset($_GET["error"])) {
-        if ($_GET["error"] == "emptyinput") {
+        $error=htmlspecialchars($_GET["error"]);
+        if ($error == "emptyinput") {
             echo "<p>Fill in all fields!</p>";
-        } else if ($_GET["error"] == "wronglogin") {
+        } else if ($error == "wronglogin") {
             echo "<p>Incorrect login information!</p>";
-        } else if ($_GET["error"] == "emptycaptcha") {
+        } else if ($error == "emptycaptcha") {
             echo "<p>reCAPTHCA verification empty, please click the captcha.</p>";
-        } else if ($_GET["error"] == "badcaptcha") {
+        } else if ($error == "badcaptcha") {
             echo "<p>reCAPTHCA verification failed, please try again.</p>";
-        } else if ($_GET["error"] == "goodcaptcha") {
+        } else if ($error == "goodcaptcha") {
             echo "<p>reCAPTHCA verification failed, please try again.</p>";
         }
     }

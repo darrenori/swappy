@@ -16,7 +16,7 @@ if (isset($jwtarray) && $jwtarray == true) {
         $vc = new VerificationCode($jwtarrayinformation['useremail']);
         $vc->sendMail();
         echo "resending OTP";
-        header("location: ../swapproj/emailverification?resend=resend");
+        header("location: https://www.swapamc.com/swapproj/emailverification?resend=resend");
         exit();
     }
 
@@ -25,6 +25,9 @@ if (isset($jwtarray) && $jwtarray == true) {
         // gets the username password and captcha input
         $userinput = (int)$_POST["emailotp"];
         $useremailotp = $jwtarrayinformation["emailotp"];
+        if (gettype($useremailotp) !=="integer") {
+            $useremailotp =(int)$useremailotp;
+        }
 
         require_once 'functions.inc.php';
         #####the verification2fa.php file is only required if we plan to implement resending of email and code. 
@@ -41,37 +44,36 @@ if (isset($jwtarray) && $jwtarray == true) {
         if ($failedverification !== false) {
             echo "badotp";
             jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
-            header("location: ../swapproj/emailverification?error=badotp");
+            header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
             exit();
         } else {
             echo "goodotp";
             $jwtarrayinformation['loginstate'] = "B";
             //removes 'emailotp' from the array
             unset($jwtarrayinformation["emailotp"]);
-            echo ("this is jwtarrayinfo");
-            echo "<p><br><br>";
-            var_dump($jwtarrayinformation);
-            echo "</p><br><br>";
+            // echo ("this is jwtarrayinfo");
+            // echo "<p><br><br>";
+            // var_dump($jwtarrayinformation);
+            // echo "</p><br><br>";
 
             jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
 
-            $jwtarray = jwtdecrypt();
-            echo "<p>";
-            var_dump($jwtarray);
-            echo "</p>";
+            // $jwtarray = jwtdecrypt();
+            // echo "<p>";
+            // var_dump($jwtarray);
+            // echo "</p>";
     
-            exit;
-            header("location: ../swapproj/googleauthentication");
+            header("location: https://www.swapamc.com/swapproj/googleauthentication");
             exit();
         }
     } elseif ($jwtarrayinformation['loginstate'] === "B") {
-        header("location: ../swapproj/googleauthentication");
+        header("location: https://www.swapamc.com/swapproj/googleauthentication");
         exit();
     } elseif ($jwtarrayinformation['loginstate'] === "OK" and isset($jwtarrayinformation['username'])) {
-        header("location: ../swapproj/campus");
+        header("location: https://www.swapamc.com/swapproj/campus");
         exit();
     } else {
-        header("location: ../swapproj/login");
+        header("location: https://www.swapamc.com/swapproj/login");
         exit();
     }
 } else {

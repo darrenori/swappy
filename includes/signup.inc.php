@@ -12,29 +12,34 @@ if (isset($_POST["submit"])) {
     $favouritefood = $_POST["favouritefood"];
 
 
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-
+    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
     if (emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood) !== false) {
-        header("location: ../swapproj/signup?error=emptyinput");
+        header("location: https://www.swapamc.com/swapproj/signup?error=emptyinput");
+        exit();
+    } 
+    $inkey =badInput($_POST);
+    if ($inkey!==false) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=".$inkey);
         exit();
     }
     if (invalidUid($username) !== false) {
-        header("location: ../swapproj/signup?error=invaliduid");
+        header("location: https://www.swapamc.com/swapproj/signup?error=invaliduid");
         exit();
     }
     if (invalidEmail($email) !== false) {
-        header("location: ../swapproj/signup?error=invalidemail");
+        header("location: https://www.swapamc.com/swapproj/signup?error=invalidemail");
         exit();
     }
     if (pwdMatch($pwd, $pwdRepeat) !== false) {
-        header("location: ../swapproj/signup?error=passwordsdontmatch");
+        header("location: https://www.swapamc.com/swapproj/signup?error=passwordsdontmatch");
         exit();
     }
     if (uidExists($conn, $username, $email) !== false) {
-        header("location: ../swapproj/signup?error=usernametaken");
+        header("location: https://www.swapamc.com/swapproj/signup?error=usernametaken");
         exit();
     }
 
@@ -42,6 +47,6 @@ if (isset($_POST["submit"])) {
 
 }
 else{
-    header("location: ../swapproj/signup");
+    header("location: https://www.swapamc.com/swapproj/signup");
     exit();
 }

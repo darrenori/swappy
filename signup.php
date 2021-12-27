@@ -17,7 +17,7 @@ class Signup {
         <br><label for="uid">Username:</label><br>
         <input type="text" id="uid" name="uid" placeholder="Username...">
         <br><label for="phonenumber">Phone Number:</label><br>
-        <input type="number" id="phonenumber" name="phonenumber" placeholder="Phone...">
+        <input type="text" id="phonenumber" name="phonenumber" placeholder="Phone...">
         <br><label for="email">Email Address:</label><br>
         <input type="email" id="email" name="email" placeholder="Email...">
         <br><label for="pwd">Password:</label><br>
@@ -33,27 +33,32 @@ class Signup {
 
 <?php
 if (isset($_GET["error"])) {
-    if ($_GET["error"] == "emptyinput"){
+    $error=htmlspecialchars($_GET["error"]);
+
+    if ($error == "emptyinput"){
         echo "<p>Fill in all fields!</p>";
     }
-    else if ($_GET["error"] == "invaliduid"){
+    else if ($error == "invaliduid"){
         echo "<p>Choose a proper username!</p>";
     }
-    else if ($_GET["error"] == "invalidemail"){
+    else if ($error == "invalidemail"){
         echo "<p>Choose a proper email!</p>";
     }
-    else if ($_GET["error"] == "passwordsdontmatch"){
+    else if ($error == "passwordsdontmatch"){
         echo "<p>Password dont match!</p>";
     }
-    else if ($_GET["error"] == "stmtfailed"){
+    else if ($error == "stmtfailed"){
         echo "<p>Something went wrong, try again!</p>";
     }
-    else if ($_GET["error"] == "usernametaken"){
-        echo "<p>Username already taken!</p>";
+    else if ($error == "usernametaken"){
+        echo "<p>Username or Email already taken!</p>";
     }
-    else if ($_GET["error"] == "none"){
+    else if ($error == "badinput"){
+        echo "<p>Please enter valid characters</p>";
+    }
+    else if ($error == "none"){
         echo "<p>You have signed up!</p>";
-        header("location: ../swapproj/googleauth/");
+        header("location: https://www.swapamc.com/swapproj/googleauth/");
     }
 }
 

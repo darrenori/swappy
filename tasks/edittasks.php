@@ -1,5 +1,5 @@
 <?php 
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';
@@ -8,7 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php'
 if(isset($_GET['task'])){
     
 
-    if(badInput([$_GET['task']])==0){
+    if(badTaskInput([$_GET['task']])===false){
         $taskid = $_GET['task'];
         $jwtarrayinformation['task'] = $_GET['task'];
         jwtupdate($jwtarrayinformation);
@@ -19,8 +19,31 @@ if(isset($_GET['task'])){
 
 
 
-
+try {
 $query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(edittasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement");
+            exit;
+        }
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed (edittasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement"); //    echo mysqli_error($query);
+        
+            exit;
+        }
+
 
 if($query->execute()){
     $query->bind_result($employeeid,$name,$details,$progress,$assignedby);
