@@ -8,6 +8,29 @@ jwtupdate($jwtarrayinformation);
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
+if (!isset($_GET)) {
+    header("location: https://www.swapamc.com/swapproj/taskmanager?error=nouserselected");
+    exit;
+}
+    //renders any scripts into html form of special char e.g., & = &amp
+    foreach ($_GET as $key => $val) {
+        if (gettype($key) == "string" && $key !== "0") {
+            $goodkey = htmlentities($key);
+            $_GET[$goodkey] = $_GET[$key];
+            unset($_GET[$key]);
+        }
+        //only checks if of string type (integers will not run through htmlspecialchars)
+        if (gettype($val) == "string") {
+            $goodval = htmlentities($val);
+            $_GET[$goodkey] = $goodval;
+        }
+        if (empty($val)) {
+            $_GET[$goodkey] = "0";
+        }
+    }
+
+    // $getuser = htmlentities($_GET["user"]);
+    // $employeeid = $getuser;
 
 //calls function from employeefunctions.inc.php
 checkIfEmployeeIdExists($conn);

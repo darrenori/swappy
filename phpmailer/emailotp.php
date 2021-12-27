@@ -70,7 +70,7 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 <?php
     if (isset($_GET["error"])) {
-        $error=htmlspecialchars($_GET["error"]);
+        $error=htmlentities($_GET["error"]);
 
         if ($error == "badotp") {
             echo "<p>Badotp</p>";

@@ -6,6 +6,29 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 $userusername = $jwtarrayinformation['userusername'];
 
+if (isset($_GET)) {
+    # code...
+}
+    //renders any scripts into html form of special char e.g., & = &amp
+    foreach ($_GET as $key => $val) {
+        if (gettype($key) == "string" && $key !== "0") {
+            $goodkey = htmlentities($key);
+            $_GET[$goodkey] = $_GET[$key];
+            unset($_GET[$key]);
+        }
+        //only checks if of string type (integers will not run through htmlspecialchars)
+        if (gettype($val) == "string") {
+            $goodval = htmlentities($val);
+            $_GET[$goodkey] = $goodval;
+        }
+        if (empty($val)) {
+            $_GET[$goodkey] = "0";
+        }
+    }
+
+    // $getuser = htmlentities($_GET["user"]);
+    // $employeeid = $getuser;
+
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
 if ($role == 6 || $role == 5 || $role == 3) {

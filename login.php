@@ -63,7 +63,7 @@ if (isset($jwtarray) && $jwtarray == true) {
     <?php #are you sure you want to use get..?
 
     if (isset($_GET["error"])) {
-        $error=htmlspecialchars($_GET["error"]);
+        $error=htmlentities($_GET["error"]);
         if ($error == "emptyinput") {
             echo "<p>Fill in all fields!</p>";
         } else if ($error == "wronglogin") {

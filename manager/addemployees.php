@@ -22,7 +22,7 @@ echo "<input type=submit>";
 echo "</form>";
 
 if (isset($_GET['error'])) {
-    $error=htmlspecialchars($_GET["error"]);
+    $error=htmlentities($_GET["error"]);
 
     if ($error == 'haventcreated') {
         echo "Make sure employee creates an account first!";

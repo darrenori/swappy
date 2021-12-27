@@ -7,8 +7,25 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 
 if (isset($_GET['user'])) {
-    $getuser = htmlspecialchars($_GET["user"]);
-    $employeeid = $getuser;
+        //renders any scripts into html form of special char e.g., & = &amp
+        foreach ($_GET as $key => $val) {
+            if (gettype($key) == "string" && $key !== "0") {
+                $goodkey = htmlentities($key);
+                $_GET[$goodkey] = $_GET[$key];
+                unset($_GET[$key]);
+            }
+            //only checks if of string type (integers will not run through htmlspecialchars)
+            if (gettype($val) == "string") {
+                $goodval = htmlentities($val);
+                $_GET[$goodkey] = $goodval;
+            }
+            if (empty($val)) {
+                $_GET[$goodkey] = "0";
+            }
+        }
+    
+        // $getuser = htmlentities($_GET["user"]);
+        // $employeeid = $getuser;
 }
 
 if (badEmployeeInput([$employeeid]) !== false) {

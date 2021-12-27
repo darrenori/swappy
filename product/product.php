@@ -12,17 +12,26 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 checkIfIdExists($conn);
 
-foreach ($_GET as $key => $val) { // converts old value to new value
     //renders any scripts into html form of special char e.g., & = &amp
-    if (gettype($key) == "string") {
-        $key = htmlspecialchars($key, ENT_QUOTES);
+    foreach ($_GET as $key => $val) {
+        if (gettype($key) == "string" && $key !== "0") {
+            $goodkey = htmlentities($key);
+            $_GET[$goodkey] = $_GET[$key];
+            unset($_GET[$key]);
+        }
+        //only checks if of string type (integers will not run through htmlspecialchars)
+        if (gettype($val) == "string") {
+            $goodval = htmlentities($val);
+            $_GET[$goodkey] = $goodval;
+        }
+        if (empty($val)) {
+            $_GET[$goodkey] = "0";
+        }
     }
-    //only checks if of string type (integers will not run through htmlspecialchars)
-    if (gettype($val) == "string") {
-        $val = htmlspecialchars($val, ENT_QUOTES);
-    }
-}
 
+    // $getuser = htmlentities($_GET["user"]);
+    // $employeeid = $getuser;
+    
 //if checkIfIdExists has run, the following line of code will be safe
 $id = $_GET["id"];
 //set the id into jwt storage for error handling
