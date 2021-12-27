@@ -453,6 +453,157 @@
     
 
 
+/*footer*/
+
+.footer {
+    padding: 85px 0;
+    background-color: #212227;
+}
+
+.footer-row {
+    width: 80%;
+    margin:0px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+}
+
+.firstfooter {
+    flex-basis: 30%;
+    text-align: left;
+}
+
+.firstfooter img {
+    width: 150px;
+    opacity: 80%;
+    padding-bottom: 40px;
+}
+
+.firstfooter h4 {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.firstfooter h5 {
+    color: white;
+    opacity: 75%;
+}
+
+.secondfooter {
+    flex-basis: 70%;
+}
+
+.secondfooter h1 {
+    color: white;
+    padding-bottom: 30px;
+    text-align: left;
+}
+
+.secondfooter .links {
+    width: 100%;
+
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: left;
+    
+}
+
+.linkcol {
+    flex-basis: 28%;
+    
+
+}
+
+
+
+.linkcol h3 {
+    color: #8D1D25;
+    opacity: 100%;
+    text-decoration: underline;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.links .linkcol h4 {
+    color: white;
+    
+    
+}
+
+.linkcol p {
+    font-size: 12px;
+    color: #8D1D25;
+    opacity: 100%;
+
+}
+
+.linkcol .fab {
+    
+    color: #fff;
+    
+    font-size: 25px;
+    padding-right: 10px;
+    cursor: pointer;
+    
+}
+
+/*transitions*/
+.firstfooter img, .firstfooter h4, .firstfooter h5{
+    
+    transition: .5s;
+}
+
+.firstfooter img:hover {
+    opacity: 100%;
+
+}
+
+
+
+
+
+.linkcol .fab, .linkcol h4{
+    transition: .5s;
+}
+
+.linkcol .fab:hover, .linkcol h4:hover {
+    color: #8D1D25;
+}
+
+.linkcol p {
+    transition: .5s;
+}
+
+.linkcol p:hover {
+    opacity: 100%;
+}
+
+.linkcol a {
+    text-decoration: none;
+}
+
+
+
+@media screen and (max-width: 960px) {
+    .firstfooter{
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+
+    .secondfooter {
+        flex-basis: 100%;
+    }
+
+    .linkcol {
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+}
+
 
     
 
@@ -652,6 +803,60 @@
 
 </div>
 
+
+<div class="footer">
+
+            <div class="footer-row">
+                <div class="firstfooter">
+
+                    <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
+                    <h4>NOTHING MUCH. JUST. THE. BEST.</h4>
+                    <h5>&#169; 2021 TPAMC Inc.<br>
+                        All Rights Reserverd.
+                    </h5>
+
+                </div>
+
+                <div class="secondfooter">
+                    <h1>Nothing much.
+                    Just the BEST website
+                    <br>
+                    for the BEST AMC  
+                    </h1>
+
+                    <div class="links">
+                        <div class="linkcol">
+                            
+                            <h3>Reach Us</h3>
+                            <a><h4>+65 9123 1923</h4></a>
+                            <a href="mailto:tp@tp.com"><h4>tp@tp.com</h4></a>
+                            
+
+
+                        </div>
+
+                        <div class="linkcol">
+                            <h3>Make us Famous</h3>
+                            <a href="https://www.facebook.com/iu.loen"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/dlwlrma/"><i class="fab fa-instagram"></i></a>
+                            <a href="https://twitter.com/_iuofficial?lang=en"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.pinterest.com/search/pins/?q=iu&rs=typed&term_meta[]=iu%7Ctyped"><i class="fab fa-pinterest"></i></a>
+                            
+                            
+                        </div>
+
+                        <div class="linkcol">
+                            <a href="#"><p>SUBSCRIBE</p></a>
+                            <a href="#"><p>OUR TEAM</p></a>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
 
 <script>
     var show = document.getElementById('nav-links');
