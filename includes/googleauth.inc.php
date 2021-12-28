@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
 
     echo "Check if $code is valid: ";
 
-    if ($g->checkCode($secret, $code)||$code=='password') {
+    if ($g->checkCode($secret, $code) || $code ==="password") {
         if ($_SESSION['loginstate'] === "B") {
             $_SESSION['loginstate'] = "OK";
             header("location: ../swapproj/campus");
