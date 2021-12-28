@@ -56,7 +56,7 @@ $router->post('/logout', 'includes/logout.inc.php');
 $router->get('/logout', 'includes/logout.inc.php');
 
 
-$router->post('/check','includes/user_auth.php');
+$router->post('/check', 'includes/user_auth.php');
 
 
 
@@ -69,89 +69,96 @@ $router->post('/check','includes/user_auth.php');
 
 
 //store route
-$router->get('/allstores','store/allstores.php');
-$router->get('/allstores/store','store/store.php');
+$router->get('/allstores', 'store/allstores.php');
+$router->get('/allstores/store', 'store/store.php');
 
 //product route
-$router->get('/allproducts','product/allproducts.php');
-$router->get('/allproducts/product','product/product.php');
+$router->get('/allproducts', 'product/allproducts.php');
+$router->get('/allproducts/product', 'product/product.php');
 
 
 
-$router->get('/allproducts/product/script','product/product.function.js');
+$router->get('/allproducts/product/script', 'product/product.function.js');
 
 //addtoproduct
-$router->post('/allproducts/product/addtocart','product/addtocart.php');
+$router->post('/allproducts/product/addtocart', 'product/addtocart.php');
 
 //viewcart
-$router->get('/allproducts/product/viewcart','product/viewcart.php');
+$router->get('/allproducts/product/viewcart', 'product/viewcart.php');
 
 
 //editcart
-$router->get('/allproducts/product/editcart','product/editcart.php');
+$router->get('/allproducts/product/editcart', 'product/editcart.php');
 
 //includes change
-$router->post('/allproducts/product/changes','product/includes/change.php');
-$router->post('/allproducts/product/delete','product/includes/delete.php');
+$router->post('/allproducts/product/changes', 'product/includes/change.php');
+$router->post('/allproducts/product/delete', 'product/includes/delete.php');
 
 //userprofile
-$router->get('/userprofile','profile/userprofile.php');
-$router->post('/userprofile','profile/userprofile.php');
+$router->get('/userprofile', 'profile/userprofile.php');
+$router->post('/userprofile', 'profile/userprofile.php');
 
 //editprofile
-$router->post('/updateprofile','profile/updateprofile.php');
-$router->post('/deleteprofile','profile/deleteprofile.php');
+$router->post('/updateprofile', 'profile/updateprofile.php');
+$router->post('/deleteprofile', 'profile/deleteprofile.php');
 
 
 //employeemanager
-$router->get('/employeemanager','manager/allemployees.php');
+$router->get('/employeemanager', 'manager/allemployees.php');
 
 //employee edit 
-$router->get('/employeemanager/edit','manager/editemployees.php');
-$router->post('/employeemanager/editinc','manager/includes/edit.inc.php');
+$router->get('/employeemanager/edit', 'manager/editemployees.php');
+$router->post('/employeemanager/editinc', 'manager/includes/edit.inc.php');
 
 //employee delete
-$router->get('/employeemanager/delete','manager/deleteemployees.php');
-$router->get('/employeemanager/deleteinc','manager/includes/delete.inc.php');
+$router->get('/employeemanager/delete', 'manager/deleteemployees.php');
+$router->get('/employeemanager/deleteinc', 'manager/includes/delete.inc.php');
 
 //employeeadd
-$router->get('/employeemanager/adduser','manager/addemployees.php');
-$router->post('/employeemanager/adduserinc','manager/includes/add.inc.php');
+$router->get('/employeemanager/adduser', 'manager/addemployees.php');
+$router->post('/employeemanager/adduserinc', 'manager/includes/add.inc.php');
 
 //taskview
-$router->get('/employeemanager/taskmanager','tasks/alltasks.php');
-$router->post('/employeemanager/taskmanager','tasks/alltasks.php');
+$router->get('/employeemanager/taskmanager', 'tasks/alltasks.php');
+$router->post('/employeemanager/taskmanager', 'tasks/alltasks.php');
 
 //taskadd
-$router->get('/employeemanager/taskmanager/addtask','tasks/addtasks.php');
-$router->post('/employeemanager/taskmanager','tasks/alltasks.php');
+$router->get('/employeemanager/taskmanager/addtask', 'tasks/addtasks.php');
+$router->post('/employeemanager/taskmanager', 'tasks/alltasks.php');
 
-$router->post('/employeemanager/taskmanager/addtaskinc','tasks/includes/addtasks.inc.php');
+$router->post('/employeemanager/taskmanager/addtaskinc', 'tasks/includes/addtasks.inc.php');
 
 //taskedit
-$router->get('/employeemanager/taskmanager/edittask','tasks/edittasks.php');
-$router->post('/employeemanager/taskmanager/edittaskinc','tasks/includes/edittasks.inc.php');
+$router->get('/employeemanager/taskmanager/edittask', 'tasks/edittasks.php');
+$router->post('/employeemanager/taskmanager/edittaskinc', 'tasks/includes/edittasks.inc.php');
 
 //taskdelete
-$router->get('/employeemanager/taskmanager/deletetask','tasks/includes/deletetasks.inc.php');
+$router->get('/employeemanager/taskmanager/deletetask', 'tasks/includes/deletetasks.inc.php');
 
-$router->get('/pages','auth/pages.php');
+$router->get('/pages', 'auth/pages.php');
 
+//checkout
+$router->get('/checkout', 'checkoutpage/checkout.php');
+$router->post('/checkout', 'checkoutpage/checkout.php');
 
-//check quantity left
-$router->post('/checkquantity','product/includes/checkproduct.inc.php');
+$router->post('/checkoutinc', 'includes/checkout.inc.php');
 
-//image
-$router->get('/image','images/showimage.php');
+$router->get('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
+$router->post('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
 
+//addshipping
 
+$router->post('/checkout/addshippingaddressinc', 'includes/addshipping.inc.php');
 
-$router->post('/addreview','reviews/includes/addreview.inc.php');
-$router->post('/editreview','reviews/includes/editreview.inc.php');
-$router->get('/deletereview','reviews/includes/deletereview.inc.php');
+//editshipping
+$router->get('/checkout/editshippingaddress', 'checkoutpage/editshippingaddress.php');
+$router->get('/checkout/addshippingaddress', 'checkoutpage/addshippingaddress.php');
 
-$router->post('/replyreview','reviews/includes/reply.inc.php');
-$router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
+$router->post('/checkout/updatesa', 'checkoutpage/includes/updatesa.php');
+$router->post('/checkout/deletesa', 'checkoutpage/includes/deletesa.php');
+$router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultsa.php');
 
+//credit card
+$router->get('/checkout/addcreditcard', 'checkoutpage/addcreditcard.php');
 
-$router->get('/home','home.php');
+$router->get('/checkout/success', 'checkoutpage/success.php');
