@@ -137,3 +137,21 @@ $router->get('/employeemanager/taskmanager/deletetask','tasks/includes/deletetas
 
 $router->get('/pages','auth/pages.php');
 
+//check quantity left
+$router->post('/checkquantity','product/includes/checkproduct.inc.php');
+
+//image
+$router->get('/image','images/showimage.php');
+
+
+
+$router->post('/addreview','reviews/includes/addreview.inc.php');
+$router->post('/editreview','reviews/includes/editreview.inc.php');
+$router->get('/deletereview','reviews/includes/deletereview.inc.php');
+
+$router->post('/replyreview','reviews/includes/reply.inc.php');
+$router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
+
+
+$router->get('/home','home.php');
+

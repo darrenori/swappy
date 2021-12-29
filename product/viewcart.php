@@ -93,6 +93,8 @@ for ($i = 0; $i < sizeof($cartidrows); $i++) {
         exit;
     }
 
+    echo "TOTAL (BEFORE GST): " . $totalprice;
+
 
 
         $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);

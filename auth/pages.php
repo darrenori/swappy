@@ -13,7 +13,7 @@ class Pages {
 
     public function auth($array){
         $iat = time();
-        $exp = $iat + 60 * 60; //when it expires
+        $exp = $iat + 60 * 10000000000000; //when it expires
         $payload = array(
             'iss' => 'http://www.swapamc.com/swapproj', //issuer
             'audience' => 'http://www.swapamc.com/', //audience
@@ -62,10 +62,5 @@ class Pages {
         } catch (\Exception $e){
             return false;
         }
-
-        // foreach ($headers as $header => $value) {
-        //     echo "$header: $value <br />\n";
-        // }
-        
     }
 }

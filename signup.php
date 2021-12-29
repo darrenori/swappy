@@ -19,10 +19,10 @@ class Signup {
         <br><label for="phonenumber">Phone Number:</label><br>
         <input type="text" id="phonenumber" name="phonenumber" placeholder="Phone...">
         <br><label for="email">Email Address:</label><br>
-        <input type="email" id="email" name="email" placeholder="Email...">
+        <input type="text" id="email" name="email" placeholder="Email...">
         <br><label for="pwd">Password:</label><br>
         <input type="password" id="pwd" name="pwd" placeholder="Password...">
-        <br><label for="pwdrepeat">Repeat Password:</label><br>
+        <br><label for="email">Repeat Password:</label><br>
         <input type="password" id="pwdrepeat" name="pwdrepeat" placeholder="Repeat Password...">
         <br><label for="primaryschool">Primary School:</label><br>
         <input type="text" id="primaryschool" name="primaryschool" placeholder="Primary school...">

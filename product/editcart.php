@@ -99,7 +99,7 @@ if (isset($selectedchoices)) {
 
     echo "<form method='POST'>";
     for ($i = 0; $i < $numberofTypes; $i++) {
-        $info[$i] = getVariantsFromTypesUsingName($alltypes[$i], $productname[$order], $conn);
+        $info[$i] = getVariantsFromTypesUsingName($alltypes[$i], $productname, $conn);
 
         // print_r($info[$i]);
 
@@ -135,6 +135,8 @@ if (isset($selectedchoices)) {
 
         echo "<br>";
     };
+
+    echo "<p id='left'></p>";
 
 
     echo "<p>Quantity: </p>";
@@ -212,8 +214,6 @@ if (isset($selectedchoices)) {
 
 
 
-
-
 ?>
 
 
@@ -254,6 +254,9 @@ if (isset($selectedchoices)) {
 
 <html>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
 <!-- <script src='https://www.swapamc.com/swapproj/allproducts/product/script'></script> -->
 <script type="text/javascript">
     function calculatePriceUserSide() {
@@ -290,6 +293,8 @@ if (isset($selectedchoices)) {
         var total = (quantity * priceforone).toFixed(2);
         document.getElementById("price").innerHTML = "$" + total;
 
+        calculateInventory();
+
     }
 
     // function checkOrUncheck(id){
@@ -299,6 +304,78 @@ if (isset($selectedchoices)) {
 
     //     }
     // }
+
+
+    function calculateInventory(){
+
+        var typesandvariants = {}; //use json style array as we want to push to ajax
+
+        typesandvariants['type'] = 'ajax';
+        typesandvariants['product_name'] = <?php echo json_encode($productname); ?>;
+
+        //cgeckbox are inputfield
+        var checkboxesarray = document.getElementsByClassName("checkbox");
+        for (let i = 0; i < checkboxesarray.length; i++) {
+        
+            if (checkboxesarray[i].checked){
+
+                typesandvariants[checkboxesarray[i].getAttribute("name")] = checkboxesarray[i].getAttribute("value");
+
+            
+            }
+        }
+
+
+
+
+        var jsonString = JSON.stringify(typesandvariants);
+
+
+
+
+
+        jQuery.ajax({
+            url:'https://www.swapamc.com/swapproj/checkquantity',
+            type:'post',
+            data: {info:jsonString},
+            
+
+            success:function(result){
+
+                console.log(result);
+
+
+
+                if(result!=null&&result!=''){
+
+                    // console.log(result);
+                    document.getElementById("left").innerHTML = "ONLY "+result+" REMAINING";
+                    
+                    document.getElementById("quantity").setAttribute("max",result);
+
+                    // if(document.getElementById("quantity").value>result){
+                    //     document.getElementById("quantity").value = result;
+                    //     document.getElementById("quantity").setAttribute("value",result);
+
+                    // }
+                    
+                }
+
+                
+                
+                
+            }
+
+        });
+
+
+
+
+
+    }
+
+    //initalise - if product has no types, run this
+    calculateInventory();
 </script>
 
 
