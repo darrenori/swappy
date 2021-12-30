@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Dec 20, 2021 at 11:19 AM
+-- Generation Time: Dec 26, 2021 at 05:14 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -38,15 +38,14 @@ CREATE TABLE IF NOT EXISTS `cart_typevariants` (
   `cart_id` int(11) NOT NULL,
   PRIMARY KEY (`cart_typevariants_id`),
   KEY `cart_typevariants_card_id_idx` (`cart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cart_typevariants`
 --
 
 INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type`, `cart_typevariants_variant`, `cart_additionalcosts`, `cart_id`) VALUES
-(158, 'Size', 'Large', '2.3', 89403909),
-(159, 'Color', 'Black', '0', 89403909);
+(160, 'Additional_Server_Rack', 'Yes', '1242.99', 52346371);
 
 -- --------------------------------------------------------
 
@@ -138,6 +137,38 @@ INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (4, 'bd8dd1cda82f264d6a392e161e290dfa', '21'),
 (3, 'c9ca592076cfdc0f97ea3132e770c1f6', '12'),
 (3, 'f40d7fba5e93532f0c84a3a874b47889', '42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `likedby`
+--
+
+DROP TABLE IF EXISTS `likedby`;
+CREATE TABLE IF NOT EXISTS `likedby` (
+  `likedby_id` int(11) NOT NULL AUTO_INCREMENT,
+  `review_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `liked` int(1) NOT NULL,
+  PRIMARY KEY (`likedby_id`),
+  KEY `liked_user_id_idx` (`user_id`),
+  KEY `liked_product_id_idx` (`product_id`),
+  KEY `liked_review_id` (`review_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `likedby`
+--
+
+INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `liked`) VALUES
+(7, 4, 2, 1, 1),
+(8, 14, 2, 1, 0),
+(9, 13, 2, 1, 0),
+(10, 6, 2, 1, 1),
+(11, 16, 2, 1, 1),
+(12, 18, 2, 1, 1),
+(13, 8, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -258,19 +289,34 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE IF NOT EXISTS `reviews` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
-  `review_store_id` int(11) NOT NULL,
+  `review_product_id` int(11) NOT NULL,
   `review_user_id` int(11) NOT NULL,
   `review_comment` varchar(45) DEFAULT NULL,
-  `review_rating` datetime DEFAULT NULL,
+  `review_rating` int(11) DEFAULT NULL,
   `review_pic` varchar(45) DEFAULT NULL,
   `review_total_likes` int(11) DEFAULT NULL,
   `review_total_dislikes` int(11) DEFAULT NULL,
   `review_date` varchar(45) DEFAULT NULL,
   `childof_id` int(11) DEFAULT NULL,
+  `edited` int(11) DEFAULT NULL,
   PRIMARY KEY (`review_id`),
-  KEY `review_store_id_idx` (`review_store_id`),
-  KEY `review_user_id_idx` (`review_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `review_user_id_idx` (`review_user_id`),
+  KEY `review_product_id_idx` (`review_product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `review_comment`, `review_rating`, `review_pic`, `review_total_likes`, `review_total_dislikes`, `review_date`, `childof_id`, `edited`) VALUES
+(3, 1, 2, 'Good', 3, 'uploads/IMG-61c20de67b4624.73151653.png', 0, 0, '2021-12-22 01:24:54', NULL, NULL),
+(4, 1, 2, 'my', 3, 'uploads/IMG-61c211abd00168.44052608.png', 1, 0, '2021-12-22 01:40:59', 3, NULL),
+(6, 1, 2, 'is', 3, 'uploads/IMG-61c211b721ac55.19516752.png', 1, 0, '2021-12-22 01:41:11', NULL, NULL),
+(8, 1, 2, 'ong', 3, 'uploads/IMG-61c211c01930d0.39734886.png', 1, 0, '2021-12-22 01:41:20', NULL, NULL),
+(13, 1, 2, 'hmm', 1, 'uploads/IMG-61c2f49ed95d26.40608661.png', 0, 1, '2021-12-22 17:49:18', NULL, NULL),
+(14, 1, 2, 'super idl', 1, 'uploads/IMG-61c348d7c06c29.03415812.png', 0, 1, '2021-12-22 23:48:39', NULL, NULL),
+(16, 1, 3, 'test a', 0, 'uploads/IMG-61c3528d1be1d4.62885062.jpg', 1, 0, '2021-12-23 00:18:45', NULL, 1),
+(18, 1, 2, 'ads', 0, '', 1, 0, '2021-12-24 00:19:39', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -427,14 +473,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   UNIQUE KEY `user_username_UNIQUE` (`user_username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`) VALUES
-(2, 'root', '$2y$10$v8EVclcnMvtkqracc5zIV.gg47gMKsM78KDBTLH1GH6v9Wyhjm4tW', 'root', 'root', 0, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', '');
+(2, 'root', '$2y$10$v8EVclcnMvtkqracc5zIV.gg47gMKsM78KDBTLH1GH6v9Wyhjm4tW', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', ''),
+(3, 'darrenori', '$2y$10$Mkw79cj2EmqaNhW/nQDN6OHu6QyZjKJ4mIcvxNNtw4f34NgiJwtHe', 'darren', 'darren', 0, 'darrenoria@gmail.com', '123', '2021-12-23 00:13:09', '1', '1', 'UXT2MBWYUAJTTM2D', '');
 
 -- --------------------------------------------------------
 
@@ -480,7 +527,7 @@ CREATE TABLE IF NOT EXISTS `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`) VALUES
-(89403909, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 3, 30.87);
+(52346371, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2);
 
 -- --------------------------------------------------------
 
@@ -629,6 +676,14 @@ ALTER TABLE `inventory`
   ADD CONSTRAINT `inventory_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `likedby`
+--
+ALTER TABLE `likedby`
+  ADD CONSTRAINT `liked_product_id1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `liked_review_id` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`review_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `liked_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `likes`
 --
 ALTER TABLE `likes`
@@ -651,7 +706,7 @@ ALTER TABLE `product_type`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `review_store_id` FOREIGN KEY (`review_store_id`) REFERENCES `store` (`store_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `review_product_id` FOREIGN KEY (`review_product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `review_user_id` FOREIGN KEY (`review_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
