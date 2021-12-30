@@ -112,7 +112,7 @@ $router->post('/employeemanager/editinc','manager/includes/edit.inc.php');
 
 //employee delete
 $router->get('/employeemanager/delete','manager/deleteemployees.php');
-$router->get('/employeemanager/deleteinc','manager/includes/delete.inc.php');
+$router->get('/employeemanager/deleteinc','manager/includes/deleteemployees.inc.php');
 
 //employeeadd
 $router->get('/employeemanager/adduser','manager/addemployees.php');

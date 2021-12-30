@@ -24,7 +24,8 @@ if (isset($_POST["submit"])) {
 
    
 
-    require_once 'dbh.inc.php';
+    require_once 'dbh.inc.php';echo "boo";exit;
+
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
     //imports the verification code class that will be used in login user functions.inc.php
@@ -80,7 +81,6 @@ if (isset($_POST["submit"])) {
             $remember = false;
         }
     }
-
 
 
     // if there are no errors, the user is logged in
