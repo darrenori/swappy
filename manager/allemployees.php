@@ -27,11 +27,13 @@
         header("location: https://www.swapamc.com/swapproj/login");
     }
 
-    $query =$conn->prepare("SELECT * FROM mydb.working_employees;");
+    $query =$conn->prepare("SELECT user_username,working_id,mydb.working_employees.user_id,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees
+    INNER JOIN mydb.users
+    ON mydb.working_employees.user_id = mydb.users.user_id;");
 
 
     if($query->execute()){
-        $query->bind_result($id,$username,$role,$number,$department,$perhourpay);
+        $query->bind_result($username,$workingid,$employeeid,$role,$number,$department,$perhourpay);
         echo "<table>";
         echo "<tr>";
         echo "<th>"."Username"."</th>";
@@ -54,21 +56,15 @@
             echo "<td>".$number."</td>";
             echo "<td>".$department."</td>";
             echo "<td> $".$perhourpay."</td>";
-            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$id'><input type=button name=edit value=edit></a><br>";
-            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$id'><input type=button name=delete value=delete></a><br>";
-            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$id'><input type=button name=delete value=tasks></a>"."</td>";
+            echo "<td>"."<a href='https://www.swapamc.com/swapproj/employeemanager/edit?user=$workingid'><input type=button name=edit value=edit></a><br>";
+            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/deleteinc?user=$workingid'><input type=button name=delete value=delete></a><br>";
+            echo "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=$workingid'><input type=button name=delete value=tasks></a>"."</td>";
 
 
 
             echo "</tr>";
 
             
-            
-
-
-
-
-
             
         }
     }

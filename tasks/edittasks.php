@@ -10,8 +10,7 @@ $jwtarray = jwtdecrypt();
         header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }
-it();
-}
+
 
 
     

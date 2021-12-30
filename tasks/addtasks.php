@@ -12,30 +12,32 @@
         header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }
-
-
-    // if (!isset($jwtarrayinformation['loginstate'])) {
-    //     header("location: https://www.swapamc.com/swapproj/login");
-    //     exit();
-    // } elseif ($jwtarrayinformation['loginstate'] === "A") {
-    //     header("location: https://www.swapamc.com/swapproj/emailverification");
-    //     exit();
-    // } elseif ($jwtarrayinformation['loginstate'] === "B") {
-    //     header("location: https://www.swapamc.com/swapproj/googleauthentication");
-    //     exit();
-    // } elseif (!$jwtarrayinformation['loginstate'] === "OK") {
-    //     header("location: https://www.swapamc.com/swapproj/logout");
-    //     exit();
-    // }
-    
     
     
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
-    $userusername = $jwtarrayinformation['userusername'];
+    // $userusername = $jwtarrayinformation['userusername'];
+    $employeeid = $jwtarrayinformation['employeeid'];
     
-    $userid = $_SESSION['userid'];
-    $role = $_SESSION['role'];
+
+    $query=$conn->prepare("SELECT user_username FROM mydb.working_employees
+    INNER JOIN mydb.users
+    ON mydb.working_employees.user_id = mydb.users.user_id 
+    WHERE working_id = '$employeeid';");
+
+
+    if($query->execute()){
+        $query->bind_result($employee_username);
+        if($query->fetch()){
+            $employee_username =  $employee_username;
+            
+            
+        }
+    }
+    
+    $userid = $jwtarrayinformation['userid'];
+    $username = $jwtarrayinformation['username'];
+    $role = $jwtarrayinformation['role'];
     if($role==6||$role==5||$role==3){
         
     } else {
@@ -59,11 +61,11 @@
     echo "<br><br>";
 
     echo "Assigned to:"."<br>";
-    echo $jwtarrayinformation['userusername']."<br>";
+    echo $employee_username."<br>";
 
 
     echo "Assigned by:"."<br>";
-    echo $jwtarrayinformation['username']."<br>";
+    echo $username."<br>";
     
     echo "<br><br>";
     echo "<input type='submit'>";

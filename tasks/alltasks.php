@@ -32,12 +32,12 @@ if(isset($_GET['user'])){
     if(badInput([$employeeid])==0){
         $arraytogivejwt['employeeid'] = $employeeid;
 
-        $query=$conn->prepare("SELECT user_username FROM mydb.users WHERE user_id = 1");
+        $query=$conn->prepare("SELECT user_username FROM mydb.users WHERE user_id = $employeeid");
 
         if($query->execute()){
             $query->bind_result($user_username);
             if($query->fetch()){
-                $arraytogivejwt['userusername'] = $user_username;
+                $user_username = $user_username;
                 jwtupdate($arraytogivejwt);
 
 
@@ -57,7 +57,7 @@ if(isset($_GET['user'])){
 
 
 
-
+print_r(apache_request_headers());
 
 
 

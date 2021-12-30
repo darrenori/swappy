@@ -46,6 +46,7 @@ if(isset($_POST['name'])&&isset($_POST['details'])&&isset($_POST['progress'])&&i
 
 $taskid = $jwtarrayinformation['task'];
 $employeeid = $jwtarrayinformation['employeeid'];
+print_r(apache_request_headers());
 
 date_default_timezone_set('Asia/Singapore');
 $now = time();
