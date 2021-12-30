@@ -26,6 +26,7 @@ $cartidrows = [];
 $productnamerows = [];
 $productpricerows = [];
 $arrayforemptytypes = [];
+$totalprice = 0;
 // throws error "Statment Execution failed" when statement fails
 try {
     $execute = $query->execute();
@@ -93,64 +94,68 @@ for ($i = 0; $i < sizeof($cartidrows); $i++) {
         exit;
     }
 
-    echo "TOTAL (BEFORE GST): " . $totalprice;
 
 
 
-        $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
+    $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
 
-        echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$i'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
+    echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$i'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
 
-        //if there are types
-
-
-        $counter = 0;
-
-        while ($checkEmpty = $query->fetch()) {
+    //if there are types
 
 
-            if (isset($type) && $counter != 1) {  //only execute header once
-                $counter = 1;
+    $counter = 0;
 
-                echo "<table>";
+    while ($checkEmpty = $query->fetch()) {
 
-                echo "<tr>";
-                echo "<th>type</th>";
-                echo "<th>variant</th>";
-                echo "<th>additionalcosts</th>";
-                echo "</tr>";
-            }
 
-            if (isset($type)) {
-                echo "<tr>";
-                echo "<th>$type</th>";
-                echo "<th>$variant</th>";
-                echo "<th>$additionalcosts</th>";
-                echo "</tr>";
-            }
+        if (isset($type) && $counter != 1) {  //only execute header once
+            $counter = 1;
+
+            echo "<table>";
+
+            echo "<tr>";
+            echo "<th>type</th>";
+            echo "<th>variant</th>";
+            echo "<th>additionalcosts</th>";
+            echo "</tr>";
         }
 
-
-
-        if (isset($type)) {  //if there are types within
-            echo "</table>";
-
-
-            echo "QUANTITY: " . $quantity . "<br>";
-            echo "PRICE: " . $price . "<br>";
-            echo "<br>";
-        } else {
-            echo "</table>";
-
-
-
-            echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
-            echo "PRICE: " . $arrayforemptytypes[$i][1] . "<br>";
-            echo "<br>";
+        if (isset($type)) {
+            echo "<tr>";
+            echo "<th>$type</th>";
+            echo "<th>$variant</th>";
+            echo "<th>$additionalcosts</th>";
+            echo "</tr>";
         }
+    }
 
 
-        $query->close();
+
+    if (isset($type)) {  //if there are types within
+        echo "</table>";
+
+
+        echo "QUANTITY: " . $quantity . "<br>";
+        echo "PRICE: " . $price . "<br>";
+        echo "<br>";
+
+        $totalprice = $totalprice + $price;
+    } else {
+        echo "</table>";
+
+
+
+        echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
+        echo "PRICE: " . $arrayforemptytypes[$i][1] . "<br>";
+        echo "<br>";
+
+        $totalprice = $totalprice + $arrayforemptytypes[$i][1];
+    }
+
+    echo "TOTAL (BEFORE GST): " . $totalprice."<br>";
+
+    $query->close();
 }
 
 

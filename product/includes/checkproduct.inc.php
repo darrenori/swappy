@@ -59,8 +59,8 @@ function badInputThree($array){
     $pattern = "/^[a-zA-Z0-9_ ]*$/i";
 
     foreach($array as $key=>$val){
-        
-        $a = !(preg_match($pattern,$val));
+        //$val cannot be array, seems that there is an array as value
+        $a = (!preg_match($pattern,$val));
 
         if($a==1){
             return true;
@@ -126,7 +126,7 @@ if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
 
         } else {
-            echo mysqli_error($query);
+            echo mysqli_error($conn);
         }
 
     }

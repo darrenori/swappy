@@ -108,7 +108,7 @@ $router->get('/employeemanager','manager/allemployees.php');
 
 //employee edit 
 $router->get('/employeemanager/edit','manager/editemployees.php');
-$router->post('/employeemanager/editinc','manager/includes/edit.inc.php');
+$router->post('/employeemanager/editinc','manager/includes/editemployees.inc.php');
 
 //employee delete
 $router->get('/employeemanager/delete','manager/deleteemployees.php');
@@ -116,7 +116,7 @@ $router->get('/employeemanager/deleteinc','manager/includes/deleteemployees.inc.
 
 //employeeadd
 $router->get('/employeemanager/adduser','manager/addemployees.php');
-$router->post('/employeemanager/adduserinc','manager/includes/add.inc.php');
+$router->post('/employeemanager/adduserinc','manager/includes/addemployees.inc.php');
 
 //taskview
 $router->get('/employeemanager/taskmanager','tasks/alltasks.php');

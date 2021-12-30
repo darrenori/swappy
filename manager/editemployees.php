@@ -27,8 +27,8 @@ if (!isset($_GET['user'])) {
         }
     }
 
-    // $getuser = htmlentities($_GET["user"]);
-    // $employeeid = $getuser;
+    $getuser = htmlentities($_GET["user"]);
+    $employeeid = $getuser;
 }
 
 if (badInput([$employeeid]) !== false) {

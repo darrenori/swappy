@@ -4,7 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
-$userusername = $jwtarrayinformation['userusername'];
+$employeeusername = $jwtarrayinformation['employeeusername'];
 
 if (isset($_GET)) {
     # code...
@@ -52,7 +52,7 @@ if ($role == 6 || $role == 5 || $role == 3) {
     echo "<br><br>";
 
     echo "Assigned to:" . "<br>";
-    echo $jwtarrayinformation['userusername'] . "<br>";
+    echo $employeeusername . "<br>";
 
 
     echo "Assigned by:" . "<br>";

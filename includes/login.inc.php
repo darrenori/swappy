@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
 
    
 
-    require_once 'dbh.inc.php';echo "boo";exit;
+    require_once 'dbh.inc.php';
 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';

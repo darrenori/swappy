@@ -17,17 +17,13 @@ if (isset($_COOKIE['jwt'])) {
         if (time() > $exp) {
             // var_dump($_COOKIE);
             // exit;        
-            header("location: https://www.swapamc.com/swapproj/logout");
-            exit();
+            echo "logout";
         }
     }
 } else {
     // var_dump($_COOKIE);
     // exit;
-    
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit;
-
+    echo "logout";
 }
 
 

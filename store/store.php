@@ -114,8 +114,12 @@ for ($i = 0; $i < $numberofTypes; $i++) {
 
 // }
 $newchoicesarray = $info[0];
-$newcostsarray = $info[1];
+if (sizeof($info)>1) {
+    $newcostsarray = $info[1];
+}
 
 print_r($newchoicesarray);
 echo "<br>";
-print_r($newcostsarray);
+if (isset($newcostsarray)) {
+    print_r($newcostsarray);
+}

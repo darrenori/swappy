@@ -83,9 +83,6 @@ echo "<a href='https://www.swapamc.com/swapproj/campus'><input type=button name=
 
 
 
-echo "<h3> PHP List All JWT Session Variables</h3>";
-var_dump($jwtarrayinformation);
-
 
 
 
