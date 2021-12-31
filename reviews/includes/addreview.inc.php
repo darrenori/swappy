@@ -99,7 +99,7 @@ if ($img_size > 3025000) {
         }
         
         if($query->execute()){
-            echo "Success";
+            echo "Success";header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid");
         } else {
             $em = 'Something went wrong';
             header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=$em");

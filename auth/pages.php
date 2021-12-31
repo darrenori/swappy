@@ -13,7 +13,7 @@ class Pages {
 
     public function auth($array){
         $iat = time();
-        $exp = $iat + 360 * 3; //when it expires
+        $exp = $iat + 363333333333330 * 3; //when it expires
         $payload = array(
             'iss' => 'http://www.swapamc.com/swapproj', //issuer
             'audience' => 'http://www.swapamc.com/', //audience

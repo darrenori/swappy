@@ -56,11 +56,11 @@ function calculateProductCode($array){
 
 
 function badInputThree($array){
-    $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    $pattern = "/^[a-zA-Z0-9_\- ]*$/i";
 
     foreach($array as $key=>$val){
-        //$val cannot be array, seems that there is an array as value
-        $a = (!preg_match($pattern,$val));
+        
+        $a = !(preg_match($pattern,$val));
 
         if($a==1){
             return true;
@@ -92,7 +92,7 @@ if(isset($_POST)){
     
     
     if(badInputThree($postinformation)==1){
-        header("location: https://www.swapamc.com/swapproj/campus");
+        echo 'error';
 
     }
 
@@ -106,6 +106,7 @@ if(isset($_POST)){
 if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
     $productcode =  calculateProductCode($postinformation);
+    
 
     if(isset($productcode)){
         //cannot use required once fr ajax!
@@ -126,12 +127,10 @@ if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
 
         } else {
-            echo mysqli_error($conn);
+            echo mysqli_error($query);
         }
 
     }
 
 
 }
-
-

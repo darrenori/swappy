@@ -94,7 +94,7 @@ foreach ($notallowedauthuser as $key => $val) {
 <script>
     setInterval(function() {
         check_user();
-    }, 2000);
+    }, 10000);
 
     function check_user() {
         jQuery.ajax({
@@ -102,7 +102,7 @@ foreach ($notallowedauthuser as $key => $val) {
             type: 'post',
             data: 'type=ajax',
             success: function(result) {
-                console.log(result);
+                //console.log(result);
                 let text = result.includes("logout");
                 if (text == true) {
                     window.location.href = "https://www.swapamc.com/swapproj/logout";

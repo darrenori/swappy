@@ -336,11 +336,11 @@ function jwtupdate($newarray)
                 $array[$key] = $val;
             }
 
-            foreach ($array as $key => $val) { // if new array does not contain item from old array(deleted) then remove it from old array
-                if (!array_key_exists($key, $newarray)) {
-                    unset($array[$key]);
-                }
-            }
+            // foreach ($array as $key => $val) { // if new array does not contain item from old array(deleted) then remove it from old array
+            //     if (!array_key_exists($key, $newarray)) {
+            //         unset($array[$key]);
+            //     }
+            // }
 
 
 

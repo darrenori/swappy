@@ -8,7 +8,7 @@
 
 
 function badInputThree($array){
-    $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    $pattern = "/^[a-zA-Z0-9_\- ]*$/i";
 
     foreach($array as $key=>$val){
         

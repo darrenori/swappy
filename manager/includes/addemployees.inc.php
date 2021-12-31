@@ -136,9 +136,9 @@ if ($result) {
         }
 
 
-        echo "done";
-        header("location: https://www.swapamc.com/swapproj/employeemanager/adduser?error=usernamefailed");
-        exit;
+        // echo "done";
+        // header("location: https://www.swapamc.com/swapproj/employeemanager/adduser?error=usernamefailed");
+        // exit;
 
         //if there is no error
         header("location: https://www.swapamc.com/swapproj/employeemanager");

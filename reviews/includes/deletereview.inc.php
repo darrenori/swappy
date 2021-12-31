@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';

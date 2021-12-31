@@ -1,88 +1,99 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-
-if (!isset($_GET['cart']) || !isset($jwtarrayinformation['cartarray']) || !isset($jwtarrayinformation['productarray']) || !isset($jwtarrayinformation['productprice'])) {
-    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
-    exit;
-} elseif (!is_numeric($_GET['cart'])) {
-    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
-    exit;
-} elseif (sizeof($jwtarrayinformation['cartarray']) < $_GET['cart']) {
-    header("location: https://www.swapamc.com/swapproj/allproducts?error=badinfo");
-    exit;
-}
-//renders any scripts into html form of special char e.g., & = &amp
-foreach ($_GET as $key => $val) {
-    if (gettype($key) == "string" && $key !=="0") {
-        $goodkey = htmlentities($key);
-        $_GET[$goodkey] = $_GET[$key];
-        unset($_GET[$key]);
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+    
+    } else {
+        
+        header("location: https://www.swapamc.com/swapproj/logout");
+        exit();
     }
-    //only checks if of string type (integers will not run through htmlspecialchars)
-    if (gettype($val) == "string") {
-        $goodval = htmlentities($val);
-        $_GET[$goodkey] = $goodval;
-    }
-    if (empty($val)) {
-        $_GET[$goodkey] = "0";
-    }
-}
 
-$order = $_GET['cart'];
+//print_r(apache_request_headers());
 
-$cartarray = $jwtarrayinformation['cartarray'];
-$productname = $jwtarrayinformation['productarray'];
 
-$jwtarrayinformation['cart'] = $order;
-$price = $jwtarrayinformation['productprice'][$order];
+
+
+
+// $cartarray = $_SESSION['cartarray'];
+// $productname = $_SESSION['productarray'];
+
+// $_SESSION['cart'] = $order;
+// $price = $_SESSION['productprice'][$order];
+
+
+
+
+
+// if (!isset($_GET['cart']) || !isset($_SESSION['cartarray']) || !isset($_SESSION['productarray']) || !isset($_SESSION['productprice'])) {
+//     header("location: ../product/viewcart");
+// } elseif (!is_numeric($_GET['cart'])) {
+//     header("location: ../product/viewcart");
+// } elseif (sizeof($_SESSION['cartarray']) < $_GET['cart']) {
+//     header("location: ../product/viewcart");
+// } else {
+//     $order = $_GET['cart'];
+// }
 
 
 $userid = $jwtarrayinformation['userid'];
 
+if(!isset($_GET['cart'])){
+    header("location: ../product/viewcart");
 
-jwtupdate($jwtarrayinformation);
+    
+} elseif(!is_numeric($_GET['cart'])){
+    header("location: ../product/viewcart");
 
-try {
-    $query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
+} else {
+    $cartid = $_GET['cart'];
+    $query = $conn->prepare("SELECT product_name, product_price FROM mydb.user_cart
+    INNER JOIN mydb.products
+    ON mydb.user_cart.product_id = mydb.products.product_id
+    WHERE cart_id = $cartid;");
+
+    if($query->execute()){
+        $query->bind_result($name,$price);
+
+        if($query->fetch()){
+            $productname = $name;
+            $price = $price;
+
+            $arraytogivejwt['productname'] = $productname;
+            $arraytogivejwt['productprice'] = $price;
+            $arraytogivejwt['cartid'] = $cartid;
+            jwtupdate($arraytogivejwt);
+        }
+    }
+
+}
+
+$query->close();
+
+
+
+
+$query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,price,quantity FROM mydb.cart_typevariants 
     INNER JOIN mydb.user_cart
     ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-    where mydb.cart_typevariants.cart_id=$cartarray[$order];");
-    if ($query === false) {
-        //change filename accordingly
-        throw new Exception("Statement Preparation failed(editcart)");
-    }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement");
-    exit;
-}
+    where mydb.cart_typevariants.cart_id=$cartid;");
 $alltypes = [];
-// throws error "Statment Execution failed" when statement fails
-try {
-    $execute = $query->execute();
-    if ($execute === false) {
-        throw new Exception("Statement Execution failed (editcart)");
+
+if ($query->execute()) {
+    $query->bind_result($type, $variant, $total, $quantity);
+
+    while ($query->fetch()) {
+        array_push($alltypes, $type);
+
+        $selectedchoices[$type] = $variant;
     }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement"); //    echo mysqli_error($query);
-
-    exit;
 }
 
-$query->bind_result($type, $variant, $total, $quantity);
-
-while ($query->fetch()) {
-    array_push($alltypes, $type);
-
-    $selectedchoices[$type] = $variant;
-}
-
-echo "<h2>" . $productname[$order] . "(" . $price . ")" . "</h2>";
+echo "<h2>" . $productname . "(".$price.")"."</h2>";
 
 
 
@@ -112,24 +123,28 @@ if (isset($selectedchoices)) {
 
         for ($j = 0; $j < sizeof($variant); $j++) {
             if ($pricevariant[$j] != null && $pricevariant[$j] != "" && $pricevariant[$j] != 0) {
-
+                
                 //what the user has chosen before when adding to cart
-                if ($selectedchoices[$alltypes[$i]] == $variant[$j]) {
+                if($selectedchoices[$alltypes[$i]]==$variant[$j]){
                     echo "<span class='optionscontainer'>" . "<span>" . $variant[$j] . "</span> " . "+S$" . "<span id='price$variant[$j]'>" . $pricevariant[$j] . "</span>" . "<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]' checked >" . "</span>";
                     echo "<br>";
                 } else {
                     echo "<span class='optionscontainer'>" . "<span>" . $variant[$j] . "</span> " . "+S$" . "<span id='price$variant[$j]'>" . $pricevariant[$j] . "</span>" . "<input class=checkbox name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]' >" . "</span>";
                     echo "<br>";
                 }
+
+                
             } else {
 
-                if ($selectedchoices[$alltypes[$i]] == $variant[$j]) {
+                if($selectedchoices[$alltypes[$i]]==$variant[$j]){
                     echo $variant[$j]  . "<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]' checked>";
                     echo "<br>";
                 } else {
                     echo $variant[$j]  . "<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]'>";
                     echo "<br>";
                 }
+
+                
             }
         }
 
@@ -152,55 +167,34 @@ if (isset($selectedchoices)) {
 
     echo "</form>";
 } else {
+    //if product has no tytpwes
+    
+    $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartid;");
+
+    if($query->execute()){
+        $query->bind_result($quantity,$total);
+
+        if($query->fetch()){
+            echo "<form method='POST'>";
+            echo "<p id='left'></p>";
+            echo "<p>Quantity: </p>";
+            echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
+
+            echo "Total Costs: <br>";
 
 
-    try {
-        $query = $conn->prepare("SELECT quantity,price FROM mydb.user_cart WHERE cart_id = $cartarray[$order];");
-        if ($query === false) {
-            //change filename accordingly
-            throw new Exception("Statement Preparation failed(editcart)");
+            echo "<p id='price'>" . "$" . $total . "</p>";
+
+            echo "<input type='submit' value='edit' formaction='/swapproj/allproducts/product/changes'>";
+            echo "<input type='submit' value='delete' formaction='/swapproj/allproducts/product/delete' >";
+
+            echo "</form>";
         }
-    } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
-        //change header location accordingly
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement");
-        exit;
-    }
-    // throws error "Statment Execution failed" when statement fails
-    try {
-        $execute = $query->execute();
-        if ($execute === false) {
-            throw new Exception("Statement Execution failed (editcart)");
-        }
-    } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=" . $cartarray[$order] . "&error=badstatement"); //    echo mysqli_error($query);
 
-        exit;
+
     }
 
-
-
-
-    //if product has no types
-
-
-    $query->bind_result($quantity, $total);
-
-    if ($query->fetch()) {
-        echo "<p>Quantity: </p>";
-        echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' value=$quantity>" . "<br><br>";
-
-        echo "Total Costs: <br>";
-
-
-        echo "<p id='price'>" . "$" . $total . "</p>";
-
-        echo "<input type='submit' value='edit' formaction='/swapproj/allproducts/product/changes'>";
-        echo "<input type='submit' value='delete' formaction='/swapproj/allproducts/product/delete' >";
-
-        echo "</form>";
-    }
+    
 }
 
 
