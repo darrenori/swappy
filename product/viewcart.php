@@ -18,7 +18,7 @@
         exit();
     }
 
-$userid = $jwtarrayinformation['userid'];
+    $userid = $jwtarrayinformation['userid'];
     
     $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
     INNER JOIN mydb.products
@@ -43,17 +43,12 @@ $userid = $jwtarrayinformation['userid'];
 
         }
         
-        // $arraytogive['cartarray'] = $cartidrows;
-        // $arraytogive['productarray'] = $productnamerows;
-        // $arraytogive['productprice'] = $productpricerows; //excluding types and their prices
-        // jwtupdate($arraytogive);
 
-
-        //print_r(apache_request_headers());
-        
 
 
     }
+
+  //  print_r($arrayforemptytypes[1]);
 
     
 
@@ -65,6 +60,10 @@ $userid = $jwtarrayinformation['userid'];
 
     for($i=0;$i<sizeof($cartidrows);$i++){
         //print_r($cartidrows[$i]);
+
+
+
+
         $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
         INNER JOIN mydb.user_cart
         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
@@ -83,7 +82,7 @@ $userid = $jwtarrayinformation['userid'];
             
             $counter = 0;
 
-            while($checkEmpty=$query->fetch()){
+            while($query->fetch()){
                
 
 
@@ -119,6 +118,9 @@ $userid = $jwtarrayinformation['userid'];
 
             
 
+
+            
+
             if(isset($type)){  //if there are types within
                 echo "</table>";
 
@@ -128,10 +130,11 @@ $userid = $jwtarrayinformation['userid'];
                 echo "<br>";
 
                 $totalprice = $totalprice +$price;
+                
 
             } else {
+                //if no types   
                 echo "</table>";
-                
                 
             
                 echo "QUANTITY: ". $arrayforemptytypes[$i][0] ."<br>";
@@ -145,12 +148,16 @@ $userid = $jwtarrayinformation['userid'];
 
             $query->close();
 
+            unset($type);
+
             
 
             
         } else {
             echo "Smthin wnt wrong";
         }
+
+        
     }
 
     echo "TOTAL (BEFORE GST): " . $totalprice;

@@ -16,7 +16,7 @@
         exit();
     }
 
-
+    $postinformation = [];
 
     //take note
     if(!isset($jwtarrayinformation["progresscheckout"])){
@@ -45,7 +45,7 @@
 
     // 
 
-   // print_r(apache_request_headers());
+    //print_r(apache_request_headers());
     $productname = $jwtarrayinformation['productname'];
     $cartid = $jwtarrayinformation['cartid'];
     $selectedchoices = [];

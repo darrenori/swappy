@@ -4,6 +4,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
     $jwtarray = jwtdecrypt();
     $jwtarray_insidearray = $jwtarray['array'];
+    $postinformation = [];
     $userid = $jwtarray_insidearray['userid'];
     
 
