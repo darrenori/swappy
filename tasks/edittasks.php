@@ -1,32 +1,42 @@
 <?php 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-$jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
-    
-    } else {
-        
-        header("location: https://www.swapamc.com/swapproj/logout");
-        exit();
-    }
-
-
-
-    
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';
+
+if (!isset($_GET)) {
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=notaskselected");
+    exit;
+}
+    //renders any scripts into html form of special char e.g., & = &amp
+    foreach ($_GET as $key => $val) {
+        if (gettype($key) == "string" && $key !== "0") {
+            $goodkey = htmlentities($key);
+            $_GET[$goodkey] = $_GET[$key];
+            unset($_GET[$key]);
+        }
+        //only checks if of string type (integers will not run through htmlspecialchars)
+        if (gettype($val) == "string") {
+            $goodval = htmlentities($val);
+            $_GET[$goodkey] = $goodval;
+        }
+        if (empty($val)) {
+            $_GET[$goodkey] = "0";
+        }
+    }
+
+    // $getuser = htmlentities($_GET["user"]);
+    // $employeeid = $getuser;
+
 
 
 if(isset($_GET['task'])){
     
 
-    if(badInput([$_GET['task']])==0){
+    if(badTaskInput([$_GET['task']])===false){
         $taskid = $_GET['task'];
-        $arraytogivejwt['task'] = $_GET['task'];
-        jwtupdate($arraytogivejwt);
-       
-
+        $jwtarrayinformation['task'] = $_GET['task'];
+        jwtupdate($jwtarrayinformation);
     }
     
 }
@@ -34,21 +44,44 @@ if(isset($_GET['task'])){
 
 
 
+try {
+$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(edittasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement");
+            exit;
+        }
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed (edittasks)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement"); //    echo mysqli_error($query);
+        
+            exit;
+        }
 
-$query = $conn->prepare("SELECT task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
 
 if($query->execute()){
-    $query->bind_result($name,$details,$progress,$assignedby);
+    $query->bind_result($employeeid,$name,$details,$progress,$assignedby);
 
     if($query->fetch()){
         //0 is received 1 is in progress 2 is waiting for check
-
+        echo $name;
         echo "<form method=POST action='https://www.swapamc.com/swapproj/employeemanager/taskmanager/edittaskinc'>";
         echo "Task name"."<br><br>";
-        echo "<input type=text name='name' value=$name>"."<br><br>";
+        echo "<input type=text name='name' value='".$name."'>"."<br><br>";
 
         echo "Details"."<br><br>";
-        echo "<input type=text name='details' value=$details>"."<br><br>";
+        echo "<input type=text name='details' multiple='multiple' value='".$details."'>"."<br><br>";
 
         echo "Progress"."<br><br>";
 
@@ -84,6 +117,7 @@ if($query->execute()){
 
 
         echo "</form>";
+        echo "<br><a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=".$employeeid."'>Back</a>";
 
         
 
@@ -92,6 +126,3 @@ if($query->execute()){
     }
 }
 
-
-
-?>

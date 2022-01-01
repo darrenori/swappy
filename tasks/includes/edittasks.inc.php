@@ -1,18 +1,7 @@
 <?php
 
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-$jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
-    
-    } else {
-        
-        header("location: https://www.swapamc.com/swapproj/logout");
-        exit();
-    }
-
-
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';
 
@@ -35,9 +24,7 @@ if(isset($_POST['name'])&&isset($_POST['details'])&&isset($_POST['progress'])&&i
 
     
 
-    if(badInput([$name,$details,$progress,$assignedby])==0){
-        
-    } else {
+    if(badInput([$name,$details,$progress,$assignedby])!==false){
         //kick em
     }
 
@@ -46,7 +33,6 @@ if(isset($_POST['name'])&&isset($_POST['details'])&&isset($_POST['progress'])&&i
 
 $taskid = $jwtarrayinformation['task'];
 $employeeid = $jwtarrayinformation['employeeid'];
-print_r(apache_request_headers());
 
 date_default_timezone_set('Asia/Singapore');
 $now = time();

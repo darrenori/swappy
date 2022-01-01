@@ -11,7 +11,7 @@ function checkTime($current,$selected){
     }
 }
 
-function badInput($array){
+function badTaskInput($array){
     $pattern = "/^(?=.{1,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/i";
 
     for($i=0;$i<sizeof($array);$i++){
