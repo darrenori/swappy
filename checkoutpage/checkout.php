@@ -172,13 +172,7 @@ if (isset($_GET["error"])) {
     } else if ($_GET["error"] == "paymentemptyinput") {
         echo "<p>Fill in Credit Card fields!</p>";
         exit();
-    } else if ($_GET["error"] == "invalidemail") {
-        echo "<p>Choose a proper email!</p>";
-        exit();
-    } else if ($_GET["error"] == "invalidpostalcode") {
-        echo "<p>Invalid Postal Code</p>";
-        exit();
-    } else if ($_GET["error"] == "invalidcardtype") {
+    }  else if ($_GET["error"] == "invalidcardtype") {
         echo "<p>Invalid card number</p>";
         exit();
     } else if ($_GET["error"] == "paymentbadnumb") {

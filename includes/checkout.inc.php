@@ -14,7 +14,7 @@ if (isset($_POST["submit"])) {
     $cvc = $_POST["cvc"];
     $cardtype = validatecard($number);
     $emptycarts = $_SESSION['cart'];
-    $sa = $_SESSION['$shippingaddress'];
+    $sa = $_SESSION['shippingaddress'];
     $bundledidrandom = floatval(rand(pow(10, 8 - 1), pow(10, 8) - 1));
     $_SESSION['bundledid'] = $bundledidrandom;
 
@@ -31,27 +31,27 @@ if (isset($_POST["submit"])) {
         exit();
     }
     if (validatecard($number) === false) {
-        header("https://www.swapamc.com/swapproj/checkout?error=invalidcardtype");
+        header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcardtype");
         exit();
     }
     if (luhn_check($number) === false) {
-        echo "Credit Card Number Invalid";
-        header("https://www.swapamc.com/swapproj/checkout?error=paymentbadnumb");
+        echo "<p>Credit Card Number Invalid</p>";
+        header("location: https://www.swapamc.com/swapproj/checkout?error=paymentbadnumb");
         exit();
     }
     if (invalidExpMonth($expmonth) !== false) {
         echo "<p>Invalid Exp Month</p>";
-        header("https://www.swapamc.com/swapproj/checkout?error=invalidexpmonth");
+        header("location: https://www.swapamc.com/swapproj/checkout?error=invalidexpmonth");
         exit();
     }
     if (invalidExpYear($expyear) !== false) {
         echo "<p>Invalid Exp Year</p>";
-        header("https://www.swapamc.com/swapproj/checkout?error=invalidexpyear");
+        header("location: https://www.swapamc.com/swapproj/checkout?error=invalidexpyear");
         exit();
     }
     if (invalidCVC($cvc) !== false) {
         echo "<p>Invalid CVC</p>";
-        header("https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
+        header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
         exit();
     } else {
         

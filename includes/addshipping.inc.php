@@ -9,13 +9,13 @@ if (isset($_POST["addAdr"])) {
     $address = htmlspecialchars($_POST["address"]);
     $zip = $_POST["zip"];
     $unit = htmlspecialchars($_POST["unit"]);
-    
+
 
     if (emptyInputShippingAdd($name, $email, $phonenumber, $address, $unit, $zip) !== false) {
         header("location: ../swapproj/checkout/addshippingaddress?error=shippingaddressemptyinput");
         exit();
     }
-    
+
     if (invalidEmail($email) !== false) {
         header("location: ../swapproj/checkout/addshippingaddress?error=invalidemail");
         exit();
@@ -24,16 +24,13 @@ if (isset($_POST["addAdr"])) {
         echo "<p>Invalid PostalCode</p>";
         header("location: ../swapproj/checkout/addshippingaddress?error=invalidpostalcode");
         exit();
-    }
-    else {
+    } else {
         echo "<p>Successfully Add Shipping Address</p>";
-        addShippingAdd($conn, $name , $phonenumber, $email, $address, $zip, $unit);
-       
+        addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $unit);
+        header("location: https://www.swapamc.com/swapproj/checkout");
         exit();
-
     }
-}else{
+} else {
     header("location: ../swapproj/checkout");
     exit();
 }
-?>

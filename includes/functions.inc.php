@@ -471,7 +471,8 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     //closes the connection
     mysqli_stmt_close($stmt);
 
-    header("location: ../swapproj/checkout/addshippingaddress?=success");
+    // header("location: ../swapproj/checkout/addshippingaddress?=success");
+    header("location: https://www.swapamc.com/swapproj/checkout/viewshippingaddress");
     echo "success added";
     exit();
 }
