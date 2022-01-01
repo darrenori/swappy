@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jan 01, 2022 at 06:46 AM
+-- Generation Time: Jan 01, 2022 at 06:59 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -43,10 +43,13 @@ CREATE TABLE `cart_typevariants` (
 --
 
 INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type`, `cart_typevariants_variant`, `cart_additionalcosts`, `cart_id`) VALUES
-(196, 'Size', 'Large', '2.3', 28347917),
-(197, 'Color', 'White', '3.1', 28347917),
-(198, 'Size', 'Small', '0', 89548986),
-(199, 'Color', 'Black', '0', 89548986);
+(204, 'Size', 'Large', '2.3', 71776166),
+(205, 'Color', 'White', '3.1', 71776166),
+(206, 'Size', 'Large', '2.3', 37323656),
+(207, 'Color', 'Black', '0', 37323656),
+(208, 'Additional_Server_Rack', 'Yes', '1242.99', 21520909),
+(209, 'Length', '100m', '20', 45864688),
+(210, 'Length', '100m', '20', 42682064);
 
 -- --------------------------------------------------------
 
@@ -277,7 +280,8 @@ CREATE TABLE `reviews` (
 INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `review_comment`, `review_rating`, `review_pic`, `review_total_likes`, `review_total_dislikes`, `review_date`, `childof_id`, `edited`) VALUES
 (42, 1, 2, 'ead', 2, 'uploads/IMG-61cea8bab469c9.94053952.jpg', 0, 0, '2021-12-31 14:52:42', NULL, NULL),
 (43, 1, 2, 'uwu', 0, '', 0, 0, '2021-12-31 14:54:36', 42, NULL),
-(44, 1, 2, 'huh', 0, '', 0, 0, '2021-12-31 14:54:48', 42, NULL);
+(44, 1, 2, 'huh', 0, '', 0, 0, '2021-12-31 14:54:48', 42, NULL),
+(45, 3, 2, 'a', 2, 'uploads/IMG-61d092a3024967.81706745.jpg', 0, 0, '2022-01-02 01:42:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -469,8 +473,11 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
-(28347917, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 4, 53.56, NULL, NULL),
-(89548986, 2, 1, '7588ffe7c10af6736e7f1095d6433ea1', 4, 31.96, NULL, NULL);
+(21520909, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 0, 0),
+(37323656, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 2, 20.58, 0, 0),
+(42682064, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 1, 30.9, 0, 0),
+(45864688, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 9, 278.1, 78749148, 1),
+(71776166, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 13, 174.07, 10849871, 1);
 
 -- --------------------------------------------------------
 
@@ -487,6 +494,22 @@ CREATE TABLE `user_creditcardinfo` (
   `user_creditcardinfo_expiryyear` varchar(45) DEFAULT NULL,
   `user_creditcardinfo_cardtype` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_creditcardinfo`
+--
+
+INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinfo_userid`, `user_creditcardinfo_nameoncard`, `user_creditcardinfo_expirymonth`, `user_creditcardinfo_expiryyear`, `user_creditcardinfo_cardtype`) VALUES
+(1, 2, 'Darren', '12', '2023', 'visa'),
+(2, 2, 'darren', '12', '2023', 'visa'),
+(3, 2, 'darren', '12', '2023', 'visa'),
+(4, 2, 'darren', '12', '2023', 'visa'),
+(5, 2, 'darren', '12', '2023', 'visa'),
+(6, 2, 'darren', '12', '2023', 'visa'),
+(7, 2, 'darren', '12', '2023', 'visa'),
+(8, 2, 'darren', '12', '2023', 'visa'),
+(9, 2, 'darren', '12', '2023', 'visa'),
+(10, 2, 'danre', '12', '2023', 'visa');
 
 -- --------------------------------------------------------
 
@@ -519,6 +542,14 @@ CREATE TABLE `user_past_purchases` (
   `cart_bundled` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `user_past_purchases`
+--
+
+INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `user_creditcards`, `purchase_time`, `purchase_quantity`, `purchase_cost`, `purchase_status`, `cart_bundled`) VALUES
+(1, 2, 0, 9, '2022-01-01 18:03:23', '1', 171.928, 1, 10849871),
+(2, 2, 0, 10, '2022-01-01 18:52:32', '1', 231.441, 1, 78749148);
+
 -- --------------------------------------------------------
 
 --
@@ -533,10 +564,17 @@ CREATE TABLE `user_shippinginformation` (
   `user_shipping_address` varchar(45) DEFAULT NULL,
   `user_shipping_postalcode` varchar(45) DEFAULT NULL,
   `user_shipping_unitnumber` varchar(45) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_shipping_userid` int(11) NOT NULL,
   `user_shipping_default` int(11) NOT NULL,
   `user_shipping_name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_shippinginformation`
+--
+
+INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_number`, `user_shipping_email`, `user_shipping_address`, `user_shipping_postalcode`, `user_shipping_unitnumber`, `user_shipping_userid`, `user_shipping_default`, `user_shipping_name`) VALUES
+(0, '12121212', 'darren@gmail.com', 'asdadsda', '142123', '123123', 2, 1, 'darren');
 
 -- --------------------------------------------------------
 
@@ -760,7 +798,7 @@ ALTER TABLE `user_past_purchases`
 --
 ALTER TABLE `user_shippinginformation`
   ADD PRIMARY KEY (`user_shipping_id`),
-  ADD KEY `shipping_userid_idx` (`user_id`);
+  ADD KEY `shipping_userid_idx` (`user_shipping_userid`);
 
 --
 -- Indexes for table `working_booking`
@@ -783,7 +821,7 @@ ALTER TABLE `working_employees`
 -- AUTO_INCREMENT for table `cart_typevariants`
 --
 ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -831,7 +869,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `store`
@@ -867,13 +905,13 @@ ALTER TABLE `user_booking`
 -- AUTO_INCREMENT for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_past_purchases`
 --
 ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `working_booking`
@@ -1010,7 +1048,7 @@ ALTER TABLE `user_past_purchases`
 -- Constraints for table `user_shippinginformation`
 --
 ALTER TABLE `user_shippinginformation`
-  ADD CONSTRAINT `shipping_userid` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `shipping_userid` FOREIGN KEY (`user_shipping_userid`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `working_employees`
