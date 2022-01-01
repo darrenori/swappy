@@ -1,6 +1,6 @@
 <?php
 //root is www.swapamc.com/swapproj/ . when you create a new route -> will be www.swapamc.com/swapproj/test
-
+//sean
 require_once __DIR__ . '/config/__init.php';
 require_once __DIR__ . '/router/index.php';
 

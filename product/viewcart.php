@@ -12,6 +12,7 @@ $jwtarray = jwtdecrypt();
 
 
 
+
 $jwtarray = jwtdecrypt();
 if (isset($jwtarray) && $jwtarray == true) {
     $jwtarrayinformation = $jwtarray['array'];
@@ -58,138 +59,214 @@ if ($query->execute()) {
 
 $query->close();
 
-//if flag is false, viewcart page is not in checkout page
-$flag = false;
 
-//this code is to check for the selected carts for checkout page
+
+
 if (isset($selectedcarts)) {
-    //if in checkout page, then flag is set to true
-    $flag = true;
+    
+// for checkout page
     if (!empty($selectedcarts)) {
         //this code should only run in view cart page
         $_SESSION['cart'] = array_values($selectedcarts);
+        
     } else if (!isset($_SESSION['cart'])) {
         // this code runs if session was not set
         $_SESSION['cart'] = [];
     }
     $cartidrows = $_SESSION['cart'];
+    echo "Total items: " . sizeof($selectedcarts) . "<br>";
 
-    // var_dump($_SESSION['cart']);
-    // var_dump($selectedcarts);
-}
-
-echo "Total items: " . sizeof($cartidrows) . "<br>";
-
-// echo "<p>";
-// var_dump($_GET);
-echo "<br><br>";
-// echo "</p>";
-
-
-if ($flag === false) {
-    echo "<form  method='POST' action='/swapproj/checkout'>";
-}
-for ($i = 0; $i < sizeof($cartidrows); $i++) {
-    // print_r($cartidrows[$i]);
-    $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
+        // echo "<p>";
+        // var_dump($_GET);
+        echo "<br><br>";
+       
+        // echo "</p>";
+        for ($i = 0; $i < sizeof($selectedcarts); $i++) {
+            //print_r($cartidrows[$i]);
+            $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
         INNER JOIN mydb.user_cart
         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-        where mydb.cart_typevariants.cart_id=$cartidrows[$i]
-        AND mydb.user_cart.purchased = '0';");
+        where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
 
 
-    if ($query->execute()) {
-        $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
+            if ($query->execute()) {
+                $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
+
+
+
+                echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
+
+                
+
+
+                $counter = 0;
+
+                while ($checkEmpty = $query->fetch()) {
+
+
+
+
+
+                    if (isset($type) && $counter != 1) {  //only execute header once
+                        $counter = 1;
+
+                        echo "<table>";
+
+                        echo "<tr>";
+                        echo "<th>type</th>";
+                        echo "<th>variant</th>";
+                        echo "<th>additionalcosts</th>";
+                        echo "</tr>";
+                    }
+
+                    if (isset($type)) {
+                        echo "<tr>";
+                        echo "<th>$type</th>";
+                        echo "<th>$variant</th>";
+                        echo "<th>$additionalcosts</th>";
+                        echo "</tr>";
+                    }
+                }
+
+
+
+                if (isset($type)) {  //if there are types within
+                    echo "</table>";
+
+
+                    echo "QUANTITY: " . $quantity . "<br>";
+                    echo "PRICE: " . $price . "<br>";
+                    echo "<br>";
+
+                    $totalprice = $totalprice + $price;
+                } else {
+                    echo "</table>";
+
+
+
+                    echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
+                    echo "PRICE: " . $arrayforemptytypes[$i][1] . "<br>";
+                    echo "<br>";
+
+                    $totalprice = $totalprice + $arrayforemptytypes[$i][1];
+                }
+
+
+                $query->close();
+            } else {
+                echo "Smthin wnt wrong";
+            }
+        }
+
+        echo "TOTAL (BEFORE GST): " . $totalprice;
+        $totalpricegst = $totalprice * 1.07;
+        echo "<br>TOTAL (AFTER GST): " . "$" . $totalpricegst;
+        echo "<br>";
+        $_SESSION['totalpricegst'] = $totalpricegst;
+       
+    
+// for view cart page
+} else {
+
+    echo "Total items: " . sizeof($cartidrows) . "<br>";
+    echo "<br><br>";
+    echo "<form  method='POST' action='/swapproj/checkout'>";
+    
+    for ($i = 0; $i < sizeof($cartidrows); $i++) {
         // print_r($cartidrows[$i]);
-        if ($flag === true) {
-            // echo $cartidrows[$i]." ";
-            echo  $productnamerows[$i]  . "(" . $productpricerows[$i] . ")";
+        $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
+            INNER JOIN mydb.user_cart
+            ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
+            where mydb.cart_typevariants.cart_id=$cartidrows[$i]
+            AND mydb.user_cart.purchased = '0';");
 
-            echo "<br>";
-        } else {
+
+        if ($query->execute()) {
+            $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
+            // print_r($cartidrows[$i]);
+
+            // echo $cartidrows[$i]." ";
+            // echo  $productnamerows[$i]  . "(" . $productpricerows[$i] . ")";
+
+            // echo "<br>";
+
             echo "<input type='checkbox' name ='" . $cartidrows[$i] . "' >";
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")";
 
             echo "<br>";
             # code...
-        }
-
-        //if there are types
 
 
-        $counter = 0;
-
-        while ($checkEmpty = $query->fetch()) {
+            //if there are types
 
 
+            $counter = 0;
+
+            while ($checkEmpty = $query->fetch()) {
 
 
 
-            if (isset($type) && $counter != 1) {  //only execute header once
-                $counter = 1;
 
-                echo "<table>";
 
-                echo "<tr>";
-                echo "<th>type</th>";
-                echo "<th>variant</th>";
-                echo "<th>additionalcosts</th>";
-                echo "</tr>";
+                if (isset($type) && $counter != 1) {  //only execute header once
+                    $counter = 1;
+
+                    echo "<table>";
+
+                    echo "<tr>";
+                    echo "<th>type</th>";
+                    echo "<th>variant</th>";
+                    echo "<th>additionalcosts</th>";
+                    echo "</tr>";
+                }
+
+                if (isset($type)) {
+                    echo "<tr>";
+                    echo "<th>$type</th>";
+                    echo "<th>$variant</th>";
+                    echo "<th>$additionalcosts</th>";
+                    echo "</tr>";
+                }
             }
 
-            if (isset($type)) {
-                echo "<tr>";
-                echo "<th>$type</th>";
-                echo "<th>$variant</th>";
-                echo "<th>$additionalcosts</th>";
-                echo "</tr>";
+
+
+            if (isset($type)) {  //if there are types within
+                echo "</table>";
+
+
+                echo "QUANTITY: " . $quantity . "<br>";
+                echo "PRICE: " . "$" . $price . "<br>";
+                echo "<br>";
+
+                $totalprice = $totalprice + $price;
+            } else {
+                echo "</table>";
+
+
+
+                echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
+                echo "PRICE: " . "$" . $arrayforemptytypes[$i][1] . "<br>";
+                echo "<br>";
+
+                $totalprice = $totalprice + $arrayforemptytypes[$i][1];
             }
-        }
 
 
-
-        if (isset($type)) {  //if there are types within
-            echo "</table>";
-
-
-            echo "QUANTITY: " . $quantity . "<br>";
-            echo "PRICE: " . "$". $price . "<br>";
-            echo "<br>";
-
-            $totalprice = $totalprice + $price;
+            $query->close();
         } else {
-            echo "</table>";
-
-
-
-            echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
-            echo "PRICE: " . "$". $arrayforemptytypes[$i][1] . "<br>";
-            echo "<br>";
-
-            $totalprice = $totalprice + $arrayforemptytypes[$i][1];
+            echo "Smthin went wrong";
         }
-
-
-        $query->close();
-    } else {
-        echo "Smthin went wrong";
     }
-}
 
-echo "TOTAL (BEFORE GST): " . "$".  $totalprice;
-$totalpricegst = $totalprice * 1.07;
-echo "<br>TOTAL (AFTER GST): " . "$". $totalpricegst;
-echo "<br>";
+    echo "TOTAL (BEFORE GST): " . "$" .  $totalprice;
+    echo "<br>";
 
-$_SESSION['totalpricegst'] = $totalpricegst;
-
-
-if ($flag === false) {
     echo "<input type='submit' name='submit'>";
     echo "</form>";
+    session_start();
+   
 }
-//
-
 ?>
 
 

@@ -432,7 +432,7 @@ function addIntoPastPurchase($conn)
     $defaultshippingid = $_SESSION['defaultshippingid'];
     $purchasequantity = sizeof($_SESSION["cart"]);
     $purchasetime = date('Y-m-d H:i:s', time());
-    $totalprice = $_SESSION['totalprice'];
+    $totalprice = $_SESSION['totalpricegst'];
     $creditcardinfo = selectCreditCardInfo($conn, $userid);
     $bundledidrandom =  $_SESSION['bundledid'];
     $purchasestatus = "1";
