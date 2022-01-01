@@ -489,3 +489,290 @@ function badInputTwo($array){
     //0 is valid input
 
 }
+
+
+function emptyInputShippingAdd($name, $email, $phonenumber, $address, $unit, $zip)
+{
+    $result = false;
+    if (empty($name) || empty($email) || empty($phonenumber) || empty($address) || empty($unit) || empty($zip)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+function viewDefaultShippingAdd($conn)
+{
+
+
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    }
+
+
+
+
+    $userid = $jwtarrayinformation['userid'];
+    $query = $conn->prepare("SELECT user_shipping_id, user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_default FROM user_shippinginformation WHERE user_shipping_userid = $userid AND user_shipping_default = 1");
+    $stmt = mysqli_stmt_init($conn);
+    if (!$query->execute()) {
+        header("location: ../swapproj/checkout?error=stmtfailed");
+        exit();
+    }
+    if ($query->execute()) {
+        $result = $query->get_result();
+        if ($result->num_rows > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+
+                $shippingaddress = $row;
+                return $shippingaddress;
+            }
+        } else {
+            $shippingaddress = 0;
+            return $shippingaddress;
+        }
+    }
+    $conn->close();
+}
+
+
+
+function cartpurchased($conn)
+{
+    $selectedcarts = $_SESSION['cart'];
+    $harry = implode(',', $selectedcarts);
+
+    $bundledidrandom = $_SESSION['bundledid'];
+    $query = $conn->prepare("UPDATE mydb.user_cart SET  mydb.user_cart.purchased = 1 , mydb.user_cart.bundled=$bundledidrandom WHERE  mydb.user_cart.cart_id IN (" . $harry . ") ");
+    $stmt = mysqli_stmt_init($conn);
+    if (!$query->execute()) {
+        header("location: ../swapproj/checkout?error=stmtfailed");
+        exit();
+    }
+    if ($query->execute()) {
+
+        // header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
+    }
+    $query->close();
+}
+function selectCreditCardInfo($conn, $userid)
+{
+    $query = $conn->prepare("SELECT MAX(user_creditcardinfo_id) FROM mydb.user_creditcardinfo WHERE user_creditcardinfo_userid = " . $userid);
+    $stmt = mysqli_stmt_init($conn);
+    if (!$query->execute()) {
+        header("location: ../swapproj/checkout?error=stmtfailed");
+    }
+    $ccinfo = 0;
+    if ($query->execute()) {
+        $query->bind_result($ccinfo);
+        $query->fetch();
+    }
+    return $ccinfo;
+    $conn->close();
+}
+
+
+function addIntoPastPurchase($conn)
+{
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    }
+
+
+
+
+    $userid = $jwtarrayinformation['userid'];
+    
+    $defaultshippingid = $_SESSION['defaultshippingid'];
+    $purchasequantity = sizeof($_SESSION["cart"]);
+    $purchasetime = date('Y-m-d H:i:s', time());
+    $totalprice = $_SESSION['totalpricegst'];
+    $creditcardinfo = selectCreditCardInfo($conn, $userid);
+    $bundledidrandom =  $_SESSION['bundledid'];
+    $purchasestatus = "1";
+
+    $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time,purchase_quantity, purchase_cost, purchase_status, cart_bundled)
+    VALUES (?,?,?,?,?,?,?,?)";
+
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $purchasequantity, $totalprice, $purchasestatus, $bundledidrandom);
+    if (mysqli_stmt_execute($stmt)) {
+        header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
+    }
+    $conn->close();
+}
+
+
+function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $unit)
+{
+   
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    }
+
+
+
+
+    $userid = $jwtarrayinformation['userid'];
+
+    $sql = "INSERT INTO user_shippinginformation (user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_userid,user_shipping_default ) VALUES (?,?,?,?,?,?,$userid,0)";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../swapproj/checkout/addshippingaddress?error=stmtfailed");
+        echo "error";
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssssss", $name, $phonenumber, $email, $address, $zip, $unit);
+    mysqli_stmt_execute($stmt);
+    //closes the connection
+    mysqli_stmt_close($stmt);
+
+    // header("location: ../swapproj/checkout/addshippingaddress?=success");
+    header("location: https://www.swapamc.com/swapproj/checkout/viewshippingaddress");
+    echo "success added";
+    exit();
+}
+
+function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
+{
+    $jwtarray = jwtdecrypt();
+    if(isset($jwtarray)&&$jwtarray==true){
+        
+        $jwtarrayinformation = $jwtarray['array'];
+
+    }
+
+
+
+
+    $userid = $jwtarrayinformation['userid'];
+
+    $sql = "INSERT INTO user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype)  VALUES (?,$userid,?,?,?)";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../swapproj/checkout?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssss", $cname,  $expmonth, $expyear, $cardtype);
+    mysqli_stmt_execute($stmt);
+    //closes the connection
+    mysqli_stmt_close($stmt);
+}
+
+
+function invalidPostalCode($zip)
+{
+    $result = false;
+    if (!preg_match("/\d{6}/", $zip)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function emptyDefaultShipping($sa)
+{
+
+    $sa = $_SESSION['shippingaddress'];
+    var_dump($sa);
+    $result = false;
+    if (empty($sa) or $sa = "0") {
+        $result = true;
+    } else if ($sa = "1") {
+        $result = false;
+    }
+    return $result;
+}
+
+function emptyCart($emptycarts)
+{
+    $result = false;
+    $emptycarts = $_SESSION['cart'];
+    var_dump($emptycarts);
+    if (empty($emptycarts)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function emptyInputPayment($cname, $number, $expmonth, $expyear, $cvc)
+{
+    $result = false;
+    if (empty($cname) || empty($number) || empty($expmonth) || empty($expyear) || empty($cvc)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+function invalidCName($cname)
+{
+    $result = false;
+    if (!preg_match("^[a-zA-Z]*$", $cname)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function invalidExpMonth($expmonth)
+{
+    if (!is_numeric($expmonth) || $expmonth < 1 || $expmonth > 12) {
+
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+
+// Get the current year    
+function invalidExpYear($expyear)
+{
+    $currentYear = date('Y');
+
+    settype($currentYear, 'integer');
+
+
+    if (!is_numeric($expyear) || $expyear < $currentYear || $expyear > $currentYear + 10) {
+
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+
+function invalidCVC($cvc)
+{
+    $result = false;
+    if (!preg_match("/^[0-9]{3,4}$/", $cvc)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}

@@ -190,7 +190,7 @@
 
 
     //check if there is existing same product same type same variant in database
-    $query = $conn->prepare("SELECT cart_id,productcode,quantity FROM mydb.user_cart WHERE user_id = $userid;");
+    $query = $conn->prepare("SELECT cart_id,productcode,quantity FROM mydb.user_cart WHERE user_id = $userid AND purchased = '0';");
 
     $arrayforexisting = [];
    
@@ -236,7 +236,7 @@
 
 
 
-    print_r($arrayforexisting);
+    //print_r($arrayforexisting);
 
 
 
@@ -246,6 +246,7 @@
     //get product code for inventory
     $toGetProductCode = $postinformation;
     $toGetProductCode['product_name'] = $product_name;
+    //print_r($toGetProductCode);
     $productcode =  calculateProductCode($toGetProductCode);
 
 
@@ -269,6 +270,7 @@
         echo mysqli_error($query);
     }
 
+    
     
     //check if existing
     $alreadyexists = 0;
@@ -366,7 +368,7 @@
     $query->close();
 
     if($alreadyexists==0){
-        $query=$conn->prepare("INSERT INTO mydb.user_cart (mydb.user_cart.cart_id,mydb.user_cart.user_id, mydb.user_cart.product_id,mydb.user_cart.quantity,mydb.user_cart.price,productcode) VALUES ($cartidrandom,$userid,$productid,$quantity,$total,'$productcode');");
+        $query=$conn->prepare("INSERT INTO mydb.user_cart (mydb.user_cart.cart_id,mydb.user_cart.user_id, mydb.user_cart.product_id,mydb.user_cart.quantity,mydb.user_cart.price,productcode,bundled,purchased) VALUES ($cartidrandom,$userid,$productid,$quantity,$total,'$productcode','0','0');");
     
     
         if($query->execute()){
@@ -420,6 +422,21 @@
 
     } elseif($alreadyexists==1){
         echo 'ayo';
+
+
+        //check if prodduct id has already been purchased
+        // $query=$conn->prepare("SELECT ")
+
+
+
+
+
+
+
+
+
+        //$query->close();
+
         
         $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = $quantity, price = $total WHERE user_id=$userid AND productcode='$productcode';");
 

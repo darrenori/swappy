@@ -155,3 +155,44 @@ $router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
 
 $router->get('/home','home.php');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//checkout
+$router->get('/checkout', 'checkoutpage/checkout.php');
+$router->post('/checkout', 'checkoutpage/checkout.php');
+
+$router->post('/checkoutinc', 'includes/checkout.inc.php');
+
+$router->get('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
+$router->post('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
+
+//addshipping
+
+$router->post('/checkout/addshippingaddressinc', 'includes/addshipping.inc.php');
+
+//editshipping
+$router->get('/checkout/editshippingaddress', 'checkoutpage/editshippingaddress.php');
+$router->get('/checkout/addshippingaddress', 'checkoutpage/addshippingaddress.php');
+
+$router->post('/checkout/updatesa', 'checkoutpage/includes/updatesa.php');
+$router->post('/checkout/deletesa', 'checkoutpage/includes/deletesa.php');
+$router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultsa.php');
+
+//credit card
+$router->get('/checkout/addcreditcard', 'checkoutpage/addcreditcard.php');
+
+$router->get('/checkout/success', 'checkoutpage/success.php');
