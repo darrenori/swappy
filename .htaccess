@@ -5,4 +5,3 @@ RewriteBase /swapproj/
 Options -Indexes
 # rewrite rules:
 RewriteRule . index.php [NC,L]
-

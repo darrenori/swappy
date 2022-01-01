@@ -1,22 +1,21 @@
 <?php 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
+if(isset($jwtarray)){
     
-    } else {
-        
-        header("location: https://www.swapamc.com/swapproj/logout");
-        exit();
-    }
+    $jwtarrayinformation = $jwtarray['array'];
 
+} else {
+    header("location: https://www.swapamc.com/swapproj/logout");
+    exit();
+}
 
 
 
     
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employee.inc.php';
+
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
@@ -32,12 +31,12 @@ if(isset($_GET['user'])){
     if(badInput([$employeeid])==0){
         $arraytogivejwt['employeeid'] = $employeeid;
 
-        $query=$conn->prepare("SELECT user_username FROM mydb.users WHERE user_id = $employeeid");
+        $query=$conn->prepare("SELECT user_username FROM mydb.users WHERE user_id = 1");
 
         if($query->execute()){
             $query->bind_result($user_username);
             if($query->fetch()){
-                $user_username = $user_username;
+                $arraytogivejwt['userusername'] = $user_username;
                 jwtupdate($arraytogivejwt);
 
 
@@ -57,7 +56,7 @@ if(isset($_GET['user'])){
 
 
 
-print_r(apache_request_headers());
+
 
 
 
