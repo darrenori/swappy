@@ -5,10 +5,11 @@
 
     //db con
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/product/product.function.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+    //require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
     
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
@@ -119,7 +120,7 @@
     };
 
 
-    echo "<p id='left'></p>";
+    echo "<p id='left' ></p>";
 
    echo "<p>Quantity: </p>";
    
@@ -145,7 +146,7 @@
    
    
    //update jwt
-   require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+   //require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
    $arraytogivejwt['productid'] = $id;
    $arraytogivejwt['progresscheckout'] = 'A';
    jwtupdate($arraytogivejwt);
@@ -153,6 +154,17 @@
 //    print_r(apache_request_headers()); 
 
 
+
+
+
+
+
+
+
+
+
+
+    //start of reviews
     echo "<h2>Reviews</h2>";
 
     echo "<form method='POST' action='/swapproj/addreview' enctype='multipart/form-data'>";
@@ -192,7 +204,7 @@
     $childarray = [];
     $parentchild = [];
 
-    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=1 AND childof_id IS not null ORDER BY review_date;");
+    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=$id AND childof_id IS not null ORDER BY review_date;");
     //child of = parent's id
     if($query->execute()){
         $query->bind_result($reviewid,$childofid);
@@ -302,7 +314,7 @@
     $query->close();
 
     
-    print_r($listwhichuserliked);
+    //print_r($listwhichuserliked);
 
 
 
@@ -907,7 +919,7 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-     <!-- <script src='https://www.swapamc.com/swapproj/allproducts/product/script'></script> -->
+    
     <script type="text/javascript">
 
         function calculatePriceUserSide(){
@@ -1111,13 +1123,13 @@
 
                 success:function(result){
 
+                    
+
+
                     console.log(result);
+                    if(result!=null&&result!=''&&result!='error'){
 
-
-
-                    if(result!=null&&result!=''){
-
-                        // console.log(result);
+                        
                         document.getElementById("left").innerHTML = "ONLY "+result+" REMAINING";
                         
                         document.getElementById("quantity").setAttribute("max",result);
@@ -1161,4 +1173,3 @@
 
 
 </html>
-
