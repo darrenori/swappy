@@ -1,5 +1,8 @@
 <?php
 
+
+#NOTE. THIS IS AN AJAX FILE. DO NOT USE HEADER
+
 // require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
@@ -25,7 +28,14 @@ if(!isset($_GET['id'])||$_GET['id']==null){
     exit;   
 }
 
-$productid = $_GET['id'];
+if(is_numeric($_GET['id'])){
+    $productid = $_GET['id'];
+} else {
+    echo 'Information found was not present';
+    exit;   
+
+}
+
 $userid = $jwtarrayinformation['userid'];
 
 
