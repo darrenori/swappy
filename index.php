@@ -204,6 +204,6 @@ $router->post('/product/favorite','product/includes/favorite.inc.php');
 
 
 //search
-$router->post('/searchinc', 'includes/searchinc.php');
-$router->get('/searchinc', 'includes/searchinc.php');
+$router->post('/searchinc', 'includes/search.inc.php');
+$router->get('/searchinc', 'includes/search.inc.php');
 
