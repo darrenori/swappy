@@ -198,3 +198,12 @@ $router->get('/checkout/addcreditcard', 'checkoutpage/addcreditcard.php');
 $router->get('/checkout/success', 'checkoutpage/success.php');
 
 $router->post('/product/favorite','product/includes/favorite.inc.php');
+
+
+
+
+
+//search
+$router->post('/searchinc', 'includes/searchinc.php');
+$router->get('/searchinc', 'includes/searchinc.php');
+

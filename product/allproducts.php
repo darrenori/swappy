@@ -36,19 +36,30 @@ try {
 
 
 
+###Zephy
+## changed some things
+//Search for item 
 
 $query->bind_result($id, $name);
 
 
 
 while ($query->fetch()) {
-    echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$id'>$name  </a>";
+    $allproductslist[$id] = $name;
+}
+
+echo '<form action="/swapproj/searchinc" method="post">';
+echo '<input type="text" name ="searchitem" placeholder="Router...">';
+echo '<input type="submit" value="Submit">';
+echo '</form>';
+
+
+foreach ($allproductslist as $key => $value) {
+    echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
     echo "<br>";
+
 }
 echo "";
-
-
-
 
 
 
