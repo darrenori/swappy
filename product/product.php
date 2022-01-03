@@ -21,6 +21,8 @@
         exit();
     }
 
+    
+
 
     
     
@@ -36,6 +38,9 @@
     } else {
         header("location: ../allproducts");
     }
+
+    $signedinuserid = $jwtarrayinformation['userid'];
+    $signedinrole = $jwtarrayinformation['role'];
     
     $query=$conn->prepare("SELECT * FROM mydb.storeprod
     INNER JOIN mydb.products
@@ -127,6 +132,8 @@
    echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' min=1 max=100  value=1>"."<br><br>";
 
    echo "Total Costs: <br>";
+
+   
    
    
    echo "<p id='price'>"."$".$product_price . "</p>";
@@ -134,6 +141,77 @@
    echo "<input type='submit' >";
 
     echo "</form>";
+
+
+
+
+
+
+
+
+
+    //check fi already favorited
+
+    $query->close();
+
+
+    //add to favorites
+    try {
+        $query = $conn->prepare("SELECT product_id,user_id FROM mydb.usersfavorite WHERE product_id = '$id' AND user_id ='$signedinuserid';");
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(favoriteproduct)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
+        exit;
+    }
+
+
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (favoriteproduct)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
+        exit;
+    }
+
+    $result = $query->get_result();
+    $array = $result->fetch_all(MYSQLI_ASSOC);
+
+    if(sizeOf($array)==1){
+
+        //already favorited
+        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorited</button></div>";
+
+    } else {
+        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
+
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -239,8 +317,7 @@
     $query->close();
 
 
-    $signedinuserid = $jwtarrayinformation['userid'];
-    $signedinrole = $jwtarrayinformation['role'];
+    
 
     
     
@@ -961,6 +1038,62 @@
 
         }
 
+        function favorite(productid){
+            var array= {};
+            array['type'] = 'ajax';
+            array['productid'] = productid;
+
+            var jsonString = JSON.stringify(array);
+
+            jQuery.ajax({
+                url:'https://www.swapamc.com/swapproj/product/favorite?id='+productid,
+                type:'post',
+                data: {info:jsonString},
+                
+
+                success:function(result){
+
+                    console.log(result);
+
+
+                    if(result=='favorited'){
+                        console.log('guud');
+
+                        if(document.getElementById("favorite"+productid)){
+                            
+                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorutie</button>";
+                        }
+
+                        
+
+
+                    } else if (result=='unfavorited'){
+
+                        if(document.getElementById("favorite"+productid)){
+
+                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorited</button>";
+                        }
+                    }
+
+                    
+
+
+
+                    
+
+                    
+                    
+                    
+                }
+
+            });
+            
+            
+            
+        }
+
+
+
 
         function likeOrDislike(reviewid,likeordislike,likes,dislikes){
             
@@ -1134,11 +1267,6 @@
                         
                         document.getElementById("quantity").setAttribute("max",result);
 
-                        // if(document.getElementById("quantity").value>result){
-                        //     document.getElementById("quantity").value = result;
-                        //     document.getElementById("quantity").setAttribute("value",result);
-
-                        // }
                         
                     }
 
@@ -1155,7 +1283,6 @@
 
         }
 
-        //initalise - if product has no types, run this
         calculateInventory();
 
         

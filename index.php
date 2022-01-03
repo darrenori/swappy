@@ -196,3 +196,5 @@ $router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultsa.php');
 $router->get('/checkout/addcreditcard', 'checkoutpage/addcreditcard.php');
 
 $router->get('/checkout/success', 'checkoutpage/success.php');
+
+$router->post('/product/favorite','product/includes/favorite.inc.php');
