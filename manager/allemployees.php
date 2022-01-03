@@ -10,11 +10,6 @@ jwtupdate($jwtarrayinformation);
 
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
-// if ($role == '6' || $role == '5' || $role == '3') {
-// } else {
-//     header("location: https://www.swapamc.com/swapproj/logout");
-// }
-
 
 // throws error "Statment Preparation failed" when statement fails
 try {
