@@ -159,43 +159,29 @@ $router->get('/home','home.php');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //checkout
 $router->get('/checkout', 'checkoutpage/checkout.php');
 $router->post('/checkout', 'checkoutpage/checkout.php');
+$router->post('/checkoutinc', 'checkoutpage/includes/checkout.inc.php');
 
-$router->post('/checkoutinc', 'includes/checkout.inc.php');
-
+//view shippingaddress
 $router->get('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
 $router->post('/checkout/viewshippingaddress', 'checkoutpage/viewshippingaddress.php');
 
 //addshipping
-
-$router->post('/checkout/addshippingaddressinc', 'includes/addshipping.inc.php');
+$router->post('/checkout/addshippingaddressinc', 'checkoutpage/includes/addshipping.inc.php');
+$router->get('/checkout/addshippingaddress', 'checkoutpage/addshippingaddress.php');
 
 //editshipping
 $router->get('/checkout/editshippingaddress', 'checkoutpage/editshippingaddress.php');
-$router->get('/checkout/addshippingaddress', 'checkoutpage/addshippingaddress.php');
 
-$router->post('/checkout/updatesa', 'checkoutpage/includes/updatesa.php');
-$router->post('/checkout/deletesa', 'checkoutpage/includes/deletesa.php');
-$router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultsa.php');
+//includes file for shipping address
+$router->post('/checkout/updatesa', 'checkoutpage/includes/updateshipping.inc.php');
+$router->post('/checkout/deletesa', 'checkoutpage/includes/deleteshipping.inc.php');
+$router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultshipping.inc.php');
 
-//credit card
-$router->get('/checkout/addcreditcard', 'checkoutpage/addcreditcard.php');
-
-$router->get('/checkout/success', 'checkoutpage/success.php');
+//after payment
+$router->get('/checkout/success', 'checkoutpage/successpayment.php');
 
 $router->post('/product/favorite','product/includes/favorite.inc.php');
 
@@ -206,4 +192,13 @@ $router->post('/product/favorite','product/includes/favorite.inc.php');
 //search
 $router->post('/searchinc', 'includes/search.inc.php');
 $router->get('/searchinc', 'includes/search.inc.php');
+
+//notifications
+$router->get('/addnotification','notifications/addnotification.php');
+$router->post('/addnotificationinc','notifications/includes/addnotification.inc.php');
+
+
+$router->get('/viewnotifications','notifications/viewnotifications.php');
+$router->get('/viewfavorites','product/viewfavorites.php');
+$router->get('/viewpurchases','product/viewpurchases.php');
 
