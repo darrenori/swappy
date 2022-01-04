@@ -2,7 +2,6 @@
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
@@ -30,7 +29,6 @@ try {
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
     header("location: https://www.swapamc.com/swapproj/campus?error=badstatement"); //    echo mysqli_error($query);
-
     exit;
 }
 
@@ -48,10 +46,12 @@ while ($query->fetch()) {
     $allproductslist[$id] = $name;
 }
 
-echo '<form action="/swapproj/searchinc" method="post">';
-echo '<input type="text" name ="searchitem" placeholder="Router...">';
-echo '<input type="submit" value="Submit">';
+###zeph
+//search box
+echo '<form action="/swapproj/sortinc" method="post">';
+echo '<button type="submit" name="Price" value="Price"></button>';
 echo '</form>';
+
 
 
 foreach ($allproductslist as $key => $value) {

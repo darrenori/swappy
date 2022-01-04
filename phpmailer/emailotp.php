@@ -16,6 +16,7 @@ if (isset($jwtarray) && $jwtarray == true) {
         if (gettype($val) != "array") {
             echo $key . " " . $val . "<br/>";
         }
+    
     $vc = new VerificationCode($jwtarrayinformation["useremail"]);
     $vc->sendMail(); // MAIL SENT SUCCESSFULLY
 

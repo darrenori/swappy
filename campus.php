@@ -13,6 +13,12 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button 
 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><input type=button name=viewcart value='View Cart'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button name=allstores value='All Stores'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
+###zeph
+//search box
+echo '<form action="/swapproj/searchinc" method="post">';
+echo '<input type="text" name ="searchitem" placeholder="Router...">';
+echo '<input type="submit" value="Submit">';
+echo '</form>';
 
 
 echo "<h3> PHP List All JWT Token Variables</h3>";
