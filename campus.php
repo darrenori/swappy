@@ -36,6 +36,11 @@ foreach ($jwtarrayinformation as $key => $val)
 
 echo "<h3> You are logged in! :D</h3>";
 
+echo "<h4><a href='https://www.swapamc.com/swapproj/viewnotifications'>Notification</a></h4>";
+echo "<h4><a href='https://www.swapamc.com/swapproj/viewfavorites'>Favorites</a></h4>";
+echo "<h4><a href='https://www.swapamc.com/swapproj/viewpurchases'>Purchases</a></h4>";
+
+
 
 
 

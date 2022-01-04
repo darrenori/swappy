@@ -188,7 +188,7 @@
     if(sizeOf($array)==1){
 
         //already favorited
-        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorited</button></div>";
+        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Unfavorite</button></div>";
 
     } else {
         echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
@@ -1053,15 +1053,14 @@
 
                 success:function(result){
 
-                    console.log(result);
 
 
                     if(result=='favorited'){
-                        console.log('guud');
+                        
 
                         if(document.getElementById("favorite"+productid)){
                             
-                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorutie</button>";
+                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
                         }
 
                         
@@ -1071,7 +1070,7 @@
 
                         if(document.getElementById("favorite"+productid)){
 
-                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorited</button>";
+                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
                         }
                     }
 
