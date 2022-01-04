@@ -88,7 +88,9 @@ class VerificationCode
             $jwtarrayinformation = $jwtarray['array'];
 
             $jwtarrayinformation["emailotp"] = $this->code;
+            $jwtarrayinformation["emailotptime"] = $_SERVER["REQUEST_TIME"];
             echo "I am jwtarrayinformation['emailotp']:  ".$jwtarrayinformation['emailotp']."<br><br><br>";
+            echo $jwtarrayinformation["emailotptime"];
             $htmlMessage = "
         <!DOCTYPE html>
         <html>

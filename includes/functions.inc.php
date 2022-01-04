@@ -250,7 +250,9 @@ function loginUser($conn, $username, $pwd, $remember)
 
         }
 
-
+        session_start();
+        $_SESSION['variable'] = "hi";
+        
 
 
 
@@ -544,7 +546,6 @@ function cartpurchased($conn)
 {
     $selectedcarts = $_SESSION['cart'];
     $harry = implode(',', $selectedcarts);
-
     $bundledidrandom = $_SESSION['bundledid'];
     $query = $conn->prepare("UPDATE mydb.user_cart SET  mydb.user_cart.purchased = 1 , mydb.user_cart.bundled=$bundledidrandom WHERE  mydb.user_cart.cart_id IN (" . $harry . ") ");
     $stmt = mysqli_stmt_init($conn);
@@ -556,6 +557,25 @@ function cartpurchased($conn)
 
         // header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
     }
+    $query->close();
+}
+function calculatetotalprice($conn)
+{
+    $selectedcarts = $_SESSION['cart'];
+    $harry = implode(',', $selectedcarts);
+    $bundledidrandom = $_SESSION['bundledid'];
+    $query = $conn->prepare("SELECT SUM(mydb.user_cart.price) FROM mydb.user_cart WHERE mydb.user_cart.cart_id IN (" . $harry . ")");
+    $stmt = mysqli_stmt_init($conn);
+    if (!$query->execute()) {
+        header("location: ../swapproj/checkout?error=stmtfailed");
+        exit();
+    }
+    $totalprice = 0;
+    if ($query->execute()) {
+        $query->bind_result($totalprice);
+        $query->fetch();
+    }
+    return $totalprice;
     $query->close();
 }
 function selectCreditCardInfo($conn, $userid)
@@ -574,7 +594,6 @@ function selectCreditCardInfo($conn, $userid)
     $conn->close();
 }
 
-
 function addIntoPastPurchase($conn)
 {
     $jwtarray = jwtdecrypt();
@@ -584,28 +603,24 @@ function addIntoPastPurchase($conn)
 
     }
 
-
-
-
     $userid = $jwtarrayinformation['userid'];
-    
     $defaultshippingid = $_SESSION['defaultshippingid'];
     $purchasequantity = sizeof($_SESSION["cart"]);
     $purchasetime = date('Y-m-d H:i:s', time());
-    $totalprice = $_SESSION['totalpricegst'];
+    $totalprice = calculatetotalprice($conn);
+    $totalpricegst = $totalprice * 1.07;
     $creditcardinfo = selectCreditCardInfo($conn, $userid);
     $bundledidrandom =  $_SESSION['bundledid'];
     $purchasestatus = "1";
 
     $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time,purchase_quantity, purchase_cost, purchase_status, cart_bundled)
     VALUES (?,?,?,?,?,?,?,?)";
-
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
-    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $purchasequantity, $totalprice, $purchasestatus, $bundledidrandom);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $purchasequantity, $totalpricegst, $purchasestatus, $bundledidrandom);
     if (mysqli_stmt_execute($stmt)) {
         header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
     }

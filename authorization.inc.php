@@ -76,6 +76,13 @@ if ($role === (int)0) {
 } else if ($role === (int)6) {
     //if user is server admin I CAN DO ANYTHING
 }
+
+//helps cater for lower versions of php that do not contain the function
+if (!function_exists('str_contains')) {
+    function str_contains(string $haystack, string $needle): bool{
+        return '' === $needle || false !== strpos($haystack, $needle);
+    }
+}
 //if url contains any text from the unallowed urls, the user is considered unauthorized
 foreach ($notallowedauthuser as $key => $val) {
     $unauthorised = str_contains($currenturlstripped, $val);

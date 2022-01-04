@@ -13,11 +13,6 @@ $router->get('/', 'beforeloggedin.php');
 
 //login page route handling
 $router->get('/login', 'login.php');
-// $router->get('/login?error=emptyinput', 'login.php');
-// $router->get('/login?error=wronglogin', 'login.php');
-// $router->get('/login?error=emptycaptcha', 'login.php');
-// $router->get('/login?error=badcaptcha', 'login.php');
-// $router->get('/login?error=goodcaptcha', 'login.php');
 
 //login inc route handling
 $router->post('/logininc', 'includes/login.inc.php');
@@ -25,12 +20,7 @@ $router->post('/logininc', 'includes/login.inc.php');
 
 //signup route handling
 $router->get('/signup', 'signup.php');
-// $router->get('/signup?error=emptyinput', 'signup.php');
-// $router->get('/signup?error=invaliduid', 'signup.php');
-// $router->get('/signup?error=invalidemail', 'signup.php');
-// $router->get('/signup?error=passwordsdontmatch', 'signup.php');
-// $router->get('/signup?error=usernametaken', 'signup.php');
-// $router->get('/signup?error=none', 'signup.php');
+
 
 //signup inc route handling
 $router->post('/incsignup', 'includes/signup.inc.php');
@@ -44,8 +34,6 @@ $router->post('/emailverificationinc', 'includes/emailotp.inc.php');
 
 //google auth route handling
 $router->get('/googleauthentication', 'googleauth/googleauthotplogin.php');
-// $router->get('/googleauthenticationimp', 'googleauth/googleauthotp.php');
-// $router->get('/googleauthentication?error=badotp', 'googleauth/googleauthotplogin.php');
 
 //google auth inc route handling
 $router->post('/googleauthenticationinc', 'includes/googleauth.inc.php');
@@ -57,16 +45,6 @@ $router->get('/logout', 'includes/logout.inc.php');
 
 
 $router->post('/check','includes/user_auth.php');
-
-
-
-
-
-
-
-
-
-
 
 //store route
 $router->get('/allstores','store/allstores.php');
@@ -201,4 +179,3 @@ $router->post('/addnotificationinc','notifications/includes/addnotification.inc.
 $router->get('/viewnotifications','notifications/viewnotifications.php');
 $router->get('/viewfavorites','product/viewfavorites.php');
 $router->get('/viewpurchases','product/viewpurchases.php');
-

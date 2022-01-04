@@ -16,21 +16,12 @@ if (isset($_GET['type'])) {
     </script>
 </section>
 <?php
-// require_once 'checkoutpage/verification.php';
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
-
-
-
-
-
-// require_once 'checkoutpage/viewshippingaddress.php';
-// if ($_SERVER['REQUEST_METHOD'] == "POST") {
-//     if (isset($_POST['edit'])) {
-
-
 session_start();
+
 $shipping_id = (int)$_GET['shippingid'];
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];
 $query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $shipping_id;");
@@ -43,12 +34,7 @@ if (!$query->execute()) {
 }
 
 if ($query->execute()) {
-
-
     $query->bind_result($shipping_id, $name, $phone, $email, $address, $zip, $unit);
-
-
-    // echo "<form method=POST>";
     if ($query->fetch()) {
         echo "<form method='POST'>";
         echo "Name" . "<br>";
@@ -74,8 +60,12 @@ if ($query->execute()) {
 
         echo "</form>";
     }
+    
 }
 $conn->close();
+echo "<a href='https://www.swapamc.com/swapproj/checkout/viewshippingaddress'>Back To View Shipping Address</a>";
+
+//check for error
 if (isset($_GET["error"])) {
     if ($_GET["error"] == "shippingaddressemptyinput") {
         echo "<p>Fill in Shipping Address fields!</p>";

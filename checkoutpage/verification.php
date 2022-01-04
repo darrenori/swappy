@@ -1,5 +1,5 @@
 <!-- <?php
-
+// validate card number using regex
       function validatecard($number)
       {
         global $type;
@@ -30,7 +30,8 @@
       }
 
       validatecard($number);
-
+      
+// validate card number using mod 10
       function luhn_check($number)
       {
 
