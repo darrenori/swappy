@@ -1,6 +1,8 @@
 <?php
+//show cart
 print "<h3>Your Cart</h3>";
 session_start();
+// user press submit from view cart
 $selectedcarts = [];
 if (isset($_POST["submit"])) {
     unset($_SESSION['cart']);
@@ -24,15 +26,11 @@ if (empty($selectedcarts)) {
     }
 }
 
-
-// print_r("these are your selected carts:");
-// var_dump($selectedcarts);
 include 'product/viewcart.php';
 require_once 'includes/functions.inc.php';
 include 'checkoutpage/verification.php';
 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Back To View Cart</a>";
 
-// showCart($conn);
 ?>
 
 <html>

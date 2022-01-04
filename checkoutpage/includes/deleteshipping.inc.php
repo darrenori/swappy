@@ -6,12 +6,6 @@ var_dump($_SESSION);
 $query = ("DELETE FROM mydb.user_shippinginformation WHERE user_shipping_id = ".$_SESSION['shippingid']);
 
 
-// if($query){
-
-//     echo "done";
-//     header("location: ../swapproj/checkout/editshippingaddress?delete=success");
-// }
-
 if (mysqli_query($conn, $query)) {
     header("location: ../checkout");
 

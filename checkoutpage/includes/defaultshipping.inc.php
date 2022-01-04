@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+
 $jwtarray = jwtdecrypt();
 if(isset($jwtarray)&&$jwtarray==true){
     
@@ -9,9 +9,7 @@ if(isset($jwtarray)&&$jwtarray==true){
 
 }
 
-
-
-
+// user set default shipping = 0 / 1
 $userid = $jwtarrayinformation['userid'];
 $shipping_id = (int)$_GET['shippingid'];
 $query = ("UPDATE mydb.user_shippinginformation SET  user_shipping_default  = 0
@@ -28,10 +26,7 @@ if (mysqli_query($conn, $query)) {
     } else {
         echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
     }
-
     exit();
-
-
     mysqli_close($conn);
 } else {
     echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);

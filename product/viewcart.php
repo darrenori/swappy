@@ -180,7 +180,6 @@ if(isset($selectedcarts)){
     $totalpricegst = $totalprice * 1.07;
     echo "<br>TOTAL (AFTER GST): " . "$" . $totalpricegst;
     echo "<br>";
-    $_SESSION['totalpricegst'] = $totalpricegst;
 
 
 } else {

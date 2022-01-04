@@ -25,8 +25,8 @@ if (isset($jwtarray) && $jwtarray == true) {
         // gets the username password and captcha input
         $userinput = (int)$_POST["emailotp"];
         $useremailotp = $jwtarrayinformation["emailotp"];
-        if (gettype($useremailotp) !=="integer") {
-            $useremailotp =(int)$useremailotp;
+        if (gettype($useremailotp) !== "integer") {
+            $useremailotp = (int)$useremailotp;
         }
 
         require_once 'functions.inc.php';
@@ -39,32 +39,39 @@ if (isset($jwtarray) && $jwtarray == true) {
         ////Checks if inputs are not identical
         $failedverification = pwdMatch($userinput, $useremailotp);
         echo $failedverification;
-
-        // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
-        if ($failedverification !== false) {
-            echo "badotp";
-            jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
-            header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
+        $currentrequestime = $_SERVER["REQUEST_TIME"];
+        if ($currentrequestime - $jwtarrayinformation["emailotptime"] > 10) {
+            echo "session has expired";
+            echo "Please Click the resend button";
+            header("location: https://www.swapamc.com/swapproj/emailverification?error=expiredotp");
             exit();
         } else {
-            echo "goodotp";
-            $jwtarrayinformation['loginstate'] = "B";
-            //removes 'emailotp' from the array
-            unset($jwtarrayinformation["emailotp"]);
-            // echo ("this is jwtarrayinfo");
-            // echo "<p><br><br>";
-            // var_dump($jwtarrayinformation);
-            // echo "</p><br><br>";
+            // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
+            if ($failedverification !== false) {
+                echo "badotp";
+                jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
+                header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
+                exit();
+            } else {
+                echo "goodotp";
+                $jwtarrayinformation['loginstate'] = "B";
+                //removes 'emailotp' from the array
+                unset($jwtarrayinformation["emailotp"]);
+                // echo ("this is jwtarrayinfo");
+                // echo "<p><br><br>";
+                // var_dump($jwtarrayinformation);
+                // echo "</p><br><br>";
 
-            jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
+                jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
 
-            // $jwtarray = jwtdecrypt();
-            // echo "<p>";
-            // var_dump($jwtarray);
-            // echo "</p>";
-    
-            header("location: https://www.swapamc.com/swapproj/googleauthentication");
-            exit();
+                // $jwtarray = jwtdecrypt();
+                // echo "<p>";
+                // var_dump($jwtarray);
+                // echo "</p>";
+
+                header("location: https://www.swapamc.com/swapproj/googleauthentication");
+                exit();
+            }
         }
     } elseif ($jwtarrayinformation['loginstate'] === "B") {
         header("location: https://www.swapamc.com/swapproj/googleauthentication");

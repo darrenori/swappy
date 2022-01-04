@@ -17,9 +17,6 @@ if (isset($jwtarray) && $jwtarray == true) {
             echo $key . " " . $val . "<br/>";
         }
     
-    $vc = new VerificationCode($jwtarrayinformation["useremail"]);
-    $vc->sendMail(); // MAIL SENT SUCCESSFULLY
-
 
     if (!isset($jwtarrayinformation['loginstate'])) {
         header("location: https://www.swapamc.com/swapproj/login");
@@ -34,7 +31,14 @@ if (isset($jwtarray) && $jwtarray == true) {
         header("location: https://www.swapamc.com/swapproj/logout");
         exit();
     }
-
+    
+    
+    if(isset($_SESSION['variable']) && $_SESSION['variable'] === "hi"){
+        $vc = new VerificationCode($jwtarrayinformation["useremail"]);
+        $vc->sendMail(); // MAIL SENT SUCCESSFULLY
+        session_destroy();
+    }
+   
 
     echo "Current OTP pass is unavailable cos JWT LAGGGGGG T^T check your email bruddah"; //. $jwtarrayinformation["emailotp"]
     echo "you are" . $jwtarrayinformation["username"];
@@ -75,6 +79,9 @@ if (isset($jwtarray) && $jwtarray == true) {
 
         if ($error == "badotp") {
             echo "<p>Badotp</p>";
+        }
+        elseif ($error == "expiredotp") {
+            echo "<p>Otp has Expired. Please click on resend. </p>";
         }
     }
     // display resend otp

@@ -1,6 +1,6 @@
 <html>
+ <!-- javascript for alert button to pop out when user press back button -->
 <script type="text/javascript">
-
 history.pushState(null, document.title, location.href);
 window.addEventListener('popstate', function (event)
 {
@@ -13,6 +13,7 @@ window.addEventListener('popstate', function (event)
 });
 </script>
 
+<!-- form for add shipping address -->
 <form action="/swapproj/checkout/addshippingaddressinc" method="POST">
     <h3>Shipping Address</h3>
     <br><label> Name</label>
@@ -30,11 +31,12 @@ window.addEventListener('popstate', function (event)
     <br><input type="text" pattern="\d*" minlength="6" maxlength="6" id="zip" name="zip" placeholder="Zip Code">
     <input type="submit" name="addAdr" value="Add" class="btn">
 </form>
-<a href='https://www.swapamc.com/swapproj/checkout/viewshippingaddress'>Back To view Shipping</a>
 
+<a href='https://www.swapamc.com/swapproj/checkout/viewshippingaddress'>Back To View Shipping Address</a>
 
 </html>
 <?php
+// check for error
 if (isset($_GET["error"])) {
     if ($_GET["error"] == "shippingaddressemptyinput") {
         echo "<p>Fill in Shipping Address fields!</p>";

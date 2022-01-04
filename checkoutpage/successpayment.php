@@ -1,5 +1,5 @@
 <?php
-
+// after user finish checkout
 echo "Checkout Completed!";
 echo "<br>";
 echo "<a href='https://www.swapamc.com/swapproj/campus'>Back To Home Page </a>";
