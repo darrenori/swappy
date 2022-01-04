@@ -17,9 +17,6 @@ if (isset($jwtarray) && $jwtarray == true) {
             echo $key . " " . $val . "<br/>";
         }
     
-    
-   
-
 
     if (!isset($jwtarrayinformation['loginstate'])) {
         header("location: https://www.swapamc.com/swapproj/login");
