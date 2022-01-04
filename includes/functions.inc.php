@@ -101,8 +101,9 @@ function uidExists($conn, $username, $email)
 // creates prepared statements so it runs into the db without input?
 function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood)
 {
+    $defaultpic = "uploads/IMG-DEFAULTPROFILE.jpg";
     session_start();
-    $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood, user_secret) VALUES (?,?,?,?,?,?,?,?,?,?);";
+    $sql = "INSERT INTO users (user_username, user_password, user_fname, user_lname, username_email, user_number, date_of_signup,user_security_primaryschool, user_security_favoritefood, user_secret, user_profilepicture) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -135,7 +136,7 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
 
 
-    mysqli_stmt_bind_param($stmt, "ssssssssss", $username, $hashedPwd, $firstname, $lastname, $email, $phonenumber, $date, $primaryschool, $favouritefood, $randomsecret);
+    mysqli_stmt_bind_param($stmt, "sssssssssss", $username, $hashedPwd, $firstname, $lastname, $email, $phonenumber, $date, $primaryschool, $favouritefood, $randomsecret,$defaultpic);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);

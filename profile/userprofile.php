@@ -60,9 +60,13 @@ $query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsi
 
 
 if ($query->fetch()) {
-    echo "<form method=POST>";
+    echo "<form method=POST enctype='multipart/form-data'>";
     echo "Username" . "<br>";
     echo "<input type='text' name='username' value='$username'><br>";
+
+    echo "<p>Image:</p>";
+    echo "<input type='file' name='image'>";
+    echo "<br><br>";
 
 
     echo "Fname" . "<br>";
