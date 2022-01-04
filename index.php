@@ -181,8 +181,6 @@ $router->post('/addnotificationinc','notifications/includes/addnotification.inc.
 $router->get('/viewnotifications','notifications/viewnotifications.php');
 $router->get('/viewfavorites','product/viewfavorites.php');
 $router->get('/viewpurchases','product/viewpurchases.php');
-<<<<<<< Updated upstream
-=======
 
 
 
@@ -195,4 +193,3 @@ $router->get('/viewpurchases','product/viewpurchases.php');
 $router->get('/productmanager','prodmanager/productmanager.php');
 $router->get('/productmanagertypes','prodmanager/productmanagertypes.php');
 $router->get('/productmanagervariant','prodmanager/productmanagervariant.php');
->>>>>>> Stashed changes
