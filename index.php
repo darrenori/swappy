@@ -165,8 +165,6 @@ $router->post('/product/favorite','product/includes/favorite.inc.php');
 
 
 
-
-
 //search
 $router->post('/searchinc', 'includes/search.inc.php');
 $router->get('/searchinc', 'includes/search.inc.php');
@@ -179,3 +177,10 @@ $router->post('/addnotificationinc','notifications/includes/addnotification.inc.
 $router->get('/viewnotifications','notifications/viewnotifications.php');
 $router->get('/viewfavorites','product/viewfavorites.php');
 $router->get('/viewpurchases','product/viewpurchases.php');
+
+//forgetpassword
+$router->get('/forgetpassword','forgetpass/inputemail.php');
+$router->post('/forgetpasswordinc','forgetpass/includes/inputemail.inc.php');
+
+$router->get('/forgetpassword/resetpassword','forgetpass/resetpass.php');
+$router->post('/forgetpassword/resetpasswordinc','forgetpass/includes/resetpass.inc.php');

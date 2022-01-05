@@ -55,6 +55,7 @@ if (isset($jwtarray) && $jwtarray == true) {
         <br><label for="pwd">Password:</label><br>
         <input type="password" id="pwd" name="pwd" placeholder="Password...">
         <br><input type="checkbox" name="remember" label for="remember-me"> Remember me
+        <div ><a href= "https://www.swapamc.com/swapproj/forgetpassword">Forget Password</a></div>
         <div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div>
         <button type="submit" name="submit">Login</button>
     </form>

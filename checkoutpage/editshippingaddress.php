@@ -40,19 +40,19 @@ if ($query->execute()) {
         echo "Name" . "<br>";
         echo "<input type='text' name='name' value='$name'><br>";
 
-        echo "phone" . "<br>";
+        echo "Phone" . "<br>";
         echo "<input type='text' name='phone' value='$phone'minlength='8' maxlength='8' pattern='\d*'><br>";
 
         echo "Email" . "<br>";
         echo "<input type='email' name='email' value='$email'><br>";
 
-        echo "address" . "<br>";
+        echo "Address" . "<br>";
         echo "<input type='text' name='address' value='$address'><br>";
 
         echo "Zip" . "<br>";
         echo "<input type='text' name='zip' value='$zip'pattern='\d*'><br>";
 
-        echo "unit" . "<br>";
+        echo "Unit" . "<br>";
         echo "<input type='text' name='unit' value='$unit'><br>";
 
         echo '<input type="submit" value="update" name="submit" formaction="/swapproj/checkout/updatesa">';

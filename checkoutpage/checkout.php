@@ -1,4 +1,5 @@
 <?php
+
 //show cart
 print "<h3>Your Cart</h3>";
 session_start();
@@ -25,6 +26,9 @@ if (empty($selectedcarts)) {
         exit();
     }
 }
+
+
+
 
 include 'product/viewcart.php';
 require_once 'includes/functions.inc.php';

@@ -605,7 +605,6 @@ function addIntoPastPurchase($conn)
 
     $userid = $jwtarrayinformation['userid'];
     $defaultshippingid = $_SESSION['defaultshippingid'];
-    $purchasequantity = sizeof($_SESSION["cart"]);
     $purchasetime = date('Y-m-d H:i:s', time());
     $totalprice = calculatetotalprice($conn);
     $totalpricegst = $totalprice * 1.07;
@@ -613,14 +612,14 @@ function addIntoPastPurchase($conn)
     $bundledidrandom =  $_SESSION['bundledid'];
     $purchasestatus = "1";
 
-    $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time,purchase_quantity, purchase_cost, purchase_status, cart_bundled)
-    VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time, purchase_cost, purchase_status, cart_bundled)
+    VALUES (?,?,?,?,?,?,?)";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
-    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $purchasequantity, $totalpricegst, $purchasestatus, $bundledidrandom);
+    mysqli_stmt_bind_param($stmt, "sssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $totalpricegst, $purchasestatus, $bundledidrandom);
     if (mysqli_stmt_execute($stmt)) {
         header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
     }
@@ -630,22 +629,17 @@ function addIntoPastPurchase($conn)
 
 function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $unit)
 {
-   
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
         
         $jwtarrayinformation = $jwtarray['array'];
 
     }
-
-
-
-
     $userid = $jwtarrayinformation['userid'];
-
-    $sql = "INSERT INTO user_shippinginformation (user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_userid,user_shipping_default ) VALUES (?,?,?,?,?,?,$userid,0)";
+    $sql = "INSERT INTO mydb.user_shippinginformation(user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_userid,user_shipping_default) VALUES (?,?,?,?,?,?,$userid,0)";
     $stmt = mysqli_stmt_init($conn);
-
+    
+    
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../swapproj/checkout/addshippingaddress?error=stmtfailed");
         echo "error";
@@ -654,6 +648,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
 
     mysqli_stmt_bind_param($stmt, "ssssss", $name, $phonenumber, $email, $address, $zip, $unit);
     mysqli_stmt_execute($stmt);
+    
     //closes the connection
     mysqli_stmt_close($stmt);
 
@@ -663,7 +658,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     exit();
 }
 
-function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
+function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype,$ccnum)
 {
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
@@ -672,12 +667,9 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
 
     }
 
-
-
-
     $userid = $jwtarrayinformation['userid'];
 
-    $sql = "INSERT INTO user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype)  VALUES (?,$userid,?,?,?)";
+    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb)  VALUES (?,$userid,?,?,?,?)";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -685,7 +677,7 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "ssss", $cname,  $expmonth, $expyear, $cardtype);
+    mysqli_stmt_bind_param($stmt, "sssss", $cname,  $expmonth, $expyear, $cardtype, $ccnum);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
