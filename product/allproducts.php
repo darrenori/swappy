@@ -44,21 +44,23 @@ $query->bind_result($id, $name, $price);
 
 
 while ($query->fetch()) {
-    $allproductslist[$id] = [$price,$name];
+    $allproductslist[$id] = [$price, $name];
 }
 
 //currently unable to stack sorts
 if (!empty($_GET)) {
     if (isset($_GET['sortprice'])) {
         if ($_GET['sortprice'] === "descending" || $_GET['sortprice'] === "ascending") {
-        }
-        $sortPricedirection = htmlentities($_GET['sortprice']);
-        if ($sortPricedirection === "descending") {
-            $pricevalue = "none";
-            arsort($allproductslist);
-        } else if ($sortPricedirection === "ascending") {
-            $pricevalue = "descending";
-            asort($allproductslist);
+            $sortPricedirection = htmlentities($_GET['sortprice']);
+            if ($sortPricedirection === "descending") {
+                $pricevalue = "none";
+                arsort($allproductslist);
+            } else if ($sortPricedirection === "ascending") {
+                $pricevalue = "descending";
+                asort($allproductslist);
+            } else {
+                $pricevalue = "ascending";
+            }
         } else {
             $pricevalue = "ascending";
         }
@@ -68,14 +70,16 @@ if (!empty($_GET)) {
     }
     if (isset($_GET['sortname'])) {
         if ($_GET['sortname'] === "descending" || $_GET['sortname'] === "ascending") {
-        }
-        $sortNamedirection = htmlentities($_GET['sortname']);
-        if ($sortNamedirection === "descending") {
-            $namevalue = "none";
-            rsort($allproductslist);
-        } else if ($sortNamedirection === "ascending") {
-            $namevalue = "descending";
-            sort($allproductslist);
+            $sortNamedirection = htmlentities($_GET['sortname']);
+            if ($sortNamedirection === "descending") {
+                $namevalue = "none";
+                rsort($allproductslist);
+            } else if ($sortNamedirection === "ascending") {
+                $namevalue = "descending";
+                sort($allproductslist);
+            } else {
+                $namevalue = "ascending";
+            }
         } else {
             $namevalue = "ascending";
         }
@@ -83,8 +87,6 @@ if (!empty($_GET)) {
         //default is ascending
         $namevalue = "ascending";
     }
-    echo "Get is set";
-    var_dump($_GET);
 } else {
     $pricevalue = "ascending";
     $namevalue = "ascending";

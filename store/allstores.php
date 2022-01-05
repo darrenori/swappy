@@ -36,14 +36,55 @@ try {
 }
 
 
-    $query->bind_result($id, $name);
+$query->bind_result($id, $name);
 
 
 
-    while ($query->fetch()) {
-        echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$id'>$name</a>";
-        echo "<br>";
+while ($query->fetch()) {
+    $allstoreslist[$id] = $name;
+}
+
+//currently unable to stack sorts
+if (!empty($_GET)) {
+    if (isset($_GET['sortname'])) {
+        if ($_GET['sortname'] === "descending" || $_GET['sortname'] === "ascending") {
+            $sortNamedirection = htmlentities($_GET['sortname']);
+            if ($sortNamedirection === "descending") {
+                $namevalue = "none";
+                rsort($allstoreslist);
+            } else if ($sortNamedirection === "ascending") {
+                $namevalue = "descending";
+                sort($allstoreslist);
+            } else {
+                $namevalue = "ascending";
+            }
+        } else {
+            $namevalue = "ascending";
+        }
+    } else {
+        //default is ascending
+        $namevalue = "ascending";
     }
+} else {
+    $namevalue = "ascending";
+}
+
+###zeph
+//sort only box
+echo '<form action="/swapproj/allstores" method="get">';
+echo '<button type="submit" name="sortname" value="' . $namevalue . '">AZ</button><br>';
+echo '</form>';
+
+
+
+
+foreach ($allstoreslist as $key => $val) {
+    echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$val</a>";
+
+    echo "<br>";
+}
+echo "";
+
 
 
 
