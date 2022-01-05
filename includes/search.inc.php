@@ -92,6 +92,8 @@ while ($query->fetch()) {
 
 if (isset($_POST['searchitem'])) {
     $searchitem = $_POST['searchitem'];
+
+    ////// FOLLOWING IF STATEMENTS REMOVE ANY 
     //get all product names 
     if (isset($allstoreslist)) {
         foreach ($allstoreslist as $key => $value) {
@@ -129,9 +131,9 @@ if (isset($_POST['searchitem'])) {
     if (!empty($allstoreslist)) {
         echo "Showing <b>Store</b> results for <i>" . $searchitem . "</i><br>";
         foreach ($allstoreslist as $key => $value) {
-            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
+            echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$storeID'>$storeNAME</a>";
             echo "<br>";
-        }
+            }
         echo "<br><br>";
     }
 } else {
