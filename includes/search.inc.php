@@ -92,6 +92,8 @@ while ($query->fetch()) {
 
 if (isset($_POST['searchitem'])) {
     $searchitem = $_POST['searchitem'];
+    $filteredproductslist = [];
+    $filteredstoreslist = [];
 
     ////// FOLLOWING IF STATEMENTS REMOVE ANY 
     //get all product names 
@@ -99,27 +101,50 @@ if (isset($_POST['searchitem'])) {
         foreach ($allstoreslist as $key => $value) {
             $matchessearch = str_contains(strtolower($value), strtolower($searchitem));
             if (!$matchessearch) {
-                unset($allstoreslist[$key]);
+                unset($filteredstoreslist[$key]);
             }
         }
     }
     if (isset($allproductslist)) {
         foreach ($allproductslist as $key => $value) {
             $matchessearch = str_contains(strtolower($value), strtolower($searchitem));
-            if (!$matchessearch) {
-                unset($allproductslist[$key]);
+            if ($matchessearch) {
+                $filteredproductslist[$key] = $value;
             }
         }
     }
 
 
-    if (empty($allproductslist) and empty($allstoreslist)) {
-        echo "No search results for <i>" . $searchitem . "</i>";
+    if (empty($filteredproductslist) and empty($filteredstoreslist)) {
+        echo "No search results for <i>" . $searchitem . "</i><br>";
+        $specialproductlist=[];
+
+        ### SUGGEST RESULTS   ####
+        if (strpos($searchitem, "r") !== false) {
+            $specialkey="Router";
+        }else if (strpos($searchitem, "c")!==false) {
+            $specialkey="Cisco";
+        }else $specialkey="Router";
+        echo "Showing <b>Product</b> results for <i>".$specialkey."</i> instead.<br>";
+        if (isset($allproductslist)) {
+            foreach ($allproductslist as $key => $value) {
+                $matchessearch = str_contains(strtolower($value), strtolower($specialkey));
+                if ($matchessearch) {
+                    $specialproductlist[$key] = $value;
+                }
+            }
+            foreach ($specialproductlist as $key => $value) {
+                echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
+                echo "<br>";
+            }
+            echo "<br><br>";
+        }
+
     }
     //print out product results
-    if (!empty($allproductslist)) {
+    if (!empty($filteredproductslist)) {
         echo "Showing <b>Product</b> results for <i>" . $searchitem . "</i><br>";
-        foreach ($allproductslist as $key => $value) {
+        foreach ($filteredproductslist as $key => $value) {
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
             echo "<br>";
         }
@@ -128,12 +153,12 @@ if (isset($_POST['searchitem'])) {
 
 
     //print out store results
-    if (!empty($allstoreslist)) {
+    if (!empty($filteredstoreslist)) {
         echo "Showing <b>Store</b> results for <i>" . $searchitem . "</i><br>";
-        foreach ($allstoreslist as $key => $value) {
+        foreach ($filteredstoreslist as $key => $value) {
             echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$storeID'>$storeNAME</a>";
             echo "<br>";
-            }
+        }
         echo "<br><br>";
     }
 } else {
