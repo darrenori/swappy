@@ -40,7 +40,7 @@ if (isset($jwtarray) && $jwtarray == true) {
         $failedverification = pwdMatch($userinput, $useremailotp);
         echo $failedverification;
         $currentrequestime = $_SERVER["REQUEST_TIME"];
-        if ($currentrequestime - $jwtarrayinformation["emailotptime"] > 10) {
+        if ($currentrequestime - $jwtarrayinformation["emailotptime"] > 100) {
             echo "session has expired";
             echo "Please Click the resend button";
             header("location: https://www.swapamc.com/swapproj/emailverification?error=expiredotp");

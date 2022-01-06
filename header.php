@@ -34,7 +34,7 @@ if (isset($jwtarray) && $jwtarray == true) {
                     echo '<li><a href="/swapproj/userprofile">Profile</a></li>';
                     echo '<li><a href="/swapproj/logout">Log out</a></li>';
                 } else {
-                    echo '<li><a href="/swapporj/signup">Sign up</a></li>';
+                    echo '<li><a href="/swapproj/signup">Sign up</a></li>';
                     echo '<li><a href="/swapproj/login">Login</a></li>';
                 }
             

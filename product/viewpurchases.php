@@ -7,15 +7,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 
 
+
 $userid = $jwtarrayinformation['userid'];
 
 
 
 //add
 try {
-    $query = $conn->prepare("SELECT purchase_id,purchase_time,purchase_cost,cart_bundled,user_shipping_address,user_shipping_postalcode,user_shipping_unitnumber FROM mydb.user_past_purchases 
-    INNER JOIN mydb.user_shippinginformation
-    ON mydb.user_past_purchases.user_shipping = mydb.user_shippinginformation.user_shipping_id
+    $query = $conn->prepare("SELECT user_shipping,purchase_id,purchase_time,purchase_cost,cart_bundled FROM mydb.user_past_purchases 
+    
     INNER JOIN mydb.user_creditcardinfo
     ON mydb.user_creditcardinfo.user_creditcardinfo_id = mydb.user_past_purchases.user_creditcards
     WHERE user_id = $userid
@@ -51,20 +51,92 @@ $array = $result->fetch_all(MYSQLI_ASSOC);
 
 $query->close();
 
+
+
+
+
+
+
+
+
+
+
 for($i=0;$i<sizeOf($array);$i++){
     $time = $array[$i]['purchase_time'];
     $totalcosts = $array[$i]['purchase_cost'];
     $bundled = $array[$i]['cart_bundled'];
-
-    $shippingaddress = $array[$i]['user_shipping_address'];
-    $postalcode = $array[$i]['user_shipping_postalcode'];
-    $unitnumber = $array[$i]['user_shipping_unitnumber'];
     $purchaseid = $array[$i]['purchase_id'];
     $timepurchased = $array[$i]['purchase_time'];
 
 
-    $fulladdress = $shippingaddress . " " . $postalcode . " " . $unitnumber;
     
+
+    //get shipping info
+    $usershipping = $array[$i]['user_shipping'];
+
+
+
+
+
+
+
+    
+
+    
+
+    //add
+    try {
+        $query = $conn->prepare("SELECT user_shipping_address,user_shipping_postalcode,user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $usershipping;
+        ");
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(viewpurchases)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/campus?error=statement"); 
+        exit;
+    }
+
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (viewpurchases)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/campus?error=statement"); 
+        exit;
+    }
+
+    $query->bind_result($shippingaddress,$postalcode,$unitnumber);
+
+    $query->fetch();
+
+    $fulladdress = $shippingaddress . " " . $postalcode . " " . $unitnumber;
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+    //display
+    $query->close();
 
     echo "<p>Purchase #$purchaseid"." ($timepurchased) "."</p>";
     echo "<p>Total Costs $$totalcosts</p>";
@@ -86,7 +158,7 @@ for($i=0;$i<sizeOf($array);$i++){
         ");
         if ($query === false) {
             //change filename accordingly
-            throw new Exception("Statement Preparation failed(viewnotification)");
+            throw new Exception("Statement Preparation failed(viewpurchases)");
         }
     } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
@@ -98,7 +170,7 @@ for($i=0;$i<sizeOf($array);$i++){
     try {
         $execute = $query->execute();
         if ($execute === false) {
-            throw new Exception("Statement Execution failed (viewnotification)");
+            throw new Exception("Statement Execution failed (viewpurchases)");
         }
     } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
@@ -126,13 +198,9 @@ for($i=0;$i<sizeOf($array);$i++){
         echo "<p>Total: $totalproductprice "." (WITHOUT GST)"."</p>";
 
 
-        echo "<table>";
 
-        echo "<tr>";
-        echo "<th>"."Type"."</th>";
-        echo "<th>"."Variant"."</th>";
-        echo "<th>"."Costs"."</th>";
-        echo "</tr>";
+        
+        
         
 
 
@@ -164,10 +232,32 @@ for($i=0;$i<sizeOf($array);$i++){
             echo 'Message: ' . $e->getMessage();
             header("location: https://www.swapamc.com/swapproj/campus?error=statement"); 
         }
+
         $query->bind_result($type,$variant,$additionalcosts);
+
         
+            
+            
+        
+            
+        $counter = 0;
 
         while($query->fetch()){
+
+            
+
+            if($counter===0){
+                echo "<table>";
+
+                echo "<tr>";
+                echo "<th>"."Type"."</th>";
+                echo "<th>"."Variant"."</th>";
+                echo "<th>"."Costs"."</th>";
+                echo "</tr>";
+
+            }
+
+            
             
             
             
@@ -177,15 +267,32 @@ for($i=0;$i<sizeOf($array);$i++){
             echo "<td>"."$additionalcosts"."</td>";
             echo "</tr>";
 
+
+            $counter = 1;
+
         
             
             
 
         }
 
+        echo "</table>";
+
+        unset($type);
+            
+            
+            
+
+        
+
+        //unset($type);
+
+
+       
+
         $query->close();
 
-        echo "</table>";
+        
 
 
 

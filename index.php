@@ -131,7 +131,6 @@ $router->post('/replyreview','reviews/includes/reply.inc.php');
 $router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
 
 
-$router->get('/home','home.php');
 
 
 
@@ -193,3 +192,20 @@ $router->get('/viewpurchases','product/viewpurchases.php');
 $router->get('/productmanager','prodmanager/productmanager.php');
 $router->get('/productmanagertypes','prodmanager/productmanagertypes.php');
 $router->get('/productmanagervariant','prodmanager/productmanagervariant.php');
+
+
+//forgetpassword
+$router->get('/forgetpassword','forgetpass/inputemail.php');
+$router->post('/forgetpasswordinc','forgetpass/includes/inputemail.inc.php');
+
+$router->get('/forgetpassword/resetpassword','forgetpass/resetpass.php');
+$router->post('/forgetpassword/resetpasswordinc','forgetpass/includes/resetpass.inc.php');
+
+
+//home
+$router->get('/home','home/home.php');
+//faq
+$router->get('/faq','faq/faq.php');
+$router->get('/faq/banned','faq/banned.php');
+$router->get('/faq/whoarewe','faq/whoarewe.php');
+$router->get('/faq/employee','faq/employee.php');

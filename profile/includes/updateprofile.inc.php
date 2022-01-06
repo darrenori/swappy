@@ -51,8 +51,7 @@ if(isset($_FILES['image'])&&$_FILES['image']!=null&&$_FILES['image']['size']!=0)
 
     }
 } else {
-    header("location: https://www.swapamc.com/swapproj/campus?error=fileempty");
-    exit;
+    $imageempty=1;
 }
 
 if($img_size>3025000){
@@ -183,9 +182,17 @@ if (notEmpty($informationarray) == 1) {
             if (usernameUserExists($conn, $username, $userid) == 0) {
 
                 try {
-                        $query = $conn->prepare("UPDATE mydb.users SET user_username = '$username',
+                        if($imageempty===1){
+                            $query = $conn->prepare("UPDATE mydb.users SET user_username = '$username',
+                            user_fname = '$fname',user_lname  = '$lname',user_number=  '$number',username_email = '$email'
+                            WHERE user_id =$userid;");
+
+                        } else {
+                            $query = $conn->prepare("UPDATE mydb.users SET user_username = '$username',
                             user_fname = '$fname',user_lname  = '$lname',user_number=  '$number',username_email = '$email' ,user_profilepicture='$img_upload_path'
                             WHERE user_id =$userid;");
+                        }
+                        
                         if ($query === false) {
                             //change filename accordingly
                             throw new Exception("Statement Preparation failed(updateprofile.inc)");
