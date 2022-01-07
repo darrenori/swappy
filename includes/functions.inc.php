@@ -28,7 +28,7 @@ function badInput($array)
     $result = true;
     foreach ($array as $key => $val) {
 
-        if (!preg_match("/^pwd|^email/", $key) && !preg_match("/^[a-zA-Z0-9\s]*$/", $val)) {
+        if (!preg_match("/^pwd|^email|^g-recaptcha-response/", $key) && !preg_match("/^[a-zA-Z0-9\s]*$/", $val)) {
             return $key;
         } else {
             $result = false;
@@ -394,8 +394,6 @@ function failedCaptcha($captcha)
     }
     return $result;
 }
-
-
 function setCookieSameSite(string $name, string $value, $expire)
 {
 

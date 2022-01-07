@@ -14,6 +14,7 @@ if (isset($_POST["submit"])) {
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
+  
     // echo "here are your items".$username.$pwd.$captchaa;
 
     
@@ -24,8 +25,7 @@ if (isset($_POST["submit"])) {
 
    
 
-    require_once 'dbh.inc.php';
-
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
     //imports the verification code class that will be used in login user functions.inc.php

@@ -23,7 +23,7 @@ class VerificationCode
     public function __construct($receiver)
     {
 
-        $this->sender = "swapamcproj@gmail.com";
+        $this->sender = "swapamcproj1@gmail.com";
 
 
         $this->password = "Swappy123123";
