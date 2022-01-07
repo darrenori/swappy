@@ -793,8 +793,15 @@ function invalidCVC($cvc)
 }
 
 function duplicateEmail($conn,$email){
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return true;
+        exit;
+    }
+
+
     try {
-        $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = $email;");
+        $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email';");
                 if ($query === true) {
                     //change filename accordingly
                     return true;

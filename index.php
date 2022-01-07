@@ -27,7 +27,7 @@ $router->post('/incsignup', 'includes/signup.inc.php');
 
 //pre verification route handling
 $router->get('/emailverification', 'phpmailer/emailotp.php');
-$router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
+// $router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
 
 //pre verification inc route handling
 $router->post('/emailverificationinc', 'includes/emailotp.inc.php');

@@ -51,6 +51,11 @@ if (isset($_POST["submit"])) {
     } else if ($failedCaptcha === "good captcha") {
         header("location: https://www.swapamc.com/swapproj/signup?error=goodcaptcha");
         exit();
+    } elseif(duplicateEmail($conn,$email) == 1) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=duplicateemail");
+        exit();
+
+
     } else {
         createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phonenumber, $primaryschool, $favouritefood);
     }
