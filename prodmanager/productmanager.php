@@ -173,8 +173,8 @@ html, body {
     background-position: center;
     background-size:cover;
     background-image: black;
-    width: 4.5vw;
-    height:4.5vw;
+    width: 60px;
+    height:60px;
     border-radius: 50%;
 }
 
@@ -473,12 +473,19 @@ html, body {
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
     color: #191919;
+    transition: .5s;
     
 }
 
+/* .styled-table tbody tr:hover {
+    background-color: #f3f3f3;
+    
+    color: white;
+    
+} */
 
 
-.styled-table tbody tr:nth-of-type(even) {
+.styled-table tbody tr:nth-of-type(odd) {
     background-color: #f3f3f3;
     border: 1px solid #f3f3f3;
     border-radius: 10px;
@@ -536,6 +543,23 @@ html, body {
 
 
 }
+
+.prodid a {
+    text-decoration: none;
+    color:grey;
+   
+}
+
+.prodid {
+    transition: .5s;
+}
+
+.prodid:hover {
+    background-color: #8D1D25;
+    color: white;
+} 
+
+
 
 
 </style>
@@ -785,7 +809,7 @@ html, body {
 while($query->fetch()){
 
     echo "<tr>";
-    echo "<td>$prodid</td>";
+    echo "<td onclick='test($prodid)'; class='prodid'>$prodid</td>";
     echo "<td>$name</td>";
     echo "<td>$store</td>";
     echo "<td>$price</td>";
@@ -834,15 +858,8 @@ while($query->fetch()){
 </html>
 
 
-<?php
-
-    
-
-
-
-
-
-
-
-
-?>
+<script>
+    function test(id){
+        location.href = "https://www.swapamc.com/swapproj/productmanager/editproduct?id="+id+"";
+    }
+</script>

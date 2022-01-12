@@ -475,7 +475,9 @@ function calculateProductCode($array){
 }
 
 function badInputTwo($array){
-    $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+
+    $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
 
     for($i=0;$i<sizeof($array);$i++){
         $input = $array[$i];

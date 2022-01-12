@@ -223,4 +223,6 @@ $router->get('/faq/whoarewe','faq/whoarewe.php');
 $router->get('/faq/employee','faq/employee.php');
 
 
-$router->get('/admin','admin.php');
+$router->get('/productmanager/editproduct','prodmanager/editproduct.php');
+$router->post('/productmanager/editproductinc','prodmanager/includes/editproduct.inc.php');
+$router->get('/productmanager/deleteproductinc','prodmanager/includes/deleteproduct.inc.php');
