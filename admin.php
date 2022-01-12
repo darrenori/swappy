@@ -1,64 +1,3 @@
-<?php
-
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-
-
-
-
-$role = $jwtarrayinformation['role'];
-$username = $jwtarrayinformation['username'];
-
-
-
-
-try {
-    $query = $conn->prepare("SELECT mydb.products.product_id,product_name,store_name,product_price,product_about,total_quantity FROM mydb.storeprod
-    INNER JOIN mydb.products
-    ON mydb.storeprod.product_id = mydb.products.product_id
-    INNER JOIn mydb.store
-    ON mydb.store.store_id = mydb.storeprod.store_id ORDER BY mydb.products.product_id;");
-
-    if ($query === false) {
-        //change filename accordingly
-        throw new Exception("Statement Preparation failed(productmanager)");
-    }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/campus");
-    exit;
-}
-// throws error "Statment Execution failed" when statement fails
-try {
-    $execute = $query->execute();
-    if ($execute === false) {
-        throw new Exception("Statement Execution failed (productmanager)");
-    }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/campus");
-
-    exit;
-}
-
-
-$query->bind_result($prodid,$name,$store,$price,$about,$quantity);
-
-
-?>
-
-<html>
-
-    <style>
-        textarea {
-            resize:none;
-        }
-    </style>
-
-
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
@@ -158,21 +97,8 @@ html, body {
     justify-content:space-between;
 }
 
-
-
-
 .profilepic {
-    
-<?php
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
-    $image = new Image();
-    $profilepicture = $jwtarrayinformation['profilepic'];
-    $src = $image->show($profilepicture);
-    echo "background-image: url('$src');";
-?>
-    background-position: center;
-    background-size:cover;
-    background-image: black;
+    background-color: black;
     width: 4.5vw;
     height:4.5vw;
     border-radius: 50%;
@@ -378,24 +304,13 @@ html, body {
 }
 
 .viewprofile {
-    
-}
-
-.viewprofile a {
-    text-decoration: none;
-    color: #35B5EB;
-    transition: .5s;
-    padding-bottom: 4px;
     border-bottom: 2px solid #35B5EB;
+    border-width: 30%;
 }
 
-.viewprofile a:hover {
-    color: white;
-    border-bottom: 2px solid white;
+.viewprofile span {
+    color: #35B5EB;
 }
-
-
-
 
 .information {
     flex-grow: 1;
@@ -572,28 +487,13 @@ html, body {
 
                     <div class='profileinfo'>
 
-                    
-
                         <div class='profilepic'>
 
                         </div>
 
                         <div class='text'>
-
-                        <?php
-                        echo "<p id='username'>$username</p>";
-
-                        if($role==6){
-                            echo "<p id='role'>server admin</p>";
-
-                        } elseif($role==3) {
-                            echo "<p id='role'>Store admin</p>";
-
-                        }
-                        
-
-                        ?>
-                            
+                            <p id='username'>root</p>
+                            <p id='role'>server administrator</p>
 
                         </div>
                         
@@ -678,7 +578,7 @@ html, body {
 
                 <div class="bottomsection">
                     <div class='viewprofile'>
-                            <a href="https://www.swapamc.com/swapproj/campus">View profile</a>
+                            <span>View Profile</span>
                     </div>
                 </div>
                 
@@ -753,14 +653,12 @@ html, body {
 
             <div class='rowthreeinfo'>
                 <h2 id='productstext'>Products</h2>
-                <a href="https://www.swapamc.com/swapproj/productmanageradd"><button type='button'>Add</button></a>
+                <a href="#"><button type='button'>Add</button></a>
             </div>
 
 
             <div class='productscontainer'>
                 <table class="styled-table">
-
-
 
 
                         <thead>
@@ -770,7 +668,7 @@ html, body {
                                 <th>URL</th>
                                 <th>Price Point</th>
                                 <th>About</th>
-                                <th>Quantity</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -778,35 +676,23 @@ html, body {
 
 
                         <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>TPAMC</td>
+                                <td>https://www.tpamc.com</td>
+                                <td>$</td>
+                                <td>About</td>
+                                <td><span  id='status'>Active</span></td>
+                            </tr>
 
-
-
-<?php
-while($query->fetch()){
-
-    echo "<tr>";
-    echo "<td>$prodid</td>";
-    echo "<td>$name</td>";
-    echo "<td>$store</td>";
-    echo "<td>$price</td>";
-    echo "<td>$about</td>";
-    echo "<td>$quantity</td>";
-
-
-    echo "</tr>";
-
-
-    
-}
-
-?>
-
-
-
-
-                            
-
-                            
+                            <tr>
+                                <td>1</td>
+                                <td>TPAMC</td>
+                                <td>https://www.tpamc.com</td>
+                                <td>$</td>
+                                <td>About</td>
+                                <td>Active</td>
+                            </tr>
                         
                         
                     </tbody>
@@ -832,17 +718,3 @@ while($query->fetch()){
 
     
 </html>
-
-
-<?php
-
-    
-
-
-
-
-
-
-
-
-?>

@@ -16,6 +16,8 @@ echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button na
 echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
+echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
+
 ###zeph
 //search box
 echo '<form action="/swapproj/searchinc" method="post">';

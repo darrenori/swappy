@@ -239,6 +239,7 @@ function loginUser($conn, $username, $pwd, $remember)
         $array['loginstate'] = 'A';
         $array['userid'] = $uidExists["user_id"];
         $array['useremail'] = $uidExists["username_email"];
+        $array['profilepic'] = $uidExists['user_profilepicture'];
 
 
         $encrypted = jwtencrypt($array);

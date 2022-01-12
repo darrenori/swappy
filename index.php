@@ -190,8 +190,20 @@ $router->get('/viewpurchases','product/viewpurchases.php');
 ###Darren
 //product amager
 $router->get('/productmanager','prodmanager/productmanager.php');
+$router->get('/productmanageradd','prodmanager/productmanageradd.php');
 $router->get('/productmanagertypes','prodmanager/productmanagertypes.php');
 $router->get('/productmanagervariant','prodmanager/productmanagervariant.php');
+$router->get('/productmanageraddinventory','prodmanager/productmanageinventory.php');
+
+
+//productmanagerinc
+$router->post('/productmanageraddinc','prodmanager/includes/productmanageradd.inc.php');
+$router->post('/productmanageraddtypes','prodmanager/includes/productmanagertype.inc.php');
+$router->post('/productmanageraddvariants','prodmanager/includes/productmanagervariant.inc.php');
+$router->post('/productmanageraddall','prodmanager/includes/productmanagerall.inc.php');
+
+
+
 
 
 //forgetpassword
@@ -209,3 +221,6 @@ $router->get('/faq','faq/faq.php');
 $router->get('/faq/banned','faq/banned.php');
 $router->get('/faq/whoarewe','faq/whoarewe.php');
 $router->get('/faq/employee','faq/employee.php');
+
+
+$router->get('/admin','admin.php');
