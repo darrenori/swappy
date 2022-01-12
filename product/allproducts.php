@@ -1,10 +1,10 @@
 <?php
 
 ////  WHITELIST OF GETITEMS (IF ADDING ANY MORE NAMES TO GET FORM, be sure to append them here.)
-$sortitems = ['sortname', 'sortprice'];
+$sortitems = ['sortname', 'sortprice', 'sort'];
 $categories = ['catrouter', 'cataccessory', 'catswitch', 'catutility', 'catothers'];
-$sortprice=false;
-$sortname=false;
+$sortprice = false;
+$sortname = false;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
@@ -47,6 +47,7 @@ try {
 $specialkey = "HSHTY6";
 $selectedcategory; //used to identify selected category
 echo '<form action="/swapproj/allproducts" method="get">';
+echo '<button type="submit" value="' . $specialkey . '" name="cat" >ALL Products</button>';
 echo '<button type="submit" value="' . $specialkey . '" name="catrouter" >ROUTERS</button>';
 echo '<button type="submit" value="' . $specialkey . '" name="cataccessory" >ACCESSORIES</button>';
 echo '<button type="submit" value="' . $specialkey . '" name="catswitch" >SWITCHES</button>';
@@ -71,41 +72,44 @@ if (empty($_GET)) {
             unset($_GET[$key]);
         }
     }
-    $sortprice = isset($_GET['sortprice']);
-    $sortname = isset($_GET['sortname']);
-    // if category button was clicked
-    foreach ($_GET as $key => $value) {
-        // sets the index of categories table to $selectedcategory, so we can retrieve the items from the db
-        foreach ($categories as $catindex => $cattype) {
-            if ($key === $cattype) {
-                $selectedcategory = $catindex + 1;
-                $selectedcategoryname =$key;
-                $query->close();
-                try {
-                    $query = $conn->prepare("SELECT products.product_id,product_name,product_price FROM mydb.products INNER JOIN mydb.productcat ON mydb.products.product_id = mydb.productcat.product_id WHERE mydb.productcat.cat_id=?");
-                    $query->bind_param('i', $selectedcategory);
-                    if ($query === false) {
-                        //change filename accordingly
-                        throw new Exception("Statement Preparation failed(allproducts)");
+    // run only if cat is not set (cat is variable used to remove the category filter)
+    if (!isset($_GET['cat'])) {
+        $sortprice = isset($_GET['sortprice']);
+        $sortname = isset($_GET['sortname']);
+        // if category button was clicked
+        foreach ($_GET as $key => $value) {
+            // sets the index of categories table to $selectedcategory, so we can retrieve the items from the db
+            foreach ($categories as $catindex => $cattype) {
+                if ($key === $cattype) {
+                    $selectedcategory = $catindex + 1;
+                    $selectedcategoryname = $key;
+                    $query->close();
+                    try {
+                        $query = $conn->prepare("SELECT products.product_id,product_name,product_price FROM mydb.products INNER JOIN mydb.productcat ON mydb.products.product_id = mydb.productcat.product_id WHERE mydb.productcat.cat_id=?");
+                        $query->bind_param('i', $selectedcategory);
+                        if ($query === false) {
+                            //change filename accordingly
+                            throw new Exception("Statement Preparation failed(allproducts)");
+                        }
+                    } catch (Exception $e) {
+                        echo 'Message: ' . $e->getMessage();
+                        //change header location accordingly
+                        // header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
+                        exit;
                     }
-                } catch (Exception $e) {
-                    echo 'Message: ' . $e->getMessage();
-                    //change header location accordingly
-                    // header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
-                    exit;
+                    // throws error "Statment Execution failed" when statement fails
+                    try {
+                        $execute = $query->execute();
+                        if ($execute === false) {
+                            throw new Exception("Statement Execution failed (allproducts)");
+                        }
+                        break;
+                    } catch (Exception $e) {
+                        echo 'Message: ' . $e->getMessage();
+                        // header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement"); //    echo mysqli_error($query);
+                        exit;
+                    }
                 }
-                // throws error "Statment Execution failed" when statement fails
-                try {
-                    $execute = $query->execute();
-                    if ($execute === false) {
-                        throw new Exception("Statement Execution failed (allproducts)");
-                    }break;
-                } catch (Exception $e) {
-                    echo 'Message: ' . $e->getMessage();
-                    // header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement"); //    echo mysqli_error($query);
-                    exit;
-                }
-        
             }
         }
     }
@@ -172,12 +176,13 @@ $currenturlstripped = preg_replace('/[^a-zA-Z0-9\=\?\/(\/swapproj)]+/', '', $_SE
 //sort only box
 echo '<form action="' . $currenturlstripped . '" method="get">';
 if (!empty($selectedcategory)) {
-    echo '<input type="hidden" value="' . $specialkey . '" name="'.$selectedcategoryname.'" ></input>';
+    echo '<input type="hidden" value="' . $specialkey . '" name="' . $selectedcategoryname . '" ></input>';
     // $pricevalue=$pricevalue."&".$key."=".$specialkey;
     // $namevalue=$namevalue."&".$key."=".$specialkey;
 }
 echo '<button type="submit" name="sortprice" value="' . $pricevalue . '">Price</button><br>';
 echo '<button type="submit" name="sortname" value="' . $namevalue . '">AZ</button><br>';
+echo '<button type="submit" name="sort" value="none">CLEAR SORT</button><br>';
 echo '</form>';
 
 
