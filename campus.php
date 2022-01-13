@@ -17,6 +17,7 @@ echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=but
 echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
 echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
+echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button value='Tasks'></a>";
 
 ###zeph
 //search box
@@ -49,10 +50,8 @@ echo "<h4><a href='https://www.swapamc.com/swapproj/viewpurchases'>Purchases</a>
 
 
 
-
-
-
-
+$ip=$_SERVER['REMOTE_ADDR'] ;
+error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0);
 
 $userid = $jwtarrayinformation['userid'];
 

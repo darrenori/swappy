@@ -203,6 +203,10 @@ $router->post('/productmanageraddvariants','prodmanager/includes/productmanagerv
 $router->post('/productmanageraddall','prodmanager/includes/productmanagerall.inc.php');
 
 
+$router->get('/productmanager/editproduct','prodmanager/editproduct.php');
+$router->post('/productmanager/editproductinc','prodmanager/includes/editproduct.inc.php');
+$router->get('/productmanager/deleteproductinc','prodmanager/includes/deleteproduct.inc.php');
+
 
 
 
@@ -223,6 +227,5 @@ $router->get('/faq/whoarewe','faq/whoarewe.php');
 $router->get('/faq/employee','faq/employee.php');
 
 
-$router->get('/productmanager/editproduct','prodmanager/editproduct.php');
-$router->post('/productmanager/editproductinc','prodmanager/includes/editproduct.inc.php');
-$router->get('/productmanager/deleteproductinc','prodmanager/includes/deleteproduct.inc.php');
+$router->get('/viewtask','viewtasks/task.php');
+
