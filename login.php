@@ -46,22 +46,8 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 ?>
 
-<section class="signup-form">
-    <h2>Login</h2>
 
-    <form action="/swapproj/logininc" method="POST">
-        <br><label for="uid"> Email or Username:</label><br>
-        <input type="text" id="uid" name="uid" placeholder="Email/Username...">
-        <br><label for="pwd">Password:</label><br>
-        <input type="password" id="pwd" name="pwd" placeholder="Password...">
-        <br><input type="checkbox" name="remember" label for="remember-me"> Remember me
-        <div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div>
-        <button type="submit" name="submit">Login</button>
-    </form>
 
-<<<<<<< Updated upstream
-    <?php #are you sure you want to use get..?
-=======
 <html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
@@ -99,25 +85,370 @@ if (isset($jwtarray) && $jwtarray == true) {
         width:150px;
         
     }
->>>>>>> Stashed changes
 
-    if (isset($_GET["error"])) {
-        $error=htmlentities($_GET["error"]);
-        if ($error == "emptyinput") {
-            echo "<p>Fill in all fields!</p>";
-        } else if ($error == "wronglogin") {
-            echo "<p>Incorrect login information!</p>";
-        } else if ($error == "emptycaptcha") {
-            echo "<p>reCAPTHCA verification empty, please click the captcha.</p>";
-        } else if ($error == "badcaptcha") {
-            echo "<p>reCAPTHCA verification failed, please try again.</p>";
-        } else if ($error == "goodcaptcha") {
-            echo "<p>reCAPTHCA verification failed, please try again.</p>";
-        }
+    .nav-links {
+        flex:1;
+
+        right:-200px;
+        
     }
 
-<<<<<<< Updated upstream
-=======
+    .nav-links ul {
+        margin-right:50px;
+        display:inline;
+        
+    }
+
+    .nav-links ul li {
+        list-style:none;
+        display:inline-block;
+        padding:8px 25px;
+        
+    }
+
+    .nav-links ul a {
+        color: white;
+        text-decoration:none;
+        font-size:13px;
+    }
+
+    .nav-links ul li::after {
+        content:'';
+        width:0;
+        height:2px;
+        background:#8D1D25;
+        display:block;
+        margin:auto;
+        transition:.25s;
+    }
+
+    .nav-links ul li:hover::after {
+        
+        width:100%;
+        
+
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-weight:100;
+        border:0;
+        background:#8D1D25;
+        color:white;
+        border-radius:16px;
+        cursor:pointer;
+    }
+
+    .nav-links .btn {
+        float:right;
+
+    }
+
+
+
+    @media(max-width:900px){
+
+        .rowone {
+            justify-content:flex-start;
+        }
+        .nav-bar {
+            padding: 10px 30px;
+        }
+
+        .fa-bars {
+            position: absolute;
+            right:20px;
+            top:10px;
+        }
+
+        .nav-bar .fas {
+            display:block;
+            color:white;
+            margin: 10px 25px;
+            font-size:22px;
+            cursor:pointer;
+        }
+
+        .nav-links{
+            height:100vh;
+            width:200px;
+            background:#000;
+            top:0;
+            right:-200px;
+            position:fixed;
+            text-align:left;
+            z-index:2;
+            transition:.5s;
+            
+        }
+
+        .nav-links ul a{
+            display:block;
+        }
+
+        .nav-links .btn {
+            float:none;
+            margin-left:25px;
+            margin-top:10px;
+        }
+
+        .banner-title {
+            flex-basis:100%;
+            width:100%;
+        }
+
+        .imagesection {
+            margin:100px;
+            flex-basis:100%;
+            width:100%;
+        }
+
+        .container{
+            flex-direction: column-reverse;
+            justify-content: center;
+             align-items: center;
+             flex-wrap: wrap; 
+             text-align: center;
+             
+        }
+
+        .user{
+            margin-left:5vw;
+            margin-top: 3vh;
+            text-align: center;
+
+}
+        .thing{
+            margin-top: -45px;
+        }
+        .loginlogo{
+            display: none;
+        }
+
+        .g-recaptcha{
+           align-content: center;
+            justify-content: center;
+        }
+
+        .btnthree {
+        
+            margin-left:0;
+        }
+
+        /* .rowone .cylinder {
+            width: 100px;
+        } */
+
+        .columnbelow {
+            flex-basis:100%;
+        }
+
+        .imagesection .vectorshape {
+            width:400px;
+        }
+
+        .imagesection .whiteshape {
+            width:400px;
+        }
+
+        .imagesection .ballshape {
+            width: 200px;
+        }
+
+        .imagesection .ballshapetwo {
+            width:120px;
+        }
+
+        
+    }
+
+    
+
+
+/*footer*/
+
+.footer {
+    padding: 85px 0;
+    background-color: #212227;
+}
+
+.footer-row {
+    width: 80%;
+    margin:0px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+}
+
+.firstfooter {
+    flex-basis: 30%;
+    text-align: left;
+}
+
+.firstfooter img {
+    width: 150px;
+    opacity: 80%;
+    padding-bottom: 40px;
+}
+
+.firstfooter h4 {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.firstfooter h5 {
+    color: white;
+    opacity: 75%;
+}
+
+.secondfooter {
+    flex-basis: 70%;
+}
+
+.secondfooter h1 {
+    color: white;
+    padding-bottom: 30px;
+    text-align: left;
+}
+
+.secondfooter .links {
+    width: 100%;
+
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: left;
+    
+}
+
+.linkcol {
+    flex-basis: 28%;
+    
+
+}
+
+
+
+.linkcol h3 {
+    color: #8D1D25;
+    opacity: 100%;
+    text-decoration: underline;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.links .linkcol h4 {
+    color: white;
+    
+    
+}
+
+.linkcol p {
+    font-size: 12px;
+    color: #8D1D25;
+    opacity: 100%;
+
+}
+
+.linkcol .fab {
+    
+    color: #fff;
+    
+    font-size: 25px;
+    padding-right: 10px;
+    cursor: pointer;
+    
+}
+
+/*transitions*/
+.firstfooter img, .firstfooter h4, .firstfooter h5{
+    
+    transition: .5s;
+}
+
+.firstfooter img:hover {
+    opacity: 100%;
+
+}
+
+
+
+
+
+.linkcol .fab, .linkcol h4{
+    transition: .5s;
+}
+
+.linkcol .fab:hover, .linkcol h4:hover {
+    color: #8D1D25;
+}
+
+.linkcol p {
+    transition: .5s;
+}
+
+.linkcol p:hover {
+    opacity: 100%;
+}
+
+.linkcol a {
+    text-decoration: none;
+}
+
+
+
+@media screen and (max-width: 960px) {
+    .firstfooter{
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+
+    .secondfooter {
+        flex-basis: 100%;
+    }
+
+    .linkcol {
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+}
+
+.cursor {
+    position:fixed;
+    width:3rem;
+    height:3rem;
+    border: 2px solid white;
+    border-radius:50%;
+    
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    transition:0.1s;
+    transition:all 0.5s ease;
+    transition-property: width, height;
+    /* transform-origin:100% 100%; */ 
+    z-index: 100;
+
+}
+
+.link-grow {
+    width:10rem;
+    height:10rem;
+    border: 2px dashed white;
+    animation: animate 5s linear infinite;
+    background:rgba(0,0,0, 0.3);
+
+}
+    
+
+@keyframes animate {
+    0%
+    {
+        transform: translate(-50%,-50%) rotate(0deg);
+    }
+
     100%
     {
         transform: translate(-50%,-50%) rotate(360deg);
@@ -452,10 +783,18 @@ input{
 var show = document.getElementById('nav-links');
 function showMenu(){
 show.style.display='block';
->>>>>>> Stashed changes
 
+show.style.right='0';
+}
 
+function closeMenu(){
+show.style.right='-200px';
+}
 
-    ?>
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-</section>
+</body>
+</html>
