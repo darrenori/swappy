@@ -13,38 +13,38 @@ $username = $jwtarrayinformation['username'];
 
 
 
-try {
-    $query = $conn->prepare("SELECT mydb.products.product_id,product_name,store_name,product_price,product_about,total_quantity FROM mydb.storeprod
-    INNER JOIN mydb.products
-    ON mydb.storeprod.product_id = mydb.products.product_id
-    INNER JOIn mydb.store
-    ON mydb.store.store_id = mydb.storeprod.store_id ORDER BY mydb.products.product_id;");
+// try {
+//     $query = $conn->prepare("SELECT mydb.products.product_id,product_name,store_name,product_price,product_about,total_quantity FROM mydb.storeprod
+//     INNER JOIN mydb.products
+//     ON mydb.storeprod.product_id = mydb.products.product_id
+//     INNER JOIn mydb.store
+//     ON mydb.store.store_id = mydb.storeprod.store_id ORDER BY mydb.products.product_id;");
 
-    if ($query === false) {
-        //change filename accordingly
-        throw new Exception("Statement Preparation failed(productmanager)");
-    }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/campus");
-    exit;
-}
-// throws error "Statment Execution failed" when statement fails
-try {
-    $execute = $query->execute();
-    if ($execute === false) {
-        throw new Exception("Statement Execution failed (productmanager)");
-    }
-} catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/campus");
+//     if ($query === false) {
+//         //change filename accordingly
+//         throw new Exception("Statement Preparation failed(productmanager)");
+//     }
+// } catch (Exception $e) {
+//     echo 'Message: ' . $e->getMessage();
+//     //change header location accordingly
+//     header("location: https://www.swapamc.com/swapproj/campus");
+//     exit;
+// }
+// // throws error "Statment Execution failed" when statement fails
+// try {
+//     $execute = $query->execute();
+//     if ($execute === false) {
+//         throw new Exception("Statement Execution failed (productmanager)");
+//     }
+// } catch (Exception $e) {
+//     echo 'Message: ' . $e->getMessage();
+//     header("location: https://www.swapamc.com/swapproj/campus");
 
-    exit;
-}
+//     exit;
+// }
 
 
-$query->bind_result($prodid,$name,$store,$price,$about,$quantity);
+// $query->bind_result($prodid,$name,$store,$price,$about,$quantity);
 
 
 ?>
@@ -68,9 +68,9 @@ $query->bind_result($prodid,$name,$store,$price,$about,$quantity);
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
@@ -231,9 +231,8 @@ html, body {
 }
 
 .manageproducts {
-    background:rgba(255,255,255, 0.3);
     padding-top: 30px;
-    border-left: 8px solid #8D1D25;
+
     
 
 }
@@ -242,7 +241,7 @@ html, body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-left: 30px;
+    padding-left: 38px;
     flex-direction: row;
     flex-flow: row-wrap;
     width: 100%;
@@ -321,7 +320,7 @@ html, body {
 
 
 
-
+/* part3 */
 .previouscontainer {
     display: flex;
     flex-wrap: wrap;
@@ -331,6 +330,8 @@ html, body {
 
 .manageprevlogs {
     padding-top: 30px;
+    border-left: 8px solid #8D1D25;
+    background:rgba(255,255,255, 0.3);
 
 }
 
@@ -339,7 +340,7 @@ html, body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-left: 38px;
+    padding-left: 30px;
     
     flex-direction: row;
     flex-flow: row-wrap;
@@ -725,7 +726,7 @@ html, body {
 
         <div class='information'>
             <div class='rowoneinfo'>
-                <h1>Product Admin</h1>
+                <h1>Admin Logs</h1>
             </div>
 
 
@@ -782,71 +783,10 @@ html, body {
             </div>
 
 
-            <div class='rowthreeinfo'>
-                <h2 id='productstext'>Products</h2>
-                <a href="https://www.swapamc.com/swapproj/productmanageradd"><button type='button'>Add</button></a>
-            </div>
+        
 
 
-            <div class='productscontainer'>
-                <table class="styled-table">
-
-
-
-
-                        <thead>
-                            <tr>
-                                <th id='test'><span>#</span></th>
-                                <th>Store</th>
-                                <th>URL</th>
-                                <th>Price Point</th>
-                                <th>About</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-
-
-
-
-                        <tbody>
-
-
-
-<?php
-while($query->fetch()){
-
-    echo "<tr>";
-    echo "<td onclick='test($prodid)'; class='prodid'>$prodid</td>";
-    echo "<td>$name</td>";
-    echo "<td>$store</td>";
-    echo "<td>$price</td>";
-    echo "<td>$about</td>";
-    echo "<td>$quantity</td>";
-
-
-    echo "</tr>";
-
-
-    
-}
-
-?>
-
-
-
-
-                            
-
-                            
-                        
-                        
-                    </tbody>
-
-
-
-                    
-                </table>
-            </div>
+            
 
 
 
