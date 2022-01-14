@@ -115,7 +115,7 @@ html, body {
     
     flex-wrap: wrap;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 
 }
 
