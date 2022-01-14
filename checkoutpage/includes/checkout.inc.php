@@ -55,10 +55,13 @@ if (isset($_POST["submit"])) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
         exit();
     } else {
+        reduceInventory($conn);
         
         addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype,$ccnum);
         cartpurchased($conn);
         addIntoPastPurchase($conn);
+
+        
         
         header("location: https://www.swapamc.com/swapproj/checkout/success");
         echo 'successfully added';

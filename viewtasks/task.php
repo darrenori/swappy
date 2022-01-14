@@ -1,9 +1,19 @@
 <?php
 
 
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
+if(!isset($jwtarrayinformation['workingid'])||$jwtarrayinformation['workingid']==null){
+    header("location: https://www.swapamc.com/swapproj/campus?error=notemployee");
+    exit;
+} else {
+    $workingid = $jwtarrayinformation['workingid'];
+}
 
+// print_r($jwtarrayinformation);
 
 ?>
 
@@ -465,12 +475,9 @@
 
     <div class='boxcontainer'>
 
-        <div class='row'>
+        <!-- <div class='row'>
             <div class='left'>
-                <div class='line'>
-
-                </div>
-
+                
                 <div class='upper'>
                     <div class='line'></div>
                     <div class='lefttext'>
@@ -499,6 +506,7 @@
                     </div>
                 </div>
                 
+                
 
             </div>
 
@@ -513,7 +521,126 @@
                 </select>
 
             </div>
-        </div>
+        </div> -->
+
+        <?php
+
+            
+
+
+
+
+
+            try {
+                $query = $conn->prepare("SELECT task_id,task_name,task_details,task_progress,task_assignedby,task_dateassigned,task_datetofinish,task_dateedited FROM mydb.employees_task WHERE working_id = ?;");
+                $query->bind_param('s',$workingid);
+                if ($query === false) {
+                    //change filename accordingly
+                    throw new Exception("Statement Preparation failed(viewtask)");
+                }
+            } catch (Exception $e) {
+                echo 'Message: ' . $e->getMessage();
+                //change header location accordingly
+                header("location: https://www.swapamc.com/swapproj/campus?error=stmt");
+                exit;
+            }
+        
+        
+            try {
+                $execute = $query->execute();
+                if ($execute === false) {
+                    throw new Exception("Statement Preparation failed(viewtask)");
+                }
+            } catch (Exception $e) {
+                echo 'Message: ' . $e->getMessage();
+                header("location: https://www.swapamc.com/swapproj/campus?error=stmt");
+                exit;
+            }
+
+            $query->bind_result($tid,$tname,$tdetails,$tprogress,$tassignedby,$tdateassigned,$tdatefinish,$tdateedited);
+
+            while($query->fetch()){
+                echo "<div class='row'>";
+                echo "<div class='left'>";
+                    
+                    echo "<div class='upper'>";
+                    
+                        echo "<div class='lefttext'>";
+                            echo "<p class='title'>$tname</p>";
+                            echo "<p class='description'>$tdetails</p>";
+                            echo "<p class='assignedby'>Assigned by: $tassignedby</p>";
+                        echo "</div>";
+    
+                    echo "</div>";
+    
+                    echo "<div class='timings'>";
+                        echo "<div class='start'>";
+                        echo "<p>Start Time</p>";
+                            echo "<p> $tdateassigned </p>";
+    
+                        echo "</div>";
+    
+                        echo "<i id='arrow' class='fas fa-chevron-circle-right'></i>";
+    
+    
+    
+                        echo "<div class='end'>";
+                            echo "<p>Start Time</p>";
+                            echo "<p>$tdatefinish</p>";
+
+                            echo "</div>";
+
+                        if(isset($tdateedited)){
+                            echo "<p>Edited: $tdateedited</p>";
+
+                        }
+    
+                        
+                       
+                    echo "</div>";
+                    
+    
+                echo "</div>";
+    
+                echo "<div class='right'>";
+                    echo "<p>Progress:</p>";
+    
+                    echo "<select name='progress' class='custom-select' id='$tid' onchange='updateStatus($tid,$workingid)'>";
+                    
+
+                        if($tprogress=='0'){
+                            echo "<option value='0' selected>Received</option>";
+                            echo "<option value='1'>In Progress</option>";
+                            echo "<option value='2'>Waiting</option>";
+
+                        } elseif($tprogress=='1'){
+                            echo "<option value='0'>Received</option>";
+                            echo "<option value='1' selected>In Progress</option>";
+                            echo "<option value='2'>Waiting</option>";
+
+                        } elseif($tprogress=='2'){
+                            echo "<option value='0'>Received</option>";
+                            echo "<option value='1'>In Progress</option>";
+                            echo "<option value='2' selected>Waiting</option>";
+
+                        }
+                         
+                        
+                    echo "</select>";
+    
+                echo "</div>";
+                echo "</div>";
+
+            }
+
+
+           
+
+
+
+
+
+        ?>
 
     </div>
     
@@ -534,6 +661,38 @@
     
     function closeMenu(){
         show.style.right='-200px';
+    }
+
+
+
+    function updateStatus(tid,wid){
+        // console.log(tid);
+        progress = document.getElementById(tid).value;
+        var jsonString = JSON.stringify(tid+','+wid+','+progress);
+
+        
+
+        jQuery.ajax({
+                url:'https://www.swapamc.com/swapproj/updatestatus',
+                type:'post',
+                data: {info:jsonString},
+                
+
+                success:function(result){
+                    
+                    
+                    
+
+
+                
+
+                    
+                    
+                    
+                }
+
+            });
+
     }
 </script>
 </html>

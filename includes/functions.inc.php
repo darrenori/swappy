@@ -198,6 +198,25 @@ function verification2fa($email)
     return $result;
 }
 
+function isEmployee($conn,$id){
+    $workingid=null;
+
+    $query=$conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
+
+    if($query->execute()){
+        $query->bind_result($workingid);
+
+        if($query->fetch()){
+            return $workingid;
+        } else {
+            return null;
+        }
+
+    }
+    
+
+}
+
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd, $remember)
 {
@@ -240,6 +259,13 @@ function loginUser($conn, $username, $pwd, $remember)
         $array['userid'] = $uidExists["user_id"];
         $array['useremail'] = $uidExists["username_email"];
         $array['profilepic'] = $uidExists['user_profilepicture'];
+
+        $workingid=isEmployee($conn,$array['userid']);
+
+        if($workingid!=null&&isset($workingid)){
+            $array['workingid'] = $workingid;
+            
+        }
 
 
         $encrypted = jwtencrypt($array);
@@ -561,6 +587,144 @@ function cartpurchased($conn)
     }
     $query->close();
 }
+
+
+
+function reduceInventory($conn){
+    print_r($_SESSION['cart']);
+
+    $cartarray = $_SESSION['cart'];
+
+    for($i=0;$i<sizeof($cartarray);$i++){
+        $cartid = $cartarray[$i];
+
+
+
+        
+
+        try {
+            $query = $conn->prepare("SELECT quantity,productcode FROM mydb.user_cart WHERE cart_id = ?;");
+
+            $query->bind_param('s',$cartid);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(checkout)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $productcode=null;
+        $quantity=null;
+        $query->bind_result($quantity,$productcode);
+        $query->fetch();
+        $query->close();
+
+        echo "<br><br><br>";
+        
+
+        echo $productcode;
+
+
+
+
+        //get quantity left
+        try {
+            $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = ?;");
+            $query->bind_param('s',$productcode);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $quantityleft=null;
+        $query->bind_result($quantityleft);
+
+        $query->fetch();
+
+        $quantityleft = $quantityleft - $quantity;
+        
+        $query->close();
+
+
+        //update new values!
+        
+        try {
+            $query = $conn->prepare("UPDATE mydb.inventory SET quantityleft = ? WHERE productcode = ?");
+            $query->bind_param('ss',$quantityleft,$productcode);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $query->close();
+        
+
+
+
+
+    }
+    
+
+    
+    
+}
+
+
+
+
+
 function calculatetotalprice($conn)
 {
     $selectedcarts = $_SESSION['cart'];

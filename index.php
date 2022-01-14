@@ -229,3 +229,4 @@ $router->get('/faq/employee','faq/employee.php');
 
 $router->get('/viewtask','viewtasks/task.php');
 
+$router->post('/updatestatus','viewtasks/updatestatus.inc.php');
