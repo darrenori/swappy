@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $role = $jwtarrayinformation['role'];
 $username = $jwtarrayinformation['username'];
 
-
+ 
 
 
 // try {
@@ -456,8 +456,8 @@ html, body {
 
 .styled-table {
     width: 100%;
-    column-gap: 40px;
-    border-spacing: 10px;
+    /* column-gap: 40px;
+    border-spacing: 10px; */
 }
 
 .styled-table thead tr {
@@ -565,7 +565,25 @@ html, body {
     color: white;
 } 
 
+.variant {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+}
 
+.variant button {
+    margin-right: 10px;
+    margin-top: 20px;
+    flex-basis: 30%;
+}
+
+#typete {
+    color:#8D1D25;
+    margin: 20px 0;
+    font-size: 1.3em;
+}
 
 
 </style>
@@ -731,8 +749,34 @@ html, body {
 
 
             <div class='rowtwoinfo'>
-                <h2 id='storestext'>Stores</h2>
-                <a href="#"><button type='button'>Add</button></a>
+                <h2 id='storestext'>Logs</h2>
+                <?php
+                    if(isset($_GET['type'])&&$_GET['type']!=null){
+                        if($_GET['type']==1||$_GET['type']==2||$_GET['type']==3||$_GET['type']==4){
+                            $type = $_GET['type'];
+                            echo '<a href="https://www.swapamc.com/swapproj/downloadlogs?type='.$type.'"><button type="button">Download logs</button></a>';
+                        }
+                    } else {
+                        echo '<a href="https://www.swapamc.com/swapproj/downloadlogs"><button type="button">Download logs</button></a>';
+
+                    }
+                    
+
+
+                ?>
+                <p id='typete'>Type</p>
+                <div class='variant'>
+
+
+                    
+                    <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=4';">Emergency</button>
+                    <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=3';">Alert</button>
+                    <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=2';">Error</button>
+                    <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=1';">Warning</button>
+                    <button style='background-color:black' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">Reset</button>
+                    
+                </div>
+                
             </div>
 
 
@@ -743,35 +787,181 @@ html, body {
                         <thead>
                             <tr>
                                 <th id='test'><span>#</span></th>
-                                <th>Store</th>
-                                <th>URL</th>
-                                <th>Price Point</th>
-                                <th>About</th>
-                                <th>Status</th>
+                                <th id='test'><span>Date</span></th>
+                                
+                                <th>Place</th>
+                                <th>Severity</th>
+                                <th>IP & Port</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
-
-
-
-
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>TPAMC</td>
-                                <td>https://www.tpamc.com</td>
-                                <td>$</td>
-                                <td>About</td>
-                                <td><span  id='status'>Active</span></td>
-                            </tr>
+                        <?php
+                            
+                            $handle = fopen("C:\\xampp\\htdocs\\swap.log", "r");
+                            if ($handle) {
+                                $counter = 0;
+                                while (($line = fgets($handle)) !== false && $counter<50) {
+                                    // process the line read.
+                                    $counter++;
+                                    
 
-                            <tr>
-                                <td>1</td>
-                                <td>TPAMC</td>
-                                <td>https://www.tpamc.com</td>
-                                <td>$</td>
-                                <td>About</td>
-                                <td>Active</td>
-                            </tr>
+                                    $array = explode("] ",$line);
+                                    // print_r($array);
+
+
+                                    //removes all [
+                                    $date = str_replace('[','',$array[0]); 
+                                    $date = substr($date, 0, strpos($date, "."));
+
+
+                                    $ip = str_replace('[','',$array[3]);
+                                    $ip = str_replace('client','',$ip); 
+                                    
+
+
+
+
+
+
+
+
+
+                                    
+
+
+                                    //if custom
+                                    $custom = $array[4];
+                                    //only custom has tpamc
+                                    if (strpos($custom, 'TPAMC') !== false) {
+                                        $custom=explode(":",$custom);
+                                        // print_r($custom);
+
+                                        $place=$custom[1];
+                                        $severity=$custom[2];
+                                        $desc=$custom[4];
+
+                                        if(isset($_GET['type'])&&$_GET['type']!=null){
+                                            $type=$_GET['type'];
+                                            
+                                            if($type==1 || $type==2 || $type==3 || $type==4){
+                                                
+                                                
+                                                
+                                            }else {
+                                                $type=null;
+    
+                                            }
+    
+                                            if($severity==$type){
+                                                echo "<tr>";
+                                                echo "<td>$counter</td>";
+                                                echo "<td>$date</td>";
+                                                echo "<td>$place</td>";
+    
+                                                if($severity==1){
+                                                    echo "<td>Warning</td>";
+    
+                                                }elseif($severity==2){
+                                                    echo "<td>Error</td>";
+                                                    
+    
+                                                }elseif($severity==3){
+                                                    echo "<td>Alert</td>";
+    
+                                                }elseif($severity==4){
+                                                    echo "<td>Emergency</td>";
+    
+                                                } else {
+                                                    echo "<td>-</td>";
+                                                }
+                                                
+                                                echo "<td>$ip</td>";
+                                                echo "<td>$desc</td>";
+    
+    
+    
+    
+                                                echo "</tr>";
+    
+                                            }
+                                        } else {
+                                            echo "<tr>";
+                                            echo "<td>$counter</td>";
+                                            echo "<td>$date</td>";
+                                            echo "<td>$place</td>";
+    
+                                            if($severity==1){
+                                                echo "<td>Warning</td>";
+    
+                                            }elseif($severity==2){
+                                                echo "<td>Error</td>";
+                                                
+    
+                                            }elseif($severity==3){
+                                                echo "<td>Alert</td>";
+    
+                                            }elseif($severity==4){
+                                                echo "<td>Emergency</td>";
+    
+                                            } else {
+                                                echo "<td>-</td>";
+                                            }
+                                            
+                                            echo "<td>$ip</td>";
+                                            echo "<td>$desc</td>";
+    
+    
+    
+    
+                                            echo "</tr>";
+    
+                                        }
+                                        
+                                    }
+
+                                    
+
+                                    
+
+
+                                    
+
+
+                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    
+                                    
+
+                                    // echo "<br><br><br>";
+
+                                    
+                                }
+
+                                fclose($handle);
+                            } else {
+                                // error opening the file.
+                            } 
+
+
+                        ?>
+
+
+
+
+                            
                         
                         
                     </tbody>

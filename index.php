@@ -240,3 +240,4 @@ $router->post('/updatestatus','viewtasks/updatestatus.inc.php');
 //logs
 
 $router->get('/adminlogs','admin/adminlogs.php');
+$router->get('/downloadlogs','admin/download.php');

@@ -7,7 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
-
+// phpinfo();
 
 echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
 echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
@@ -51,7 +51,7 @@ echo "<h4><a href='https://www.swapamc.com/swapproj/viewpurchases'>Purchases</a>
 
 
 $ip=$_SERVER['REMOTE_ADDR'] ;
-error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0);
+error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0,"C:\xampp\htdocs\swap.log");
 
 $userid = $jwtarrayinformation['userid'];
 
