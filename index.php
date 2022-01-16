@@ -232,6 +232,20 @@ $router->get('/viewtask','viewtasks/task.php');
 $router->post('/updatestatus','viewtasks/updatestatus.inc.php');
 
 
+###zeph
+//store amager
+$router->get('/storemanageradd','storemanager/storemanageradd.php');
+$router->get('/storemanage','storemanager/storemanager.php');
+$router->get('/storemanager/editstore','storemanager/editstore.php');
+
+
+//storemanagerinc
+$router->post('/storemanageraddinc','storemanager/includes/storemanageradd.inc.php');
+$router->post('/storemanageraddall','storemanager/includes/storemanagerall.inc.php');
+
+$router->post('/storemanager/editstoreinc','storemanager/includes/editstore.inc.php');
+$router->get('/storemanager/deletestoreinc','storemanager/includes/deletestore.inc.php');
+
 
 
 

@@ -502,7 +502,7 @@ function calculateProductCode($array){
 
 function badInputTwo($array){
     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
-
+    // checks for anything that is not from the following list
     $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
 
     for($i=0;$i<sizeof($array);$i++){

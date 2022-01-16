@@ -9,53 +9,52 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 $role = $jwtarrayinformation['role'];
 $username = $jwtarrayinformation['username'];
+$imagesarraypath;
 
 
 
 
+
+###ZEPH THIS IS FOR STORES
+// throws error "Statment Preparation failed" when statement fails
 try {
-    $query = $conn->prepare("SELECT mydb.products.product_id,product_name,store_name,product_price,product_about,total_quantity FROM mydb.storeprod
-    INNER JOIN mydb.products
-    ON mydb.storeprod.product_id = mydb.products.product_id
-    INNER JOIn mydb.store
-    ON mydb.store.store_id = mydb.storeprod.store_id ORDER BY mydb.products.product_id;");
-
+    $query = $conn->prepare("SELECT * FROM mydb.store;");
     if ($query === false) {
-        //change filename accordingly
-        throw new Exception("Statement Preparation failed(productmanager)");
+        throw new Exception("Statement Preparation failed(productmanagerstore)");
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
-    header("location: https://www.swapamc.com/swapproj/campus");
+    header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
     exit;
 }
 // throws error "Statment Execution failed" when statement fails
 try {
     $execute = $query->execute();
     if ($execute === false) {
-        throw new Exception("Statement Execution failed (productmanager)");
+        throw new Exception("Statement Execution failed (productmanagerstore)");
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/campus");
-
+    header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
     exit;
 }
 
 
-$query->bind_result($prodid,$name,$store,$price,$about,$quantity);
+$query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $imagesarraypath[0], $imagesarraypath[1], $imagesarraypath[2], $storeaddress, $storenumber, $websitelink, $storestatus, $storerating);
+
+
 
 
 ?>
 
+
 <html>
 
-    <style>
-        textarea {
-            resize:none;
-        }
-    </style>
+<style>
+    textarea {
+        resize: none;
+    }
+</style>
 
 
 
@@ -65,793 +64,926 @@ $query->bind_result($prodid,$name,$store,$price,$about,$quantity);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 <style>
-
-
-*{
-    margin:0;
-    padding:0;
-    font-family:sans-serif;
-}
-body {
-
-    overflow:hidden;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #EEEEEE;
-    
-
-}
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.wrapper {
-    width: 100vw;
-    display:flex;
-    justify-content:flex-start;
-    flex-wrap:wrap;
-}
-
-
-.sidebar {
-    flex-basis: 23%;
-    background-image: linear-gradient(180deg, black, #8D1D25);
-    min-height: 100vh;
-    
-
-}
-
-.rowone {
-    
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
-
-}
-
-#logo {
-    padding: 10px 30px;
-
-    flex-basis: 50%;
-    
-}
-
-
-.information {
-    flex-basis: 70%;
-
-}
-
-.rowtwo {
-    
-    border-top: 2px solid grey;
-    border-bottom: 2px solid grey;
-}
-
-
-
-.rowtwowrapper {
-    padding: 20px 30px;
-
-
-    
-}
-
-
-.rowtwowrapper #profiletext{
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.2em;
-    color: white;
-    opacity: 50%;
-}
-
-
-.profileinfo {
-    padding: 10px 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content:space-between;
-}
-
-
-
-
-.profilepic {
-    
-<?php
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
-    $image = new Image();
-    $profilepicture = $jwtarrayinformation['profilepic'];
-    $src = $image->show($profilepicture);
-    echo "background-image: url('$src');";
-?>
-    background-position: center;
-    background-size:cover;
-    background-image: black;
-    width: 60px;
-    height:60px;
-    border-radius: 50%;
-}
-
-
-.text {
-    flex-basis: 60%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-
-#username {
-    color: white;
-    font-size: 18px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-#role {
-    color: white;
-    opacity: 50%;
-    
-    font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-.rowthree {
-    padding:20px 0px; 
-}
-
-
-.rowthree #manage {
-    padding: 10px 30px;
-}
-
-#manage {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.2em;
-    color: white;
-    opacity: 50%;
-
-}
-
-.managecontainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-.manageproducts {
-    background:rgba(255,255,255, 0.3);
-    padding-top: 30px;
-    border-left: 8px solid #8D1D25;
-    
-
-}
-
-.textmanagecontainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-left: 30px;
-    flex-direction: row;
-    flex-flow: row-wrap;
-    width: 100%;
-}
-
-.textmanagecontainer i{
-    color: white;
-    
-    font-size: 1.5em;
-    flex-basis: 5%;
-    
-    
-
-}
-
-.textmanagecontainer span{
-    color: white;
-    flex-basis: 80%;
-
- 
-    
-    font-family: 'Montserrat', sans-serif;
-    
-
-}
-
-/* 2nd part */
-
-.employeecontainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-
-}
-
-.manageemployee {
-    padding-top: 30px;
-
-}
-
-
-.textmanagecontaineremployee {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-left: 38px;
-    width: 100%;
-    
-    flex-direction: row;
-    flex-flow: row-wrap;
-
-}
-
-.textmanagecontaineremployee i{
-    color: white;
-    
-    font-size: 1.5em;
-    flex-basis: 5%;
-
-    
-    
-    
-
-}
-
-.textmanagecontaineremployee span{
-    
-    color: white;
-    flex-basis: 80%;
-    
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-
-
-
-
-
-.previouscontainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-
-}
-
-.manageprevlogs {
-    padding-top: 30px;
-
-}
-
-
-.textmanagecontainerlogs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-left: 38px;
-    
-    flex-direction: row;
-    flex-flow: row-wrap;
-    width: 100%;
-
-}
-
-.textmanagecontainerlogs i{
-    color: white;
-    
-    font-size: 1.5em;
-    flex-basis: 5%;
-
-    
-    
-
-}
-
-.textmanagecontainerlogs span{
-    
-    color: white;
-    flex-basis: 80%;
-    font-family: 'Montserrat', sans-serif;
-    
-
-}
-
-
-.bottomsection {
-    border-top: 2px solid white;
-    margin-top: 200px;
-    
-    padding-top: 50px;
-    position: relative;
-    justify-self: center;
-    
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-}
-
-.viewprofile {
-    
-}
-
-.viewprofile a {
-    text-decoration: none;
-    color: #35B5EB;
-    transition: .5s;
-    padding-bottom: 4px;
-    border-bottom: 2px solid #35B5EB;
-}
-
-.viewprofile a:hover {
-    color: white;
-    border-bottom: 2px solid white;
-}
-
-
-
-
-.information {
-    flex-grow: 1;
-}
-
-
-.rowoneinfo {
-    
-    background-color: white;
-    padding: 20px 30px;
-    
-}
-
-.rowoneinfo h1 {
-    color: black;
-}
-
-
-.rowtwoinfo, .rowthreeinfo {
-    padding: 20px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-
-
-.rowtwoinfo #storestext, .rowthreeinfo #productstext {
-    color: #8D1D25;
-    padding: 10px 0;
-    font-weight: 550;
-
-}
-
-.rowtwoinfo button, .rowthreeinfo button {
-    border:0;
-    background-color: white;
-    color:#8D1D25;
-    padding: 10px 89px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.storescontainer, .productscontainer {
-    margin:30px 30px;
-    padding:20px 20px;
-    background-color: white;
-    border-radius: 4px;
-}
-
-/* table */
-
-.styled-table {
-    width: 100%;
-    column-gap: 40px;
-    border-spacing: 10px;
-}
-
-.styled-table thead tr {
-    /* background-color: rgba(0,0,0, 0.7); */
-    color: black;
-    text-align: left;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 25px;
-    
-    
-    border-radius: 4px;
-}
-
-
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-    color: #191919;
-    transition: .5s;
-    
-}
-
-/* .styled-table tbody tr:hover {
-    background-color: #f3f3f3;
-    
-    color: white;
-    
-} */
-
-
-.styled-table tbody tr:nth-of-type(odd) {
-    background-color: #f3f3f3;
-    border: 1px solid #f3f3f3;
-    border-radius: 10px;
-}
-
-
-
-
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
-
-/* .styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-} */
-
-#status {
-    background-color: rgba(68,196,115, 0.5);
-    color: green;
-    padding: 6px 25px;
-    border-radius: 10px;
-}
-
-
-.rowtwoinfo #storestext {
-    color: #8D1D25;
-    padding: 10px 0;
-    font-weight: 550;
-
-}
-@media(max-width:900px){
-    .information {
-        flex-basis: 100%;
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
     }
+
+    body {
+
+        overflow: hidden;
+        font-family: 'Montserrat', sans-serif;
+        background-color: #EEEEEE;
+
+
+    }
+
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .wrapper {
+        width: 100vw;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
 
     .sidebar {
-        flex-basis: 100%;
+        flex-basis: 23%;
+        background-image: linear-gradient(180deg, black, #8D1D25);
+        min-height: 100vh;
+
+
     }
+
+    .rowone {
+
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    #logo {
+        padding: 10px 30px;
+
+        flex-basis: 50%;
+
+    }
+
+
+    .information {
+        flex-basis: 70%;
+
+    }
+
+    .rowtwo {
+
+        border-top: 2px solid grey;
+        border-bottom: 2px solid grey;
+    }
+
+
+
+    .rowtwowrapper {
+        padding: 20px 30px;
+
+
+
+    }
+
+
+    .rowtwowrapper #profiletext {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.2em;
+        color: white;
+        opacity: 50%;
+    }
+
+
+    .profileinfo {
+        padding: 10px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+
+
+
+    .profilepic {
+
+        <?php
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+        $image = new Image();
+        $profilepicture = $jwtarrayinformation['profilepic'];
+        $src = $image->show($profilepicture);
+        echo "background-image: url('$src');";
+        ?>background-position: center;
+        background-size: cover;
+        background-image: black;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+
+
+    .text {
+        flex-basis: 60%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+
+    #username {
+        color: white;
+        font-size: 18px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    #role {
+        color: white;
+        opacity: 50%;
+
+        font-size: 14px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+
+    .rowthree {
+        padding: 20px 0px;
+    }
+
+
+    .rowthree #manage {
+        padding: 10px 30px;
+    }
+
+    #manage {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.2em;
+        color: white;
+        opacity: 50%;
+
+    }
+
+    .managecontainer {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .manageproducts {
+        background: rgba(255, 255, 255, 0.3);
+        padding-top: 30px;
+        border-left: 8px solid #8D1D25;
+
+
+    }
+
+    .textmanagecontainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding-left: 30px;
+        flex-direction: row;
+        flex-flow: row-wrap;
+        width: 100%;
+    }
+
+    .textmanagecontainer i {
+        color: white;
+
+        font-size: 1.5em;
+        flex-basis: 5%;
+
+
+
+    }
+
+    .textmanagecontainer span {
+        color: white;
+        flex-basis: 80%;
+
+
+
+        font-family: 'Montserrat', sans-serif;
+
+
+    }
+
+    /* 2nd part */
+
+    .employeecontainer {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+    }
+
+    .manageemployee {
+        padding-top: 30px;
+
+    }
+
+
+    .textmanagecontaineremployee {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding-left: 38px;
+        width: 100%;
+
+        flex-direction: row;
+        flex-flow: row-wrap;
+
+    }
+
+    .textmanagecontaineremployee i {
+        color: white;
+
+        font-size: 1.5em;
+        flex-basis: 5%;
+
+
+
+
+
+    }
+
+    .textmanagecontaineremployee span {
+
+        color: white;
+        flex-basis: 80%;
+
+        font-family: 'Montserrat', sans-serif;
+    }
+
+
+
+
+
+
+
+    .previouscontainer {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+    }
+
+    .manageprevlogs {
+        padding-top: 30px;
+
+    }
+
+
+    .textmanagecontainerlogs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding-left: 38px;
+
+        flex-direction: row;
+        flex-flow: row-wrap;
+        width: 100%;
+
+    }
+
+    .textmanagecontainerlogs i {
+        color: white;
+
+        font-size: 1.5em;
+        flex-basis: 5%;
+
+
+
+
+    }
+
+    .textmanagecontainerlogs span {
+
+        color: white;
+        flex-basis: 80%;
+        font-family: 'Montserrat', sans-serif;
+
+
+    }
+
+
+    .bottomsection {
+        border-top: 2px solid white;
+        margin-top: 200px;
+
+        padding-top: 50px;
+        position: relative;
+        justify-self: center;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    .viewprofile {}
+
+    .viewprofile a {
+        text-decoration: none;
+        color: #35B5EB;
+        transition: .5s;
+        padding-bottom: 4px;
+        border-bottom: 2px solid #35B5EB;
+    }
+
+    .viewprofile a:hover {
+        color: white;
+        border-bottom: 2px solid white;
+    }
+
+
+
+
+    .information {
+        flex-grow: 1;
+    }
+
+
+    .rowoneinfo {
+
+        background-color: white;
+        padding: 20px 30px;
+
+    }
+
+    .rowoneinfo h1 {
+        color: black;
+    }
+
+
+    .rowtwoinfo,
+    .rowthreeinfo {
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+
+
+    .rowtwoinfo #storestext,
+    .rowthreeinfo #productstext {
+        color: #8D1D25;
+        padding: 10px 0;
+        font-weight: 550;
+
+    }
+
+    .rowtwoinfo button,
+    .rowthreeinfo button {
+        border: 0;
+        background-color: white;
+        color: #8D1D25;
+        padding: 10px 89px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .storescontainer,
+    .productscontainer {
+        margin: 30px 30px;
+        padding: 20px 20px;
+        background-color: white;
+        border-radius: 4px;
+    }
+
+    /* table */
 
     .styled-table {
-        column-gap: 2px;
-        border-spacing: 2px;
+        width: 100%;
+        column-gap: 40px;
+        border-spacing: 10px;
     }
 
-
+    .styled-table thead tr {
+        /* background-color: rgba(0,0,0, 0.7); */
+        color: black;
+        text-align: left;
+    }
 
     .styled-table th,
     .styled-table td {
-        padding: 12px 10px;
-        
-        
+        padding: 12px 25px;
+
+
         border-radius: 4px;
     }
 
 
-}
 
-.prodid a {
-    text-decoration: none;
-    color:grey;
-   
-}
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+        color: #191919;
+        transition: .5s;
 
-.prodid {
-    transition: .5s;
-}
+    }
 
-.prodid:hover {
-    background-color: #8D1D25;
+    /* .styled-table tbody tr:hover {
+    background-color: #f3f3f3;
+    
     color: white;
-} 
+    
+} */
+
+
+    .styled-table tbody tr:nth-of-type(odd) {
+        background-color: #f3f3f3;
+        border: 1px solid #f3f3f3;
+        border-radius: 10px;
+    }
 
 
 
 
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    /* .styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+} */
+
+    #status {
+        background-color: rgba(68, 196, 115, 0.5);
+        color: green;
+        padding: 6px 25px;
+        border-radius: 10px;
+    }
+
+
+    .rowtwoinfo #storestext {
+        color: #8D1D25;
+        padding: 10px 0;
+        font-weight: 550;
+
+    }
+
+    @media(max-width:900px) {
+        .information {
+            flex-basis: 100%;
+        }
+
+        .sidebar {
+            flex-basis: 100%;
+        }
+
+        .styled-table {
+            column-gap: 2px;
+            border-spacing: 2px;
+        }
+
+
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 10px;
+
+
+            border-radius: 4px;
+        }
+
+
+    }
+
+    .prodid a {
+        text-decoration: none;
+        color: grey;
+
+    }
+
+    .prodid {
+        transition: .5s;
+    }
+
+    .prodid:hover {
+        background-color: #8D1D25;
+        color: white;
+    }
+
+
+
+    /***
+	Bootstrap dropdown container fix
+	for Bootstrap 4 and Material Design Bootstrap
+	Hint : Move out the button or the link declaring the data-toggle="dropdwn" from the .dropdown div
+	Created a dropdown-sm class for smaller dropdowns when using kebabs
+***/
+
+    .dropdown-menu.dropdown-unroll {
+        transition: none;
+    }
+
+    .kebab-link i {
+        font-size: 0.8rem;
+    }
+
+    .kebab-link i:active,
+    .kebab-link i:hover {
+        color: #4285F4;
+    }
+
+
+    /*Try to delete this setting and you'll see the problem*/
+
+    .kebab-dropdown {
+        position: absolute;
+    }
+
+
+    /* material design for dropdown */
+
+    .dropdown-sm>.dropdown-menu>.dropdown-item {
+        padding: 5px;
+        margin-left: 0;
+    }
+
+    .dropdown-menu>.dropdown-item {
+        padding: 1rem;
+        margin-left: 0;
+    }
+
+    .dropdown-menu>.dropdown-item:hover {
+        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+        color: white;
+        background: #4285F4;
+    }
 </style>
 
 
 
 <html>
 
-    <div class='wrapper'>
+<div class='wrapper'>
 
-        <div class='sidebar'>
+    <div class='sidebar'>
 
-            <div class='rowone'>
-                <svg id='logo' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="307.688" height="105.376" viewBox="0 0 307.688 105.376">
-                    <defs>
-                        <linearGradient id="linear-gradient" x1="1.363" y1="-0.243" x2="0.149" y2="0.921" gradientUnits="objectBoundingBox">
-                        <stop offset="0" stop-color="#e26565"/>
-                        <stop offset="1" stop-color="#8d1d25"/>
-                        </linearGradient>
-                    </defs>
-                    <g id="amclogo" transform="translate(-107 -97.817)">
-                        <path id="Exclusion_2" data-name="Exclusion 2" d="M73.306,105.376H68.724V91.632h4.582v13.744Zm-9.163,0H59.561V91.632h4.582v13.744Zm-9.164,0H50.4V91.632h4.581v13.744Zm-9.163,0H41.234V91.632h4.581v13.744Zm-9.163,0H32.071V91.632h4.581v13.744ZM77.887,87.05h-50.4a9.173,9.173,0,0,1-9.163-9.163v-50.4a9.173,9.173,0,0,1,9.163-9.163h50.4a9.173,9.173,0,0,1,9.163,9.163v50.4A9.173,9.173,0,0,1,77.887,87.05ZM52.355,76.883A1.414,1.414,0,0,1,52.9,77c.644.268.811.76,1.062,1.5.044.131.091.27.144.417h1.924c.051-.143.1-.277.14-.406.253-.75.42-1.245,1.069-1.515a1.428,1.428,0,0,1,.546-.115,3,3,0,0,1,1.271.433c.122.061.251.125.389.19l1.364-1.361c-.065-.138-.128-.264-.189-.387-.352-.709-.584-1.178-.315-1.824s.767-.816,1.52-1.07c.126-.042.259-.087.4-.137V70.8c-.145-.052-.281-.1-.411-.142-.747-.252-1.24-.418-1.508-1.063s-.036-1.119.319-1.832c.059-.119.121-.244.185-.378l-1.364-1.362c-.134.064-.259.127-.378.186a3,3,0,0,1-1.279.436,1.421,1.421,0,0,1-.551-.117c-.646-.268-.812-.759-1.062-1.5-.044-.131-.091-.27-.144-.418H54.109c-.051.143-.1.278-.14.407-.253.748-.419,1.243-1.066,1.512a1.413,1.413,0,0,1-.551.117,3,3,0,0,1-1.277-.436c-.12-.06-.246-.123-.38-.187l-1.364,1.362c.065.136.127.262.188.384.353.71.586,1.178.318,1.826s-.761.812-1.508,1.063c-.13.044-.268.09-.413.142v1.927c.14.05.274.095.4.137.753.253,1.251.42,1.521,1.067s.036,1.121-.319,1.832c-.06.12-.123.246-.187.379L50.695,77.5c.135-.064.259-.126.38-.186A3.007,3.007,0,0,1,52.355,76.883Zm15.79-7.83a1.885,1.885,0,0,1,.73.154c.863.357,1.085,1.016,1.421,2.015.058.171.119.353.187.544h2.566c.067-.187.126-.364.183-.534.338-1,.56-1.667,1.429-2.028a1.894,1.894,0,0,1,.729-.154,3.983,3.983,0,0,1,1.689.575c.168.084.338.168.523.256l1.816-1.816c-.087-.184-.171-.354-.253-.518-.468-.944-.776-1.568-.419-2.427s1.026-1.089,2.033-1.427c.168-.056.342-.115.526-.18V60.944c-.191-.068-.369-.128-.542-.186-1-.337-1.659-.559-2.017-1.419s-.049-1.487.42-2.431c.08-.162.165-.333.252-.516L77.6,54.574c-.177.085-.342.167-.5.246a4.024,4.024,0,0,1-1.713.583,1.894,1.894,0,0,1-.731-.154c-.862-.357-1.084-1.017-1.42-2.016-.058-.171-.118-.352-.186-.543H70.482c-.068.191-.128.37-.186.542-.336,1-.558,1.658-1.421,2.017a1.885,1.885,0,0,1-.733.155,3.994,3.994,0,0,1-1.7-.58c-.16-.08-.33-.165-.512-.251l-1.818,1.818c.087.182.17.351.251.514.47.946.78,1.571.422,2.433s-1.018,1.084-2.016,1.419c-.173.058-.352.118-.543.186v2.569c.186.066.36.124.529.181,1.006.337,1.67.56,2.03,1.423s.049,1.491-.422,2.436c-.081.163-.165.331-.251.513L65.93,69.88c.181-.086.347-.169.508-.249A4.019,4.019,0,0,1,68.144,69.052Zm-31.5-7.825a4,4,0,0,1,1.555.329c1.836.76,2.308,2.164,3.021,4.289.123.368.25.746.394,1.149h5.458c.143-.4.27-.778.392-1.142.715-2.127,1.187-3.531,3.035-4.3a3.992,3.992,0,0,1,1.549-.329,8.479,8.479,0,0,1,3.591,1.222c.353.175.715.355,1.108.542L60.6,59.126c-.186-.391-.365-.753-.539-1.1-.994-2-1.652-3.325-.894-5.157s2.166-2.3,4.293-3.017c.366-.123.745-.25,1.148-.394V44c-.407-.145-.788-.273-1.156-.4-2.121-.714-3.522-1.186-4.281-3.016s-.1-3.164.9-5.176c.171-.343.347-.7.53-1.082l-3.858-3.861c-.386.184-.744.361-1.089.533a8.488,8.488,0,0,1-3.613,1.227,4.016,4.016,0,0,1-1.559-.329c-1.833-.76-2.3-2.162-3.018-4.285-.123-.367-.251-.746-.395-1.151H41.611c-.144.4-.271.783-.394,1.15-.713,2.124-1.184,3.527-3.018,4.286a4.033,4.033,0,0,1-1.561.331A8.491,8.491,0,0,1,33.035,31c-.349-.174-.709-.352-1.1-.537l-3.856,3.861c.185.389.363.748.535,1.095,1,2.006,1.655,3.331.9,5.164s-2.163,2.3-4.284,3.017c-.368.124-.749.252-1.155.4v5.458c.406.145.787.273,1.156.4,2.122.714,3.522,1.186,4.28,3.016s.1,3.164-.893,5.164c-.173.348-.352.707-.537,1.094l3.857,3.861c.391-.185.752-.364,1.1-.538A8.484,8.484,0,0,1,36.642,61.227Zm18.43,12.922a2.384,2.384,0,1,1,2.385-2.384A2.387,2.387,0,0,1,55.073,74.149Zm50.3-.843H91.632V68.724h13.744v4.582Zm-91.63,0H0V68.724H13.745v4.582Zm58.02-7.9a3.179,3.179,0,1,1,3.179-3.179A3.182,3.182,0,0,1,71.765,65.405Zm33.611-1.262H91.632V59.561h13.744v4.582Zm-91.63,0H0V59.561H13.745v4.582Zm91.63-9.164H91.632V50.4h13.744v4.581Zm-91.63,0H0V50.4H13.745v4.581Zm30.6-1.494A6.757,6.757,0,1,1,51.1,46.727,6.764,6.764,0,0,1,44.342,53.484Zm61.034-7.669H91.632V41.234h13.744v4.581Zm-91.63,0H0V41.234H13.745v4.581Zm91.63-9.163H91.632V32.071h13.744v4.581Zm-91.63,0H0V32.071H13.745v4.581ZM73.306,13.745H68.724V0h4.582V13.745Zm-9.163,0H59.561V0h4.582V13.745Zm-9.164,0H50.4V0h4.581V13.745Zm-9.163,0H41.234V0h4.581V13.745Zm-9.163,0H32.071V0h4.581V13.745Z" transform="translate(107 97.817)" fill="url(#linear-gradient)"/>
-                        <text id="TPAMC" transform="translate(237.688 126.588)" fill="#fff" font-size="40" font-family="Poppins-Regular, Poppins"><tspan x="0" y="42">TP</tspan><tspan y="42" fill="#8d1d25" font-family="Poppins-Bold, Poppins" font-weight="700">AMC</tspan></text>
-                    </g>
-                </svg>
+        <div class='rowone'>
+            <svg id='logo' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="307.688" height="105.376" viewBox="0 0 307.688 105.376">
+                <defs>
+                    <linearGradient id="linear-gradient" x1="1.363" y1="-0.243" x2="0.149" y2="0.921" gradientUnits="objectBoundingBox">
+                        <stop offset="0" stop-color="#e26565" />
+                        <stop offset="1" stop-color="#8d1d25" />
+                    </linearGradient>
+                </defs>
+                <g id="amclogo" transform="translate(-107 -97.817)">
+                    <path id="Exclusion_2" data-name="Exclusion 2" d="M73.306,105.376H68.724V91.632h4.582v13.744Zm-9.163,0H59.561V91.632h4.582v13.744Zm-9.164,0H50.4V91.632h4.581v13.744Zm-9.163,0H41.234V91.632h4.581v13.744Zm-9.163,0H32.071V91.632h4.581v13.744ZM77.887,87.05h-50.4a9.173,9.173,0,0,1-9.163-9.163v-50.4a9.173,9.173,0,0,1,9.163-9.163h50.4a9.173,9.173,0,0,1,9.163,9.163v50.4A9.173,9.173,0,0,1,77.887,87.05ZM52.355,76.883A1.414,1.414,0,0,1,52.9,77c.644.268.811.76,1.062,1.5.044.131.091.27.144.417h1.924c.051-.143.1-.277.14-.406.253-.75.42-1.245,1.069-1.515a1.428,1.428,0,0,1,.546-.115,3,3,0,0,1,1.271.433c.122.061.251.125.389.19l1.364-1.361c-.065-.138-.128-.264-.189-.387-.352-.709-.584-1.178-.315-1.824s.767-.816,1.52-1.07c.126-.042.259-.087.4-.137V70.8c-.145-.052-.281-.1-.411-.142-.747-.252-1.24-.418-1.508-1.063s-.036-1.119.319-1.832c.059-.119.121-.244.185-.378l-1.364-1.362c-.134.064-.259.127-.378.186a3,3,0,0,1-1.279.436,1.421,1.421,0,0,1-.551-.117c-.646-.268-.812-.759-1.062-1.5-.044-.131-.091-.27-.144-.418H54.109c-.051.143-.1.278-.14.407-.253.748-.419,1.243-1.066,1.512a1.413,1.413,0,0,1-.551.117,3,3,0,0,1-1.277-.436c-.12-.06-.246-.123-.38-.187l-1.364,1.362c.065.136.127.262.188.384.353.71.586,1.178.318,1.826s-.761.812-1.508,1.063c-.13.044-.268.09-.413.142v1.927c.14.05.274.095.4.137.753.253,1.251.42,1.521,1.067s.036,1.121-.319,1.832c-.06.12-.123.246-.187.379L50.695,77.5c.135-.064.259-.126.38-.186A3.007,3.007,0,0,1,52.355,76.883Zm15.79-7.83a1.885,1.885,0,0,1,.73.154c.863.357,1.085,1.016,1.421,2.015.058.171.119.353.187.544h2.566c.067-.187.126-.364.183-.534.338-1,.56-1.667,1.429-2.028a1.894,1.894,0,0,1,.729-.154,3.983,3.983,0,0,1,1.689.575c.168.084.338.168.523.256l1.816-1.816c-.087-.184-.171-.354-.253-.518-.468-.944-.776-1.568-.419-2.427s1.026-1.089,2.033-1.427c.168-.056.342-.115.526-.18V60.944c-.191-.068-.369-.128-.542-.186-1-.337-1.659-.559-2.017-1.419s-.049-1.487.42-2.431c.08-.162.165-.333.252-.516L77.6,54.574c-.177.085-.342.167-.5.246a4.024,4.024,0,0,1-1.713.583,1.894,1.894,0,0,1-.731-.154c-.862-.357-1.084-1.017-1.42-2.016-.058-.171-.118-.352-.186-.543H70.482c-.068.191-.128.37-.186.542-.336,1-.558,1.658-1.421,2.017a1.885,1.885,0,0,1-.733.155,3.994,3.994,0,0,1-1.7-.58c-.16-.08-.33-.165-.512-.251l-1.818,1.818c.087.182.17.351.251.514.47.946.78,1.571.422,2.433s-1.018,1.084-2.016,1.419c-.173.058-.352.118-.543.186v2.569c.186.066.36.124.529.181,1.006.337,1.67.56,2.03,1.423s.049,1.491-.422,2.436c-.081.163-.165.331-.251.513L65.93,69.88c.181-.086.347-.169.508-.249A4.019,4.019,0,0,1,68.144,69.052Zm-31.5-7.825a4,4,0,0,1,1.555.329c1.836.76,2.308,2.164,3.021,4.289.123.368.25.746.394,1.149h5.458c.143-.4.27-.778.392-1.142.715-2.127,1.187-3.531,3.035-4.3a3.992,3.992,0,0,1,1.549-.329,8.479,8.479,0,0,1,3.591,1.222c.353.175.715.355,1.108.542L60.6,59.126c-.186-.391-.365-.753-.539-1.1-.994-2-1.652-3.325-.894-5.157s2.166-2.3,4.293-3.017c.366-.123.745-.25,1.148-.394V44c-.407-.145-.788-.273-1.156-.4-2.121-.714-3.522-1.186-4.281-3.016s-.1-3.164.9-5.176c.171-.343.347-.7.53-1.082l-3.858-3.861c-.386.184-.744.361-1.089.533a8.488,8.488,0,0,1-3.613,1.227,4.016,4.016,0,0,1-1.559-.329c-1.833-.76-2.3-2.162-3.018-4.285-.123-.367-.251-.746-.395-1.151H41.611c-.144.4-.271.783-.394,1.15-.713,2.124-1.184,3.527-3.018,4.286a4.033,4.033,0,0,1-1.561.331A8.491,8.491,0,0,1,33.035,31c-.349-.174-.709-.352-1.1-.537l-3.856,3.861c.185.389.363.748.535,1.095,1,2.006,1.655,3.331.9,5.164s-2.163,2.3-4.284,3.017c-.368.124-.749.252-1.155.4v5.458c.406.145.787.273,1.156.4,2.122.714,3.522,1.186,4.28,3.016s.1,3.164-.893,5.164c-.173.348-.352.707-.537,1.094l3.857,3.861c.391-.185.752-.364,1.1-.538A8.484,8.484,0,0,1,36.642,61.227Zm18.43,12.922a2.384,2.384,0,1,1,2.385-2.384A2.387,2.387,0,0,1,55.073,74.149Zm50.3-.843H91.632V68.724h13.744v4.582Zm-91.63,0H0V68.724H13.745v4.582Zm58.02-7.9a3.179,3.179,0,1,1,3.179-3.179A3.182,3.182,0,0,1,71.765,65.405Zm33.611-1.262H91.632V59.561h13.744v4.582Zm-91.63,0H0V59.561H13.745v4.582Zm91.63-9.164H91.632V50.4h13.744v4.581Zm-91.63,0H0V50.4H13.745v4.581Zm30.6-1.494A6.757,6.757,0,1,1,51.1,46.727,6.764,6.764,0,0,1,44.342,53.484Zm61.034-7.669H91.632V41.234h13.744v4.581Zm-91.63,0H0V41.234H13.745v4.581Zm91.63-9.163H91.632V32.071h13.744v4.581Zm-91.63,0H0V32.071H13.745v4.581ZM73.306,13.745H68.724V0h4.582V13.745Zm-9.163,0H59.561V0h4.582V13.745Zm-9.164,0H50.4V0h4.581V13.745Zm-9.163,0H41.234V0h4.581V13.745Zm-9.163,0H32.071V0h4.581V13.745Z" transform="translate(107 97.817)" fill="url(#linear-gradient)" />
+                    <text id="TPAMC" transform="translate(237.688 126.588)" fill="#fff" font-size="40" font-family="Poppins-Regular, Poppins">
+                        <tspan x="0" y="42">TP</tspan>
+                        <tspan y="42" fill="#8d1d25" font-family="Poppins-Bold, Poppins" font-weight="700">AMC</tspan>
+                    </text>
+                </g>
+            </svg>
 
-            </div>
+        </div>
 
 
-            <div class='rowtwo'>
+        <div class='rowtwo'>
 
-                <div class="rowtwowrapper">
-                    <p id='profiletext'>PROFILE</p>
+            <div class="rowtwowrapper">
+                <p id='profiletext'>PROFILE</p>
 
-                    <div class='profileinfo'>
+                <div class='profileinfo'>
 
-                    
 
-                        <div class='profilepic'>
 
-                        </div>
+                    <div class='profilepic'>
 
-                        <div class='text'>
+                    </div>
+
+                    <div class='text'>
 
                         <?php
                         echo "<p id='username'>$username</p>";
 
-                        if($role==6){
+                        if ($role == 6) {
                             echo "<p id='role'>server admin</p>";
-
-                        } elseif($role==3) {
+                        } elseif ($role == 3) {
                             echo "<p id='role'>Store admin</p>";
-
                         }
-                        
+
 
                         ?>
-                            
-
-                        </div>
-                        
-
-
 
 
                     </div>
 
+
+
+
+
                 </div>
-               
-            </div>
-
-
-            <div class='rowthree'>
-                <p id='manage'>MANAGE</p>
-
-
-                <div class='managecontainer' style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/productmanager';">
-                    <div class='manageproducts' >
-
-                        <div class='textmanagecontainer'>
-                            <i class="fas fa-boxes"></i>
-
-                            <span>Manage Products</span>
-
-                        </div>
-                        
-
-
-
-                        
-                    
-
-                    </div>
-                </div>
-
-
-                <div class='employeecontainer'  style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/employeemanager';">
-                    <div class='manageemployee'>
-
-                        <div class='textmanagecontaineremployee'>
-                            <i class="fas fa-users"></i>
-
-
-
-                            <span>Employee Manager</span>
-
-                        </div>
-                        
-
-
-
-                        
-                    
-
-                    </div>
-                </div>
-
-
-                <div class='previouscontainer'>
-                    <div class='manageprevlogs' style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">
-
-                        <div class='textmanagecontainerlogs'>
-                            <i class="fas fa-flag"></i>
-
-
-
-
-
-                            <span>Admin Logs</span>
-
-                        </div>
-                        
-
-
-
-                        
-                    
-
-                    </div>
-                </div>
-
-
-                <div class="bottomsection">
-                    <div class='viewprofile'>
-                            <a href="https://www.swapamc.com/swapproj/campus">View profile</a>
-                    </div>
-                </div>
-                
 
             </div>
 
         </div>
 
 
+        <div class='rowthree'>
+            <p id='manage'>MANAGE</p>
+
+
+            <div class='managecontainer' style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/productmanager';">
+                <div class='manageproducts'>
+
+                    <div class='textmanagecontainer'>
+                        <i class="fas fa-boxes"></i>
+
+                        <span>Manage Products</span>
+
+                    </div>
 
 
 
 
-        <div class='information'>
-            <div class='rowoneinfo'>
-                <h1>Product Admin</h1>
+
+
+
+                </div>
             </div>
 
 
-            <div class='rowtwoinfo'>
-                <h2 id='storestext'>Stores</h2>
-                <a href="#"><button type='button'>Add</button></a>
+            <div class='employeecontainer' style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/employeemanager';">
+                <div class='manageemployee'>
+
+                    <div class='textmanagecontaineremployee'>
+                        <i class="fas fa-users"></i>
+
+
+
+                        <span>Employee Manager</span>
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
             </div>
 
 
-            <div class='storescontainer'>
-                <table class="styled-table">
+            <div class='previouscontainer'>
+                <div class='manageprevlogs' style='cursor:pointer;' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">
 
-
-                        <thead>
-                            <tr>
-                                <th id='test'><span>#</span></th>
-                                <th>Store</th>
-                                <th>URL</th>
-                                <th>Price Point</th>
-                                <th>About</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
+                    <div class='textmanagecontainerlogs'>
+                        <i class="fas fa-flag"></i>
 
 
 
 
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>TPAMC</td>
-                                <td>https://www.tpamc.com</td>
-                                <td>$</td>
-                                <td>About</td>
-                                <td><span  id='status'>Active</span></td>
-                            </tr>
 
-                            <tr>
-                                <td>1</td>
-                                <td>TPAMC</td>
-                                <td>https://www.tpamc.com</td>
-                                <td>$</td>
-                                <td>About</td>
-                                <td>Active</td>
-                            </tr>
-                        
-                        
-                    </tbody>
+                        <span>Admin Logs</span>
+
+                    </div>
 
 
 
-                    
-                </table>
+
+
+
+
+                </div>
             </div>
 
 
-            <div class='rowthreeinfo'>
-                <h2 id='productstext'>Products</h2>
-                <a href="https://www.swapamc.com/swapproj/productmanageradd"><button type='button'>Add</button></a>
+            <div class="bottomsection">
+                <div class='viewprofile'>
+                    <a href="https://www.swapamc.com/swapproj/campus">View profile</a>
+                </div>
             </div>
 
 
-            <div class='productscontainer'>
-                <table class="styled-table">
+        </div>
+
+    </div>
 
 
 
 
-                        <thead>
-                            <tr>
-                                <th id='test'><span>#</span></th>
-                                <th>Store</th>
-                                <th>URL</th>
-                                <th>Price Point</th>
-                                <th>About</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
 
 
+    <div class='information'>
+        <div class='rowoneinfo'>
+            <h1>Product Admin</h1>
+        </div>
 
 
-                        <tbody>
+        <div class='rowtwoinfo'>
+            <h2 id='storestext'>Stores</h2>
+            <a href="https://www.swapamc.com/swapproj/storemanageradd"><button type='button'>Add</button></a>
+        </div>
 
 
-
-<?php
-while($query->fetch()){
-
-    echo "<tr>";
-    echo "<td onclick='test($prodid)'; class='prodid'>$prodid</td>";
-    echo "<td>$name</td>";
-    echo "<td>$store</td>";
-    echo "<td>$price</td>";
-    echo "<td>$about</td>";
-    echo "<td>$quantity</td>";
+        <div class='storescontainer'>
+            <table class="styled-table">
 
 
-    echo "</tr>";
+                <thead>
+                    <tr>
+                        <th id='test'><span>#</span></th>
+                        <th>Store</th>
+                        <th>URL</th>
+                        <th>Price Point</th>
+                        <th>About</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
 
 
-    
-}
+                <tbody>
+                    <?php
+                    $counter = 0;
+                    //only for display purposes
 
-?>
+                    while ($query->fetch()) {
+                        $storestaus="Inactive";
+                        if ($storestatus === 1) {
+                            $storestatus = "Active";
+                        }
+                        $storedollar='';
+                        for ($i=0; $i < (int)($storepricepoint); $i++) { 
+                            $storedollar = $storedollar."$";
+                        }
+
+                        $counter++;
 
 
+                        echo "<tr>";
+                        echo "<td>" . $storeid . "</td>";
 
+                        echo "<td>" . $storename . "</td>";
+                        echo "<td><a href='". $websitelink . "'>". $websitelink . "</td>";
+                        echo "<td>" . $storedollar . "</td>";
+                        echo "<td>" . $storeabout . "</td>";
+                        echo "<td>" . $storestatus . "</td>";
+                        echo "<td>" . "<a href='https://www.swapamc.com/swapproj/storemanager/editstore?id=$storeid'><input type='button' name='edit' value='edit'></a><br>";
+                        echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><input type='button' name='delete' value='delete'></a><br>";
 
+                        echo "<td>";
+                            echo $counter;
                             
 
-                            
-                        
-                        
-                    </tbody>
+                            echo '<a class="kebab-link" data-toggle="dropdown" data-target="#dropdown' . $counter . '"><i class="fa fa-ellipsis-v"></i></a>';
+                                echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
+                                echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
+                                echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/editstore?id=' . $storeid . '">Edit</a>';
+                                echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=' . $storeid . '">Delete</a>';
+                                echo '</div>';
+                            echo '</div>';
 
 
 
-                    
-                </table>
-            </div>
+
+
+                        echo "</td>";
+
+                        echo "</tr>";
+                    }
 
 
 
-            
 
+
+
+                    ?>
+
+
+                </tbody>
+
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>TPAMC</td>
+                        <td>https://www.tpamc.com</td>
+                        <td>$</td>
+                        <td>About</td>
+                        <td><span id='status'>Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>1</td>
+                        <td>TPAMC</td>
+                        <td>https://www.tpamc.com</td>
+                        <td>$</td>
+                        <td>About</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                </tbody>
+
+
+
+
+            </table>
+        </div>
+
+
+        <div class='rowthreeinfo'>
+            <h2 id='productstext'>Products</h2>
+            <a href="https://www.swapamc.com/swapproj/productmanageradd"><button type='button'>Add</button></a>
+        </div>
+
+
+        <div class='productscontainer'>
+            <table class="styled-table">
+
+
+
+
+                <thead>
+                    <tr>
+                        <th id='test'><span>#</span></th>
+                        <th>Store</th>
+                        <th>URL</th>
+                        <th>Price Point</th>
+                        <th>About</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+
+
+
+
+                <tbody>
+
+
+
+                    <?php
+
+                    ###ZEPH THIS IS FOR PRODUCTS
+                    $query->close();
+                    try {
+                        $query = $conn->prepare("SELECT mydb.products.product_id,product_name,store_name,product_price,product_about,total_quantity FROM mydb.storeprod
+    INNER JOIN mydb.products
+    ON mydb.storeprod.product_id = mydb.products.product_id
+    INNER JOIn mydb.store
+    ON mydb.store.store_id = mydb.storeprod.store_id ORDER BY mydb.products.product_id;");
+
+                        if ($query === false) {
+                            //change filename accordingly
+                            throw new Exception("Statement Preparation failed(productmanager)");
+                        }
+                    } catch (Exception $e) {
+                        echo 'Message: ' . $e->getMessage();
+                        exit;
+                        //change header location accordingly
+                        header("location: https://www.swapamc.com/swapproj/campus");
+                        exit;
+                    }
+                    // throws error "Statment Execution failed" when statement fails
+                    try {
+                        $execute = $query->execute();
+                        if ($execute === false) {
+                            throw new Exception("Statement Execution failed (productmanager)");
+                        }
+                    } catch (Exception $e) {
+                        echo 'Message: ' . $e->getMessage();
+                        header("location: https://www.swapamc.com/swapproj/campus");
+
+                        exit;
+                    }
+
+
+                    $query->bind_result($prodid, $name, $store, $price, $about, $quantity);
+                    while ($query->fetch()) {
+
+                        echo "<tr>";
+                        echo "<td onclick='test($prodid)'; class='prodid'>$prodid</td>";
+                        echo "<td>$name</td>";
+                        echo "<td>$store</td>";
+                        echo "<td>$price</td>";
+                        echo "<td>$about</td>";
+                        echo "<td>$quantity</td>";
+
+
+                        echo "</tr>";
+                    }
+
+                    ?>
+
+
+
+
+
+
+
+
+
+                </tbody>
+
+
+
+
+            </table>
         </div>
 
 
@@ -861,12 +993,18 @@ while($query->fetch()){
     </div>
 
 
-    
+
+
+
+</div>
+
+
+
 </html>
 
 
 <script>
-    function test(id){
-        location.href = "https://www.swapamc.com/swapproj/productmanager/editproduct?id="+id+"";
+    function test(id) {
+        location.href = "https://www.swapamc.com/swapproj/productmanager/editproduct?id=" + id + "";
     }
 </script>
