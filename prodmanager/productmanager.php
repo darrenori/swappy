@@ -455,8 +455,8 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
 
     .styled-table {
         width: 100%;
-        column-gap: 40px;
-        border-spacing: 10px;
+        /* column-gap: 40px;
+        border-spacing: 10px; */
     }
 
     .styled-table thead tr {
@@ -471,6 +471,7 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
 
 
         border-radius: 4px;
+        position: relative;
     }
 
 
@@ -506,7 +507,7 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
     /* .styled-table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
-} */
+    } */
 
     #status {
         background-color: rgba(68, 196, 115, 0.5);
@@ -567,51 +568,96 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
 
 
 
-    /***
-	Bootstrap dropdown container fix
-	for Bootstrap 4 and Material Design Bootstrap
-	Hint : Move out the button or the link declaring the data-toggle="dropdwn" from the .dropdown div
-	Created a dropdown-sm class for smaller dropdowns when using kebabs
+/***
+Bootstrap dropdown container fix
+for Bootstrap 4 and Material Design Bootstrap
+Hint : Move out the button or the link declaring the data-toggle="dropdwn" from the .dropdown div
+Created a dropdown-sm class for smaller dropdowns when using kebabs
 ***/
 
-    .dropdown-menu.dropdown-unroll {
-        transition: none;
-    }
+.dropdown-menu.dropdown-unroll {
+    transition: none;
+}
 
-    .kebab-link i {
-        font-size: 0.8rem;
-    }
+.kebab-link i {
+    font-size: 0.8rem;
+}
 
-    .kebab-link i:active,
-    .kebab-link i:hover {
-        color: #4285F4;
-    }
-
-
-    /*Try to delete this setting and you'll see the problem*/
-
-    .kebab-dropdown {
-        position: absolute;
-    }
+.kebab-link i:active,
+.kebab-link i:hover {
+    color: #4285F4;
+}
 
 
-    /* material design for dropdown */
+/*Try to delete this setting and you'll see the problem*/
 
-    .dropdown-sm>.dropdown-menu>.dropdown-item {
-        padding: 5px;
-        margin-left: 0;
-    }
+.kebab-dropdown {
+    position: absolute;
+}
 
-    .dropdown-menu>.dropdown-item {
-        padding: 1rem;
-        margin-left: 0;
-    }
 
-    .dropdown-menu>.dropdown-item:hover {
-        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
-        color: white;
-        background: #4285F4;
-    }
+/* material design for dropdown */
+
+.dropdown-sm>.dropdown-menu>.dropdown-item {
+    padding: 5px;
+    margin-left: 0;
+}
+
+.dropdown-menu>.dropdown-item {
+    padding: 1rem;
+    margin-left: 0;
+}
+
+.dropdown-menu>.dropdown-item:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    color: white;
+    background: #4285F4;
+}
+
+
+/***
+	Bootstrap 4 Collapse Accordion full width clickable
+	from Jacob Lett : http://codepen.io/JacobLett/pen/GWqjPw 
+	with Material Design Bootstrap
+	enhenced by djibe
+	Just add the collapse-accordion class to the div wearing the role="tablist"
+ ***/
+
+.collapse-accordion>.card a[data-toggle=collapse] {
+    display: block;
+    padding: .75rem 1.25rem;
+}
+
+.collapse-accordion>.card a[data-toggle=collapse]:after {
+    /* symbol for "opening" panels */
+    font-family: FontAwesome;
+    font-size: .9rem;
+    content: "\f077";
+    /* adjust as needed, taken from bootstrap.css */
+    float: right;
+    /* adjust as needed */
+    vertical-align: middle;
+    color: grey;
+    /* adjust as needed */
+    transition: all .5s linear;
+    margin-right: 5%;
+}
+
+.collapse-accordion>.card a[data-toggle=collapse].collapsed:after {
+    content: "\f078";
+}
+
+.collapse-accordion>.card>.card-header {
+    padding: 0;
+}
+
+
+.rowtwowrapper #profiletext{
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2em;
+    color: white;
+    opacity: 50%;
+}
 </style>
 
 
@@ -793,14 +839,18 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
                         <th>Price Point</th>
                         <th>About</th>
                         <th>Status</th>
+                        <th opacity='0%'></th>
+                        
                     </tr>
                 </thead>
 
 
                 <tbody>
                     <?php
-                    $counter = 0;
+                    
                     //only for display purposes
+
+                    $counter=0;
 
                     while ($query->fetch()) {
                         $storestaus="Inactive";
@@ -823,20 +873,19 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
                         echo "<td>" . $storedollar . "</td>";
                         echo "<td>" . $storeabout . "</td>";
                         echo "<td>" . $storestatus . "</td>";
-                        echo "<td>" . "<a href='https://www.swapamc.com/swapproj/storemanager/editstore?id=$storeid'><input type='button' name='edit' value='edit'></a><br>";
-                        echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><input type='button' name='delete' value='delete'></a><br>";
+                        // echo "<td>" . "<a href='https://www.swapamc.com/swapproj/storemanager/editstore?id=$storeid'><input type='button' name='edit' value='edit'></a><br>";
+                        // echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><input type='button' name='delete' value='delete'></a><br>";
 
                         echo "<td>";
-                            echo $counter;
-                            
 
-                            echo '<a class="kebab-link" data-toggle="dropdown" data-target="#dropdown' . $counter . '"><i class="fa fa-ellipsis-v"></i></a>';
-                                echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
-                                echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
-                                echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/editstore?id=' . $storeid . '">Edit</a>';
-                                echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=' . $storeid . '">Delete</a>';
-                                echo '</div>';
-                            echo '</div>';
+
+                        echo '<a class="kebab-link" data-toggle="dropdown" data-target="#dropdown' . $counter . '"><i class="fa fa-ellipsis-v"></i></a>';
+                        echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
+                        echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
+                        echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/editstore?id=' . $storeid . '">Edit</a>';
+                        echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=' . $storeid . '">Delete</a>';
+                        echo '</div>';
+                    echo '</div>';
 
 
 
@@ -907,6 +956,7 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
                         <th>Price Point</th>
                         <th>About</th>
                         <th>Quantity</th>
+                        
                     </tr>
                 </thead>
 
@@ -1007,4 +1057,15 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
     function test(id) {
         location.href = "https://www.swapamc.com/swapproj/productmanager/editproduct?id=" + id + "";
     }
+
+
+    $(document).ready(function(e) {   
+        // Add slideDown animation to Bootstrap dropdown when expanding.
+        $('.dropdown').on('show.bs.dropdown', function() {
+            $(this).find('.dropdown-unroll').first().stop(true, true).slideDown();
+        }).on('hide.bs.dropdown', function() {
+            $(this).find('.dropdown-unroll').first().stop(true, true).slideUp();
+        });
+    
+    });
 </script>
