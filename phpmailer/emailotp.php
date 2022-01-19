@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/verification2fa.php';

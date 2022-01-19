@@ -9,13 +9,11 @@ if(isset($jwtarray)&&$jwtarray==true){
     $jwtarrayinformation = $jwtarray['array'];
 
 }
-
-
-
-
 $userid = $jwtarrayinformation['userid'];
-$query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM user_shippinginformation WHERE user_shipping_userid = $userid AND deleted != 1");
 
+
+
+$query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM user_shippinginformation WHERE user_shipping_userid = $userid AND deleted != 1");
 $stmt = mysqli_stmt_init($conn);
 
 

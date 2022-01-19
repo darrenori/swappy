@@ -21,6 +21,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 session_start();
+session_regenerate_id();
+
 
 $shipping_id = (int)$_GET['shippingid'];
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];
@@ -79,7 +81,7 @@ if (isset($_GET["error"])) {
         echo "<p>Something went wrong, try again!</p>";
     } else if ($_GET["error"] == "none") {
         echo "<p>Successfully Edit Shipping Address</p>";
-        header("location: ../swapproj/checkout/editshippingaddress?=success");
+        header("location: https://www.swapamc.com/swapproj/checkout/editshippingaddress?=success");
     } else if ($_GET["type"] == "success") {
         echo "Records were updated successfully.";
         header("location: https://www.swapamc.com/swapproj/checkout/editshippingaddress?type=success");

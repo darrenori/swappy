@@ -2,6 +2,7 @@
 //show cart
 print "<h3>Your Cart</h3>";
 session_start();
+session_regenerate_id();
 // user press submit from view cart
 $selectedcarts = [];
 if (isset($_POST["submit"])) {

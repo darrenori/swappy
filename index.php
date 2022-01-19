@@ -226,6 +226,23 @@ $router->get('/faq/banned','faq/banned.php');
 $router->get('/faq/whoarewe','faq/whoarewe.php');
 $router->get('/faq/employee','faq/employee.php');
 
-
 $router->get('/viewtask','viewtasks/task.php');
+
+
+//attendance
+$router->get('/attendance','attendancepage/attendance.php');
+$router->post('/attendanceinc','attendancepage/includes/attendance.inc.php');
+
+$router->get('/attendance/editattendance','attendancepage/editattendance.php');
+$router->post('/attendance/editattendanceinc','attendancepage/includes/editattendance.inc.php');
+
+$router->get('/attendance/takeleave','attendancepage/takeleave.php');
+$router->post('/attendance/takeleaveinc','attendancepage/includes/takeleave.inc.php');
+
+$router->get('/attendance/editleave','attendancepage/editleave.php');
+$router->post('/attendance/editleaveinc','attendancepage/includes/editleave.inc.php');
+
+$router->get('/attendance/calculatepay','attendancepage/includes/calculatepay.inc.php');
+$router->get('/attendance/editemployee','attendancepage/editemployee.php');
+
 
