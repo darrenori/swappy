@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jan 13, 2022 at 02:38 PM
+-- Generation Time: Jan 19, 2022 at 03:51 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 8.0.13
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,9 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `mydb`
 --
-DROP DATABASE IF EXISTS `mydb`;
-CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `mydb`;
 
 -- --------------------------------------------------------
 
@@ -30,14 +27,15 @@ USE `mydb`;
 -- Table structure for table `cart_typevariants`
 --
 
-DROP TABLE IF EXISTS `cart_typevariants`;
-CREATE TABLE `cart_typevariants` (
-  `cart_typevariants_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cart_typevariants` (
+  `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT,
   `cart_typevariants_type` varchar(45) DEFAULT NULL,
   `cart_typevariants_variant` varchar(45) DEFAULT NULL,
   `cart_additionalcosts` varchar(45) DEFAULT NULL,
-  `cart_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `cart_id` int(11) NOT NULL,
+  PRIMARY KEY (`cart_typevariants_id`),
+  KEY `cart_typevariants_card_id_idx` (`cart_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cart_typevariants`
@@ -60,10 +58,7 @@ INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type
 (217, 'Color', 'White', '3.1', 88901636),
 (218, 'Additional_Server_Rack', 'Yes', '1242.99', 34313007),
 (219, 'Size', 'Large', '50', 52484361),
-(220, 'Additional_Server_Rack', 'Yes', '1242.99', 20540189),
-(221, 'Size', 'Large', '2.3', 13149631),
-(222, 'Color', 'White', '3.1', 13149631),
-(223, 'Size', 'Medium', '20', 77630643);
+(220, 'Additional_Server_Rack', 'Yes', '1242.99', 20540189);
 
 -- --------------------------------------------------------
 
@@ -71,22 +66,11 @@ INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type
 -- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category` (
-  `cat_id` int(11) NOT NULL,
-  `cat_type` varchar(65) NOT NULL
+CREATE TABLE IF NOT EXISTS `category` (
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_type` varchar(65) NOT NULL,
+  PRIMARY KEY (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`cat_id`, `cat_type`) VALUES
-(1, 'Routers'),
-(2, 'Accessories'),
-(3, 'Switches'),
-(4, 'Utility'),
-(5, 'Others');
 
 -- --------------------------------------------------------
 
@@ -94,9 +78,8 @@ INSERT INTO `category` (`cat_id`, `cat_type`) VALUES
 -- Table structure for table `employees_task`
 --
 
-DROP TABLE IF EXISTS `employees_task`;
-CREATE TABLE `employees_task` (
-  `task_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `employees_task` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `working_id` int(11) NOT NULL,
   `task_name` text NOT NULL,
   `task_details` varchar(45) NOT NULL,
@@ -104,8 +87,10 @@ CREATE TABLE `employees_task` (
   `task_assignedby` varchar(45) NOT NULL,
   `task_dateassigned` varchar(45) NOT NULL,
   `task_datetofinish` varchar(45) NOT NULL,
-  `task_dateedited` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `task_dateedited` varchar(45) NOT NULL,
+  PRIMARY KEY (`task_id`),
+  KEY `task_working_id_idx` (`working_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `employees_task`
@@ -120,15 +105,61 @@ INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_detail
 -- Table structure for table `employee_attendance`
 --
 
-DROP TABLE IF EXISTS `employee_attendance`;
-CREATE TABLE `employee_attendance` (
-  `attendance_id` int(11) NOT NULL,
-  `working_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `employee_attendance` (
+  `attendance_id` int(11) NOT NULL AUTO_INCREMENT,
   `attendance_date` varchar(45) NOT NULL,
-  `attendance_in_time` varchar(4) NOT NULL,
-  `attendance_out_time` varchar(4) NOT NULL,
-  `attendance_valid_absence` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `attendance_in_time` varchar(45) NOT NULL,
+  `attendance_out_time` varchar(45) NOT NULL,
+  `attendance_status` varchar(45) NOT NULL,
+  `attendance_userid` int(11) NOT NULL,
+  `attendance_break` varchar(45) NOT NULL,
+  `attendance_current_month` varchar(45) NOT NULL,
+  `attendance_current_year` varchar(45) NOT NULL,
+  `attendance_workingid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`attendance_id`),
+  KEY `working_id_idx_idx` (`attendance_workingid`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employee_attendance`
+--
+
+INSERT INTO `employee_attendance` (`attendance_id`, `attendance_date`, `attendance_in_time`, `attendance_out_time`, `attendance_status`, `attendance_userid`, `attendance_break`, `attendance_current_month`, `attendance_current_year`, `attendance_workingid`) VALUES
+(19, '14/01/2022', '01:04:22 am', '10:05:02 pm', 'Valid', 2, '60', '01', '2022', 3),
+(40, '15/01/2022', '02:07:45 pm', '05:07:47 pm', 'Valid', 2, '60', '01', '2022', 3),
+(41, '15/01/2022', '09:10:10 pm', '11:10:10 pm', 'Valid', 2, '60', '01', '2022', 3),
+(43, '16/01/2022', '10:00:55 pm', '10:04:23 pm', 'Valid', 2, '60', '01', '2022', 3),
+(45, '17/01/2022', '01:55:12 pm', '01:55:13 pm', 'Valid', 2, '60', '01', '2022', 3),
+(47, '18/01/2022', '04:05:04 pm', '04:05:08 pm', 'Valid', 2, '60', '01', '2022', 3),
+(48, '19/01/2022', '11:23:39 am', '11:42:47 am', 'To be Reviewed', 2, '60', '01', '2022', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_leave`
+--
+
+CREATE TABLE IF NOT EXISTS `employee_leave` (
+  `leave_id` int(11) NOT NULL AUTO_INCREMENT,
+  `leave_date` varchar(45) NOT NULL,
+  `leave_status` varchar(45) NOT NULL,
+  `leave_userid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`leave_id`),
+  KEY `leave_userid_useridx_idx` (`leave_userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employee_leave`
+--
+
+INSERT INTO `employee_leave` (`leave_id`, `leave_date`, `leave_status`, `leave_userid`) VALUES
+(1, '11/01/2022', 'Approved', 2),
+(22, '20/01/2022', 'Approved', 2),
+(23, '19/01/2022', 'Approved', 2),
+(24, '27/01/2022', 'Approved', 2),
+(25, '31/01/2022', 'Invalid', 2),
+(26, '25/02/2022', 'Invalid', 2),
+(27, '25/01/2022', 'Approved', 2);
 
 -- --------------------------------------------------------
 
@@ -136,11 +167,12 @@ CREATE TABLE `employee_attendance` (
 -- Table structure for table `inventory`
 --
 
-DROP TABLE IF EXISTS `inventory`;
-CREATE TABLE `inventory` (
+CREATE TABLE IF NOT EXISTS `inventory` (
   `product_id` int(11) NOT NULL,
   `productcode` varchar(45) NOT NULL,
-  `quantityleft` varchar(45) DEFAULT NULL
+  `quantityleft` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`productcode`),
+  KEY `inventory_product_id_idx` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -154,14 +186,10 @@ INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (5, '38fc554ba26a85cc454f3a4b8ec7b301', '15'),
 (2, '3c771bf8d75fb729a61fd38cdf7e08c2', '12'),
 (5, '63fbb9b1eb1701eb3ab328f218ba65df', '10'),
-(6, '6d30558d5156e1f2e9875fcc1bfaffa8', '25'),
 (1, '7588ffe7c10af6736e7f1095d6433ea1', '12'),
-(6, '7a05910580d20aa3e139c990b68b3673', '25'),
 (2, '7a661e7347e9d0a868cc9cdf91f634ce', '41'),
 (4, 'bd8dd1cda82f264d6a392e161e290dfa', '21'),
 (3, 'c9ca592076cfdc0f97ea3132e770c1f6', '12'),
-(13, 'da2fdf7285bde714e55835fd9df5d1a0', '32'),
-(13, 'e68578e338f6968a978c752b08dd9d0b', '500'),
 (3, 'f40d7fba5e93532f0c84a3a874b47889', '42');
 
 -- --------------------------------------------------------
@@ -170,14 +198,17 @@ INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 -- Table structure for table `likedby`
 --
 
-DROP TABLE IF EXISTS `likedby`;
-CREATE TABLE `likedby` (
-  `likedby_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `likedby` (
+  `likedby_id` int(11) NOT NULL AUTO_INCREMENT,
   `review_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `liked` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `liked` int(1) NOT NULL,
+  PRIMARY KEY (`likedby_id`),
+  KEY `liked_user_id_idx` (`user_id`),
+  KEY `liked_product_id_idx` (`product_id`),
+  KEY `liked_review_id` (`review_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `likedby`
@@ -192,11 +223,11 @@ INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `like
 -- Table structure for table `likes`
 --
 
-DROP TABLE IF EXISTS `likes`;
-CREATE TABLE `likes` (
+CREATE TABLE IF NOT EXISTS `likes` (
   `review_id` int(11) NOT NULL,
   `likenumber` int(11) DEFAULT NULL,
-  `dislikenumber` int(11) DEFAULT NULL
+  `dislikenumber` int(11) DEFAULT NULL,
+  KEY `likes_review_id` (`review_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -205,15 +236,15 @@ CREATE TABLE `likes` (
 -- Table structure for table `notification`
 --
 
-DROP TABLE IF EXISTS `notification`;
-CREATE TABLE `notification` (
-  `idnotification` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `notification` (
+  `idnotification` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `notification` varchar(200) NOT NULL,
   `header` varchar(65) NOT NULL,
   `level` int(1) NOT NULL,
-  `type` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `type` int(1) NOT NULL,
+  PRIMARY KEY (`idnotification`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `notification`
@@ -229,42 +260,28 @@ INSERT INTO `notification` (`idnotification`, `user_id`, `notification`, `header
 -- Table structure for table `place`
 --
 
-DROP TABLE IF EXISTS `place`;
-CREATE TABLE `place` (
-  `place_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `place` (
+  `place_id` int(11) NOT NULL AUTO_INCREMENT,
   `place_name` varchar(45) NOT NULL,
   `place_status` varchar(45) NOT NULL,
   `place_limit` int(11) NOT NULL,
   `time_start` varchar(4) NOT NULL,
-  `time_end` varchar(4) NOT NULL
+  `time_end` varchar(4) NOT NULL,
+  PRIMARY KEY (`place_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productcat`
+-- Table structure for table `prodcat`
 --
 
-DROP TABLE IF EXISTS `productcat`;
-CREATE TABLE `productcat` (
+CREATE TABLE IF NOT EXISTS `prodcat` (
   `cat_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL
+  `product_id` int(11) NOT NULL,
+  KEY `cat_id_idx` (`cat_id`),
+  KEY `store_id_storecat_idx` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `productcat`
---
-
-INSERT INTO `productcat` (`cat_id`, `product_id`) VALUES
-(1, 5),
-(2, 1),
-(4, 1),
-(5, 1),
-(3, 2),
-(4, 3),
-(2, 4),
-(5, 4),
-(4, 4);
 
 -- --------------------------------------------------------
 
@@ -272,9 +289,8 @@ INSERT INTO `productcat` (`cat_id`, `product_id`) VALUES
 -- Table structure for table `products`
 --
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_name` text DEFAULT NULL,
   `product_price` float DEFAULT NULL,
   `product_about` text DEFAULT NULL,
@@ -282,21 +298,19 @@ CREATE TABLE `products` (
   `product_pictwo` varchar(200) DEFAULT NULL,
   `product_picthree` varchar(200) DEFAULT NULL,
   `total_quantity` int(11) DEFAULT NULL,
-  `old` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_about`, `product_picone`, `product_pictwo`, `product_picthree`, `total_quantity`, `old`) VALUES
-(1, 'Torchlight', 7.99, 'light', 'uploads/IMG-61defbc17855d4.53770359.jpg', NULL, NULL, 110, NULL),
-(2, 'Cisco SG250-08 8 Port Gigabit Smart Switch SG250', 190.21, 'The Cisco 250 Series is the next generation of affordable smart switches that combine powerful network performance and reliability with a complete suite of the network features you need for a solid business network. These powerful Fast Ethernet or Gigabit Ethernet switches, with Gigabit or 10 Gigabit Ethernet uplinks, provide multiple management options, sophisticated security capabilities, fine-tuned Quality-of-Service (QoS) and Layer 3 static routing features far beyond those of an unmanaged or consumer-grade switch, at a lower cost than for fully managed switches. And with an easy-to-use web user interface, Smart Network Application, and Power over Ethernet Plus (PoE) capability, you can deploy and configure a complete business network in minutes.', '', '', '', 53, NULL),
-(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 53, NULL),
-(4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', NULL, NULL, NULL, 21, NULL),
-(5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', NULL, NULL, NULL, 25, NULL),
-(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL),
-(13, 'cablerr', 23.1, 'cabler', 'uploads/IMG-61e01aee607bd7.52807868.jpg', NULL, NULL, 532, NULL);
+INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_about`, `product_picone`, `product_pictwo`, `product_picthree`, `total_quantity`) VALUES
+(1, 'Torchlight', 7.99, 'A portable light source that comes in varying sizes. These are made to-order and warranties will be included', NULL, NULL, NULL, 110),
+(2, 'Cisco SG250-08 8 Port Gigabit Smart Switch SG250', 190.21, 'The Cisco 250 Series is the next generation of affordable smart switches that combine powerful network performance and reliability with a complete suite of the network features you need for a solid business network. These powerful Fast Ethernet or Gigabit Ethernet switches, with Gigabit or 10 Gigabit Ethernet uplinks, provide multiple management options, sophisticated security capabilities, fine-tuned Quality-of-Service (QoS) and Layer 3 static routing features far beyond those of an unmanaged or consumer-grade switch, at a lower cost than for fully managed switches. And with an easy-to-use web user interface, Smart Network Application, and Power over Ethernet Plus (PoE+) capability, you can deploy and configure a complete business network in minutes.', NULL, NULL, NULL, 53),
+(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 53),
+(4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', NULL, NULL, NULL, 21),
+(5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', NULL, NULL, NULL, 25);
 
 -- --------------------------------------------------------
 
@@ -304,10 +318,12 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_
 -- Table structure for table `product_type`
 --
 
-DROP TABLE IF EXISTS `product_type`;
-CREATE TABLE `product_type` (
+CREATE TABLE IF NOT EXISTS `product_type` (
   `product_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL
+  `type_id` int(11) NOT NULL,
+  PRIMARY KEY (`product_id`,`type_id`),
+  KEY `prodtype_product_id_idx` (`product_id`),
+  KEY `prodtype_type_id_idx` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -324,17 +340,7 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 (3, 7),
 (3, 8),
 (5, 11),
-(5, 12),
-(6, 13),
-(6, 14),
-(13, 39),
-(13, 40),
-(13, 41),
-(13, 42),
-(13, 43),
-(13, 44),
-(13, 45),
-(13, 46);
+(5, 12);
 
 -- --------------------------------------------------------
 
@@ -342,9 +348,8 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 -- Table structure for table `reviews`
 --
 
-DROP TABLE IF EXISTS `reviews`;
-CREATE TABLE `reviews` (
-  `review_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
   `review_product_id` int(11) NOT NULL,
   `review_user_id` int(11) NOT NULL,
   `review_comment` varchar(45) DEFAULT NULL,
@@ -354,8 +359,11 @@ CREATE TABLE `reviews` (
   `review_total_dislikes` int(11) DEFAULT NULL,
   `review_date` varchar(45) DEFAULT NULL,
   `childof_id` int(11) DEFAULT NULL,
-  `edited` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `edited` int(11) DEFAULT NULL,
+  PRIMARY KEY (`review_id`),
+  KEY `review_user_id_idx` (`review_user_id`),
+  KEY `review_product_id_idx` (`review_product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `reviews`
@@ -376,10 +384,11 @@ INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `revi
 -- Table structure for table `review_parent_child`
 --
 
-DROP TABLE IF EXISTS `review_parent_child`;
-CREATE TABLE `review_parent_child` (
+CREATE TABLE IF NOT EXISTS `review_parent_child` (
   `review_id_parent` int(11) NOT NULL,
-  `review_id_child` int(11) NOT NULL
+  `review_id_child` int(11) NOT NULL,
+  KEY `review_id_parent_idx` (`review_id_parent`),
+  KEY `review_id_parent_idx1` (`review_id_child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -388,9 +397,8 @@ CREATE TABLE `review_parent_child` (
 -- Table structure for table `store`
 --
 
-DROP TABLE IF EXISTS `store`;
-CREATE TABLE `store` (
-  `store_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `store` (
+  `store_id` int(11) NOT NULL AUTO_INCREMENT,
   `store_name` text NOT NULL,
   `store_pricepoint` int(1) NOT NULL,
   `store_about` text NOT NULL,
@@ -401,8 +409,11 @@ CREATE TABLE `store` (
   `store_number` varchar(45) DEFAULT NULL,
   `store_url` varchar(150) DEFAULT NULL,
   `store_status` int(1) DEFAULT NULL,
-  `store_rating` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `store_rating` int(1) DEFAULT NULL,
+  PRIMARY KEY (`store_id`),
+  UNIQUE KEY `store_id_UNIQUE` (`store_id`),
+  UNIQUE KEY `store_name_UNIQUE` (`store_name`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `store`
@@ -418,10 +429,11 @@ INSERT INTO `store` (`store_id`, `store_name`, `store_pricepoint`, `store_about`
 -- Table structure for table `storeprod`
 --
 
-DROP TABLE IF EXISTS `storeprod`;
-CREATE TABLE `storeprod` (
+CREATE TABLE IF NOT EXISTS `storeprod` (
   `store_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL
+  `product_id` int(11) NOT NULL,
+  PRIMARY KEY (`store_id`,`product_id`),
+  KEY `storeprod_product_id_idx` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -433,8 +445,6 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 (1, 3),
 (1, 4),
 (1, 5),
-(1, 6),
-(1, 13),
 (2, 2);
 
 -- --------------------------------------------------------
@@ -443,11 +453,11 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 -- Table structure for table `total_people_in_lab`
 --
 
-DROP TABLE IF EXISTS `total_people_in_lab`;
-CREATE TABLE `total_people_in_lab` (
-  `total_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `total_people_in_lab` (
+  `total_id` int(11) NOT NULL AUTO_INCREMENT,
   `total_maximum` int(11) NOT NULL,
-  `total_current` int(11) NOT NULL
+  `total_current` int(11) NOT NULL,
+  PRIMARY KEY (`total_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -456,40 +466,29 @@ CREATE TABLE `total_people_in_lab` (
 -- Table structure for table `type`
 --
 
-DROP TABLE IF EXISTS `type`;
-CREATE TABLE `type` (
-  `type_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `type` (
+  `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(45) NOT NULL,
   `type_choice` varchar(45) NOT NULL,
   `additional_costs` float DEFAULT NULL,
-  `automated` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `type`
 --
 
-INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`, `automated`) VALUES
-(1, 'Size', 'Small', 0, NULL),
-(2, 'Size', 'Large', 2.3, NULL),
-(3, 'Color', 'Black', 0, NULL),
-(4, 'Color', 'White', 3.1, NULL),
-(5, 'Additional Server Rack', 'No', 0, NULL),
-(6, 'Additional Server Rack', 'Yes', 1242.99, NULL),
-(7, 'Length', '10m', 0, NULL),
-(8, 'Length', '100m', 20, NULL),
-(11, 'Size', 'Small', 0, NULL),
-(12, 'Size', 'Large', 50, NULL),
-(13, 'Size', 'Small', NULL, NULL),
-(14, 'Size', 'Medium', 20, NULL),
-(39, 'size', 'large', 10, '30068854'),
-(40, 'size', 'small', 0, '30068854'),
-(41, 'color', 'green', 0, '30068854'),
-(42, 'color', 'blue', 2, '30068854'),
-(43, 'length', '10m', 0, '30068854'),
-(44, 'length', '50m', 5, '30068854'),
-(45, 'color', 'black', 2.3, '30068854'),
-(46, 'color', 'green', 0, '30068854');
+INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`) VALUES
+(1, 'Size', 'Small', 0),
+(2, 'Size', 'Large', 2.3),
+(3, 'Color', 'Black', 0),
+(4, 'Color', 'White', 3.1),
+(5, 'Additional Server Rack', 'No', 0),
+(6, 'Additional Server Rack', 'Yes', 1242.99),
+(7, 'Length', '10m', 0),
+(8, 'Length', '100m', 20),
+(11, 'Size', 'Small', 0),
+(12, 'Size', 'Large', 50);
 
 -- --------------------------------------------------------
 
@@ -497,9 +496,8 @@ INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`, `autom
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_username` varchar(60) NOT NULL,
   `user_password` varchar(60) NOT NULL,
   `user_fname` varchar(60) NOT NULL,
@@ -511,15 +509,18 @@ CREATE TABLE `users` (
   `user_security_primaryschool` varchar(45) NOT NULL,
   `user_security_favoritefood` varchar(45) NOT NULL,
   `user_secret` varchar(255) NOT NULL,
-  `user_profilepicture` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_profilepicture` text NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `user_username_UNIQUE` (`user_username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`) VALUES
-(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-DEFAULTPROFILE.jpg'),
+(2, 'root', '$2y$10$de65hhknQkDw6C.ai9CssuFm.ibPILhoD9E3Pm9zsuA8/wDZWAoKe', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', ''),
 (4, 'tester', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'tester', 'tester', 6, 'tester@gmail.com', '213aa', '2022-01-04 16:56:49', 'tester', 'tester', 'VSOARC5JUW5O5UM7', 'uploads/IMG-61d41294d13813.99076896.png'),
 (5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg'),
 (6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg');
@@ -530,10 +531,11 @@ INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, 
 -- Table structure for table `usersfavorite`
 --
 
-DROP TABLE IF EXISTS `usersfavorite`;
-CREATE TABLE `usersfavorite` (
+CREATE TABLE IF NOT EXISTS `usersfavorite` (
   `product_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  KEY `favorite_product_id_idx` (`product_id`),
+  KEY `favorite_user_id_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -550,14 +552,16 @@ INSERT INTO `usersfavorite` (`product_id`, `user_id`) VALUES
 -- Table structure for table `user_booking`
 --
 
-DROP TABLE IF EXISTS `user_booking`;
-CREATE TABLE `user_booking` (
-  `booking_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_booking` (
+  `booking_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `place_id` int(11) NOT NULL,
   `booking_start` varchar(4) DEFAULT NULL,
   `booking_end` varchar(4) DEFAULT NULL,
-  `booking_status` int(11) DEFAULT NULL
+  `booking_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`booking_id`),
+  KEY `user_id_idx` (`user_id`),
+  KEY `place_id_idx` (`place_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -566,8 +570,7 @@ CREATE TABLE `user_booking` (
 -- Table structure for table `user_cart`
 --
 
-DROP TABLE IF EXISTS `user_cart`;
-CREATE TABLE `user_cart` (
+CREATE TABLE IF NOT EXISTS `user_cart` (
   `cart_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -575,7 +578,11 @@ CREATE TABLE `user_cart` (
   `quantity` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
   `bundled` int(11) DEFAULT NULL,
-  `purchased` int(11) DEFAULT NULL
+  `purchased` int(11) DEFAULT NULL,
+  PRIMARY KEY (`cart_id`),
+  KEY `product_id_cart_idx` (`product_id`),
+  KEY `user_id_cart_idx` (`user_id`),
+  KEY `product_code_cart_idx` (`productcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -583,11 +590,10 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
-(13149631, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 6, 80.34, 0, 0),
 (20540189, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 44238904, 1),
 (21520909, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 65038689, 1),
 (34313007, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 96137789, 1),
-(34781975, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 56525308, 1),
+(34781975, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 0, 0),
 (36916921, 2, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 41074234, 1),
 (37323656, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 2, 20.58, 39102838, 1),
 (42682064, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 1, 30.9, 91226347, 1),
@@ -596,7 +602,6 @@ INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `qua
 (63250878, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 83719910, 1),
 (67869677, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 2, 61.8, 93906941, 1),
 (71776166, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 13, 174.07, 10849871, 1),
-(77630643, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 0, 0),
 (86324416, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 2, 26.78, 29692911, 1),
 (88901636, 5, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 90644407, 1),
 (93551889, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 90644407, 1);
@@ -607,16 +612,17 @@ INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `qua
 -- Table structure for table `user_creditcardinfo`
 --
 
-DROP TABLE IF EXISTS `user_creditcardinfo`;
-CREATE TABLE `user_creditcardinfo` (
-  `user_creditcardinfo_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_creditcardinfo` (
+  `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_creditcardinfo_userid` int(11) NOT NULL,
   `user_creditcardinfo_nameoncard` varchar(45) NOT NULL,
   `user_creditcardinfo_expirymonth` varchar(45) NOT NULL,
   `user_creditcardinfo_expiryyear` varchar(45) NOT NULL,
   `user_creditcardinfo_cardtype` varchar(45) NOT NULL,
-  `user_creditcardinfo_cardnumb` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_creditcardinfo_cardnumb` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_creditcardinfo_id`),
+  KEY `user_creditcardinfo_id_idx` (`user_creditcardinfo_userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_creditcardinfo`
@@ -652,10 +658,11 @@ INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinf
 -- Table structure for table `user_favoritedproducts`
 --
 
-DROP TABLE IF EXISTS `user_favoritedproducts`;
-CREATE TABLE `user_favoritedproducts` (
+CREATE TABLE IF NOT EXISTS `user_favoritedproducts` (
   `favorited_userid` int(11) NOT NULL,
-  `favoried_productid` int(11) NOT NULL
+  `favoried_productid` int(11) NOT NULL,
+  KEY `favorited_userid_idx` (`favorited_userid`),
+  KEY `favoried_productid_idx` (`favoried_productid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -664,17 +671,19 @@ CREATE TABLE `user_favoritedproducts` (
 -- Table structure for table `user_past_purchases`
 --
 
-DROP TABLE IF EXISTS `user_past_purchases`;
-CREATE TABLE `user_past_purchases` (
-  `purchase_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_past_purchases` (
+  `purchase_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `user_shipping` int(11) NOT NULL,
   `user_creditcards` int(11) NOT NULL,
   `purchase_time` varchar(45) NOT NULL,
   `purchase_cost` float NOT NULL,
   `purchase_status` int(1) DEFAULT NULL,
-  `cart_bundled` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `cart_bundled` int(11) DEFAULT NULL,
+  PRIMARY KEY (`purchase_id`),
+  KEY `user_id_idx` (`user_id`),
+  KEY `user_creditcards_idx` (`user_creditcards`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_past_purchases`
@@ -690,9 +699,8 @@ INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `u
 -- Table structure for table `user_shippinginformation`
 --
 
-DROP TABLE IF EXISTS `user_shippinginformation`;
-CREATE TABLE `user_shippinginformation` (
-  `user_shipping_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_shippinginformation` (
+  `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_shipping_number` varchar(45) DEFAULT NULL,
   `user_shipping_email` varchar(45) DEFAULT NULL,
   `user_shipping_address` varchar(45) DEFAULT NULL,
@@ -701,8 +709,10 @@ CREATE TABLE `user_shippinginformation` (
   `user_shipping_userid` int(11) NOT NULL,
   `user_shipping_default` int(11) NOT NULL,
   `user_shipping_name` varchar(45) NOT NULL,
-  `deleted` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `deleted` varchar(1) NOT NULL,
+  PRIMARY KEY (`user_shipping_id`),
+  KEY `shipping_userid_idx` (`user_shipping_userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_shippinginformation`
@@ -711,7 +721,8 @@ CREATE TABLE `user_shippinginformation` (
 INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_number`, `user_shipping_email`, `user_shipping_address`, `user_shipping_postalcode`, `user_shipping_unitnumber`, `user_shipping_userid`, `user_shipping_default`, `user_shipping_name`, `deleted`) VALUES
 (4, '12313212', 'kmasdm@gmail.com', 'sad', '123123', '1231', 5, 0, 'darrem', '1'),
 (5, '12312222', 'dskmd@gmail.com', 'qwe', '123112', '1231', 5, 0, 'amsda', '1'),
-(6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', '');
+(6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', ''),
+(7, '12312312', 'root@gmail.com', '123', '123123', '123', 2, 0, 'root', '');
 
 -- --------------------------------------------------------
 
@@ -719,14 +730,14 @@ INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_numbe
 -- Table structure for table `working_booking`
 --
 
-DROP TABLE IF EXISTS `working_booking`;
-CREATE TABLE `working_booking` (
-  `idworking_booking` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `working_booking` (
+  `idworking_booking` int(11) NOT NULL AUTO_INCREMENT,
   `working_id` int(11) NOT NULL,
   `place_id` int(11) NOT NULL,
   `booking_start` varchar(4) DEFAULT NULL,
   `booking_end` varchar(4) DEFAULT NULL,
-  `booking_status` int(11) DEFAULT NULL
+  `booking_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idworking_booking`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -735,15 +746,16 @@ CREATE TABLE `working_booking` (
 -- Table structure for table `working_employees`
 --
 
-DROP TABLE IF EXISTS `working_employees`;
-CREATE TABLE `working_employees` (
-  `working_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `working_employees` (
+  `working_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `working_role` varchar(45) NOT NULL,
   `working_number` varchar(45) DEFAULT NULL,
   `working_department` text NOT NULL,
-  `working_perhourpay` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `working_perhourpay` int(11) NOT NULL,
+  PRIMARY KEY (`working_id`),
+  KEY `user_id_working_idx` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `working_employees`
@@ -751,326 +763,6 @@ CREATE TABLE `working_employees` (
 
 INSERT INTO `working_employees` (`working_id`, `user_id`, `working_role`, `working_number`, `working_department`, `working_perhourpay`) VALUES
 (3, 2, 'Engineers', '123', 'sd', 12);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `cart_typevariants`
---
-ALTER TABLE `cart_typevariants`
-  ADD PRIMARY KEY (`cart_typevariants_id`),
-  ADD KEY `cart_typevariants_card_id_idx` (`cart_id`);
-
---
--- Indexes for table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`cat_id`);
-
---
--- Indexes for table `employees_task`
---
-ALTER TABLE `employees_task`
-  ADD PRIMARY KEY (`task_id`),
-  ADD KEY `task_working_id_idx` (`working_id`);
-
---
--- Indexes for table `employee_attendance`
---
-ALTER TABLE `employee_attendance`
-  ADD PRIMARY KEY (`attendance_id`),
-  ADD KEY `working_id_idx` (`working_id`);
-
---
--- Indexes for table `inventory`
---
-ALTER TABLE `inventory`
-  ADD PRIMARY KEY (`productcode`),
-  ADD KEY `inventory_product_id_idx` (`product_id`);
-
---
--- Indexes for table `likedby`
---
-ALTER TABLE `likedby`
-  ADD PRIMARY KEY (`likedby_id`),
-  ADD KEY `liked_user_id_idx` (`user_id`),
-  ADD KEY `liked_product_id_idx` (`product_id`),
-  ADD KEY `liked_review_id` (`review_id`);
-
---
--- Indexes for table `likes`
---
-ALTER TABLE `likes`
-  ADD KEY `likes_review_id` (`review_id`);
-
---
--- Indexes for table `notification`
---
-ALTER TABLE `notification`
-  ADD PRIMARY KEY (`idnotification`);
-
---
--- Indexes for table `place`
---
-ALTER TABLE `place`
-  ADD PRIMARY KEY (`place_id`);
-
---
--- Indexes for table `productcat`
---
-ALTER TABLE `productcat`
-  ADD KEY `cat_id_idx` (`cat_id`),
-  ADD KEY `store_id_storecat_idx` (`product_id`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
-
---
--- Indexes for table `product_type`
---
-ALTER TABLE `product_type`
-  ADD PRIMARY KEY (`product_id`,`type_id`),
-  ADD KEY `prodtype_product_id_idx` (`product_id`),
-  ADD KEY `prodtype_type_id_idx` (`type_id`);
-
---
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`review_id`),
-  ADD KEY `review_user_id_idx` (`review_user_id`),
-  ADD KEY `review_product_id_idx` (`review_product_id`);
-
---
--- Indexes for table `review_parent_child`
---
-ALTER TABLE `review_parent_child`
-  ADD KEY `review_id_parent_idx` (`review_id_parent`),
-  ADD KEY `review_id_parent_idx1` (`review_id_child`);
-
---
--- Indexes for table `store`
---
-ALTER TABLE `store`
-  ADD PRIMARY KEY (`store_id`),
-  ADD UNIQUE KEY `store_id_UNIQUE` (`store_id`),
-  ADD UNIQUE KEY `store_name_UNIQUE` (`store_name`) USING HASH;
-
---
--- Indexes for table `storeprod`
---
-ALTER TABLE `storeprod`
-  ADD PRIMARY KEY (`store_id`,`product_id`),
-  ADD KEY `storeprod_product_id_idx` (`product_id`);
-
---
--- Indexes for table `total_people_in_lab`
---
-ALTER TABLE `total_people_in_lab`
-  ADD PRIMARY KEY (`total_id`);
-
---
--- Indexes for table `type`
---
-ALTER TABLE `type`
-  ADD PRIMARY KEY (`type_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  ADD UNIQUE KEY `user_username_UNIQUE` (`user_username`);
-
---
--- Indexes for table `usersfavorite`
---
-ALTER TABLE `usersfavorite`
-  ADD KEY `favorite_product_id_idx` (`product_id`),
-  ADD KEY `favorite_user_id_idx` (`user_id`);
-
---
--- Indexes for table `user_booking`
---
-ALTER TABLE `user_booking`
-  ADD PRIMARY KEY (`booking_id`),
-  ADD KEY `user_id_idx` (`user_id`),
-  ADD KEY `place_id_idx` (`place_id`);
-
---
--- Indexes for table `user_cart`
---
-ALTER TABLE `user_cart`
-  ADD PRIMARY KEY (`cart_id`),
-  ADD KEY `product_id_cart_idx` (`product_id`),
-  ADD KEY `user_id_cart_idx` (`user_id`),
-  ADD KEY `product_code_cart_idx` (`productcode`);
-
---
--- Indexes for table `user_creditcardinfo`
---
-ALTER TABLE `user_creditcardinfo`
-  ADD PRIMARY KEY (`user_creditcardinfo_id`),
-  ADD KEY `user_creditcardinfo_id_idx` (`user_creditcardinfo_userid`);
-
---
--- Indexes for table `user_favoritedproducts`
---
-ALTER TABLE `user_favoritedproducts`
-  ADD KEY `favorited_userid_idx` (`favorited_userid`),
-  ADD KEY `favoried_productid_idx` (`favoried_productid`);
-
---
--- Indexes for table `user_past_purchases`
---
-ALTER TABLE `user_past_purchases`
-  ADD PRIMARY KEY (`purchase_id`),
-  ADD KEY `user_id_idx` (`user_id`),
-  ADD KEY `user_creditcards_idx` (`user_creditcards`);
-
---
--- Indexes for table `user_shippinginformation`
---
-ALTER TABLE `user_shippinginformation`
-  ADD PRIMARY KEY (`user_shipping_id`),
-  ADD KEY `shipping_userid_idx` (`user_shipping_userid`);
-
---
--- Indexes for table `working_booking`
---
-ALTER TABLE `working_booking`
-  ADD PRIMARY KEY (`idworking_booking`);
-
---
--- Indexes for table `working_employees`
---
-ALTER TABLE `working_employees`
-  ADD PRIMARY KEY (`working_id`),
-  ADD KEY `user_id_working_idx` (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `cart_typevariants`
---
-ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
-
---
--- AUTO_INCREMENT for table `category`
---
-ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `employees_task`
---
-ALTER TABLE `employees_task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `employee_attendance`
---
-ALTER TABLE `employee_attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `likedby`
---
-ALTER TABLE `likedby`
-  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT for table `notification`
---
-ALTER TABLE `notification`
-  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `place`
---
-ALTER TABLE `place`
-  MODIFY `place_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
---
--- AUTO_INCREMENT for table `store`
---
-ALTER TABLE `store`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `total_people_in_lab`
---
-ALTER TABLE `total_people_in_lab`
-  MODIFY `total_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `type`
---
-ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `user_booking`
---
-ALTER TABLE `user_booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_creditcardinfo`
---
-ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- AUTO_INCREMENT for table `user_past_purchases`
---
-ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `user_shippinginformation`
---
-ALTER TABLE `user_shippinginformation`
-  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `working_booking`
---
-ALTER TABLE `working_booking`
-  MODIFY `idworking_booking` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `working_employees`
---
-ALTER TABLE `working_employees`
-  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -1092,7 +784,13 @@ ALTER TABLE `employees_task`
 -- Constraints for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  ADD CONSTRAINT `working_id_attendance` FOREIGN KEY (`working_id`) REFERENCES `working_employees` (`working_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `working_id_idx` FOREIGN KEY (`attendance_workingid`) REFERENCES `working_employees` (`working_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `employee_leave`
+--
+ALTER TABLE `employee_leave`
+  ADD CONSTRAINT `leave_userid_useridx` FOREIGN KEY (`leave_userid`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `inventory`
@@ -1115,9 +813,9 @@ ALTER TABLE `likes`
   ADD CONSTRAINT `likes_review_id` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`review_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `productcat`
+-- Constraints for table `prodcat`
 --
-ALTER TABLE `productcat`
+ALTER TABLE `prodcat`
   ADD CONSTRAINT `cat_id_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `cat_id_storecat` FOREIGN KEY (`cat_id`) REFERENCES `category` (`cat_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
