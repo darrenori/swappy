@@ -10,6 +10,13 @@ $nonrequiredfields = ['websitelink'];
 $requiredimgs = ['image1'];
 $nonrequiredimgs = ['image2', 'image3'];
 
+## Defends agains XSS
+foreach ($_POST as $key => $value) {
+    $_POST[$key] = htmlspecialchars($value);
+}
+
+##### ALL POST ITEMS DECLARED #######
+
 $allfields = array_merge($requiredfields, $nonrequiredfields);
 $allimgs = array_merge($requiredimgs, $nonrequiredimgs);
 foreach ($_POST as $formname => $formvalue) {
@@ -24,17 +31,16 @@ foreach ($_FILES as $formname => $formvalue) {
         unset($_FILES[$formname]);
     }
 }
-//cheats the system to think that files were uploaded (I THINK) because at least one image is required upon registration
-foreach ($_POST as $formname => $formvalue) {
-    if (in_array($formname, $allimgs)) {
-        $_FILES[$formname] = $formvalue;
-    }
-}
+
+##### ALL POST ITEMS DECLARED #######
+
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("location: https://www.swapamc.com/swapproj/productmanager?error=invalidid");
     exit();
 }
+
+//Cleans ID
 $storeid = preg_replace('/[^\d]/', '', $_GET['id']);
 
 ///2) Checks required fields for empty values
@@ -51,8 +57,7 @@ foreach ($requiredimgs as $i => $requiredimg) {
     }
 }
 
-
-
+//Declaring values after input has been sanitised
 $storename = $_POST['storename'];
 $storepricepoint = $_POST['storepricepoint'];
 $about = $_POST['about'];
@@ -69,8 +74,7 @@ if (isset($_POST['websitelink']) && !empty($_POST['websitelink'])) {
 $storenumber = (int)str_replace(' ', '', $storenumber);
 
 
-
-if (badInputTwo([$about, $storename]) === true) {
+if (badInputTwo([$storename]) === true) {
     header("location: https://www.swapamc.com/swapproj/storemanageradd?error=malicious");
     exit;
 }
@@ -112,21 +116,33 @@ try {
 }
 
 
-
-$query->bind_result($id,$store_rating);
+$query->bind_result($id, $store_rating);
 // IF ID DOES NOT EXIST
 if (!$query->fetch()) {
     header("location: https://www.swapamc.com/swapproj/productmanager?error=badid");
     exit;
-}$query->close();
+}
+$query->close();
 
 
 
 
-
-$imagesarray = ['imageone', 'imagetwo', 'imagethree'];
+$imagesarray = ['image1', 'image2', 'image3'];
 $productimages = [];
 
+//Adds image paths to the productimages array if they existed before
+foreach ($_POST as $formname => $formvalue) {
+    //$allimgs contains the exact names of what the variable should be, hence the in_array() command
+    if (in_array($formname, $allimgs)) {
+        $imagenumber = (int)substr($formname,5,1);
+        //confirms only image 1, 2, or 3 can exist
+        if (!in_array($imagenumber,[1,2,3])) {
+            header("location: https://www.swapamc.com/swapproj/productmanager?error=badformname");
+            exit;        
+        }
+        $productimages[$imagenumber-1]=$formvalue;
+    } 
+}
 
 for ($i = 0; $i < sizeof($imagesarray); $i++) {
 
@@ -153,6 +169,7 @@ for ($i = 0; $i < sizeof($imagesarray); $i++) {
             header("location: https://www.swapamc.com/swapproj/productmanager?error=badimagesize");
             exit;
         } else {
+
             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
             $img_ex_lc = strtolower($img_ex);
 
@@ -221,8 +238,8 @@ for ($i = 0; $i < sizeof($imagesarray); $i++) {
                 date_default_timezone_set('Asia/Singapore');
                 $now = time();
                 $now = date('Y-m-d', $now) . " " . date('H:i:s');
-
-                array_push($productimages, $img_upload_path);
+                // Changed so that will override old image
+                $productimages[$i]=$img_upload_path;
             } else {
                 $em = "You can't upload files of this type";
                 header("location: https://www.swapamc.com/swapproj/productmanager?error=badimagefiletype");
@@ -234,17 +251,27 @@ for ($i = 0; $i < sizeof($imagesarray); $i++) {
 
 
 
-for ($k = 0; $k < 3; $k++) {
 
-    if (isset($productimages[$k]) && $productimages[$k] != null) {
+
+
+for ($k = 0; $k < 3; $k++) {
+    echo "hit<br>";
+    if (isset($productimages[$k]) && !empty($productimages[$k])) {
+        echo ($productimages[$k]);
         $imagesarraypath[$k] = $productimages[$k];
     } else {
         $imagesarraypath[$k] = NULL;
     }
 }
 
-
-
+echo ("<br><br>I am product images");
+print_r($productimages);
+echo ("<br> <br> I am files");
+print_r($_FILES);
+echo ("<br> <br>I am images arraypath");
+print_r($imagesarraypath);
+echo ("<br> <br> I am post ");
+print_r($_POST);
 
 
 try {

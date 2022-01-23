@@ -202,6 +202,7 @@ function isEmployee($conn,$id){
     $workingid=null;
 
     $query=$conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
+    $query
 
     if($query->execute()){
         $query->bind_result($workingid);
@@ -999,4 +1000,14 @@ function duplicateEmail($conn,$email){
         return false;
     }
     
+}
+
+function bufferOverflow($arrayofitems, $numberofcharacters){
+    foreach ($arrayofitems as $key => $value) {
+        if (strlen((string)$value>$numberofcharacters)){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

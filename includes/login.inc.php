@@ -6,24 +6,33 @@ declare(strict_types=1);
 
 
 if (isset($_POST["submit"])) {
-    foreach ($_POST as $key => $val)
-    echo $key . ":    " . $val . "<br/>";
+
+    $whitelist = ['uid', 'pwd', 'g-recaptcha-response', 'remember'];
+    ### XSS DONE
+    foreach ($_POST as $key => $value) {
+        $_POST[$key] = htmlspecialchars($value);
+        if (!in_array(htmlspecialchars($key), $whitelist)) {
+            unset($_POST[$key]);
+        }
+    }
+
+
 
 
     // gets the username password and captcha input
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
-  
+    $inkey = badInput($_POST);
     // echo "here are your items".$username.$pwd.$captchaa;
 
-    
+
 
 
     // foreach ($_SESSION as $key => $val)
     //     echo $key . " " . $val . "<br/>";
 
-   
+
 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
@@ -36,10 +45,26 @@ if (isset($_POST["submit"])) {
     ////Checks if inputs are empty, invalid
 
 
+
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);
-   if ($loginempty !== false) {
+    if ($loginempty !== false) {
         header("location: https://www.swapamc.com/swapproj/login?error=emptyinput");
+        exit();
+    } else if ($inkey !== false) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=" . $inkey);
+        exit();
+    } elseif (bufferOverflow([$username], 200) === true) {
+        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        exit();
+    } elseif (bufferOverflow([$pwd], 60) === true) {
+        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        exit();
+    } elseif (bufferOverflow([$_POST['remember']], 2) === true) {
+        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        exit();
+    } elseif ((invalidUid($username) && invalidEmail($username))) {
+        header("location: https://www.swapamc.com/swapproj/login?error=baduser");
         exit();
     }
     // returns failedcaptcha if failed captcha
@@ -84,10 +109,8 @@ if (isset($_POST["submit"])) {
 
 
     // if there are no errors, the user is logged in
-    loginUser($conn, $username, $pwd,$remember);
-
-
-    } else {
-        header("location: https://www.swapamc.com/swapproj/login?error=notsubmit");
-        exit();
+    loginUser($conn, $username, $pwd, $remember);
+} else {
+    header("location: https://www.swapamc.com/swapproj/login?error=notsubmit");
+    exit();
 }

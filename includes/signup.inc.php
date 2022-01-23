@@ -1,6 +1,16 @@
 <?php
 
 if (isset($_POST["submit"])) {
+
+    $whitelist = ['firstname','lastname','email','phonenumber','username','pwd','pwdrepeat','primaryschool','favouritefood','g-recaptcha-response'];
+    ### XSS DONE
+    foreach ($_POST as $key => $value) {
+        $_POST[$key]=htmlspecialchars($value);
+        if(!in_array(htmlspecialchars($key),$whitelist)){
+            unset($_POST[$key]);
+        }
+    }
+
     $firstname = $_POST["firstname"];
     $lastname = $_POST["lastname"];
     $email = $_POST["email"];
@@ -27,7 +37,17 @@ if (isset($_POST["submit"])) {
     if (emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood) !== false) {
         header("location: https://www.swapamc.com/swapproj/signup?error=emptyinput");
         exit();
-    } else if ($inkey !== false) {
+    }elseif (bufferOverflow([$username, $pwd, $pwdRepeat,$firstname,$lastname],60)===true) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=longinput");
+        exit();
+    }elseif (bufferOverflow([$phonenumber, $primaryschool, $favouritefood],45)===true) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=longinput");
+        exit();
+    }elseif (bufferOverflow([$email],200)===true) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=longinput");
+        exit();
+    }
+     else if ($inkey !== false) {
         header("location: https://www.swapamc.com/swapproj/signup?error=" . $inkey);
         exit();
     } else if (invalidUid($username) !== false) {
