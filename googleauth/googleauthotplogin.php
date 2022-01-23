@@ -50,22 +50,7 @@ if (isset($jwtarray) && $jwtarray == true) {
                 null
             };
         </script>
-        <section class="signup-form">
-            <h2>OTP for user <?php $username ?></h2>
-
-            <form action="/swapproj/googleauthenticationinc" method="post">
-                <center>
-                    <img src="<?= $link; ?>"><br>
-                    <label for="googleautotp">Enter Code Here:</label><br>
-                    <input type="text" id="googleauthotp" name="googleauthotp" placeholder="Enter Code">
-                    <br><br>
-                    <input type="submit" value="submit" name="submit">
-                </center>
-            </form>
-
-
-
-        </section>
+ 
 <?php
 
 
@@ -114,19 +99,6 @@ if (isset($jwtarray) && $jwtarray == true) {
         null
     };
 </script>
-<section class="signup-form">
-    <h2>OTP for user <?php $username ?></h2>
-
-    <form action="/swapproj/googleauthenticationinc" method="post">
-        <center>
-            <label for="googleautotp">Enter Code Here:</label><br>
-            <input type="text" id="googleauthotp" name="googleauthotp" placeholder="Enter Code">
-            <br><br>
-            <input type="submit" value="submit" name="submit">
-        </center>
-    </form>
-
-
 
 <<<<<<< Updated upstream
 </section>

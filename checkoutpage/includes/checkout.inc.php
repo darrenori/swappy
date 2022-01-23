@@ -17,6 +17,7 @@ if (isset($_POST["submit"])) {
     $sa = $_SESSION['shippingaddress'];
     $bundledidrandom = floatval(rand(pow(10, 8 - 1), pow(10, 8) - 1));
     $_SESSION['bundledid'] = $bundledidrandom;
+    $ccnum = substr ($number, -4);
 
     if (emptyCart($emptycarts) !== false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=emptycart");
@@ -54,10 +55,13 @@ if (isset($_POST["submit"])) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
         exit();
     } else {
+        reduceInventory($conn);
         
-        addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype);
+        addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype,$ccnum);
         cartpurchased($conn);
         addIntoPastPurchase($conn);
+
+        
         
         header("location: https://www.swapamc.com/swapproj/checkout/success");
         echo 'successfully added';

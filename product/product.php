@@ -136,7 +136,7 @@
    
    
    
-   echo "<p id='price'>"."$".$product_price . "</p>";
+   echo "<p id='price'>"."S$".$product_price . "</p>";
 
    echo "<input type='submit' >";
 
@@ -999,6 +999,12 @@
     
     <script type="text/javascript">
 
+        function sanitizeHTML(text) {
+                    var element = document.createElement('div');
+                    element.innerText = text;
+                    return element.innerHTML;
+        }
+
         function calculatePriceUserSide(){
             var priceforone = "<?php echo json_encode($product_price); ?>";
             
@@ -1009,6 +1015,8 @@
                 if (checkboxesarray[i].checked){
                     
                     var additional = document.getElementById("price"+checkboxesarray[i].id);
+
+                    
                     if(!isNaN(parseFloat(additional.innerHTML))){
                         priceforone = (parseFloat(priceforone) + parseFloat(additional.innerHTML)).toFixed(2);
                     }
@@ -1031,7 +1039,10 @@
             var quantity = document.getElementById("quantity").value;
 
             var total = (quantity * priceforone).toFixed(2);
-            document.getElementById("price").innerHTML = "$"+total;
+
+            //new
+            total = sanitizeHTML(total);
+            document.getElementById("price").textContent = "S$"+total;
 
 
             calculateInventory();

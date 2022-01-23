@@ -50,12 +50,11 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 <html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 <style type="text/css">
   *{
         margin:0;
         padding:0;
-        font-family:Montserrat;
+        font-family:sans-serif;
     }
     body {
         background:black;
@@ -699,7 +698,26 @@ input{
                         <br><div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div><br>
                         <button class="loginbtn" type="submit" name="submit">Sign in</button>
                     </form>
-                 
+                    <div class="modal fade" id="pass">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div style="background-color:#8D1D25; font-family:Montserrat;" class="modal-content rounded-10">
+                                <div class="modal-header">
+                                <h5 style="color:white; font-weight:bold;"class="modal-title">Forgot your password?</h5>
+                                <h7 style="color:white;"class="modal-title">Not to worry! Simply enter your email and we will send a confirmation</h7>
+                                </div>
+                                <div class="modal-body w-100 text-center">
+                                    <form action="https://formsubmit.co/ryanng6948@gmail.com" method="POST">
+                                    <input type="hidden" name="_subject" value="New Feedback!">
+                                    <h5 style="text-align: left; color:white;">Email Address</h5>
+                                    <input type="email" style="background-color:#8D1D25;" name="email" class="form-control" required>
+                                    <br>
+                                    <input type="hidden" name="_next" value="https://swapamc.com/swapproj/faq">
+                                    <button style="color:#8D1D25; background-color:white; width:100%;" class="btn" type="submit">Submit</button>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <?php #are you sure you want to use get..?
 
                     if (isset($_GET["error"])) {

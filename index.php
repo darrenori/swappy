@@ -27,7 +27,7 @@ $router->post('/incsignup', 'includes/signup.inc.php');
 
 //pre verification route handling
 $router->get('/emailverification', 'phpmailer/emailotp.php');
-$router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
+// $router->get('/emailverification?error=badotp', 'phpmailer/emailotp.php');
 
 //pre verification inc route handling
 $router->post('/emailverificationinc', 'includes/emailotp.inc.php');
@@ -131,7 +131,6 @@ $router->post('/replyreview','reviews/includes/reply.inc.php');
 $router->post('/likeordislike','reviews/includes/likeordislike.inc.php');
 
 
-$router->get('/home','home.php');
 
 
 
@@ -191,5 +190,86 @@ $router->get('/viewpurchases','product/viewpurchases.php');
 ###Darren
 //product amager
 $router->get('/productmanager','prodmanager/productmanager.php');
+$router->get('/productmanageradd','prodmanager/productmanageradd.php');
 $router->get('/productmanagertypes','prodmanager/productmanagertypes.php');
 $router->get('/productmanagervariant','prodmanager/productmanagervariant.php');
+$router->get('/productmanageraddinventory','prodmanager/productmanageinventory.php');
+
+
+//productmanagerinc
+$router->post('/productmanageraddinc','prodmanager/includes/productmanageradd.inc.php');
+$router->post('/productmanageraddtypes','prodmanager/includes/productmanagertype.inc.php');
+$router->post('/productmanageraddvariants','prodmanager/includes/productmanagervariant.inc.php');
+$router->post('/productmanageraddall','prodmanager/includes/productmanagerall.inc.php');
+
+
+$router->get('/productmanager/editproduct','prodmanager/editproduct.php');
+$router->post('/productmanager/editproductinc','prodmanager/includes/editproduct.inc.php');
+$router->get('/productmanager/deleteproductinc','prodmanager/includes/deleteproduct.inc.php');
+
+
+
+
+//forgetpassword
+$router->get('/forgetpassword','forgetpass/inputemail.php');
+$router->post('/forgetpasswordinc','forgetpass/includes/inputemail.inc.php');
+
+$router->get('/forgetpassword/resetpassword','forgetpass/resetpass.php');
+$router->post('/forgetpassword/resetpasswordinc','forgetpass/includes/resetpass.inc.php');
+
+
+//home
+$router->get('/home','home/home.php');
+//faq
+$router->get('/faq','faq/faq.php');
+$router->get('/faq/banned','faq/banned.php');
+$router->get('/faq/whoarewe','faq/whoarewe.php');
+$router->get('/faq/employee','faq/employee.php');
+
+
+$router->get('/viewtask','viewtasks/task.php');
+
+$router->post('/updatestatus','viewtasks/updatestatus.inc.php');
+
+
+###zeph
+//store amager
+$router->get('/storemanageradd','storemanager/storemanageradd.php');
+$router->get('/storemanage','storemanager/storemanager.php');
+$router->get('/storemanager/editstore','storemanager/editstore.php');
+
+
+//storemanagerinc
+$router->post('/storemanageraddinc','storemanager/includes/storemanageradd.inc.php');
+$router->post('/storemanageraddall','storemanager/includes/storemanagerall.inc.php');
+
+$router->post('/storemanager/editstoreinc','storemanager/includes/editstore.inc.php');
+$router->get('/storemanager/deletestoreinc','storemanager/includes/deletestore.inc.php');
+
+
+
+//attendance
+$router->get('/attendance','attendancepage/attendance.php');
+$router->post('/attendanceinc','attendancepage/includes/attendance.inc.php');
+
+$router->get('/attendance/editattendance','attendancepage/editattendance.php');
+$router->post('/attendance/editattendanceinc','attendancepage/includes/editattendance.inc.php');
+
+$router->get('/attendance/takeleave','attendancepage/takeleave.php');
+$router->post('/attendance/takeleaveinc','attendancepage/includes/takeleave.inc.php');
+
+$router->get('/attendance/editleave','attendancepage/editleave.php');
+$router->post('/attendance/editleaveinc','attendancepage/includes/editleave.inc.php');
+
+$router->get('/attendance/calculatepay','attendancepage/includes/calculatepay.inc.php');
+$router->get('/attendance/editemployee','attendancepage/editemployee.php');
+
+
+//logs
+
+$router->get('/adminlogs','admin/adminlogs.php');
+$router->get('/downloadlogs','admin/download.php');
+
+//test
+$router->get('/attendanced','attendance/attendance.php');
+$router->post('/attendanced','attendance/includes/attendance.php');

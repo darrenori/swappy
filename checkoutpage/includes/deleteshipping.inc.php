@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 session_start();
 echo $_SESSION["shippingid"];
 var_dump($_SESSION);
-$query = ("DELETE FROM mydb.user_shippinginformation WHERE user_shipping_id = ".$_SESSION['shippingid']);
+$query = ("UPDATE mydb.user_shippinginformation SET deleted = '1' WHERE user_shipping_id = ".$_SESSION['shippingid']);
 
 
 if (mysqli_query($conn, $query)) {

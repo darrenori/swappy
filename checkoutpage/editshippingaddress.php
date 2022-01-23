@@ -24,7 +24,7 @@ session_start();
 
 $shipping_id = (int)$_GET['shippingid'];
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];
-$query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $shipping_id;");
+$query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $shipping_id AND deleted != 1;");
 $stmt = mysqli_stmt_init($conn);
 
 
@@ -40,19 +40,19 @@ if ($query->execute()) {
         echo "Name" . "<br>";
         echo "<input type='text' name='name' value='$name'><br>";
 
-        echo "phone" . "<br>";
+        echo "Phone" . "<br>";
         echo "<input type='text' name='phone' value='$phone'minlength='8' maxlength='8' pattern='\d*'><br>";
 
         echo "Email" . "<br>";
         echo "<input type='email' name='email' value='$email'><br>";
 
-        echo "address" . "<br>";
+        echo "Address" . "<br>";
         echo "<input type='text' name='address' value='$address'><br>";
 
         echo "Zip" . "<br>";
         echo "<input type='text' name='zip' value='$zip'pattern='\d*'><br>";
 
-        echo "unit" . "<br>";
+        echo "Unit" . "<br>";
         echo "<input type='text' name='unit' value='$unit'><br>";
 
         echo '<input type="submit" value="update" name="submit" formaction="/swapproj/checkout/updatesa">';

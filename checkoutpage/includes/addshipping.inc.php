@@ -1,8 +1,8 @@
 <?php
 if (isset($_POST["addAdr"])) {
-    require_once 'checkoutpage/verification.php';
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     $name = htmlspecialchars($_POST["name"]);
     $phonenumber = $_POST["phone"];
     $email = $_POST["email"];

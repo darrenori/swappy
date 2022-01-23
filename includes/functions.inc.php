@@ -28,7 +28,7 @@ function badInput($array)
     $result = true;
     foreach ($array as $key => $val) {
 
-        if (!preg_match("/^pwd|^email/", $key) && !preg_match("/^[a-zA-Z0-9\s]*$/", $val)) {
+        if (!preg_match("/^pwd|^email|^g-recaptcha-response/", $key) && !preg_match("/^[a-zA-Z0-9\s]*$/", $val)) {
             return $key;
         } else {
             $result = false;
@@ -198,6 +198,25 @@ function verification2fa($email)
     return $result;
 }
 
+function isEmployee($conn,$id){
+    $workingid=null;
+
+    $query=$conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
+
+    if($query->execute()){
+        $query->bind_result($workingid);
+
+        if($query->fetch()){
+            return $workingid;
+        } else {
+            return null;
+        }
+
+    }
+    
+
+}
+
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd, $remember)
 {
@@ -239,6 +258,14 @@ function loginUser($conn, $username, $pwd, $remember)
         $array['loginstate'] = 'A';
         $array['userid'] = $uidExists["user_id"];
         $array['useremail'] = $uidExists["username_email"];
+        $array['profilepic'] = $uidExists['user_profilepicture'];
+
+        $workingid=isEmployee($conn,$array['userid']);
+
+        if($workingid!=null&&isset($workingid)){
+            $array['workingid'] = $workingid;
+            
+        }
 
 
         $encrypted = jwtencrypt($array);
@@ -394,8 +421,6 @@ function failedCaptcha($captcha)
     }
     return $result;
 }
-
-
 function setCookieSameSite(string $name, string $value, $expire)
 {
 
@@ -476,7 +501,9 @@ function calculateProductCode($array){
 }
 
 function badInputTwo($array){
-    $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
 
     for($i=0;$i<sizeof($array);$i++){
         $input = $array[$i];
@@ -519,7 +546,7 @@ function viewDefaultShippingAdd($conn)
 
 
     $userid = $jwtarrayinformation['userid'];
-    $query = $conn->prepare("SELECT user_shipping_id, user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_default FROM user_shippinginformation WHERE user_shipping_userid = $userid AND user_shipping_default = 1");
+    $query = $conn->prepare("SELECT user_shipping_id, user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_default FROM user_shippinginformation WHERE user_shipping_userid = $userid AND user_shipping_default = 1 AND deleted != 1");
     $stmt = mysqli_stmt_init($conn);
     if (!$query->execute()) {
         header("location: ../swapproj/checkout?error=stmtfailed");
@@ -560,6 +587,144 @@ function cartpurchased($conn)
     }
     $query->close();
 }
+
+
+
+function reduceInventory($conn){
+    print_r($_SESSION['cart']);
+
+    $cartarray = $_SESSION['cart'];
+
+    for($i=0;$i<sizeof($cartarray);$i++){
+        $cartid = $cartarray[$i];
+
+
+
+        
+
+        try {
+            $query = $conn->prepare("SELECT quantity,productcode FROM mydb.user_cart WHERE cart_id = ?;");
+
+            $query->bind_param('s',$cartid);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(checkout)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $productcode=null;
+        $quantity=null;
+        $query->bind_result($quantity,$productcode);
+        $query->fetch();
+        $query->close();
+
+        echo "<br><br><br>";
+        
+
+        echo $productcode;
+
+
+
+
+        //get quantity left
+        try {
+            $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = ?;");
+            $query->bind_param('s',$productcode);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $quantityleft=null;
+        $query->bind_result($quantityleft);
+
+        $query->fetch();
+
+        $quantityleft = $quantityleft - $quantity;
+        
+        $query->close();
+
+
+        //update new values!
+        
+        try {
+            $query = $conn->prepare("UPDATE mydb.inventory SET quantityleft = ? WHERE productcode = ?");
+            $query->bind_param('ss',$quantityleft,$productcode);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+    
+    
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Preparation failed(productedit)");
+            }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+            header("location: https://www.swapamc.com/swapproj/checkout");
+            exit;
+        }
+
+        $query->close();
+        
+
+
+
+
+    }
+    
+
+    
+    
+}
+
+
+
+
+
 function calculatetotalprice($conn)
 {
     $selectedcarts = $_SESSION['cart'];
@@ -606,7 +771,7 @@ function addIntoPastPurchase($conn)
 
     $userid = $jwtarrayinformation['userid'];
     $defaultshippingid = $_SESSION['defaultshippingid'];
-    $purchasequantity = sizeof($_SESSION["cart"]);
+    
     $purchasetime = date('Y-m-d H:i:s', time());
     $totalprice = calculatetotalprice($conn);
     $totalpricegst = $totalprice * 1.07;
@@ -614,14 +779,14 @@ function addIntoPastPurchase($conn)
     $bundledidrandom =  $_SESSION['bundledid'];
     $purchasestatus = "1";
 
-    $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time,purchase_quantity, purchase_cost, purchase_status, cart_bundled)
-    VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time, purchase_cost, purchase_status, cart_bundled)
+    VALUES (?,?,?,?,?,?,?)";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
-    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $purchasequantity, $totalpricegst, $purchasestatus, $bundledidrandom);
+    mysqli_stmt_bind_param($stmt, "sssssss", $userid, $defaultshippingid, $creditcardinfo, $purchasetime, $totalpricegst, $purchasestatus, $bundledidrandom);
     if (mysqli_stmt_execute($stmt)) {
         header("location: https://www.swapamc.com/swapproj/checkout?payment=success ");
     }
@@ -644,7 +809,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
 
     $userid = $jwtarrayinformation['userid'];
 
-    $sql = "INSERT INTO user_shippinginformation (user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_userid,user_shipping_default ) VALUES (?,?,?,?,?,?,$userid,0)";
+    $sql = "INSERT INTO mydb.user_shippinginformation(user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_userid,user_shipping_default) VALUES (?,?,?,?,?,?,$userid,0)";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -664,7 +829,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     exit();
 }
 
-function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
+function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype,$ccnum)
 {
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
@@ -677,16 +842,17 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype)
 
 
     $userid = $jwtarrayinformation['userid'];
+    
 
-    $sql = "INSERT INTO user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype)  VALUES (?,$userid,?,?,?)";
+    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb) VALUES (?,$userid,?,?,?,?)";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../swapproj/checkout?error=stmtfailed");
-        exit();
+        // header("location: ../swapproj/checkout?error=stmtfailed");
+        // exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "ssss", $cname,  $expmonth, $expyear, $cardtype);
+    mysqli_stmt_bind_param($stmt, "sssss", $cname, $expmonth, $expyear, $cardtype, $ccnum);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
@@ -791,4 +957,46 @@ function invalidCVC($cvc)
         $result = false;
     }
     return $result;
+}
+
+function duplicateEmail($conn,$email){
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return true;
+        exit;
+    }
+
+
+    try {
+        $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email';");
+                if ($query === true) {
+                    //change filename accordingly
+                    return true;
+                }
+            } catch (Exception $e) {
+                return true;
+            }
+            // throws error "Statment Execution failed" when statement fails
+            try {
+                $execute = $query->execute();
+                if ($execute === true) {
+                    return true;
+                }
+            } catch (Exception $e) {
+                return true;
+            }
+
+    $result = $query->get_result();
+    $arrayone = $result->fetch_all(MYSQLI_ASSOC);
+
+
+    if(sizeof($arrayone)>0) {
+        //exists
+
+        return true;
+
+    } else {
+        return false;
+    }
+    
 }
