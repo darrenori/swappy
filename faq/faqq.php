@@ -494,7 +494,7 @@
                             <input type="hidden" name="_subject" value="New Feedback!">
                             <input type="email" name="email" placeholder="Email Address" required>
                             <br><br>
-                            <input type="hidden" name="_next" value="https://swapamc.com/swapproj/faq">
+                            <input type="hidden" name="_next" value="https://www.swapamc.com/swapproj/faq">
                             <input type="text" name="message" placeholder="Write your feedback here" required>
                             <br><br>
                             <button type="submit">Submit Feedback</button>

@@ -488,7 +488,7 @@
                             <input type="hidden" name="_subject" value="New Feedback!">
                             <input type="email" name="email" class="form-control" placeholder="Email Address" required>
                             <br>
-                            <input type="hidden" name="_next" value="https://swapamc.com/swapproj/faq">
+                            <input type="hidden" name="_next" value="https://www.swapamc.com/swapproj/faq">
                             <textarea type="text" name="message" class="form-control" rows="5" placeholder="Write your feedback here" required></textarea>
                             <br>
                             <button class="btn" type="submit">Submit Feedback</button>
@@ -504,7 +504,7 @@
             
         </div>
         <div class="thing">
-              <h1 class="useraccount"><spann>I'm an employee. What do i do?</spann><br><br><span>Why is my account banned?<span><br><spanone>The only reason we ban accounts is for serious crimes against TPAMC</spanone><br><hr><spannn>Can i appeal a ban?<spannn><br><spanone>Although highly unlikely we will unban accounts, if you think you're unjustified with your ban, you may send us an email at <email>admin@tpamc.com</email></spanone></h1>
+              <h1 class="useraccount"><spann>I'm an employee. What do i do?</spann><br><br><span>Great News!<span><br><spanone>Sign up for an account first. Next, tell your manager</spanone><br><hr><spannn>How does it work?<spannn><br><spanone>Your administrator will promote you to an employeee upon finish.  </spanone></h1>
          </div>
     </div>
 
