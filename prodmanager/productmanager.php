@@ -467,7 +467,7 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
 
     .styled-table th,
     .styled-table td {
-        padding: 12px 25px;
+        padding: 12px 15px;
 
 
         border-radius: 4px;
@@ -509,11 +509,19 @@ $query->bind_result($storeid, $storename, $storepricepoint, $storeabout, $images
     color: #009879;
     } */
 
-    #status {
+    .active {
         background-color: rgba(68, 196, 115, 0.5);
         color: green;
         padding: 6px 25px;
         border-radius: 10px;
+    }
+
+    .inactive {
+        background-color: rgba(128, 0, 0, 0.5);
+        color: white;
+        padding: 6px 25px;
+        border-radius: 10px;
+
     }
 
 
@@ -575,8 +583,14 @@ Hint : Move out the button or the link declaring the data-toggle="dropdwn" from 
 Created a dropdown-sm class for smaller dropdowns when using kebabs
 ***/
 
+.dropdown-menu {
+    z-index: 1000;
+}
+
 .dropdown-menu.dropdown-unroll {
     transition: none;
+
+    
 }
 
 .kebab-link i {
@@ -869,10 +883,32 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                         echo "<td>" . $storeid . "</td>";
 
                         echo "<td>" . $storename . "</td>";
-                        echo "<td><a href='". $websitelink . "'>". $websitelink . "</td>";
+                        if(strlen($websitelink)>50){
+                            $shortened = substr($websitelink, 0, 50) . "...";
+                            echo "<td><a href='". $websitelink . "'>". $shortened . "</td>";
+                        } else {
+                            echo "<td><a href='". $websitelink . "'>". $websitelink . "</td>";
+                        }
+
+                        
                         echo "<td>" . $storedollar . "</td>";
-                        echo "<td>" . $storeabout . "</td>";
-                        echo "<td>" . $storestatus . "</td>";
+                        
+                        if(strlen($storeabout)>150){
+                            $storeabout = substr($storeabout, 0, 150) . "...";
+                            echo "<td>" . $storeabout . "</td>";
+                        } else {
+                            echo "<td>$storeabout</td>";
+                        }
+
+
+                        if($storestatus=='Active'){
+                            echo "<td><span class='active'>" . $storestatus . "</span></td>";
+
+                        } else {
+                            echo "<td><span class='inactive'>" . $storestatus . "</span></td>";
+
+                        }
+                        
                         // echo "<td>" . "<a href='https://www.swapamc.com/swapproj/storemanager/editstore?id=$storeid'><input type='button' name='edit' value='edit'></a><br>";
                         // echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><input type='button' name='delete' value='delete'></a><br>";
 
@@ -907,7 +943,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                 </tbody>
 
 
-                <tbody>
+                <!-- <tbody>
                     <tr>
                         <td>1</td>
                         <td>TPAMC</td>
@@ -927,7 +963,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                     </tr>
 
 
-                </tbody>
+                </tbody> -->
 
 
 
@@ -956,6 +992,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                         <th>Price Point</th>
                         <th>About</th>
                         <th>Quantity</th>
+                        <th opacity='0%'></th>
                         
                     </tr>
                 </thead>
@@ -1002,17 +1039,51 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                         exit;
                     }
 
-
+                    
                     $query->bind_result($prodid, $name, $store, $price, $about, $quantity);
                     while ($query->fetch()) {
+
+                        
+                        $counter++;
+
+                        
+                        
+                        
 
                         echo "<tr>";
                         echo "<td onclick='test($prodid)'; class='prodid'>$prodid</td>";
                         echo "<td>$name</td>";
                         echo "<td>$store</td>";
                         echo "<td>$price</td>";
-                        echo "<td>$about</td>";
+
+                        if(strlen($about)>250){
+                            $about = substr($about, 0, 250) . "...";
+                            echo "<td>$about</td>";
+                        } else {
+                            echo "<td>$about</td>";
+                        }
+                        
                         echo "<td>$quantity</td>";
+
+                        
+
+
+                        echo "<td>";
+
+
+                            echo '<a class="kebab-link" data-toggle="dropdown" data-target="#dropdown' . $counter . '"><i class="fa fa-ellipsis-v"></i></a>';
+                            echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
+                            echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
+                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/editproduct?id=' . $prodid . '">Edit</a>';
+                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/deleteproductinc?id=' . $prodid . '">Delete</a>';
+                            echo '</div>';
+                            echo '</div>';
+
+
+
+
+
+                        echo "</td>";
 
 
                         echo "</tr>";
