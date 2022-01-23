@@ -23,10 +23,9 @@ if (isset($_POST["submit"])) {
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
-    $inkey = badInput($_POST);
     // echo "here are your items".$username.$pwd.$captchaa;
 
-
+    
 
 
     // foreach ($_SESSION as $key => $val)
@@ -45,6 +44,7 @@ if (isset($_POST["submit"])) {
     ////Checks if inputs are empty, invalid
 
 
+    $inkey = badInput($_POST);
 
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);
@@ -55,13 +55,13 @@ if (isset($_POST["submit"])) {
         header("location: https://www.swapamc.com/swapproj/signup?error=" . $inkey);
         exit();
     } elseif (bufferOverflow([$username], 200) === true) {
-        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        header("location: https://www.swapamc.com/swapproj/login?error=longinputu");
         exit();
     } elseif (bufferOverflow([$pwd], 60) === true) {
-        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        header("location: https://www.swapamc.com/swapproj/login?error=longinputp");
         exit();
     } elseif (bufferOverflow([$_POST['remember']], 2) === true) {
-        header("location: https://www.swapamc.com/swapproj/login?error=longinput");
+        header("location: https://www.swapamc.com/swapproj/login?error=longinputr");
         exit();
     } elseif ((invalidUid($username) && invalidEmail($username))) {
         header("location: https://www.swapamc.com/swapproj/login?error=baduser");

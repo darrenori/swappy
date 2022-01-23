@@ -136,7 +136,7 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     // number of 's' indicate number of values? for some reason, and i used placeholder for all the unsupplied values
 
 
-    mysqli_stmt_bind_param($stmt, "sssssssssss", $username, $hashedPwd, $firstname, $lastname, $email, $phonenumber, $date, $primaryschool, $favouritefood, $randomsecret,$defaultpic);
+    mysqli_stmt_bind_param($stmt, "sssssssssss", $username, $hashedPwd, $firstname, $lastname, $email, $phonenumber, $date, $primaryschool, $favouritefood, $randomsecret, $defaultpic);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
@@ -198,24 +198,21 @@ function verification2fa($email)
     return $result;
 }
 
-function isEmployee($conn,$id){
-    $workingid=null;
+function isEmployee($conn, $id)
+{
+    $workingid = null;
 
-    $query=$conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
-    $query
+    $query = $conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
 
-    if($query->execute()){
+    if ($query->execute()) {
         $query->bind_result($workingid);
 
-        if($query->fetch()){
+        if ($query->fetch()) {
             return $workingid;
         } else {
             return null;
         }
-
     }
-    
-
 }
 
 //logs in user whether username or email is used
@@ -261,11 +258,10 @@ function loginUser($conn, $username, $pwd, $remember)
         $array['useremail'] = $uidExists["username_email"];
         $array['profilepic'] = $uidExists['user_profilepicture'];
 
-        $workingid=isEmployee($conn,$array['userid']);
+        $workingid = isEmployee($conn, $array['userid']);
 
-        if($workingid!=null&&isset($workingid)){
+        if ($workingid != null && isset($workingid)) {
             $array['workingid'] = $workingid;
-            
         }
 
 
@@ -281,7 +277,7 @@ function loginUser($conn, $username, $pwd, $remember)
 
         session_start();
         $_SESSION['variable'] = "hi";
-        
+
 
 
 
@@ -445,76 +441,70 @@ function setCookieSameSite(string $name, string $value, $expire)
             'secure' => $secure,
             'httponly' => $httponly,
         ]);
-        
-
 }
 
-function calculateProductCode($array){
+function calculateProductCode($array)
+{
 
 
     $string = '';
 
-    
-    $string = $array['product_name'];
-    
 
-    foreach($array as $key => $val) { 
+    $string = $array['product_name'];
+
+
+    foreach ($array as $key => $val) {
 
         //check for bad input
 
         $pattern = "/^(?=.{1,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/i";
 
 
-        $a = !(preg_match($pattern,$key));
-        $b = !(preg_match($pattern,$val));
+        $a = !(preg_match($pattern, $key));
+        $b = !(preg_match($pattern, $val));
 
-        if($a==1 || $b==1){
+        if ($a == 1 || $b == 1) {
             break; //break out of the loop, so code wont be able to match at all
         }
 
         $key = preg_replace('/\s+/', '_', $key);
         $val = preg_replace('/\s+/', '_', $val);
 
-        
-        
-        
-
-        
-        if($key!='type'&&$key!='product_name'){ 
-
-            
-
-            $string = $string. ','.$key .',' .$val;
 
 
 
+
+
+        if ($key != 'type' && $key != 'product_name') {
+
+
+
+            $string = $string . ',' . $key . ',' . $val;
         }
     }
 
     //echo $string;
 
-    
+
 
     return md5($string);
-
-    
-
 }
 
-function badInputTwo($array){
+function badInputTwo($array)
+{
     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
     // checks for anything that is not from the following list
     $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
 
-    for($i=0;$i<sizeof($array);$i++){
+    for ($i = 0; $i < sizeof($array); $i++) {
         $input = $array[$i];
-        $a = !(preg_match($pattern,$input));
+        $a = !(preg_match($pattern, $input));
 
-        if($a==1){
+        if ($a == 1) {
             return true;
         }
     }
-    
+
     return false;
 
     //0 is valid input
@@ -537,10 +527,9 @@ function viewDefaultShippingAdd($conn)
 
 
     $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
+    if (isset($jwtarray) && $jwtarray == true) {
 
+        $jwtarrayinformation = $jwtarray['array'];
     }
 
 
@@ -591,22 +580,23 @@ function cartpurchased($conn)
 
 
 
-function reduceInventory($conn){
+function reduceInventory($conn)
+{
     print_r($_SESSION['cart']);
 
     $cartarray = $_SESSION['cart'];
 
-    for($i=0;$i<sizeof($cartarray);$i++){
+    for ($i = 0; $i < sizeof($cartarray); $i++) {
         $cartid = $cartarray[$i];
 
 
 
-        
+
 
         try {
             $query = $conn->prepare("SELECT quantity,productcode FROM mydb.user_cart WHERE cart_id = ?;");
 
-            $query->bind_param('s',$cartid);
+            $query->bind_param('s', $cartid);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(productedit)");
@@ -617,8 +607,8 @@ function reduceInventory($conn){
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
-    
-    
+
+
         try {
             $execute = $query->execute();
             if ($execute === false) {
@@ -630,14 +620,14 @@ function reduceInventory($conn){
             exit;
         }
 
-        $productcode=null;
-        $quantity=null;
-        $query->bind_result($quantity,$productcode);
+        $productcode = null;
+        $quantity = null;
+        $query->bind_result($quantity, $productcode);
         $query->fetch();
         $query->close();
 
         echo "<br><br><br>";
-        
+
 
         echo $productcode;
 
@@ -647,7 +637,7 @@ function reduceInventory($conn){
         //get quantity left
         try {
             $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = ?;");
-            $query->bind_param('s',$productcode);
+            $query->bind_param('s', $productcode);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(productedit)");
@@ -658,8 +648,8 @@ function reduceInventory($conn){
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
-    
-    
+
+
         try {
             $execute = $query->execute();
             if ($execute === false) {
@@ -671,21 +661,21 @@ function reduceInventory($conn){
             exit;
         }
 
-        $quantityleft=null;
+        $quantityleft = null;
         $query->bind_result($quantityleft);
 
         $query->fetch();
 
         $quantityleft = $quantityleft - $quantity;
-        
+
         $query->close();
 
 
         //update new values!
-        
+
         try {
             $query = $conn->prepare("UPDATE mydb.inventory SET quantityleft = ? WHERE productcode = ?");
-            $query->bind_param('ss',$quantityleft,$productcode);
+            $query->bind_param('ss', $quantityleft, $productcode);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(productedit)");
@@ -696,8 +686,8 @@ function reduceInventory($conn){
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
-    
-    
+
+
         try {
             $execute = $query->execute();
             if ($execute === false) {
@@ -710,16 +700,7 @@ function reduceInventory($conn){
         }
 
         $query->close();
-        
-
-
-
-
     }
-    
-
-    
-    
 }
 
 
@@ -764,15 +745,14 @@ function selectCreditCardInfo($conn, $userid)
 function addIntoPastPurchase($conn)
 {
     $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
+    if (isset($jwtarray) && $jwtarray == true) {
 
+        $jwtarrayinformation = $jwtarray['array'];
     }
 
     $userid = $jwtarrayinformation['userid'];
     $defaultshippingid = $_SESSION['defaultshippingid'];
-    
+
     $purchasetime = date('Y-m-d H:i:s', time());
     $totalprice = calculatetotalprice($conn);
     $totalpricegst = $totalprice * 1.07;
@@ -797,12 +777,11 @@ function addIntoPastPurchase($conn)
 
 function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $unit)
 {
-   
-    $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
 
+    $jwtarray = jwtdecrypt();
+    if (isset($jwtarray) && $jwtarray == true) {
+
+        $jwtarrayinformation = $jwtarray['array'];
     }
 
 
@@ -830,20 +809,19 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     exit();
 }
 
-function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype,$ccnum)
+function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum)
 {
     $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
+    if (isset($jwtarray) && $jwtarray == true) {
 
+        $jwtarrayinformation = $jwtarray['array'];
     }
 
 
 
 
     $userid = $jwtarrayinformation['userid'];
-    
+
 
     $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb) VALUES (?,$userid,?,?,?,?)";
     $stmt = mysqli_stmt_init($conn);
@@ -960,7 +938,8 @@ function invalidCVC($cvc)
     return $result;
 }
 
-function duplicateEmail($conn,$email){
+function duplicateEmail($conn, $email)
+{
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return true;
@@ -970,44 +949,54 @@ function duplicateEmail($conn,$email){
 
     try {
         $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email';");
-                if ($query === true) {
-                    //change filename accordingly
-                    return true;
-                }
-            } catch (Exception $e) {
-                return true;
-            }
-            // throws error "Statment Execution failed" when statement fails
-            try {
-                $execute = $query->execute();
-                if ($execute === true) {
-                    return true;
-                }
-            } catch (Exception $e) {
-                return true;
-            }
+        if ($query === true) {
+            //change filename accordingly
+            return true;
+        }
+    } catch (Exception $e) {
+        return true;
+    }
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === true) {
+            return true;
+        }
+    } catch (Exception $e) {
+        return true;
+    }
 
     $result = $query->get_result();
     $arrayone = $result->fetch_all(MYSQLI_ASSOC);
 
 
-    if(sizeof($arrayone)>0) {
+    if (sizeof($arrayone) > 0) {
         //exists
 
         return true;
-
     } else {
         return false;
     }
-    
 }
 
-function bufferOverflow($arrayofitems, $numberofcharacters){
+function bufferOverflow($arrayofitems, $numberofcharacters)
+{
     foreach ($arrayofitems as $key => $value) {
-        if (strlen((string)$value>$numberofcharacters)){
+        if (strlen((string)$value) > $numberofcharacters) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
+}
+
+function XSS($inputarray, $whitelist)
+{
+    foreach ($inputarray as $key => $value) {
+        $inputarray[$key] = htmlspecialchars($value);
+        if (!in_array(htmlspecialchars($key), $whitelist)) {
+            unset($inputarray[$key]);
+        }
+    }
+    return $inputarray;
 }
