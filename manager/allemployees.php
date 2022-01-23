@@ -853,7 +853,10 @@ html, body {
 
 
             <div class='rowtwoinfo'>
+                
                 <h2 id='storestext'>Employees</h2>
+                <a href="https://www.swapamc.com/swapproj/attendance/editemployee" style='margin:10px 0;'><button type='button'>View attendance</button></a>
+
                 <a href="https://www.swapamc.com/swapproj/employeemanager/adduser"><button type='button'>Add</button></a>
             </div>
 

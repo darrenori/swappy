@@ -255,3 +255,25 @@ $router->get('/storemanager/deletestoreinc','storemanager/includes/deletestore.i
 
 $router->get('/adminlogs','admin/adminlogs.php');
 $router->get('/downloadlogs','admin/download.php');
+
+
+//attendance
+$router->get('/attendanced','attendance/attendance.php');
+$router->post('/attendanced','attendance/includes/attendance.php');
+
+
+//attendance
+$router->get('/attendance','attendancepage/attendance.php');
+$router->post('/attendanceinc','attendancepage/includes/attendance.inc.php');
+
+$router->get('/attendance/editattendance','attendancepage/editattendance.php');
+$router->post('/attendance/editattendanceinc','attendancepage/includes/editattendance.inc.php');
+
+$router->get('/attendance/takeleave','attendancepage/takeleave.php');
+$router->post('/attendance/takeleaveinc','attendancepage/includes/takeleave.inc.php');
+
+$router->get('/attendance/editleave','attendancepage/editleave.php');
+$router->post('/attendance/editleaveinc','attendancepage/includes/editleave.inc.php');
+
+$router->get('/attendance/calculatepay','attendancepage/includes/calculatepay.inc.php');
+$router->get('/attendance/editemployee','attendancepage/editemployee.php');
