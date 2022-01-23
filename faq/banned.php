@@ -79,9 +79,10 @@
     }
 
     .btn {
-        padding: 10px 20px;
-        font-weight:100;
-        border:0;
+        font-size: 12px;
+        padding: 8px 30px;
+        font-weight:400;
+            border:0;
         background:#8D1D25;
         color:white;
         border-radius:16px;

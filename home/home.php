@@ -69,8 +69,8 @@
         
     }
     .btn {
-        padding: 10px 20px;
-        font-weight:100;
+        padding: 10px 30px;
+        font-weight:500;
         border:0;
         background:#8D1D25;
         color:white;
@@ -551,7 +551,7 @@
             
             
         </ul>
-        <button type="button" class="btn">SIGN UP</button>
+        <button onclick="location.href = 'https://www.swapamc.com/swapproj/login'" type="button" class="btn">LOGIN</button>
     </div>
     <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     
