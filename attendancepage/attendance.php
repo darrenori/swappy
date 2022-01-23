@@ -227,6 +227,9 @@ jwtupdate($jwtarrayinformation);
         .calendar{
             display: none;
         }
+        .banner{
+            font-size: 12px;
+        }
     }
 
     /*footer*/
@@ -387,10 +390,9 @@ jwtupdate($jwtarrayinformation);
         font-weight: bold;
         color: white;
         justify-content: center;
-        background-color: #E26565;
-        border-left: 15px solid #8D1D25;
+        background-color: rgba(226, 101, 101, 0.5);;
+        border-left: 15px solid #E26565;
         width: 40vw;
-        height: 10vh;
         margin-top: 10vh;
     }
 
@@ -806,26 +808,26 @@ jwtupdate($jwtarrayinformation);
 
 
                     if (isset($_GET["clockin"]) == "success") {
-                        echo "Clockin Success! Will be Reviewed by Manager";
+                        echo "<p style='margin-top:1vh; margin-left:1vw; color:white;'>Clock in Success! Will be Reviewed by Manager</p>";
                     }
                     if (isset($_GET["clockout"]) == "success") {
-                        echo "Clockout Success! Will be Reviewed by Manager";
+                        echo "<p style='margin-top:1vh; margin-left:1vw; color:white;'>Clock out Success! Will be Reviewed by Manager</p>";
                     }
 
                     if (isset($_GET["error"])) {
                         if ($_GET["error"] == "emptyinput") {
-                            echo "<p style='margin-top:36vh; margin-left:-13vw; color:white;'>*Please select an option</p>";
+                            echo "<br><br><p style='color:white;'>*Please select an option</p>";
                         } elseif ($_GET["error"] == "badstatement") {
-                            echo "<p style='margin-top:36vh; margin-left:-13vw; color:white;'>Bad Statement</p>";
+                            echo "<br><br><p style='color:white;'>Bad Statement</p>";
                         } elseif ($_GET["error"] == "stmtallerror") {
-                            echo "<p style='margin-top:36vh; margin-left:-13vw; color:white;'>STMT All Error</p>";
+                            echo "<br><br><p style='color:white;'>STMT All Error</p>";
                         }
                     }
                     
                     ?>
             </form> 
             <div class="banner">
-        Do not fake your attendance.<br>Serious actions will be taken against those who do.
+            <p style="padding: 20px 10px;">Do not fake your attendance.<br>Serious actions will be taken against those who do.</p>
              </div>
         </div> 
     </div>
