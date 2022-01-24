@@ -12,6 +12,8 @@ if (isset($jwtarray) && $jwtarray == true) {
     ## use $jwtinformation["key"] to retrieve the values 
     ## keys and values can be viewed on campus.php page
     $jwtarrayinformation = $jwtarray['array'];
+
+    // print_r($jwtarrayinformation);
     foreach ($jwtarrayinformation as $key => $val)
         if (gettype($val) != "array") {
             echo "<p style='color:white'>".$key . " " . $val . "</p>";

@@ -155,6 +155,7 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
 
 
     $encrypted = jwtencrypt($array);
+    $encrypted = encrypt($encrypted);
     setCookieSameSite('jwt', $encrypted, 0); //0 means cookie dies when closed
 
 
@@ -267,6 +268,7 @@ function loginUser($conn, $username, $pwd, $remember)
 
 
         $encrypted = jwtencrypt($array);
+        $encrypted = encrypt($encrypted);
         if ($remember == true) {
             //they checked "rememberme"
             setCookieSameSite('jwt', $encrypted, time() + 86400); //1 day
@@ -323,16 +325,22 @@ function jwtdecrypt()
 
 
     if (isset($_COOKIE['jwt'])) {
+        
         $token = $_COOKIE['jwt'];
+        $token = decrypt($token);
     } else {
         $token = null;
     }
+
+    
 
     $objpages = new Pages();
     $decrypted = $objpages->read($token);
     if ($decrypted) {
         $decrypted = json_decode(json_encode($decrypted), true);
     }
+
+    
 
     return $decrypted;
 }
@@ -344,6 +352,8 @@ function jwtupdate($newarray)
     if (isset($_COOKIE['jwt'])) {
 
         $cookie = $_COOKIE['jwt'];
+        $cookie = decrypt($cookie);
+
         $cookie = $pages->read($cookie); //verify if token valid. returns null if its not
 
         if ($cookie != null) {
@@ -379,9 +389,11 @@ function jwtupdate($newarray)
             $updateInfo = $pages->updateauth($array, $iat, $exp);
             $updateInfo = $updateInfo['token'];
 
+            $encrypted = encrypt($updateInfo);
+
 
             //push to cookie
-            setCookieSameSite('jwt', $updateInfo, time() + 86400);
+            setCookieSameSite('jwt', $encrypted, time() + 86400);
         }
     }
 }

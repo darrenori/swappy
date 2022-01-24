@@ -100,6 +100,7 @@ class VerificationCode
          </body>
         </html>
         ";
+        print_r($jwtarrayinformation);
         jwtupdate($jwtarrayinformation);
         
 
