@@ -45,6 +45,28 @@ if (isset($jwtarray) && $jwtarray == true) {
     // echo "<br>";
     date_default_timezone_set('Asia/Singapore');
     // echo $date = date('m/d/Y h:i:s a', time());
+
+}
+
+
+if (isset($_GET["error"])) {
+    $error=htmlentities($_GET["error"]);
+
+    if ($error == "badotp") {
+        echo "<p style='color:white'>Badotp</p>";
+    }
+    elseif ($error == "expiredotp") {
+        echo "<p style='color:white'>Otp has Expired. Please click on resend. </p>";
+    }
+}
+    // display resend otp
+if (isset($_GET["resend"])) {
+    $getresend=htmlspecialchars($_GET["resend"]);
+
+    if ($getresend == "resend") {
+        echo "resending otp";
+    }
+}
 ?>
 
 
@@ -124,35 +146,6 @@ if (isset($jwtarray) && $jwtarray == true) {
 
 
 
-
-
-
-<?php
-    if (isset($_GET["error"])) {
-        $error=htmlentities($_GET["error"]);
-
-        if ($error == "badotp") {
-            echo "<p style='color:white>Badotp</p>";
-        }
-        elseif ($error == "expiredotp") {
-            echo "<p style='color:white'>Otp has Expired. Please click on resend. </p>";
-        }
-    }
-    // display resend otp
-    if (isset($_GET["resend"])) {
-        $getresend=htmlspecialchars($_GET["resend"]);
-
-        if ($getresend == "resend") {
-            echo "resending otp";
-        }
-    }
-} else {
-
-    header("location: https://www.swapamc.com/swapproj/logout");
-    exit();
-}
-
-?>
 
 
 

@@ -4,7 +4,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-
+regenerateJWT();
 $jwtarray = jwtdecrypt();
 // echo gettype($jwtarray);
 // echo $jwtarray ? 'true': 'false';

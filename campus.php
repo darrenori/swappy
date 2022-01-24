@@ -27,15 +27,7 @@ echo '<input type="submit" value="Submit">';
 echo '</form>';
 
 
-echo "<h3> PHP List All JWT Token Variables</h3>";
-foreach ($jwtarray as $key => $val)
-    if (gettype($val) != "array") {
-        echo $key . " " . $val . "<br/>";
-    }
-foreach ($jwtarrayinformation as $key => $val)
-    if (gettype($val) != "array") {
-        echo $key . " " . $val . "<br/>";
-    }
+
 
 
 

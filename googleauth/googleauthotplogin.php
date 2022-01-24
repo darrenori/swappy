@@ -32,9 +32,17 @@ if (isset($jwtarray) && $jwtarray == true) {
         $uidExists = uidExists($conn, $username, $username);
 
         //GOOGLE AUTH QR CODE GENERATED
-        $jwtarrayinformation['usersecret'] = $uidExists['user_secret'];
-        $randomsecret = $jwtarrayinformation['usersecret'];
-        jwtupdate($jwtarrayinformation);
+        session_start();
+        
+        $_SESSION['usersecret'] = $uidExists['user_secret'];
+        // $jwtarrayinformation['usersecret'] = $uidExists['user_secret'];
+        session_regenerate_id();
+
+        
+
+        
+        // $randomsecret = $jwtarrayinformation['usersecret'];
+        // jwtupdate($jwtarrayinformation);
 
         //Generates the qr code and puts it in html
         $link = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($uidExists['user_username'], $randomsecret, 'swapamc.com');
@@ -92,10 +100,10 @@ if (isset($jwtarray) && $jwtarray == true) {
     $uidExists = uidExists($conn, $username, $username);
 
     //GOOGLE AUTH QR CODE GENERATED
-    $jwtarrayinformation['usersecret'] = $uidExists['user_secret'];
-    $randomsecret = $jwtarrayinformation['usersecret'];
+    // $jwtarrayinformation['usersecret'] = $uidExists['user_secret'];
+    // $randomsecret = $jwtarrayinformation['usersecret'];
 
-    jwtupdate($jwtarrayinformation);
+    // jwtupdate($jwtarrayinformation);
 } else {
 
     header("location: https://www.swapamc.com/swapproj/logout");

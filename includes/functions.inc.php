@@ -1,4 +1,5 @@
 <?php
+use Lablnet\Encryption;
 
 //checks for empty boxes
 function emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood)
@@ -384,6 +385,42 @@ function jwtupdate($newarray)
         }
     }
 }
+
+
+function regenerateJWT(){
+    $pages = new Pages();
+    if (isset($_COOKIE['jwt'])) {
+        $cookie = $_COOKIE['jwt'];
+        $cookie = $pages->read($cookie); //verify if token valid. returns null if its not
+
+        if ($cookie != null) {
+            $cookie = json_decode(json_encode($cookie), true); //convert to array
+            $array = $cookie['array'];
+
+            $exp = $cookie['exp'];
+
+            $regenerate = $pages->regenerate($array,$exp);
+            $regenerate = $regenerate['token'];
+
+            $encrypted = encrypt($regenerate);
+
+
+            setCookieSameSite('jwt', $encrypted, time() + 86400);
+
+            
+
+        
+
+        }
+
+
+    }
+
+    
+
+}
+
+
 
 
 //checks for empty input boxes
@@ -999,4 +1036,31 @@ function XSS($inputarray, $whitelist)
         }
     }
     return $inputarray;
+}
+
+
+function encrypt($plaintexst){
+    
+    require 'vendor/autoload.php';
+
+    $encryption = new Encryption('ad!@#@!3!@#!snjsdjnsasd');
+
+    //Encrypt the message
+    
+    $encrypt = $encryption->encrypt($plaintexst);
+    return $encrypt;
+
+
+}
+
+function decrypt($encrypted){
+    require 'vendor/autoload.php';
+
+    $encryption = new Encryption('ad!@#@!3!@#!snjsdjnsasd');
+
+    //Encrypt the message
+    
+    $decrypted = $encryption->decrypt($encrypted);
+    return $decrypted;
+
 }

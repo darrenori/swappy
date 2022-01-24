@@ -11,9 +11,17 @@ if (isset($_POST['submit'])) {
         ## use $jwtinformation["key"] to retrieve the values 
         ## keys and values can be viewed on campus.php page
         $jwtarrayinformation = $jwtarray['array'];
-        $secret = $jwtarrayinformation['usersecret'];
+
+        session_start();
+        $secret = $_SESSION['usersecret'];
+        
+        session_regenerate_id();
+
+
+        
+        
         //removing our session as soon as we won't need it anymore reduces the attack surface.
-        unset($jwtarrayinformation['usersecret']);
+        // unset($jwtarrayinformation['usersecret']);
         $code = $_POST['googleauthotp'];
         $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
 
