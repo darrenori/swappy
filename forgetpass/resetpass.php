@@ -1,6 +1,9 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 session_start();
+session_regenerate_id();
+
+
 
 if (!isset($_SESSION["forgetpasskey"])) {
     header("location: https://www.swapamc.com/swapproj/forgetpassword?email=expired");

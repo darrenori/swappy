@@ -40,6 +40,11 @@ if (isset($_GET['error'])) {
     exit();
 
   }
+  elseif ($_GET["error"] == "invalidgoogleauth") {
+    echo "<p> Invalid Google Authentication. Redo the process. </p>";
+    exit();
+
+  }
   elseif ($_GET["error"] == "stmtfailed") {
     echo "<p> STMT Error. </p>";
     exit();

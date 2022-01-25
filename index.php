@@ -216,6 +216,10 @@ $router->post('/forgetpasswordinc','forgetpass/includes/inputemail.inc.php');
 $router->get('/forgetpassword/resetpassword','forgetpass/resetpass.php');
 $router->post('/forgetpassword/resetpasswordinc','forgetpass/includes/resetpass.inc.php');
 
+$router->get('/forgetpassword/googleauth','forgetpass/forgetpassgoogleauth.php');
+$router->post('/forgetpassword/googleauthinc','forgetpass/includes/forgetpassgoogleauth.inc.php');
+
+
 
 //home
 $router->get('/home','home/home.php');

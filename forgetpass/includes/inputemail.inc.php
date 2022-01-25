@@ -14,20 +14,23 @@ if(!(isset($_POST["email"]))){
 }
 $email = $_POST['email'];
 session_start();
+session_regenerate_id();
 
-// $jwtarray = jwtdecrypt();
-// $jwtarrayinformation = $jwtarray['array'];
+
+
 //check if email is in database
 $query = $conn->prepare("SELECT user_username,user_password,user_fname,user_lname,username_email FROM mydb.users WHERE mydb.users.username_email= '" . $email . "'");
-$stmt = mysqli_stmt_init($conn);
 if (!$query->execute()) {
     header("location: ../swapproj/checkout?error=stmtfailed");
     exit();
 }
+
+
 if ($query->execute()) {
 
     $query->bind_result($username, $pass, $fname, $lname, $dbemail);
     $query->fetch();
+
 
     // using username from database to check if array is empty
     if (empty($username)) {
