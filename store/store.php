@@ -83,11 +83,12 @@ try {
         $product_name = $array[$i]['product_name'];
         $product_price = $array[$i]['product_price'];
         $product_type = $array[$i]['product_price'];
+        $productid = $array[$i]['product_id'];
 
         echo "<tr>";
-        echo "<td><p>$product_name</p></td>";
-        echo "<td><p>$product_price</p></td>";
-        echo "<td><p>$product_price</p></td>";
+        echo "<td><a href='https://www.swapamc.com/swapproj/allproducts/product?id=$productid'>$product_name</a></td>";
+        echo "<td><a>$product_price</a></td>";
+        echo "<td><a>$product_price</a></td>";
 
         echo "<tr>";
     }

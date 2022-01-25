@@ -520,7 +520,7 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
 
     if ($query->num_rows === 0) {
         echo "<h3>To Be Reviewed Attendance</h3>";
-        echo ('Empty');
+        echo ('No employees has submitted attendance' . "<br><br>");
     } else {
 
         //to be reviewed
@@ -602,7 +602,7 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
     //to be reviewed
  
     if ($query->num_rows === 0) {
-        echo ('Empty');
+        echo ('No employees has submitted their leave');
 
     } else {
 
