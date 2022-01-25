@@ -10,6 +10,10 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
+date_default_timezone_set('Asia/Singapore');
+    $time = time();
+
+    print_r($time);
 //session started
 $jwtarray = jwtdecrypt();
 

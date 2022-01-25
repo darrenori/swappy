@@ -217,14 +217,93 @@ function isEmployee($conn, $id)
     }
 }
 
+function checkSuspended($conn,$username){
+
+    #DEFINED VARIABLES SO THAT WONT HAVE SQUIGGLY LINES
+    $is_suspended = 0;
+    $finish= 0;
+
+
+    #CHECK IF USER IS SUSPSENDE AND UNTIL WHEN THEY ARE
+    $query = $conn->prepare("SELECT user_suspended,suspendedfinish FROM mydb.users WHERE user_username = ?");
+    $query->bind_param('s',$username);
+    $query->execute();
+    $query->bind_result($is_suspended,$finish);
+    if($query->fetch()){
+        
+        
+
+    }
+
+    $query->close();
+
+
+
+
+    date_default_timezone_set('Asia/Singapore');
+    $time = time();
+
+
+    #IF USER IS SUSEPNDED
+    if($finish!=null&&isset($finish)){
+        #IF USER IS PAST THEIR SUSPENDED TIME
+        if($time>$finish){
+            $query=$conn->prepare("UPDATE mydb.users SET suspendedfinish = 0, user_failedattempts = 0, user_suspended = 0 WHERE user_username = ?");
+            $query->bind_param('s',$username);
+            $query->execute();
+            $query->close();
+            return null;
+        } else {
+            #IF USER IS STILL SUSPENDED >:(
+            if($is_suspended==1){
+                date_default_timezone_set('Asia/Singapore');
+                $suspendedtill = date('Y-m-d', $finish)." ".date('H:i:s');
+                return $suspendedtill;
+            }
+    
+        }
+
+    }
+    
+
+    
+
+    
+
+
+}
+
+
+
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd, $remember)
 {
+    
     $uidExists = uidExists($conn, $username, $username);
+    $numberoftimesbeforesuspend = 5;
+
+    //5 mins
+    $defaultsuspendtime = 300;
+    date_default_timezone_set('Asia/Singapore');
+    $time = time();
+    $suspended = $time+$defaultsuspendtime;
+
+
+
+
+
 
     if ($uidExists === false) {
         header("location: https://www.swapamc.com/swapproj/login?error=wronglogin");
         exit();
+    }
+
+    #IS THE USER SUSPENDED? (returns date if they still are) returns null if they ar enot
+    $datesus = checkSuspended($conn,$username);
+    if($datesus!=null){
+        header("location: https://www.swapamc.com/swapproj/login?error=suspended&till=".$datesus);
+        exit();
+
     }
 
     $pepper = "AWiokdfnkFNKKHHDBJXLL28838jkuiu54859dnkkmid93E1928485";
@@ -233,10 +312,57 @@ function loginUser($conn, $username, $pwd, $remember)
     $pwd = hash("sha256", hash("sha256", $pwd));
     $checkPwd = password_verify($pwd, $pwdHashed);
 
+    
+
     if ($checkPwd === false) {
+
+        ###DARREN: ADDED COUNT OF FAILURE
+        $numberoffailed = 0;
+
+        $query = $conn->prepare("SELECT user_failedattempts FROM mydb.users WHERE user_username = ?");
+        $query->bind_param('s',$username);
+        $query->execute();
+        $query->bind_result($numberoffailed);
+        if($query->fetch()){
+            $numberoffailed = $numberoffailed + 1;
+            
+
+        } else {
+            //0 attempts
+            $numberoffailed = 1;
+        }
+        $query->close();
+
+
+        
+
+        if($numberoffailed>$numberoftimesbeforesuspend){
+            
+            $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, suspendedfinish = ? WHERE user_username = ?");
+            $query->bind_param('ss',$suspended,$username);
+            $query->execute();
+            $query->close();
+
+        } else {
+            $query = $conn->prepare("UPDATE mydb.users SET user_failedattempts = ? WHERE user_username = ?");
+            $query->bind_param('is',$numberoffailed,$username);
+            $query->execute();
+            $query->close();
+
+        }
+
+        
+        
+
+
+
+
+
         header("location: https://www.swapamc.com/swapproj/login?error=wronglogin");
         exit();
     } elseif ($checkPwd === true) {
+
+        
         // OTP email
 
 
