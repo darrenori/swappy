@@ -54,10 +54,9 @@ if ($handle) {
 
 
 
-        
-
-
-        //if custom
+       
+        if(isset($array[4])){
+            //if custom
         $custom = $array[4];
         //only custom has tpamc
         if (strpos($custom, 'TPAMC') !== false) {
@@ -139,6 +138,10 @@ if ($handle) {
             }
             
         }
+            
+        }
+        
+        
 
         
         
