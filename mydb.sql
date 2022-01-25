@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jan 13, 2022 at 02:38 PM
+-- Generation Time: Jan 25, 2022 at 02:49 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -20,7 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `mydb`
 --
-DROP DATABASE IF EXISTS `mydb`;
 CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `mydb`;
 
@@ -63,7 +62,17 @@ INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type
 (220, 'Additional_Server_Rack', 'Yes', '1242.99', 20540189),
 (221, 'Size', 'Large', '2.3', 13149631),
 (222, 'Color', 'White', '3.1', 13149631),
-(223, 'Size', 'Medium', '20', 77630643);
+(223, 'Size', 'Medium', '20', 77630643),
+(224, 'Size', 'Large', '2.3', 70669906),
+(225, 'Color', 'White', '3.1', 70669906),
+(226, 'Size', 'Large', '2.3', 81829872),
+(227, 'Color', 'White', '3.1', 81829872),
+(228, 'Size', 'Medium', '20', 45339864),
+(229, 'Additional_Server_Rack', 'Yes', '1242.99', 24985198),
+(230, 'Size', 'Large', '2.3', 39405689),
+(231, 'Color', 'White', '3.1', 39405689),
+(232, 'Size', 'Large', '50', 80608462),
+(233, 'Length', '100m', '20', 62857993);
 
 -- --------------------------------------------------------
 
@@ -112,7 +121,8 @@ CREATE TABLE `employees_task` (
 --
 
 INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_details`, `task_progress`, `task_assignedby`, `task_dateassigned`, `task_datetofinish`, `task_dateedited`) VALUES
-(4, 3, 'buy v', 'dasani', '2', 'root', '2021-12-30 21:15:11', '2022-01-01 21:15:00', '2021-12-30 23:10:28');
+(4, 3, 'buy v', 'dasani', '1', 'root', '2021-12-30 21:15:11', '2022-01-01 21:15:00', '2021-12-30 23:10:28'),
+(6, 3, 'asdsd', 'sdasd', '0', 'root', '2022-01-25 20:46:19', '2022-01-27 20:50:00', '');
 
 -- --------------------------------------------------------
 
@@ -123,12 +133,44 @@ INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_detail
 DROP TABLE IF EXISTS `employee_attendance`;
 CREATE TABLE `employee_attendance` (
   `attendance_id` int(11) NOT NULL,
-  `working_id` int(11) NOT NULL,
   `attendance_date` varchar(45) NOT NULL,
-  `attendance_in_time` varchar(4) NOT NULL,
-  `attendance_out_time` varchar(4) NOT NULL,
-  `attendance_valid_absence` int(1) DEFAULT NULL
+  `attendance_in_time` varchar(45) NOT NULL,
+  `attendance_out_time` varchar(45) NOT NULL,
+  `attendance_status` varchar(45) NOT NULL,
+  `attendance_userid` int(11) NOT NULL,
+  `attendance_break` varchar(45) NOT NULL,
+  `attendance_current_month` varchar(45) NOT NULL,
+  `attendance_current_year` varchar(45) NOT NULL,
+  `attendance_workingid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employee_attendance`
+--
+
+INSERT INTO `employee_attendance` (`attendance_id`, `attendance_date`, `attendance_in_time`, `attendance_out_time`, `attendance_status`, `attendance_userid`, `attendance_break`, `attendance_current_month`, `attendance_current_year`, `attendance_workingid`) VALUES
+(1, '24/01/2022', '12:58:43 am', '', 'Clock In Verified', 2, '60', '01', '2022', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_leave`
+--
+
+DROP TABLE IF EXISTS `employee_leave`;
+CREATE TABLE `employee_leave` (
+  `leave_id` int(11) NOT NULL,
+  `leave_date` varchar(45) NOT NULL,
+  `leave_status` varchar(45) NOT NULL,
+  `leave_userid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employee_leave`
+--
+
+INSERT INTO `employee_leave` (`leave_id`, `leave_date`, `leave_status`, `leave_userid`) VALUES
+(1, '25/01/2022', 'Approved', 2);
 
 -- --------------------------------------------------------
 
@@ -150,18 +192,16 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (1, '05bbf12433b036df8b503f774db14486', '42'),
 (1, '0d783821eeb637b7b245f0c5b53bb191', '21'),
-(1, '2b22d78d21ff5850b75ed3d38c0111fb', '35'),
-(5, '38fc554ba26a85cc454f3a4b8ec7b301', '15'),
+(1, '2b22d78d21ff5850b75ed3d38c0111fb', '31'),
+(5, '38fc554ba26a85cc454f3a4b8ec7b301', '14'),
 (2, '3c771bf8d75fb729a61fd38cdf7e08c2', '12'),
 (5, '63fbb9b1eb1701eb3ab328f218ba65df', '10'),
-(6, '6d30558d5156e1f2e9875fcc1bfaffa8', '25'),
+(6, '6d30558d5156e1f2e9875fcc1bfaffa8', '24'),
 (1, '7588ffe7c10af6736e7f1095d6433ea1', '12'),
 (6, '7a05910580d20aa3e139c990b68b3673', '25'),
 (2, '7a661e7347e9d0a868cc9cdf91f634ce', '41'),
 (4, 'bd8dd1cda82f264d6a392e161e290dfa', '21'),
-(3, 'c9ca592076cfdc0f97ea3132e770c1f6', '12'),
-(13, 'da2fdf7285bde714e55835fd9df5d1a0', '32'),
-(13, 'e68578e338f6968a978c752b08dd9d0b', '500'),
+(3, 'c9ca592076cfdc0f97ea3132e770c1f6', '10'),
 (3, 'f40d7fba5e93532f0c84a3a874b47889', '42');
 
 -- --------------------------------------------------------
@@ -295,8 +335,7 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_
 (3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 53, NULL),
 (4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', NULL, NULL, NULL, 21, NULL),
 (5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', NULL, NULL, NULL, 25, NULL),
-(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL),
-(13, 'cablerr', 23.1, 'cabler', 'uploads/IMG-61e01aee607bd7.52807868.jpg', NULL, NULL, 532, NULL);
+(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL);
 
 -- --------------------------------------------------------
 
@@ -326,15 +365,7 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 (5, 11),
 (5, 12),
 (6, 13),
-(6, 14),
-(13, 39),
-(13, 40),
-(13, 41),
-(13, 42),
-(13, 43),
-(13, 44),
-(13, 45),
-(13, 46);
+(6, 14);
 
 -- --------------------------------------------------------
 
@@ -434,7 +465,6 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 13),
 (2, 2);
 
 -- --------------------------------------------------------
@@ -511,18 +541,22 @@ CREATE TABLE `users` (
   `user_security_primaryschool` varchar(45) NOT NULL,
   `user_security_favoritefood` varchar(45) NOT NULL,
   `user_secret` varchar(255) NOT NULL,
-  `user_profilepicture` text NOT NULL
+  `user_profilepicture` text NOT NULL,
+  `user_suspended` int(11) DEFAULT NULL,
+  `user_failedattempts` int(11) DEFAULT NULL,
+  `user_warning` int(11) DEFAULT NULL,
+  `suspendedfinish` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`) VALUES
-(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-DEFAULTPROFILE.jpg'),
-(4, 'tester', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'tester', 'tester', 6, 'tester@gmail.com', '213aa', '2022-01-04 16:56:49', 'tester', 'tester', 'VSOARC5JUW5O5UM7', 'uploads/IMG-61d41294d13813.99076896.png'),
-(5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg'),
-(6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg');
+INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`, `user_suspended`, `user_failedattempts`, `user_warning`, `suspendedfinish`) VALUES
+(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-61e1cb8da936a9.05590953.jpg', 0, 1, NULL, 0),
+(4, 'tester', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'tester', 'tester', 6, 'tester@gmail.com', '213aa', '2022-01-04 16:56:49', 'tester', 'tester', 'VSOARC5JUW5O5UM7', 'uploads/IMG-61d41294d13813.99076896.png', NULL, NULL, NULL, NULL),
+(5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -583,21 +617,28 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
-(13149631, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 6, 80.34, 0, 0),
+(13149631, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 49129281, 1),
 (20540189, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 44238904, 1),
 (21520909, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 65038689, 1),
+(24985198, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 69471694, 1),
 (34313007, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 96137789, 1),
 (34781975, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 56525308, 1),
 (36916921, 2, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 41074234, 1),
 (37323656, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 2, 20.58, 39102838, 1),
+(39405689, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 68866060, 1),
 (42682064, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 1, 30.9, 91226347, 1),
+(45339864, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 69471694, 1),
 (45864688, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 9, 278.1, 78749148, 1),
 (52484361, 5, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 13626326, 1),
+(62857993, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 2, 61.8, 43239748, 1),
 (63250878, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 83719910, 1),
 (67869677, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 2, 61.8, 93906941, 1),
-(71776166, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 13, 174.07, 10849871, 1),
-(77630643, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 0, 0),
-(86324416, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 2, 26.78, 29692911, 1),
+(70669906, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 3, 40.17, 41022897, 1),
+(71776166, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 10849871, 1),
+(77630643, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 41022897, 1),
+(80608462, 2, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 68866060, 1),
+(81829872, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 3, 40.17, 69471694, 1),
+(86324416, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 29692911, 1),
 (88901636, 5, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 90644407, 1),
 (93551889, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 90644407, 1);
 
@@ -644,7 +685,12 @@ INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinf
 (19, 5, 'uwu', '12', '2023', 'visa', '1111'),
 (20, 5, 'jasnjdnadsjn', '12', '2023', 'visa', '1111'),
 (21, 5, 'aksmdamsmd', '12', '2024', 'visa', '1111'),
-(22, 5, 'asdkmaskmd', '12', '2024', 'visa', '1111');
+(22, 5, 'asdkmaskmd', '12', '2024', 'visa', '1111'),
+(23, 2, 'darren', '12', '2023', 'visa', '1111'),
+(24, 2, 'dar', '12', '2023', 'visa', '1111'),
+(25, 2, 'darren', '12', '2023', 'visa', '1111'),
+(26, 2, 'd', '12', '2023', 'visa', '1111'),
+(27, 2, 'ansajsdn3', '12', '2023', 'visa', '1111');
 
 -- --------------------------------------------------------
 
@@ -682,7 +728,12 @@ CREATE TABLE `user_past_purchases` (
 
 INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `user_creditcards`, `purchase_time`, `purchase_cost`, `purchase_status`, `cart_bundled`) VALUES
 (13, 5, 4, 21, '2022-01-06 18:25:49', 441.289, 1, 83719910),
-(14, 5, 6, 22, '2022-01-06 18:28:48', 1533.52, 1, 44238904);
+(14, 5, 6, 22, '2022-01-06 18:28:48', 1533.52, 1, 44238904),
+(15, 2, 7, 23, '2022-01-14 15:46:34', 100.291, 1, 33590214),
+(16, 2, 7, 24, '2022-01-14 16:12:43', 89.238, 1, 41022897),
+(17, 2, 7, 25, '2022-01-14 16:16:02', 3156.29, 1, 69471694),
+(18, 2, 7, 26, '2022-01-14 16:17:43', 710.052, 1, 68866060),
+(19, 2, 7, 27, '2022-01-24 19:05:19', 66.126, 1, 43239748);
 
 -- --------------------------------------------------------
 
@@ -711,7 +762,8 @@ CREATE TABLE `user_shippinginformation` (
 INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_number`, `user_shipping_email`, `user_shipping_address`, `user_shipping_postalcode`, `user_shipping_unitnumber`, `user_shipping_userid`, `user_shipping_default`, `user_shipping_name`, `deleted`) VALUES
 (4, '12313212', 'kmasdm@gmail.com', 'sad', '123123', '1231', 5, 0, 'darrem', '1'),
 (5, '12312222', 'dskmd@gmail.com', 'qwe', '123112', '1231', 5, 0, 'amsda', '1'),
-(6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', '');
+(6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', ''),
+(7, '83182912', 'asds@gmail.com', '231 sd', '123123', '14-230', 2, 1, 'asdasd', '');
 
 -- --------------------------------------------------------
 
@@ -750,7 +802,7 @@ CREATE TABLE `working_employees` (
 --
 
 INSERT INTO `working_employees` (`working_id`, `user_id`, `working_role`, `working_number`, `working_department`, `working_perhourpay`) VALUES
-(3, 2, 'Engineers', '123', 'sd', 12);
+(3, 2, 'Engineers', '91226969', 'Labour', 123);
 
 --
 -- Indexes for dumped tables
@@ -781,7 +833,13 @@ ALTER TABLE `employees_task`
 --
 ALTER TABLE `employee_attendance`
   ADD PRIMARY KEY (`attendance_id`),
-  ADD KEY `working_id_idx` (`working_id`);
+  ADD KEY `working_id_attendance_idx` (`attendance_workingid`);
+
+--
+-- Indexes for table `employee_leave`
+--
+ALTER TABLE `employee_leave`
+  ADD PRIMARY KEY (`leave_id`);
 
 --
 -- Indexes for table `inventory`
@@ -962,7 +1020,7 @@ ALTER TABLE `working_employees`
 -- AUTO_INCREMENT for table `cart_typevariants`
 --
 ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
+  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -974,13 +1032,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `employees_task`
 --
 ALTER TABLE `employees_task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee_leave`
+--
+ALTER TABLE `employee_leave`
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `likedby`
@@ -1046,19 +1110,19 @@ ALTER TABLE `user_booking`
 -- AUTO_INCREMENT for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `user_past_purchases`
 --
 ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `user_shippinginformation`
 --
 ALTER TABLE `user_shippinginformation`
-  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `working_booking`
@@ -1070,7 +1134,7 @@ ALTER TABLE `working_booking`
 -- AUTO_INCREMENT for table `working_employees`
 --
 ALTER TABLE `working_employees`
-  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -1092,7 +1156,7 @@ ALTER TABLE `employees_task`
 -- Constraints for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  ADD CONSTRAINT `working_id_attendance` FOREIGN KEY (`working_id`) REFERENCES `working_employees` (`working_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `working_id_attendance` FOREIGN KEY (`attendance_workingid`) REFERENCES `working_employees` (`working_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `inventory`
