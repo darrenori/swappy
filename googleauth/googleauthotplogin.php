@@ -41,7 +41,7 @@ if (isset($jwtarray) && $jwtarray == true) {
         
 
         
-        // $randomsecret = $jwtarrayinformation['usersecret'];
+        $randomsecret = $_SESSION['usersecret'];
         // jwtupdate($jwtarrayinformation);
 
         //Generates the qr code and puts it in html
