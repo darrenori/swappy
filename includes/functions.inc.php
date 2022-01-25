@@ -529,6 +529,7 @@ function regenerateJWT(){
     $pages = new Pages();
     if (isset($_COOKIE['jwt'])) {
         $cookie = $_COOKIE['jwt'];
+        $cookie = decrypt($cookie);
         $cookie = $pages->read($cookie); //verify if token valid. returns null if its not
 
         if ($cookie != null) {
