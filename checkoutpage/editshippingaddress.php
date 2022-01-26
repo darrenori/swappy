@@ -21,6 +21,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 session_start();
+session_regenerate_id();
 
 $shipping_id = (int)$_GET['shippingid'];
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];

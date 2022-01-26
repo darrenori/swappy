@@ -2,6 +2,8 @@
 //show cart
 print "<h3>Your Cart</h3>";
 session_start();
+session_regenerate_id();
+
 // user press submit from view cart
 $selectedcarts = [];
 if (isset($_POST["submit"])) {
@@ -192,10 +194,11 @@ if (isset($_GET["error"])) {
         exit();
     } else if ($_GET["error"] == "stmtfailed") {
         echo "<p>Something went wrong, try again!</p>";
-    } else if ($_GET["error"] == "none") {
-        echo "<p>Payment Success</p>";
-        header("location: https://www.swapamc.com/swapproj/checkout/success");
-    }
+    } else if ($_GET["error"] == "invalidstate") {
+        echo "<p>Invalid State</p>";
+    } 
 }
+
+
 
 ?>

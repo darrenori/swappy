@@ -156,10 +156,19 @@ $router->post('/checkout/updatesa', 'checkoutpage/includes/updateshipping.inc.ph
 $router->post('/checkout/deletesa', 'checkoutpage/includes/deleteshipping.inc.php');
 $router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultshipping.inc.php');
 
+//checkoutemailotp
+$router->get('/checkout/emailotp', 'checkoutpage/checkoutemailotp.php');
+$router->post('/checkout/emailotpinc', 'checkoutpage/includes/checkoutemailotp.inc.php');
+$router->post('/checkout/sendemailotp', 'checkoutpage/sendemailotp.php');
+
+
+
 //after payment
 $router->get('/checkout/success', 'checkoutpage/successpayment.php');
 
 $router->post('/product/favorite','product/includes/favorite.inc.php');
+
+
 
 
 

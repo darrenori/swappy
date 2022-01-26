@@ -1,11 +1,14 @@
 <?php
 if (isset($_POST["submit"])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 
     session_start();
+    session_regenerate_id();
+    $jwtarray = jwtdecrypt();
+    $jwtarrayinformation = $jwtarray['array'];
+
 
     $cname = htmlspecialchars($_POST["cname"]);
     $number = $_POST["ccnum"];
@@ -17,7 +20,27 @@ if (isset($_POST["submit"])) {
     $sa = $_SESSION['shippingaddress'];
     $bundledidrandom = floatval(rand(pow(10, 8 - 1), pow(10, 8) - 1));
     $_SESSION['bundledid'] = $bundledidrandom;
-    $ccnum = substr ($number, -4);
+    $ccnumber = substr($number, -4);
+
+
+    //Encrypt
+    //Define cipher 
+    $cipher = "aes-192-cbc";
+    //Generate a 192-bit encryption key 
+    $encryption_key = openssl_random_pseudo_bytes(24);
+    // Generate an initialization vector 
+    $iv_size = openssl_cipher_iv_length($cipher);
+    $iv = openssl_random_pseudo_bytes($iv_size);
+    //Data to encrypt 
+    $sha256hash = hash('sha256', $ccnumber);
+    $data = $sha256hash;
+    $encrypted_data = openssl_encrypt($data, $cipher, $encryption_key, 0, $iv);
+    $ccnum = base64_encode($encrypted_data);
+
+
+
+
+
 
     if (emptyCart($emptycarts) !== false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=emptycart");
@@ -55,21 +78,19 @@ if (isset($_POST["submit"])) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
         exit();
     } else {
-        reduceInventory($conn);
-        
-        addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype,$ccnum);
-        cartpurchased($conn);
-        addIntoPastPurchase($conn);
+       
+        //bring credit card data to after email validation
+        $jwtarrayinformation['cname'] = $cname;
+        $jwtarrayinformation['expmonth'] = $expmonth;
+        $jwtarrayinformation['expyear'] = $expyear;
+        $jwtarrayinformation['cardtype'] = $cardtype;
+        $jwtarrayinformation['ccnum'] = $ccnum;
+        $jwtarrayinformation['checkoutstate'] = "A";
+        jwtupdate($jwtarrayinformation);
 
-        
-        
-        header("location: https://www.swapamc.com/swapproj/checkout/success");
-        echo 'successfully added';
-        unset($_SESSION['cart']);
-        exit();
+        $_SESSION['variable'] = "hi";
+
+        header("location: https://www.swapamc.com/swapproj/checkout/emailotp");
+        exit;
     }
 }
-
-
-
-?>
