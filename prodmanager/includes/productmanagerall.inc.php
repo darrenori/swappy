@@ -246,7 +246,7 @@ try {
 
 
 $randomnumber = floatval(rand(pow(10, 8 - 1), pow(10, 8) - 1));
-$randomnumber = '30068854';
+// $randomnumber = '30068854';
 
 foreach($typesandvariants as $type => $vararray){
 
@@ -467,6 +467,14 @@ for($i=0;$i<sizeof($combos);$i++){
     
 
 }
+
+unset($_SESSION['addproductinfo']);
+unset($_SESSION['typesvariants']);
+unset($_SESSION['addproductinfo']);
+unset($_SESSION['addproductimages']);
+unset($_SESSION['addtypes']);
+
+
 
 
 header("location: https://www.swapamc.com/swapproj/productmanager?error=none");

@@ -98,10 +98,16 @@ for($i=0;$i<sizeof($imagesarray);$i++){
                 } elseif ($img_ex_lc == 'png'){
         
                     try {
+                        
+                        
+                        // $image = imagecreatetruecolor($width, $height);
+                        // $white = imagecolorallocate($image, 255, 255, 255);
+                        // imagefill($image, 0, 0, $white);
+
                         $image = imagecreatefrompng($tmp_name);
         
                         if($image==null){
-                            header("location: https://www.swapamc.com/swapproj/productmanager?error=image");
+                            header("location: https://www.swapamc.com/swapproj/productmanager?error=imagebad");
                             exit;
         
                         } else {
@@ -113,7 +119,7 @@ for($i=0;$i<sizeof($imagesarray);$i++){
                         
                     } catch (Exception $e) {
                         echo 'Message: ' . $e->getMessage();
-                        header("location: https://www.swapamc.com/swapproj/productmanager?error=image");
+                        header("location: https://www.swapamc.com/swapproj/productmanager?error=badimage");
                         exit;
                         
                         
