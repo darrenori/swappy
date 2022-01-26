@@ -473,6 +473,8 @@ unset($_SESSION['typesvariants']);
 unset($_SESSION['addproductinfo']);
 unset($_SESSION['addproductimages']);
 unset($_SESSION['addtypes']);
+unset($_SESSION['addproduct']);
+unset($_SESSION['addproductimages']);
 
 
 
