@@ -1118,6 +1118,7 @@ function duplicateEmail($conn, $email)
 {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "invalidemail";exit;
         return true;
         exit;
     }
@@ -1127,7 +1128,7 @@ function duplicateEmail($conn, $email)
         $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email';");
         if ($query === true) {
             //change filename accordingly
-            return true;
+            // return true;
         }
     } catch (Exception $e) {
         return true;
@@ -1136,7 +1137,7 @@ function duplicateEmail($conn, $email)
     try {
         $execute = $query->execute();
         if ($execute === true) {
-            return true;
+            // return true;
         }
     } catch (Exception $e) {
         return true;

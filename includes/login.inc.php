@@ -23,17 +23,18 @@ if (isset($_POST["submit"])) {
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
-    // echo "here are your items".$username.$pwd.$captchaa;
-
-    
-
-
-    // foreach ($_SESSION as $key => $val)
-    //     echo $key . " " . $val . "<br/>";
+    $remember =
+        // echo "here are your items".$username.$pwd.$captchaa;
 
 
 
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+
+        // foreach ($_SESSION as $key => $val)
+        //     echo $key . " " . $val . "<br/>";
+
+
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
     //imports the verification code class that will be used in login user functions.inc.php
@@ -59,9 +60,6 @@ if (isset($_POST["submit"])) {
         exit();
     } elseif (bufferOverflow([$pwd], 60) === true) {
         header("location: https://www.swapamc.com/swapproj/login?error=longinputp");
-        exit();
-    } elseif (bufferOverflow([$_POST['remember']], 2) === true) {
-        header("location: https://www.swapamc.com/swapproj/login?error=longinputr");
         exit();
     } elseif ((invalidUid($username) && invalidEmail($username))) {
         header("location: https://www.swapamc.com/swapproj/login?error=baduser");
@@ -99,6 +97,10 @@ if (isset($_POST["submit"])) {
     $remember = false;
     if (isset($_POST["remember"])) { //if checked
         if ($_POST['remember'] == true) {
+            if (bufferOverflow([$_POST['remember']], 2) === true) {
+                header("location: https://www.swapamc.com/swapproj/login?error=longinputr");
+                exit();
+            }
 
             echo "checked fr sure";
             $remember = true;

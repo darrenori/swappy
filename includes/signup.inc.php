@@ -1,8 +1,10 @@
 <?php
 
+
+print_r($_POST);
 if (isset($_POST["submit"])) {
 
-    $whitelist = ['firstname','lastname','email','phonenumber','username','pwd','pwdrepeat','primaryschool','favouritefood','g-recaptcha-response'];
+    $whitelist = ['firstname','lastname','email','phonenumber','uid','pwd','pwdrepeat','primaryschool','favouritefood','g-recaptcha-response'];
     ### XSS DONE
     foreach ($_POST as $key => $value) {
         $_POST[$key]=htmlspecialchars($value);
@@ -10,6 +12,7 @@ if (isset($_POST["submit"])) {
             unset($_POST[$key]);
         }
     }
+    
 
     $firstname = $_POST["firstname"];
     $lastname = $_POST["lastname"];
@@ -21,7 +24,7 @@ if (isset($_POST["submit"])) {
     $primaryschool = $_POST["primaryschool"];
     $favouritefood = $_POST["favouritefood"];
     $captcha = $_POST['g-recaptcha-response'];
-
+echo($firstname.$lastname.$email.$phonenumber.$username.$pwd.$pwdRepeat.$primaryschool.$favouritefood.$captcha);
     require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
@@ -33,8 +36,7 @@ if (isset($_POST["submit"])) {
     // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
     // the ?error=emptyinput will be used later to identify errors
 
-
-    if (emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood) !== false) {
+    if (emptyInputSignup($firstname, $lastname, $email, $phonenumber, $username, $pwd, $pwdRepeat, $primaryschool, $favouritefood) === true) {
         header("location: https://www.swapamc.com/swapproj/signup?error=emptyinput");
         exit();
     }elseif (bufferOverflow([$username, $pwd, $pwdRepeat,$firstname,$lastname],60)===true) {
