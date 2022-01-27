@@ -35,8 +35,8 @@ if (isset($jwtarray) && $jwtarray == true) {
         exit();
     }
 
-    // &&  $jwtarrayinformation['checkoutstate'] === "A"
-    if (isset($_POST["submit"]) ) {
+    // 
+    if (isset($_POST["submit"]) &&  $jwtarrayinformation['checkoutstate'] == "A" ) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
@@ -65,16 +65,17 @@ if (isset($jwtarray) && $jwtarray == true) {
             } else {
                 echo "goodotp";
                 //B is success
-                $jwtarrayinformation['checkoutstate'] = "A";
-                //removes 'emailotp' from the array
-                unset($jwtarrayinformation["emailotp"]);
-                jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
-    
                 reduceInventory($conn);
                 addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype, $ccnum);
                 cartpurchased($conn);
                 addIntoPastPurchase($conn);
 
+                $jwtarrayinformation['checkoutstate'] = "B";
+                //removes 'emailotp' from the array
+                unset($jwtarrayinformation["emailotp"]);
+                jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
+    
+               
                 // echo 'successfully added';
                 unset($_SESSION['cart']);
                 header("location: https://www.swapamc.com/swapproj/checkout/success");
