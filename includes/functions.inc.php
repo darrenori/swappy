@@ -1212,3 +1212,23 @@ function decrypt($encrypted){
     return $decrypted;
 
 }
+
+function generateCSRF(){
+    session_start();
+    $token = md5(uniqid(rand(),true));
+    $_SESSION['csrf'] = $token;
+    return $token;
+}
+
+function validateCSRF(){
+    session_start();
+    if(isset($_POST['csrf'])&&isset($_SESSION['csrf'])){
+        if($_SESSION['csrf']==$_POST['csrf']){
+            return true;
+            //valid token
+        }
+    } 
+
+
+    return false;
+}
