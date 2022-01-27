@@ -62,7 +62,7 @@
     }
     
     .button-container1 {
-        flex-basis: 60%;
+        flex-basis: 30%;
         background-color: white;
     }
     
@@ -173,7 +173,7 @@
         /* border-style: solid;
     border-width: 1px;
     border-color: white; */
-        flex-basis: 75%;
+        flex-basis: 100%;
         min-height: 200px;
         /* margin-bottom: 20px; */
         margin-right: 3px;
@@ -190,7 +190,7 @@
     }
     
     .item-name {
-        flex-basis: 20%;
+        flex-basis: 60%;
         font-size: 30px;
         font-weight: 500;
         background-color: white;
@@ -203,6 +203,8 @@
         font-weight: 500;
         color: grey;
         background-color: white;
+        text-align: right;
+        margin-right: 2%;
     }
     
     .item-tag {

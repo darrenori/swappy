@@ -9,15 +9,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
 // phpinfo();
 
-echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><input type=button name=viewcart value='View Cart'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button name=allstores value='All Stores'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button value='Tasks'></a><br>";
+// echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><input type=button name=viewcart value='View Cart'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button name=allstores value='All Stores'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button value='Tasks'></a><br>";
 
 ?>
 <div class='nav-bar'>
@@ -209,7 +209,7 @@ if ($query->fetch()) {
             <path id='Path_742' data-name='Path 742' d='M439.313,334.013a18.827,18.827,0,0,1-17.2-11.168L380.446,229.01a24.942,24.942,0,1,1,46.637-17.453l30.173,98.14a18.793,18.793,0,0,1-17.943,24.317Z' transform='translate(-205 -193.896)' fill='#c11427'/>
         </g>
         </svg></div>";
-        echo "<div class='item'><a href='https://www.swapamc.com/swapproj/viewpurchases'>Task/Pay</a><svg id='goal' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 290.028 217.715'>
+        echo "<div class='item'><a href='https://www.swapamc.com/swapproj/storeoverview'>Store Overview</a><svg id='goal' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 290.028 217.715'>
         <path id='Path_649' data-name='Path 649' d='M854.09,627.842l.435-9.789a31.616,31.616,0,0,1,14.747-3.733c-7.083,5.791-6.2,16.953-11,24.74a19.017,19.017,0,0,1-13.945,8.788l-5.927,3.629a31.866,31.866,0,0,1,6.717-25.823,30.778,30.778,0,0,1,5.657-5.256C852.194,624.14,854.09,627.842,854.09,627.842Z' transform='translate(-589.078 -433.762)' fill='#f2f2f2'/>
         <path id='Path_650' data-name='Path 650' d='M403.738,422.889a3.627,3.627,0,0,1,.237-5.556L399.914,405.1l6.468,1.738,2.864,11.349a3.646,3.646,0,0,1-5.508,4.7Z' transform='translate(-342.207 -315.836)' fill='#a0616a'/>
         <path id='Path_651' data-name='Path 651' d='M410.826,292.853c1.073.615,7.423-.909,8.663-.476-.685,4.177,3.033,2.609-1,8.094s-12.169,21.93-14.016,28.076-.019,14.808-.3,17.721a30.233,30.233,0,0,0,.025,5.07c-2.181-.028-4.331.425-6.547.136-2.363-6.685-3.951-16.2-5.03-21.46s-1.118-3.035-.623-5.665.615-.719.095-3.234,1.582-5.677,3.524-7.479c.837-2.408,1.919-4.654,2.748-7.037C404.44,301.3,404.84,298.24,410.826,292.853Z' transform='translate(-337.574 -252.254)' fill='#c11427'/>
@@ -383,7 +383,8 @@ echo"
 <html>
 <style>
 <?php include 'campus.css'; ?>
-body { background: #272727 !important; }
+body { background: #272727 !important;}
+a {color: black !important; }
 </style>
 <body>
     <div class="footer">

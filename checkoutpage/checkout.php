@@ -315,7 +315,8 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
             
         </div>
 <style>
-<?php include 'checkoutpage/css/checkout.css'; ?>
+<?php include 'checkoutpage/css/checkout.css';?>
+a{color: black !important;}
 </style>
 <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>

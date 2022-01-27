@@ -327,8 +327,8 @@ button:hover {
 .container5 {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: stretch;
+    justify-content: flex-start;
+    align-content: center;
     /* flex-direction: column; */
     row-gap: 10px;
     height: auto;
@@ -347,7 +347,7 @@ button:hover {
     border-width: 1px;
     color: white; */
     flex-basis: 18%;
-    min-width: 17%;
+    min-width: 300px;
     max-width: 17%;
     min-height: 290px;
     margin-right: 30px;
@@ -359,7 +359,7 @@ button:hover {
     color: white;
     flex-wrap: wrap;
     height: auto;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .itemimage {

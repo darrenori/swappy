@@ -25,6 +25,7 @@
     margin-left: 4.5%;
     margin-top: 20px;
     flex-grow: 1;
+    max-height: 620px;
     /* background-color: #8D1D25; */
 }
 
@@ -40,6 +41,7 @@
     flex-grow: 1;
     background-color: #8D1D25;
     border: none;
+    max-height: 620px;
 }
 
 .staticname2 {
@@ -111,6 +113,7 @@
     height: auto;
     margin-top: 20px;
     align-items: center;
+    max-height: 300px;
 }
 
 .item {
@@ -139,12 +142,20 @@
     min-height: 200px;
     max-width: 220px;
     margin-right: 3px;
+    border: 1px solid black;
+    vertical-align: middle;
+    text-align: center;
 }
 
 svg {
+    /* margin-top: 120px; */
+    display: flex;
     max-width: 100%;
     max-height: 100%;
-    display: block;
+    /* height: auto; */
+    justify-content: center;
+    align-content: center;
+    vertical-align: middle;
     /* remove extra space below image */
 }
 
@@ -162,30 +173,35 @@ svg {
 
 .item-header {
     display: flex;
+    /* flex-direction: row-reverse; */
     /* font-size: 25px; */
     margin-bottom: 3px;
 }
 
 .item-name {
-    flex-basis: 20%;
+    flex-basis: 60%;
     font-size: 30px;
     font-weight: 900;
 }
 
 .button-container {
-    flex-basis: 60%;
+    flex-basis: 20%;
 }
 
 .checkout-btn {
+    /* display: flex; */
     background-color: black;
     color: white;
     font-size: 25px;
     align-items: center;
     align-content: center;
-    text-align: center;
-    margin: auto;
+    text-align: center !important;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-bottom: 30px;
-    flex-basis: 70%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 96%;
 }
 
 .edit-btn {
@@ -204,7 +220,7 @@ svg {
 .item-price {
     flex-basis: 15%;
     font-size: 30px;
-    font-weight: 900;
+    font-weight: 700;
     color: grey;
 }
 
@@ -270,8 +286,13 @@ svg {
 
 #example2 {
     /* border: 1px solid; */
-    padding: 10px;
-    box-shadow: 5px -10px #888888;
+    /* padding: 10px; */
+    box-shadow: 10px -10px #888888;
+}
+
+a {
+    font-weight: 700;
+    color: white !important;
 }
 
 
@@ -342,8 +363,109 @@ svg {
     background-color: rgb(0, 0, 0);
 }
 
+.footer {
+    padding: 85px 0;
+    background-color: #212121 !important;
+}
 
-/* navbar and footer  */
+.footer-row {
+    width: 80%;
+    margin: 0px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    background-color: #212121 !important;
+}
+
+.firstfooter {
+    flex-basis: 30%;
+    text-align: left;
+    background-color: #212121 !important;
+}
+
+.firstfooter img {
+    width: 150px;
+    opacity: 80%;
+    padding-bottom: 40px;
+    background-color: #212121 !important;
+}
+
+.firstfooter h4 {
+    color: white;
+    -family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #212121 !important;
+}
+
+.firstfooter h5 {
+    -family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #212121 !important;
+}
+
+font .firstfooter h5 {
+    color: white;
+    opacity: 75%;
+    background-color: #212121 !important;
+}
+
+.secondfooter {
+    flex-basis: 70%;
+    background-color: #212121 !important;
+}
+
+.secondfooter h1 {
+    color: white;
+    padding-bottom: 30px;
+    text-align: left;
+    background-color: #212121 !important;
+}
+
+.secondfooter .links {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: left;
+    background-color: #212121 !important;
+}
+
+.linkcol {
+    flex-basis: 28%;
+    background-color: #212121 !important;
+}
+
+.linkcol h3 {
+    color: #8D1D25;
+    opacity: 100%;
+    text-decoration: underline;
+    font-size: 16px;
+    padding-bottom: 5px;
+    background-color: #212121 !important;
+}
+
+.links .linkcol h4 {
+    color: white;
+    background-color: #212121 !important;
+}
+
+.linkcol p {
+    font-size: 12px;
+    color: #8D1D25;
+    opacity: 100%;
+    background-color: #212121 !important;
+}
+
+.linkcol .fab {
+    color: #fff;
+    font-size: 25px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.secondfooter h4 {
+    -family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #212121 !important;
+}
 
 .nav-bar {
     display: flex;
@@ -447,136 +569,5 @@ svg {
         float: none;
         margin-left: 25px;
         margin-top: 10px;
-    }
-}
-
-.footer {
-    padding: 85px 0;
-    background-color: black;
-}
-
-.footer-row {
-    width: 80%;
-    margin: 0px auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    text-align: center;
-}
-
-.firstfooter {
-    flex-basis: 30%;
-    text-align: left;
-}
-
-.firstfooter img {
-    width: 150px;
-    opacity: 80%;
-    padding-bottom: 40px;
-}
-
-.firstfooter h4 {
-    color: white;
-    -family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-font .firstfooter h5 {
-    color: white;
-    opacity: 75%;
-}
-
-.secondfooter {
-    flex-basis: 70%;
-}
-
-.secondfooter h1 {
-    color: white;
-    padding-bottom: 30px;
-    text-align: left;
-}
-
-.secondfooter .links {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: left;
-}
-
-.linkcol {
-    flex-basis: 28%;
-}
-
-.linkcol h3 {
-    color: #8D1D25;
-    opacity: 100%;
-    text-decoration: underline;
-    font-size: 16px;
-    padding-bottom: 5px;
-}
-
-.links .linkcol h4 {
-    color: white;
-}
-
-.linkcol p {
-    font-size: 12px;
-    color: #8D1D25;
-    opacity: 100%;
-}
-
-.linkcol .fab {
-    color: #fff;
-    font-size: 25px;
-    padding-right: 10px;
-    cursor: pointer;
-}
-
-
-/*transitions*/
-
-.firstfooter img,
-.firstfooter h4,
-.firstfooter h5 {
-    transition: .5s;
-}
-
-.firstfooter img:hover {
-    opacity: 100%;
-}
-
-.linkcol .fab,
-.linkcol h4 {
-    transition: .5s;
-}
-
-.linkcol .fab:hover,
-.linkcol h4:hover {
-    color: #8D1D25;
-}
-
-.linkcol p {
-    transition: .5s;
-}
-
-.linkcol p:hover {
-    opacity: 100%;
-}
-
-.linkcol a {
-    text-decoration: none;
-}
-
-@media screen and (max-width: 960px) {
-    .firstfooter {
-        flex-basis: 100%;
-        margin-bottom: 30px;
-    }
-    .secondfooter {
-        flex-basis: 100%;
-    }
-    .linkcol {
-        flex-basis: 100%;
-        margin-bottom: 30px;
     }
 }

@@ -180,6 +180,7 @@ $router->post('/addnotificationinc','notifications/includes/addnotification.inc.
 $router->get('/viewnotifications','notifications/viewnotifications.php');
 $router->get('/viewfavorites','product/viewfavorites.php');
 $router->get('/viewpurchases','product/viewpurchases.php');
+$router->get('/storeoverview','product/storeoverview.php');
 
 
 

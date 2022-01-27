@@ -2,6 +2,10 @@
 <?php include 'product/css/viewcart.css'; ?>
 body { background: black !important; }
 </style>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <!-- <div class='nav-bar'>
     <div class='nav-logo'>
         <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
@@ -200,6 +204,7 @@ if(isset($selectedcarts)){
                                         
                                     </div>
                                     <div class='item-price'>$productpricerows[$i]</div>
+                                    
                                 </div>
                                 <div class='item-tag'>Utility, Portable</div>
                                 <div class='item-variant'>Type: &nbsp;$type&nbsp;&nbsp;&nbsp;Variant:&nbsp;$variant</div>
@@ -301,6 +306,7 @@ if(isset($selectedcarts)){
     echo "<div class='container5'>";
     echo "<div class='bag'>";
     echo "<div class='staticname'>BAG</div></div>";
+    echo "<div class='notbag'>";
     for($i=0;$i<sizeof($cartidrows);$i++){
     
 
@@ -315,7 +321,6 @@ if(isset($selectedcarts)){
             $query->bind_result($cartidnow,$type,$variant,$additionalcosts,$quantity,$price);
 
 
-            echo "<div class='notbag'>";
                 echo "<div class='checkbox-selection'>";
                 echo "<div class='item'>";
                 echo "<label class='checkbox-container'>";
@@ -478,9 +483,7 @@ if(isset($selectedcarts)){
             <div class='static6'> $$grandtotal</div>
         </div>
         <div class='static8'>
-            <button type='submit' form='checkout-form' class='checkout-btn' value='CHECKOUT'>
-               CHECKOUT 
-            </button>
+            <input type='submit' name='submit' form='checkout-form' class='checkout-btn' value='CHECKOUT'>
         </div>
     </div>
 </div>";
@@ -563,7 +566,6 @@ echo "</form>";
 
     
 
-?>
 
 <html>
     <head>
@@ -574,4 +576,49 @@ echo "</form>";
         </style>
 
     </head>
+    <body>
+    <div>footer and navbar are being sent into the checkout page as well</div>
+    <!-- <div class="footer">
+            <div class="footer-row">
+                <div class="firstfooter">
+                    <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
+                    <h4>NOTHING MUCH. JUST. THE. BEST.</h4>
+                    <h5>&#169; 2021 TPAMC Inc.<br>
+                        All Rights Reserved.
+                    </h5>
+                </div>
+                <div class="secondfooter">
+                    <h1>Nothing much.
+                    Just the BEST website
+                    <br>
+                    for the BEST AMC  
+                    </h1>
+                    <div class="links">
+                        <div class="linkcol">
+                            
+                            <h3>Reach Us</h3>
+                            <a><h4>+65 9123 1923</h4></a>
+                            <a href="mailto:tp@tp.com"><h4>tp@tp.com</h4></a>
+                            
+                        </div>
+                        <div class="linkcol">
+                            <h3>Make us Famous</h3>
+                            <a href="https://www.facebook.com/iu.loen"><i style='background-color:black' class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/dlwlrma/"><i style='background-color:black' class="fab fa-instagram"></i></a>
+                            <a href="https://twitter.com/_iuofficial?lang=en"><i style='background-color:black' class="fab fa-twitter"></i></a>
+                            <a href="https://www.pinterest.com/search/pins/?q=iu&rs=typed&term_meta[]=iu%7Ctyped"><i style='background-color:black' class="fab fa-pinterest"></i></a>
+                            
+                            
+                        </div>
+                        <div class="linkcol">
+                            <a href="#"><p>SUBSCRIBE</p></a>
+                            <a href="#"><p>OUR TEAM</p></a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div> -->
+    </body>
 </html>
