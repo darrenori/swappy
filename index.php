@@ -292,3 +292,5 @@ $router->get('/attendance/editemployee','attendancepage/editemployee.php');
 
 
 $router->get('/test','test.php');
+$router->get('/productmanager/quantity','quantity/quantity.php');
+$router->post('/productmanager/quantityinc','quantity/quantity.inc.php');

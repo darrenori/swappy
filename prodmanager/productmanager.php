@@ -989,7 +989,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                         <th id='test'><span>#</span></th>
                         <th>Store</th>
                         <th>URL</th>
-                        <th>Price Point</th>
+                        <th>Price</th>
                         <th>About</th>
                         <th>Quantity</th>
                         <th opacity='0%'></th>
@@ -1076,6 +1076,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                             echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/editproduct?id=' . $prodid . '">Edit</a>';
                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/deleteproductinc?id=' . $prodid . '">Delete</a>';
+                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/quantity?id=' . $prodid . '">Quantity</a>';
                             echo '</div>';
                             echo '</div>';
 

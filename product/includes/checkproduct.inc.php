@@ -110,7 +110,7 @@ if(isset($postinformation)&&$postinformation['type']=='ajax'){
 
     if(isset($productcode)){
         //cannot use required once fr ajax!
-        $conn = mysqli_connect("localhost", "root", "uwu", "mydb",3307);
+        $conn = mysqli_connect("localhost", "root", "", "mydb",3307);
         $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = '$productcode';");
         if(!$query){
             echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
