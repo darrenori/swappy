@@ -48,7 +48,7 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
 
     
     if (!empty($shippingaddress)) {
-        echo "<form>";
+        echo "<form method='POST'>";
         echo "<br><br>";
         echo "Default Shipping Address:";
         echo "<br>";

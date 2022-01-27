@@ -8,6 +8,21 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/profile/includes/profilefunc
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        echo 'bad csrf';
+        //dont redirect if on the same page
+  
+    } else {
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+    
+    
+}
 
 $userid = $jwtarrayinformation["userid"];
 

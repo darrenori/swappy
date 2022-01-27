@@ -95,6 +95,8 @@ if ($query->fetch()) {
 
     echo '<input type="submit" value="update" name="submit" formaction="/swapproj/updateprofile">';
     echo '<input type="submit" value="delete" name="submit" formaction="/swapproj/deleteprofile">';
+    $csrf = generateCSRF();
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
     echo "</form>";
 

@@ -33,7 +33,7 @@ if ($query->execute()) {
 // print shipping address (&nbsp is just spacing)
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_array($result)) {
-            echo "<form>";
+            echo "<form method='POST'>";
             echo "<br><br>";
             echo "&nbsp" . "Name:" . "&nbsp" . $row['user_shipping_name'];
             echo "&nbsp" . "Number:" . "&nbsp" . $row["user_shipping_number"];
