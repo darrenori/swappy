@@ -7,12 +7,17 @@ $attendanceid = htmlspecialchars($_GET["attendanceid"]);
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation['attendanceid'] = $attendanceid;
 jwtupdate($jwtarrayinformation);
+
+if (isset($_POST['submit'])){
 if (empty($attendanceid)) {
     header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=invalidurl");
     error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(invalidurl)", 0);
     exit;
 }
+
 ?>
+
+
 <html>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 <style type="text/css">
@@ -491,7 +496,7 @@ if (empty($attendanceid)) {
 
 
 
-            if ($role == 6 || $role == 5 || $role == 2) {
+            if ( $role == 6 || $role == 5 || $role == 2) {
     
 
 
@@ -578,6 +583,12 @@ if (empty($attendanceid)) {
 </div>
 </body>
 
+<?php
+} else {
+    header("location:https://www.swapamc.com/swapproj/attendance/editemployee");
+}
+?>
+
 <script>
     var show = document.getElementById('nav-links');
 
@@ -593,3 +604,4 @@ if (empty($attendanceid)) {
 </script>
 
 </html>
+

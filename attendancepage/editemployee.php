@@ -8,6 +8,7 @@ $jwtarray = jwtdecrypt();
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
 date_default_timezone_set('Asia/Singapore');
+if ($role == 6 || $role == 5 ||  $role == 2) {
 ?>
 <html>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
@@ -483,7 +484,7 @@ input:valid+span::after {
                 <section style="font-family:Montserrat; color:white; align-content:center;" class="signup-form">
 <?php
 
-if ($role == 6 || $role == 5 ||  $role == 2) {
+
 
 
     $attendanceStatus = "To be Reviewed";
@@ -520,7 +521,9 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
 
     if ($query->num_rows === 0) {
         echo "<h3>To Be Reviewed Attendance</h3>";
-        echo ('No employees has submitted attendance' . "<br><br>");
+        echo "<br>";
+        echo ('No employees has submitted attendance');
+        echo "<br><br><br><br><br><br><br><br>";
     } else {
 
         //to be reviewed
@@ -602,6 +605,7 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
     //to be reviewed
  
     if ($query->num_rows === 0) {
+        echo "<br><br>";
         echo ('No employees has submitted their leave');
 
     } else {
@@ -646,12 +650,7 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
         }
     }
 
-} else {
 
-    header("location: https://www.swapamc.com/swapproj/campus?error=unauthorized");
-    error_log("TPAMC:CAMPUS:0:$ip:Error(unauthorized)", 0);
-    exit();
-}
 
 ?>
 
@@ -713,6 +712,16 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
 </div>
 </body>
 
+
+<?php
+} else {
+    header("location: https://www.swapamc.com/swapproj/campus?error=unauthorized");
+    error_log("TPAMC:CAMPUS:0:$ip:Error(unauthorized)", 0);
+    exit();
+}
+
+?>
+
 <script>
 var show = document.getElementById('nav-links');
 function showMenu(){
@@ -725,6 +734,16 @@ function closeMenu(){
 show.style.right='-200px';
 }
 
+
+</script>
+<script type="text/javascript">
+    function preventBack() {
+        window.history.forward();
+    }
+    setTimeout("preventBack()", 0);
+    window.onunload = function() {
+        null
+    };
 </script>
 </html>
 

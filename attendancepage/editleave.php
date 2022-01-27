@@ -7,6 +7,8 @@ $leaveID = htmlspecialchars($_GET["leaveid"]);
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation['leaveid'] = $leaveID;
 jwtupdate($jwtarrayinformation);
+
+if (isset($_POST["submit"])) {
 ?>
 <html>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
@@ -615,6 +617,14 @@ if ($role == 6 || $role == 5 || $role == 2) {
 
 </div>
 </body>
+
+    
+<?php
+} else {
+    header("location: https://www.swapamc.com/swapproj/attendance/editemployee");
+    exit();
+}
+?>
 
 <script>
 var show = document.getElementById('nav-links');

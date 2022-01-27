@@ -93,6 +93,6 @@ if (isset($_POST["submit"])) {
         $conn->close();
     }
 } else {
-    header("location: https://www.swapamc.com/swapproj/attendance");
+    header("location: https://www.swapamc.com/swapproj/attendance/editemployee");
     exit();
 }

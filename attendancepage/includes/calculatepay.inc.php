@@ -493,10 +493,12 @@ $attendanceCurrentYear = $jwtarrayinformation['currentyear'];
 //calculate how long they work
 
 //get the attendance id information based on current month and year
+$outTime="";
+$status="Valid";
 
 try {
-    $query = $conn->prepare("SELECT attendance_id,attendance_date,attendance_in_time,attendance_out_time,attendance_break,attendance_userid,attendance_current_month,attendance_current_year FROM  mydb.employee_attendance WHERE attendance_current_month =? AND attendance_current_year =? AND attendance_userid=? ");
-    $query->bind_param("ssi", $attendanceCurrentMonth, $attendanceCurrentYear, $userid);
+    $query = $conn->prepare("SELECT attendance_id,attendance_date,attendance_in_time,attendance_out_time,attendance_break,attendance_userid,attendance_current_month,attendance_current_year FROM  mydb.employee_attendance WHERE attendance_current_month =? AND attendance_current_year =? AND attendance_userid=? AND attendance_out_time !=? AND attendance_status=?");
+    $query->bind_param("ssiss", $attendanceCurrentMonth, $attendanceCurrentYear, $userid,$outTime,$status);
     if ($query === false) {
         throw new Exception("Statement Preparation failed (calculatepay)");
         error_log("TPAMC:ATTENDANCE:2:$ip:failed statement", 0);
@@ -523,7 +525,7 @@ try {
 }
 $query->store_result();
 $query->bind_result($attendanceID, $attendanceDate, $attendanceInTime, $attendanceOutTime, $attendanceBreak, $attendanceUserID, $attendanceMonth, $attendanceYear);
-if ($query->num_rows === 0) exit('Empty');
+if ($query->num_rows === 0) exit('Empty For This month');
 
 echo "<table class='styled-table'border=1;>";
 echo "<thead><tr>";
@@ -554,12 +556,13 @@ echo "</table>";
 $query->close();
 
 //calculatepayrate
+
 try {
-    $query = $conn->prepare("SELECT working_perhourpay FROM mydb.working_employees 
+    $query = $conn->prepare("SELECT working_perhourpay FROM mydb.working_employees
     INNER JOIN mydb.employee_attendance
     ON mydb.working_employees.working_id = mydb.employee_attendance.attendance_workingid
-    AND mydb.working_employees.user_id = mydb.employee_attendance.attendance_userid;");
-
+    AND mydb.working_employees.user_id = mydb.employee_attendance.attendance_userid") ;
+   
     if ($query === false) {
         throw new Exception("Statement Preparation failed(calculatepay)");
     }
@@ -585,6 +588,8 @@ $query->bind_result($employeePay);
 $query->fetch();
 $query->close();
 $totalPay = $employeePay * $totalTime;
+echo "<br><br>";
+echo "Hours: $";
 echo  $totalTime . "hr";
 echo "<br><br>";
 echo "Pay: $";
