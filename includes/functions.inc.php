@@ -1167,7 +1167,7 @@ function bufferOverflow($arrayofitems, $numberofcharacters)
     }
 }
 
-function XSS($inputarray, $whitelist)
+function XSSPrevention($inputarray, $whitelist)
 {
     foreach ($inputarray as $key => $value) {
         $inputarray[$key] = htmlspecialchars($value);
@@ -1176,6 +1176,14 @@ function XSS($inputarray, $whitelist)
         }
     }
     return $inputarray;
+}
+function escapeString($conn,$inputarray)
+{
+    foreach ($inputarray as $key => $value) {
+        $inputarray[$key] = mysqli_real_escape_string($conn,$value);
+    }
+    return $inputarray;
+    //SYNTAX example, $_POST = escapeString($conn, $_POST);
 }
 
 
