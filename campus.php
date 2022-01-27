@@ -63,9 +63,10 @@ $userid = $jwtarrayinformation['userid'];
 
 //display their info
 try {
-    $query = $conn->prepare("SELECT user_username, user_fname,user_lname,user_role,username_email,
-user_number,date_of_signup, user_profilepicture
-FROM mydb.users WHERE user_id = $userid;");
+    $query = $conn->prepare("SELECT user_username, user_fname,user_lname,user_role,username_email,user_number,date_of_signup, user_profilepicture, mydb.working_employees.working_department, mydb.working_employees.working_perhourpay FROM mydb.users
+ INNER JOIN  mydb.working_employees 
+ ON mydb.working_employees.user_id = mydb.users.user_id
+ WHERE mydb.users.user_id = $userid;");
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(userprofile)");
@@ -85,7 +86,7 @@ try {
     echo 'Message: ' . $e->getMessage();
     
 }
-$query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsignup,$profilepic);
+$query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsignup,$profilepic, $department, $perhourpay );
 
 
 if ($query->fetch()) {
@@ -344,11 +345,11 @@ echo"
             </div>
             <div class='pairing'>
                 <div class='username1'> Department </div>
-                <div class='username2'> Engineer </div>
+                <div class='username2'> $department </div>
             </div>
             <div class='pairing'>
                 <div class='username1'> Day Rate </div>
-                <div class='username2'> 15/hr </div>
+                <div class='username2'> $perhourpay/hr </div>
             </div>
     </div>";
 
@@ -366,17 +367,6 @@ echo"
     echo 'something went wrong';
     // exit;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>
