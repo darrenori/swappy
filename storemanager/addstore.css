@@ -1,5 +1,6 @@
 body {
-    background-color: white;
+    background-color: rgb(248, 197, 197);
+    ;
     /* background-repeat: no-repeat;
     background-image: url("https://i.pinimg.com/originals/e5/f5/3d/e5f53df1e75605a22bae02ba67351d7e.jpg");
     background-size: 1980px 1080px; */
@@ -24,7 +25,7 @@ body {
 
 .item {
     /* display: flex; */
-    max-width: 800px;
+    max-width: 600px;
     min-width: 350px;
     background-color: #8D1D25;
     border-radius: 5px;
@@ -86,20 +87,21 @@ body {
 
 textarea {
     width: 100%;
-    background-color: rgb(248, 197, 197);
+    background-color: white;
     margin-left: 5px;
     margin-right: 5px;
 }
 
 option {
     width: 100%;
+    color: white;
 }
 
 input {
     width: 100%;
     padding-top: 5px;
     padding-bottom: 5px;
-    background-color: rgb(248, 197, 197);
+    background-color: white;
     border: none;
 }
 
@@ -121,7 +123,7 @@ input {
     width: 100%;
     height: auto;
     min-height: 100%;
-    background: linear-gradient(to bottom right, #fff 0%, #fff 58%, rgb(173, 21, 21) 50%, red 100%);
+    background: linear-gradient(to bottom right, rgb(248, 197, 197) 0%, rgb(248, 197, 197) 58%, rgb(173, 21, 21) 50%, red 100%);
     padding-top: 30px;
     padding-bottom: 30px;
 }

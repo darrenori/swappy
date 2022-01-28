@@ -63,7 +63,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
         <div class='pairing'>
             <div class='pairing1'><label class="required-field" for="storestatus">Active Status:</label></div>
-            <div class='pairing2'><select style='width:100%; height:40px; background-color: rgb(248, 197, 197);' id="storestatus" name="storestatus">
+            <div class='pairing2'><select style='width:100%; height:40px; background-color:white;' id="storestatus" name="storestatus">
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
             </select></div>
