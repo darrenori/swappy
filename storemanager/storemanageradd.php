@@ -11,6 +11,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 <html>
 <body>
 
+<div class='triangle'>
 <div class='container5'>
 
     <div class='item' id="example2">
@@ -76,6 +77,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
         <input type='submit'>
     </form>
     </div>
+</div>
 </div>
 </body>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"

@@ -72,7 +72,7 @@ try {
 
 $query->bind_result($username, $role, $number, $department, $perhourpay);
 
-echo "<div class='container5'>";
+echo "<div class='triangle'><div class='container5'>";
 echo "<div class='item' id='example2'>";
 
 echo "<form method=POST action=https://www.swapamc.com/swapproj/employeemanager/editinc>";
@@ -107,7 +107,7 @@ if ($query->fetch()) {
 
 echo "<input style='margin-left: 9px; width:97%' type=submit>";
 
-echo "</form></div></div>";
+echo "</form></div></div></div>";
 
 ?>
 <style>

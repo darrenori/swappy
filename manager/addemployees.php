@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 
 
-echo "<div class='container5'>";
+echo "<div class='triangle'><div class='container5'>";
 echo "<div class='item' id='example2'>";
 echo "<div class='static'>Add New Employee</div>";
 
@@ -40,6 +40,9 @@ echo "<form method=POST action=https://www.swapamc.com/swapproj/employeemanager/
 
         echo "<input style='margin-left: 9px; width:97%' type=submit>";
 echo "</form></div></div>";
+
+
+echo "</div>";
 
 if (isset($_GET['error'])) {
     $error=htmlentities($_GET["error"]);

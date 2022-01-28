@@ -45,7 +45,7 @@ $query->bind_result($storename, $storepricepoint, $about, $picone, $pictwo, $pic
 
 if ($query->fetch()) {
 
-    echo "<div class='container5'>";
+    echo "<div class='triangle'><div class='container5'>";
     echo "<div class='item' id='example2'>";
     echo "<div class='static'>Edit Store</div>";
     
@@ -137,7 +137,7 @@ if ($query->fetch()) {
 
     echo "<br>";
 
-    echo "</form></div></div>";
+    echo "</form></div></div></div>";
     echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><button type='button'>Delete</button></a>";
 } else {
     //dosent exist

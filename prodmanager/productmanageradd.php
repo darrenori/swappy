@@ -19,7 +19,7 @@ if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
 
     }
 }
-echo "<div class='container5'>";
+echo "<div class='triangle'><div class='container5'>";
 echo "<div class='item' id='example2'>";
 echo "<div class='static'>Add New Product</div>";
 
@@ -64,7 +64,7 @@ echo "</div>";
 echo "<input type='submit'>";
 
 
-echo "</form></div></div>";
+echo "</form></div></div></div>";
 
 
 
