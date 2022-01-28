@@ -1,4 +1,5 @@
 <?php
+
 use Lablnet\Encryption;
 
 //checks for empty boxes
@@ -217,22 +218,20 @@ function isEmployee($conn, $id)
     }
 }
 
-function checkSuspended($conn,$username){
+function checkSuspended($conn, $username)
+{
 
     #DEFINED VARIABLES SO THAT WONT HAVE SQUIGGLY LINES
     $is_suspended = 0;
-    $finish= 0;
+    $finish = 0;
 
 
     #CHECK IF USER IS SUSPSENDE AND UNTIL WHEN THEY ARE
     $query = $conn->prepare("SELECT user_suspended,suspendedfinish FROM mydb.users WHERE user_username = ?");
-    $query->bind_param('s',$username);
+    $query->bind_param('s', $username);
     $query->execute();
-    $query->bind_result($is_suspended,$finish);
-    if($query->fetch()){
-        
-        
-
+    $query->bind_result($is_suspended, $finish);
+    if ($query->fetch()) {
     }
 
     $query->close();
@@ -245,32 +244,23 @@ function checkSuspended($conn,$username){
 
 
     #IF USER IS SUSEPNDED
-    if($finish!=null&&isset($finish)){
+    if ($finish != null && isset($finish)) {
         #IF USER IS PAST THEIR SUSPENDED TIME
-        if($time>$finish){
-            $query=$conn->prepare("UPDATE mydb.users SET suspendedfinish = 0, user_failedattempts = 0, user_suspended = 0 WHERE user_username = ?");
-            $query->bind_param('s',$username);
+        if ($time > $finish) {
+            $query = $conn->prepare("UPDATE mydb.users SET suspendedfinish = 0, user_failedattempts = 0, user_suspended = 0 WHERE user_username = ?");
+            $query->bind_param('s', $username);
             $query->execute();
             $query->close();
             return null;
         } else {
             #IF USER IS STILL SUSPENDED >:(
-            if($is_suspended==1){
+            if ($is_suspended == 1) {
                 date_default_timezone_set('Asia/Singapore');
-                $suspendedtill = date('Y-m-d', $finish)." ".date('H:i:s');
+                $suspendedtill = date('Y-m-d', $finish) . " " . date('H:i:s');
                 return $suspendedtill;
             }
-    
         }
-
     }
-    
-
-    
-
-    
-
-
 }
 
 
@@ -278,7 +268,7 @@ function checkSuspended($conn,$username){
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd, $remember)
 {
-    
+
     $uidExists = uidExists($conn, $username, $username);
     $numberoftimesbeforesuspend = 5;
 
@@ -286,7 +276,7 @@ function loginUser($conn, $username, $pwd, $remember)
     $defaultsuspendtime = 300;
     date_default_timezone_set('Asia/Singapore');
     $time = time();
-    $suspended = $time+$defaultsuspendtime;
+    $suspended = $time + $defaultsuspendtime;
 
 
 
@@ -299,11 +289,10 @@ function loginUser($conn, $username, $pwd, $remember)
     }
 
     #IS THE USER SUSPENDED? (returns date if they still are) returns null if they ar enot
-    $datesus = checkSuspended($conn,$username);
-    if($datesus!=null){
-        header("location: https://www.swapamc.com/swapproj/login?error=suspended&till=".$datesus);
+    $datesus = checkSuspended($conn, $username);
+    if ($datesus != null) {
+        header("location: https://www.swapamc.com/swapproj/login?error=suspended&till=" . $datesus);
         exit();
-
     }
 
     $pepper = "AWiokdfnkFNKKHHDBJXLL28838jkuiu54859dnkkmid93E1928485";
@@ -312,7 +301,7 @@ function loginUser($conn, $username, $pwd, $remember)
     $pwd = hash("sha256", hash("sha256", $pwd));
     $checkPwd = password_verify($pwd, $pwdHashed);
 
-    
+
 
     if ($checkPwd === false) {
 
@@ -320,13 +309,11 @@ function loginUser($conn, $username, $pwd, $remember)
         $numberoffailed = 0;
 
         $query = $conn->prepare("SELECT user_failedattempts FROM mydb.users WHERE user_username = ?");
-        $query->bind_param('s',$username);
+        $query->bind_param('s', $username);
         $query->execute();
         $query->bind_result($numberoffailed);
-        if($query->fetch()){
+        if ($query->fetch()) {
             $numberoffailed = $numberoffailed + 1;
-            
-
         } else {
             //0 attempts
             $numberoffailed = 1;
@@ -334,25 +321,23 @@ function loginUser($conn, $username, $pwd, $remember)
         $query->close();
 
 
-        
 
-        if($numberoffailed>$numberoftimesbeforesuspend){
-            
+
+        if ($numberoffailed > $numberoftimesbeforesuspend) {
+
             $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, suspendedfinish = ? WHERE user_username = ?");
-            $query->bind_param('ss',$suspended,$username);
+            $query->bind_param('ss', $suspended, $username);
             $query->execute();
             $query->close();
-
         } else {
             $query = $conn->prepare("UPDATE mydb.users SET user_failedattempts = ? WHERE user_username = ?");
-            $query->bind_param('is',$numberoffailed,$username);
+            $query->bind_param('is', $numberoffailed, $username);
             $query->execute();
             $query->close();
-
         }
 
-        
-        
+
+
 
 
 
@@ -362,7 +347,7 @@ function loginUser($conn, $username, $pwd, $remember)
         exit();
     } elseif ($checkPwd === true) {
 
-        
+
         // OTP email
 
 
@@ -451,14 +436,14 @@ function jwtdecrypt()
 
 
     if (isset($_COOKIE['jwt'])) {
-        
+
         $token = $_COOKIE['jwt'];
         $token = decrypt($token);
     } else {
         $token = null;
     }
 
-    
+
 
     $objpages = new Pages();
     $decrypted = $objpages->read($token);
@@ -466,7 +451,7 @@ function jwtdecrypt()
         $decrypted = json_decode(json_encode($decrypted), true);
     }
 
-    
+
 
     return $decrypted;
 }
@@ -525,7 +510,8 @@ function jwtupdate($newarray)
 }
 
 
-function regenerateJWT(){
+function regenerateJWT()
+{
     $pages = new Pages();
     if (isset($_COOKIE['jwt'])) {
         $cookie = $_COOKIE['jwt'];
@@ -538,25 +524,15 @@ function regenerateJWT(){
 
             $exp = $cookie['exp'];
 
-            $regenerate = $pages->regenerate($array,$exp);
+            $regenerate = $pages->regenerate($array, $exp);
             $regenerate = $regenerate['token'];
 
             $encrypted = encrypt($regenerate);
 
 
             setCookieSameSite('jwt', $encrypted, time() + 86400);
-
-            
-
-        
-
         }
-
-
     }
-
-    
-
 }
 
 
@@ -1118,7 +1094,8 @@ function duplicateEmail($conn, $email)
 {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "invalidemail";exit;
+        echo "invalidemail";
+        exit;
         return true;
         exit;
     }
@@ -1155,9 +1132,10 @@ function duplicateEmail($conn, $email)
         return false;
     }
 }
-
+// pass in the array of variables that have the same buffer lengths, specify the length
 function bufferOverflow($arrayofitems, $numberofcharacters)
 {
+    // return true if values are faulty AKA TRUE IS NOT DESIRABLE
     foreach ($arrayofitems as $key => $value) {
         if (strlen((string)$value) > $numberofcharacters) {
             return true;
@@ -1167,67 +1145,73 @@ function bufferOverflow($arrayofitems, $numberofcharacters)
     }
 }
 
+
+// pass in an array of all the names in array format as whitelist variable e.g., 
+// login should only have ['uid', 'pwd', 'g-recaptcha-response', 'remember'];
 function XSSPrevention($inputarray, $whitelist)
 {
     foreach ($inputarray as $key => $value) {
-        $inputarray[$key] = htmlspecialchars($value);
-        if (!in_array(htmlspecialchars($key), $whitelist)) {
+        // hashes all values into htmlspecialchars versions
+        $inputarray[$key] = htmlspecialchars($value, ENT_QUOTES);
+        if (!in_array(htmlspecialchars($key, ENT_QUOTES), $whitelist)) {
+            // removes any keys that are not in side the specified "whitelist"
             unset($inputarray[$key]);
         }
     }
-    return $inputarray;
+    return $inputarray; // returns the array so code can be reused. 
 }
-function escapeString($conn,$inputarray)
+function escapeString($conn, $inputarray)
 {
     foreach ($inputarray as $key => $value) {
-        $inputarray[$key] = mysqli_real_escape_string($conn,$value);
+        $inputarray[$key] = mysqli_real_escape_string($conn, $value); 
     }
     return $inputarray;
     //SYNTAX example, $_POST = escapeString($conn, $_POST);
 }
 
 
-function encrypt($plaintexst){
-    
+function encrypt($plaintexst)
+{
+
     require 'vendor/autoload.php';
 
     $encryption = new Encryption('ad!@#@!3!@#!snjsdjnsasd');
 
     //Encrypt the message
-    
+
     $encrypt = $encryption->encrypt($plaintexst);
     return $encrypt;
-
-
 }
 
-function decrypt($encrypted){
+function decrypt($encrypted)
+{
     require 'vendor/autoload.php';
 
     $encryption = new Encryption('ad!@#@!3!@#!snjsdjnsasd');
 
     //Encrypt the message
-    
+
     $decrypted = $encryption->decrypt($encrypted);
     return $decrypted;
-
 }
 
-function generateCSRF(){
+function generateCSRF()
+{
     session_start();
-    $token = md5(uniqid(rand(),true));
+    $token = md5(uniqid(rand(), true));
     $_SESSION['csrf'] = $token;
     return $token;
 }
 
-function validateCSRF(){
+function validateCSRF()
+{
     session_start();
-    if(isset($_POST['csrf'])&&isset($_SESSION['csrf'])){
-        if($_SESSION['csrf']==$_POST['csrf']){
+    if (isset($_POST['csrf']) && isset($_SESSION['csrf'])) {
+        if ($_SESSION['csrf'] == $_POST['csrf']) {
             return true;
             //valid token
         }
-    } 
+    }
 
 
     return false;

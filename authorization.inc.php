@@ -1,6 +1,5 @@
 <!-- This page is to ensure that user is authorized to be Logged In only -->
 
-
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
@@ -8,6 +7,12 @@ regenerateJWT();
 $jwtarray = jwtdecrypt();
 // echo gettype($jwtarray);
 // echo $jwtarray ? 'true': 'false';
+
+
+###ZEPH###
+//For LOGGING purposes
+$filename=basename(__FILE__, '.php');// filename variable is now set as allstores for example
+$ipadd=$_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
 if (isset($jwtarray) && $jwtarray == true) {
 

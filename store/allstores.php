@@ -1,24 +1,28 @@
 <?php
 
+// DONE CHECKING no buffer to overflow, only whitelisted variables will ever be used, escaping and encoding done. 
+// echo statements removed no session used
+
+
 
 
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
-
-
+//mysqlescapestring
+$_GET = escapeString($conn, $_GET);
 
 
 try {
-$query = $conn->prepare("SELECT store_id,store_name FROM mydb.store;");
+    $query = $conn->prepare("SELECT store_id,store_name FROM mydb.store;");
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(allstores)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
     //change header location accordingly
+    error_log("TPAMC:" . $filename . ":1:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/campus?page=stores?error=badstatement");
     exit;
 }
@@ -29,7 +33,7 @@ try {
         throw new Exception("Statement Execution failed (allstores)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:" . $filename . ":1:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/campus?page=stores?error=badstatement"); //    echo mysqli_error($query);
 
     exit;
@@ -87,6 +91,27 @@ echo "";
 
 
 
+
+
+
+
+
+
+function checkId($id)
+{
+    //if it contains only letter or numbers return true)
+    if (preg_match("/^[a-zA-Z0-9]*$/", $id)) {
+        $result = true;
+        //if its too long return false
+        if (strlen($id) > 12) { //is the length too long?
+            $result = false;
+        }
+    } else {
+
+        $result = false;
+    }
+    return $result;
+}
 
 
 
