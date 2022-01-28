@@ -72,21 +72,49 @@ try {
 
 $query->bind_result($username, $role, $number, $department, $perhourpay);
 
+echo "<div class='container5'>";
+echo "<div class='item' id='example2'>";
+
 echo "<form method=POST action=https://www.swapamc.com/swapproj/employeemanager/editinc>";
 
 if ($query->fetch()) {
 
-    echo "<h3>Username: " . $username . "</h3>";
-    echo "Role:" . "<br>";
-    echo "<input type=text name=role value=$role>" . "<br><br>";
-    echo "Number:" . "<br>";
-    echo "<input type=text name=number value=$number>" . "<br><br>";
-    echo "Department:" . "<br>";
-    echo "<input type=text name=department value=$department>" . "<br><br>";
-    echo "Hourly wage:" . "<br>";
-    echo "<input type=text name=pay value=$perhourpay>" . "<br><br>";
+    echo "<div class='static'> <h3>Username: " . $username . "</h3></div>";
+
+    echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Role:</p></div>" ;
+    echo "<div class='pairing2'><input type=text name=role value=$role></div>";
+    echo "</div>";
+
+
+    echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Number:</p></div>" ;
+    echo "<div class='pairing2'><input type=text name=number value=$number></div>";
+    echo "</div>";
+
+
+    echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Department:</p></div>";
+    echo "<div class='pairing2'><input type=text name=department value=$department></div>" ;
+    echo "</div>";
+
+
+    echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Hourly wage:</p></div>";
+    echo "<div class='pairing2'><input type=text name=pay value=$perhourpay></div>";
+    echo "</div>";
 }
 
-echo "<input type=submit>";
+echo "<input style='margin-left: 9px; width:97%' type=submit>";
 
-echo "</form>";
+echo "</form></div></div>";
+
+?>
+<style>
+    <?php include 'storemanager/addstore.css'; ?>
+</style>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+

@@ -44,31 +44,50 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 $query->bind_result($storename, $storepricepoint, $about, $picone, $pictwo, $picthree, $storeaddress, $storenumber, $websitelink, $storestatus, $storerating);
 
 if ($query->fetch()) {
+
+    echo "<div class='container5'>";
+    echo "<div class='item' id='example2'>";
+    echo "<div class='static'>Edit Store</div>";
+    
+
     echo "<form action='https://www.swapamc.com/swapproj/storemanager/editstoreinc?id=$storeid' enctype='multipart/form-data' method='POST'>";
 
-    echo '    <label class="required-field" for="storename">Store Name:</label>
-    <input required type="text" name="storename" id="storename" placeholder="Torchlight" value="' . $storename . '"><br><br>
 
-    <label class="required-field" for="about">Description:</label>
-    <textarea required type="text" name="about" id="about" placeholder="text" rows="4"cols="50">' . $about . '</textarea><br><br>
+        
+    echo '<div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="storename">Store Name:</label></div>
+        <div class="pairing2"><input required type="text" name="storename" id="storename" placeholder="Torchlight" value="' . $storename . '"></div>
+    </div>
+
+    <div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="storeadress">Address:</label></div>
+        <div class="pairing2"><input type="text" name="storeaddress" id="storeaddress" placeholder="336B Anchorvale Crescent" value="' . $storeaddress . '"></div>
+    </div>
+
+    <div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="about">Description:</label></div>
+        <div class="pairing2"><textarea required type="text" name="about" id="about" placeholder="text" rows="4"cols="50">' . $about . '</textarea></div>
+    </div>
+
+    <div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="storenumber">COntact Number:</label></div>
+        <div class="pairing2"><input type="text" name="storenumber" id="storenumber" placeholder="88888888" value ="' . $storenumber . '"></div>
+    </div>
+
+    <div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="storepricepoint">Price Point:</label></div>
+        <div class="pairing2"><input required type="text" name="storepricepoint" id="storepricepoint" min=1 max=5 placeholder="5" value="' . $storepricepoint . '"></div>
+    </div>
+
+    <div class="pairing555">
+        <div class="pairing1"><label class="required-field" for="storestatus">Active Status:</label></div>
+        <div class="pairing2"><select id="storestatus" name="storestatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+    </select></div></div>';
 
 
-    <label class="required-field" for="storeadress">Address:</label>
-    <input type="text" name="storeaddress" id="storeaddress" placeholder="336B Anchorvale Crescent" value="' . $storeaddress . '"><br><br>
-
-    <label class="required-field" for="storenumber">COntact Number:</label>
-    <input type="text" name="storenumber" id="storenumber" placeholder="88888888" value ="' . $storenumber . '"> <br><br>
-
-    <label class="required-field" for="storepricepoint">Price Point:</label>
-    <input required type="text" name="storepricepoint" id="storepricepoint" min=1 max=5 placeholder="5" value="' . $storepricepoint . '"><br><br>
-
-    <label class="required-field" for="storestatus">Active Status:</label>
-    <br><select id="storestatus" name="storestatus">
-        <option value="Active">Active</option>
-        <option value="Inactive">Inactive</option>
-    </select><br><br>';
-
-
+    echo "<div class='pairing555'>";
     if ($picone != null) {
         echo "<p>Pic one:</p>";
         $src = $image->show($picone);
@@ -76,11 +95,14 @@ if ($query->fetch()) {
         echo "<br>";
         echo "<input type='hidden' name='image1' value='" . $picone . "'>";
     }
-    echo "<p>Image one:</p>";
-    echo "<input type='file' name='image1'>";
+
+    echo "<div class='pairing1'><p>Image one:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='image1'></div>";
+
+    echo "</div>";
 
 
-
+    echo "<div class='pairing555'>";
     if ($pictwo != null) {
         echo "<p>Pic two:</p>";
         $src = $image->show($pictwo);
@@ -88,11 +110,12 @@ if ($query->fetch()) {
         echo "<br>";
         echo "<input type='hidden' name='image2' value='" . $pictwo . "'>";
     }
-    echo "<p>Image two:</p>";
-    echo "<input type='file' name='image2'>";
+    echo "<div class='pairing1'><p>Image two:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='image2'></div>";
+    echo "</div>";
 
 
-
+    echo "<div class='pairing555'>";
     if ($picthree != null) {
         echo "<p>Pic three:</p>";
         $src = $image->show($picthree);
@@ -100,28 +123,40 @@ if ($query->fetch()) {
         echo "<br>";
         echo "<input type='hidden' name='image3' value='" . $picthree . "'>";
     }
-    echo "<p>Image three:</p>";
-    echo "<input type='file' name='image3'><br><br>";
+    echo "<div class='pairing1'><p>Image three:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='image3'></div>";
+    echo "</div>";
 
 
 
-
-    echo '    <label for="websitelink">Link to Website:</label>
-<input type="text" name="websitelink" id="websitelink" placeholder="www.cisco.com" value="' . $websitelink . '"> <br><br>
-
-';
-
-
-    echo "<br><br>";
-
+    echo "<div class='pairing555'>";
+    echo '<div class="pairing1"><label for="websitelink">Link to Website:</label></div>
+            <div class="pairing2"><input type="text" name="websitelink" id="websitelink" placeholder="www.cisco.com" value="' . $websitelink . '"></div>';
+    echo "</div>";
     echo "<input type='submit'>";
 
     echo "<br>";
 
-    echo "</form>";
+    echo "</form></div></div>";
     echo "<a href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><button type='button'>Delete</button></a>";
 } else {
     //dosent exist
     header("location: https://www.swapamc.com/swapproj/productmanager?error=badid");
     exit;
 }
+?>
+
+<html>
+
+    <style>
+        textarea {
+            resize:none;
+        }
+        <?php include 'storemanager/addstore.css'; ?>
+    </style>
+</html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+

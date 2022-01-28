@@ -19,40 +19,53 @@ if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
 
     }
 }
+echo "<div class='container5'>";
+echo "<div class='item' id='example2'>";
+echo "<div class='static'>Add New Product</div>";
 
-echo "<form method=POST enctype='multipart/form-data' action='https://www.swapamc.com/swapproj/productmanageraddinc'>";
+echo "<form class='form5' method=POST enctype='multipart/form-data' action='https://www.swapamc.com/swapproj/productmanageraddinc'>";
 
-echo "<p>Product Name:</p>";
-echo "<input type='text' name='name' placeholder='Torchlight'>";
-
-echo "<p>Product Price:</p>";
-echo "<input type='number' step='any' name='price' placeholder='1.99'>";
-
-
-
-echo "<p>About:</p>";
-echo "<textarea required type='text' name='about' placeholder='text' rows='4' cols='50'>";
-
-echo "</textarea>";
+    echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Product Name:</p></div>";
+        echo "<div class='pairing2'><input type='text' name='name' placeholder='Torchlight'></div>";
+    echo "</div>";
 
 
-echo "<p>Store id:</p>";
-echo "<input type='text' name='storeid' placeholder='Cisco'>";
+    echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Product Price:</p></div>";
+        echo "<div class='pairing2'><input type='number' step='any' name='price' placeholder='1.99'></div>";
+    echo "</div>";
 
-echo "<p>Image one:</p>";
-echo "<input type='file' name='imageone'>";
+echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>About:</p></div>";
+    echo "<div class='pairing2'><textarea required type='text' name='about' placeholder='text' rows='4' cols='50'>";
+    echo "</textarea></div>";
+echo "</div>";
 
+echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Store id:</p></div>";
+    echo "<div class='pairing2'><input style='height:100px' type='text' name='storeid' placeholder=''></div>";
+echo "</div>";
 
-echo "<p>Image two:</p>";
-echo "<input type='file' name='imagetwo'>";
+echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Image one:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='imageone'></div>";
+echo "</div>";
 
-echo "<p>Image three:</p>";
-echo "<input type='file' name='imagethree'>";
-echo "<br><br>";
+echo "<div class='pairing'>";
+    echo "<div class='pairing1'><p>Image two:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='imagetwo'></div>";
+echo "</div>";
+
+echo "<div class='pairing55'>";
+    echo "<div class='pairing1'><p>Image three:</p></div>";
+    echo "<div class='pairing2'><input type='file' name='imagethree'></div>";
+echo "</div>";
 echo "<input type='submit'>";
 
 
-echo "</form>";
+echo "</form></div></div>";
+
 
 
 ?>
@@ -63,5 +76,11 @@ echo "</form>";
         textarea {
             resize:none;
         }
+        <?php include 'storemanager/addstore.css'; ?>
     </style>
 </html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
