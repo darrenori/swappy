@@ -642,15 +642,37 @@ function calculateProductCode($array)
     return md5($string);
 }
 
+// function badInputTwo($array)
+// {
+//     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+//     // checks for anything that is not from the following list
+//     $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
+
+//     for ($i = 0; $i < sizeof($array); $i++) {
+//         $input = $array[$i];
+//         $a = !(preg_match($pattern, $input));
+
+//         if ($a == 1) {
+//             return true;
+//         }
+//     }
+
+//     return false;
+
+//     //0 is valid input
+
+// }
+
+
 function badInputTwo($array)
 {
     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
     // checks for anything that is not from the following list
     $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
 
-    for ($i = 0; $i < sizeof($array); $i++) {
-        $input = $array[$i];
-        $a = !(preg_match($pattern, $input));
+    foreach($array as $key=>$val) {
+        
+        $a = !(preg_match($pattern, $val));
 
         if ($a == 1) {
             return true;
@@ -1139,10 +1161,10 @@ function bufferOverflow($arrayofitems, $numberofcharacters)
     foreach ($arrayofitems as $key => $value) {
         if (strlen((string)$value) > $numberofcharacters) {
             return true;
-        } else {
-            return false;
         }
     }
+
+    return false;
 }
 
 function checkLength($inputarray,$maxlengtharray){
@@ -1177,6 +1199,7 @@ function XSSPrevention($inputarray, $whitelist)
     }
     return $inputarray; // returns the array so code can be reused. 
 }
+
 function escapeString($conn, $inputarray)
 {
     foreach ($inputarray as $key => $value) {

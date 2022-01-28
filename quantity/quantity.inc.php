@@ -25,6 +25,27 @@ function badInputThree($array){
 
 }
 
+function checkNumber($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[0-9]+$/i";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
+
 if(isset($_POST)){
     $postinformation = $_POST;
 
@@ -59,8 +80,39 @@ if(isset($_POST)){
 }
 
 
-$name = $postinformation['name'];
-$value = $postinformation['value'];
+$methd = $postinformation;
+$whitelist=['value','name'];
+$empty = checkEmpty($methd,$whitelist);
+$maxlengtharray['value']=11;
+$maxlengtharray['name']=300;
+
+if($empty!=null){
+   header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
+   exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkNumber([$validarray['value']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+    exit();
+}
+
+if(badInputThree([$validarray['name']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+    exit();
+}
+
+
+if(checkLength($validarray,$maxlengtharray)!=null){
+    exit();
+}
+
+
+$name = $validarray['name'];
+$value = $validarray['value'];
 
 
 
@@ -81,7 +133,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
     //change header location accordingly
     
 }
@@ -93,7 +145,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
     
 }
 
@@ -114,7 +166,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (UPDATE)", 0);
     //change header location accordingly
     
 }
@@ -126,15 +178,10 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (UPDATE)", 0);    
 }
 
 $query->close();
-//update in profile 
-
-
-
 $prodid=$arrayone[0]['product_id'];
 
 
@@ -146,8 +193,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
 }
 
 // throws error "Statment Execution failed" when statement fails
@@ -157,14 +203,14 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
     
 }
 $query->bind_result($qn);
 $total=0;
 
 while($query->fetch()){
-    echo $qn;
+    // echo $qn;
     $total = $total + $qn;
 
 }
@@ -182,8 +228,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    //change header location accordingly
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (UPDATE)", 0);
 }
 
 // throws error "Statment Execution failed" when statement fails
@@ -193,7 +238,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (UPDATE)", 0);
     
 }
 

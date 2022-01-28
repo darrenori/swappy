@@ -1,6 +1,25 @@
 <?php
     
-   
+    function checkId($array)
+    {
+        // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+        // checks for anything that is not from the following list
+        $pattern = "/^[0-9]+$/i";
+    
+        foreach($array as $key => $value) {
+            
+            $a = !(preg_match($pattern, $value));
+    
+            if ($a == 1) {
+                return true;
+            }
+        }
+    
+        return false;
+    
+        //0 is valid input
+    
+    }
     
 
     //db con
@@ -9,7 +28,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-    //require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
     
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
@@ -27,17 +46,61 @@
     
     
     
-    checkIfIdExists($conn);
     
-    if(isset($_GET['id'])){
-        if(is_numeric($_GET['id'])){
-            $id=$_GET["id"];
-        } else {
-            header("location: ../allproducts");
-        }
-    } else {
-        header("location: ../allproducts");
+    
+    // if(isset($_GET['id'])){
+    //     if(is_numeric($_GET['id'])){
+    //         $id=$_GET["id"];
+    //     } else {
+    //         header("location: ../allproducts");
+    //     }
+    // } else {
+    //     header("location: ../allproducts");
+    // }
+
+
+
+
+
+
+    $whitelist=['id'];
+    $maxlengtharray['id']=11;
+    $methd = $_GET;
+    $empty = checkEmpty($methd,$whitelist);
+
+    if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=empty".$empty);
+    exit();
+    } 
+
+    $validarray = XSSPrevention($methd,$whitelist);
+    $validarray = escapeString($conn,$validarray);
+
+
+    if(checkId($validarray)!=false){
+        error_log("TPAMC:QUANTITY:2:$ip:2 Malicious input", 0); //not sure if this is Malicious Input or MALICIOUS
+        header("location: https://www.swapamc.com/swapproj/allproducts?error=badinput");
+        exit();
     }
+
+
+    if(checkLength($validarray,$maxlengtharray)!=null){
+        
+        header("location: https://www.swapamc.com/swapproj/allproducts?error=toolongid");
+        exit();
+    }
+
+
+    $id = $validarray['id'];
+
+    checkIfIdExists($conn);
+
+
+
+
+
+
+
 
     $signedinuserid = $jwtarrayinformation['userid'];
     $signedinrole = $jwtarrayinformation['role'];
