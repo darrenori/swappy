@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
             }
             $conn->close();
     
-
+            unset($jwtarrayinformation['status']);
         //update status to valid
         
     } elseif ($_POST['leaveStatus'] === "Invalid") {
@@ -92,6 +92,7 @@ if (isset($_POST["submit"])) {
         }
         $conn->close();
     }
+    unset($jwtarrayinformation['status']);
 } else {
     header("location: https://www.swapamc.com/swapproj/attendance/editemployee");
     exit();

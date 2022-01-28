@@ -8,7 +8,7 @@ $jwtarray = jwtdecrypt();
 $jwtarrayinformation['leaveid'] = $leaveID;
 jwtupdate($jwtarrayinformation);
 
-if (isset($_POST["submit"])) {
+if ($jwtarrayinformation['status'] == "A") {
 ?>
 <html>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>

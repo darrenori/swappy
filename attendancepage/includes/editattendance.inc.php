@@ -87,6 +87,8 @@ if (isset($_POST["submit"])) {
                 exit;
             }
             $conn->close();
+            unset($jwtarrayinformation['status']);
+
         } else {
             $attendanceStatus = "Clock In Verified";
 
@@ -166,7 +168,10 @@ if (isset($_POST["submit"])) {
             exit;
         }
         $conn->close();
+        unset($jwtarrayinformation['status']);
+
     }
+
 } else {
     header("location: https://www.swapamc.com/swapproj/attendance?error=emptySubmit");
     error_log("TPAMC:ATTENDANCE:0:$ip:Error(emptySubmit)", 0);

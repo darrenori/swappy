@@ -8,7 +8,7 @@ $jwtarray = jwtdecrypt();
 $jwtarrayinformation['attendanceid'] = $attendanceid;
 jwtupdate($jwtarrayinformation);
 
-if (isset($_POST['submit'])){
+if ($jwtarrayinformation['status'] == "A"){
 if (empty($attendanceid)) {
     header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=invalidurl");
     error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(invalidurl)", 0);
