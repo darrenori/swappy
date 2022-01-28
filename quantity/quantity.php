@@ -348,13 +348,14 @@ if($types!=null&&$alltypesvariant!=null){
 
 
 
-
+echo "<a href='https://www.swapamc.com/swapproj/productmanager'>Back</a>";
 
 
 
 
 
 //list all types
+$csrf = generateCSRF();
 
 
 ?>
@@ -382,10 +383,9 @@ if($types!=null&&$alltypesvariant!=null){
         array['type'] = 'ajax';
         array['name'] = name;
         array['value'] = value;
+        array['csrf'] = '<?php echo $csrf; ?>';
         
-
         var jsonString = JSON.stringify(array);
-
 
         jQuery.ajax({
             url: 'https://www.swapamc.com/swapproj/productmanager/quantityinc',

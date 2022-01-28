@@ -1216,3 +1216,19 @@ function validateCSRF()
 
     return false;
 }
+
+
+
+function validateCSRFAjax($postinformation){
+    session_start();
+    if(isset($postinformation['csrf'])&&isset($_SESSION['csrf'])){
+        if($_SESSION['csrf']==$postinformation['csrf']){
+            return true;
+            //valid token
+        }
+    } 
+
+
+    return false;
+
+}
