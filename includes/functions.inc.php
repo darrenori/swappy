@@ -1145,6 +1145,23 @@ function bufferOverflow($arrayofitems, $numberofcharacters)
     }
 }
 
+function checkLength($inputarray,$maxlengtharray){
+
+    foreach($inputarray as $key => $val){
+        $maxlength = $maxlengtharray[$key];
+        $lengthuserinputted = strlen((string)$val);
+
+        if($lengthuserinputted>$maxlength){
+            return $key;
+        }
+    }
+
+
+    return null;
+    //reteunrs null if everything is good length
+
+}
+
 
 // pass in an array of all the names in array format as whitelist variable e.g., 
 // login should only have ['uid', 'pwd', 'g-recaptcha-response', 'remember'];
@@ -1231,4 +1248,21 @@ function validateCSRFAjax($postinformation){
 
     return false;
 
+}
+
+
+//method is $_GET, $_POST, or $_SESSION. DONT PUT THE [] for $method
+//array will be like $array = ['id','name'];
+function checkEmpty($method,$array){
+    foreach ($array as $value) {
+        
+        
+        if(!isset($method[$value])||$method[$value]==null||$method[$value]==''){
+            return $value;
+            //return variable name if empty
+        }
+    }
+
+    return null;
+    //returns null if everything is filled up!
 }

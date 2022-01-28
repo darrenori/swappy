@@ -113,7 +113,26 @@ function generate_combinations(array $data, array &$all = array(), array $group 
 }
 
 
+function checkId($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[0-9]+$/i";
 
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
 
 
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
@@ -121,15 +140,38 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
-if(isset($_GET['id'])&&$_GET['id']!=null){
-    $id = $_GET['id'];
+$whitelist=['id'];
+$maxlengtharray['id']=11;
+$empty = checkEmpty($_GET,$whitelist);
 
-    if(badInputTwo([$id])!=false){
-        exit;
-        header("location: https://www.swapamc.com/swapproj/productmanager?error=id");
-        exit();
-    }
+if($empty!=null){
+   //echo 'missing';
+   header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
+   exit();
+} 
+
+$validarray = XSSPrevention($_GET,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkId($validarray)!=false){
+    error_log("TPAMC:ATTENDANCE:2:$ip:2 Malicious input", 0); //not sure if this is Malicious Input or MALICIOUS
+    header("location: https://www.swapamc.com/swapproj/productmanager?error=badinput");
+    exit();
 }
+
+
+if(checkLength($validarray,$maxlengtharray)!=null){
+    
+    header("location: https://www.swapamc.com/swapproj/productmanager?error=toolongid");
+    exit();
+}
+
+
+$id = $validarray['id'];
+
+
+
 
 
 //check if id exists
