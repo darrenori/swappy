@@ -1281,7 +1281,7 @@ function checkEmpty($method,$array){
     foreach ($array as $value) {
         
         
-        if(!isset($method[$value])||$method[$value]==null||$method[$value]==''){
+        if(!isset($method[$value])||$method[$value]==null&&$method[$value]!=0){
             return $value;
             //return variable name if empty
         }
@@ -1289,4 +1289,19 @@ function checkEmpty($method,$array){
 
     return null;
     //returns null if everything is filled up!
+}
+
+
+function validateCSRFGet()
+{
+    session_start();
+    if (isset($_GET['csrf']) && isset($_SESSION['csrf'])) {
+        if ($_SESSION['csrf'] == $_GET['csrf']) {
+            return true;
+            //valid token
+        }
+    }
+
+
+    return false;
 }

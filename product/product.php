@@ -327,6 +327,7 @@
     echo "<br><br>";
 
     echo "<input type='submit'>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
     
 
     echo "</form>";
@@ -569,7 +570,7 @@
                 echo "<br><br>";
                 echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
 
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                 
 
                 echo "</form>";
@@ -643,7 +644,7 @@
                 echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
                 echo "<br><br>";
 
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                 
 
                 echo "</form>";
@@ -696,7 +697,7 @@
 
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
                 echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
 
                 echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
                     echo "<input type='hidden' name='csrf' value='$csrf'>";
@@ -855,7 +856,7 @@
                 
                             echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
                             echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                             
                             
                             echo "</form>";
@@ -926,7 +927,7 @@
                 
                             echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
                             echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                             
                             
                             echo "</form>";
@@ -979,7 +980,7 @@
 
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                             echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
 
 
                             echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
@@ -1184,6 +1185,7 @@
             array['type'] = 'ajax';
             array['reviewid'] = reviewid;
             array['likeordislike'] = likeordislike;
+            array['csrf'] = '<?php echo $csrf; ?>';
 
             var jsonString = JSON.stringify(array);
             jQuery.ajax({
@@ -1193,11 +1195,13 @@
                 
 
                 success:function(result){
+                    // console.log(result);
 
                     
 
 
-
+                    console.log(result);
+                    // return null;
                     if(result!=null&&result!=''){
                         var response = JSON.parse(result);
                         if(response['likes']!=null||response['dislikes']!=null){
