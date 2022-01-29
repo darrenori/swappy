@@ -4,7 +4,7 @@ if (isset($_POST["submit"])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 
-    session_start();
+    // session_start();
     session_regenerate_id();
     $jwtarray = jwtdecrypt();
     $jwtarrayinformation = $jwtarray['array'];
@@ -26,18 +26,23 @@ if (isset($_POST["submit"])) {
     //Encrypt
     //Define cipher 
     $cipher = "aes-192-cbc";
+
+
     //Generate a 192-bit encryption key 
     $encryption_key = openssl_random_pseudo_bytes(24);
+
+
     // Generate an initialization vector 
     $iv_size = openssl_cipher_iv_length($cipher);
     $iv = openssl_random_pseudo_bytes($iv_size);
+
+
     //Data to encrypt 
-    $sha256hash = hash('sha256', $ccnumber);
-    $data = $sha256hash;
-    $encrypted_data = openssl_encrypt($data, $cipher, $encryption_key, 0, $iv);
-    $ccnum = base64_encode($encrypted_data);
-
-
+    $ccnum = openssl_encrypt($ccnumber, $cipher, $encryption_key, 0, $iv);
+    $hexkey = bin2hex($encryption_key);
+    $hexiv = bin2hex($iv);
+    
+    
 
 
 
@@ -78,7 +83,7 @@ if (isset($_POST["submit"])) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
         exit();
     } else {
-       
+
         //bring credit card data to after email validation
         $jwtarrayinformation['cname'] = $cname;
         $jwtarrayinformation['expmonth'] = $expmonth;
@@ -86,6 +91,8 @@ if (isset($_POST["submit"])) {
         $jwtarrayinformation['cardtype'] = $cardtype;
         $jwtarrayinformation['ccnum'] = $ccnum;
         $jwtarrayinformation['checkoutstate'] = "A";
+        $jwtarrayinformation['encryptkey'] = $hexkey;
+        $jwtarrayinformation['iv'] = $hexiv;
         jwtupdate($jwtarrayinformation);
 
         $_SESSION['variable'] = "hi";

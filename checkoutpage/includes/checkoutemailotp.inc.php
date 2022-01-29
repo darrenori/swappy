@@ -13,6 +13,8 @@ $expmonth = $jwtarrayinformation['expmonth'];
 $expyear = $jwtarrayinformation['expyear'];
 $cardtype = $jwtarrayinformation['cardtype'];
 $ccnum = $jwtarrayinformation['ccnum'];
+$encryptkey = $jwtarrayinformation['encryptkey'];
+$iv =  $jwtarrayinformation['iv'];
 
 $userinput = htmlspecialchars($_POST['emailotp']);
 $useremailotp = $jwtarrayinformation["emailotp"];
@@ -22,7 +24,7 @@ if (isset($jwtarray) && $jwtarray == true) {
     ## use $jwtinformation["key"] to retrieve the values 
     ## keys and values can be viewed on campus.php page
 
-    
+
 
 
     //resend email otp
@@ -36,15 +38,15 @@ if (isset($jwtarray) && $jwtarray == true) {
     }
 
     // 
-    if (isset($_POST["submit"]) &&  $jwtarrayinformation['checkoutstate'] == "A" ) {
+    if (isset($_POST["submit"]) &&  $jwtarrayinformation['checkoutstate'] == "A") {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
-
+        
         ////Checks if inputs are not identical
 
-        
+
 
 
         $currentrequestime = $_SERVER["REQUEST_TIME"];
@@ -54,19 +56,18 @@ if (isset($jwtarray) && $jwtarray == true) {
             header("location: https://www.swapamc.com/swapproj/checkout/emailotp?error=expiredotp");
             exit();
         } else {
-           
+
             // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
-            if ($useremailotp != $userinput){
+            if ($useremailotp != $userinput) {
                 echo "badotp";
                 jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
                 header("location: https://www.swapamc.com/swapproj/checkout/emailotp?error=badotp");
                 exit();
-
             } else {
                 echo "goodotp";
                 //B is success
                 reduceInventory($conn);
-                addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype, $ccnum);
+                addCreditCard($conn, $cname, $expmonth, $expyear, $cardtype, $ccnum, $encryptkey, $iv);
                 cartpurchased($conn);
                 addIntoPastPurchase($conn);
 
@@ -74,8 +75,8 @@ if (isset($jwtarray) && $jwtarray == true) {
                 //removes 'emailotp' from the array
                 unset($jwtarrayinformation["emailotp"]);
                 jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
-    
-               
+
+
                 // echo 'successfully added';
                 unset($_SESSION['cart']);
                 header("location: https://www.swapamc.com/swapproj/checkout/success");

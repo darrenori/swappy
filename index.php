@@ -294,3 +294,9 @@ $router->get('/attendance/editemployee','attendancepage/editemployee.php');
 $router->get('/test','test.php');
 $router->get('/productmanager/quantity','quantity/quantity.php');
 $router->post('/productmanager/quantityinc','quantity/quantity.inc.php');
+
+
+//past purchase
+$router->get('/viewpastpurchase','pastpurchases/viewpastpurchases.php');
+$router->post('/updatepastpurchase','pastpurchases/includes/updatepastpurchases.inc.php');
+

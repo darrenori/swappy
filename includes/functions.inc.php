@@ -932,7 +932,7 @@ function addIntoPastPurchase($conn)
     $totalpricegst = $totalprice * 1.07;
     $creditcardinfo = selectCreditCardInfo($conn, $userid);
     $bundledidrandom =  $_SESSION['bundledid'];
-    $purchasestatus = "1";
+    $purchasestatus = "0";
 
     $sql = "INSERT INTO mydb.user_past_purchases(user_id, user_shipping, user_creditcards, purchase_time, purchase_cost, purchase_status, cart_bundled)
     VALUES (?,?,?,?,?,?,?)";
@@ -983,7 +983,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     exit();
 }
 
-function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum)
+function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum, $encryptkey, $iv)
 {
     $jwtarray = jwtdecrypt();
     if (isset($jwtarray) && $jwtarray == true) {
@@ -997,15 +997,14 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum)
     $userid = $jwtarrayinformation['userid'];
 
 
-    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb) VALUES (?,$userid,?,?,?,?)";
-    $stmt = mysqli_stmt_init($conn);
+    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb,user_creditcardinfo_encryptkey,user_creditcardinfo_iv) VALUES (?,$userid,?,?,?,?,?,?)";    $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         // header("location: ../swapproj/checkout?error=stmtfailed");
         // exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "sssss", $cname, $expmonth, $expyear, $cardtype, $ccnum);
+    mysqli_stmt_bind_param($stmt, "sssssss", $cname, $expmonth, $expyear, $cardtype, $ccnum, $encryptkey, $iv);
     mysqli_stmt_execute($stmt);
     //closes the connection
     mysqli_stmt_close($stmt);
