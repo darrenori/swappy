@@ -29,6 +29,8 @@
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
+    $csrf = generateCSRF();
     
     $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
@@ -200,8 +202,10 @@
    
    
    echo "<p id='price'>"."S$".$product_price . "</p>";
+   echo "<input type='hidden' name='csrf' value='$csrf'>";
 
    echo "<input type='submit' >";
+
 
     echo "</form>";
 
@@ -279,7 +283,7 @@
 
 
    //store initial session variables
-   session_start();
+//    session_start();
 
 
    
@@ -509,7 +513,7 @@
                 $dislikes = $allparents[$i]['review_total_dislikes'];
 
                 echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-
+                echo "<input type='hidden' name='csrf' value='$csrf'>";
                 echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
 
                 echo "<div id='image$reviewidparent'>";
@@ -571,6 +575,7 @@
                 echo "</form>";
 
                 echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
+                echo "<input type='hidden' name='csrf' value='$csrf'>";
                 echo "<input type='text' name='comment' placeholder='comment'>";
                 echo "<input type='submit'>";
                 echo "</form>";
@@ -584,7 +589,7 @@
                 $dislikes = $allparents[$i]['review_total_dislikes'];
 
                 echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-
+                echo "<input type='hidden' name='csrf' value='$csrf'>";
                 echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
 
                 echo "<div id='image$reviewidparent'>";
@@ -694,7 +699,8 @@
                 echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
 
                 echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
-                echo "<input type='text' name='comment' placeholder='comment'>";
+                    echo "<input type='hidden' name='csrf' value='$csrf'>";
+                    echo "<input type='text' name='comment' placeholder='comment'>";
                 echo "<input type='submit'>";
                 echo "</form>";
 
@@ -792,7 +798,7 @@
                             // $profilepicture = $image->show($reviewpic);
             
                             echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                
+                            echo "<input type='hidden' name='csrf' value='$csrf'>";
                             echo "<p style='margin-left:30px'>Username: ".$username."</p>";
                 
                             // echo "<div id='image$reviewid' style='margin-left:30px'>";
@@ -855,7 +861,8 @@
                             echo "</form>";
 
                             echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
-                            echo "<input type='text' name='comment' placeholder='comment'>";
+                                echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                echo "<input type='text' name='comment' placeholder='comment'>";
                             echo "<input type='submit'>";
                             
                             echo "</form>";
@@ -865,7 +872,7 @@
                             // $profilepicture = $image->show($reviewpic);
             
                             echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                
+                                echo "<input type='hidden' name='csrf' value='$csrf'>";
                             echo "<p style='margin-left:30px'>Username: ".$username."</p>";
                 
                             // echo "<div id='image$reviewid' style='margin-left:30px'>";
@@ -976,7 +983,8 @@
 
 
                             echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
-                            echo "<input type='text' name='comment' placeholder='comment'>";
+                                echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                echo "<input type='text' name='comment' placeholder='comment'>";
                             echo "<input type='submit'>";
                             echo "</form>";
                             
@@ -1116,6 +1124,7 @@
             var array= {};
             array['type'] = 'ajax';
             array['productid'] = productid;
+            array['csrf'] = '<?php echo $csrf; ?>';
 
             var jsonString = JSON.stringify(array);
 
@@ -1126,6 +1135,7 @@
                 
 
                 success:function(result){
+                    console.log(result);
 
 
 

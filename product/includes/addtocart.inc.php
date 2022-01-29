@@ -79,16 +79,19 @@
     $empty = checkEmpty($methd,$whitelist);
 
     if($empty!=null){
-    header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=empty".$empty);
-    exit();
+        
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=empty".$empty);
+        exit;
     } 
+
+    
 
     $validarray = XSSPrevention($methd,$whitelist);
     $validarray = escapeString($conn,$validarray);
 
 
     if(checkId($validarray)!=false){
-        error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+        error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
         header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=badinput");
         exit();
     }
@@ -105,6 +108,33 @@
         exit();
 
     }
+
+    if(validateCSRF()==false){
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      
+      
+        if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+            
+            //dont redirect if on the same page
+      
+        } else {
+            error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+            header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+            exit;
+        }
+        
+        
+    }
+
+
+
+    
+
+
+
+
+
+
 
 
 
@@ -123,8 +153,8 @@
 
    //regex
    if(badInputTwo($postinformation)!=false){
-        error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=badinput");
+        error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=badinput");
         exit();
    }
 
@@ -132,7 +162,7 @@
  
      //length
    if(bufferOverflow($postinformation,255)==true){
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=toolong");
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=toolong");
         exit();
    }
 
@@ -159,9 +189,9 @@
             throw new Exception("Statement Preparation failed(quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
         //change header location accordingly
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
     
@@ -174,8 +204,8 @@
             throw new Exception("Statement Execution failed (quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
 
@@ -262,8 +292,8 @@
                     throw new Exception("Statement Preparation failed(quantity)");
                 }
             } catch (Exception $e) {
-                error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-                header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+                error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+                header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
                 exit();
             }
             
@@ -274,8 +304,8 @@
                     throw new Exception("Statement Execution failed (quantity)");
                 }
             } catch (Exception $e) {
-                error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-                header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+                error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+                header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
                 exit();
             }
 
@@ -307,8 +337,8 @@
             throw new Exception("Statement Preparation failed(quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
     
@@ -319,8 +349,8 @@
             throw new Exception("Statement Execution failed (quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
     
@@ -369,8 +399,8 @@
             throw new Exception("Statement Preparation failed(quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
     
@@ -381,8 +411,8 @@
             throw new Exception("Statement Execution failed (quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-        header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
         exit();
     }
 
@@ -394,7 +424,6 @@
 
 
 
-    
 
     
     
@@ -415,8 +444,8 @@
                 echo $quantity. "<br>";
                 echo $qnleft . "<br>";
                 
-                header("location: ../product/viewcart");
-                exit;
+                header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=toomuch");
+                exit();
             }
 
             $alreadyexists = 1;
@@ -439,8 +468,8 @@
                 echo $quantity. "<br>";
                 echo $qnleft . "<br>";
                 
-                header("location: ../product/viewcart");
-                exit;
+                header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=toomuch");
+                exit();
             }
 
 
@@ -505,8 +534,8 @@
                 throw new Exception("Statement Preparation failed(quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-            header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
             exit();
         }
         
@@ -517,8 +546,8 @@
                 throw new Exception("Statement Execution failed (quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-            header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
             exit();
         }
 
@@ -547,8 +576,8 @@
                         throw new Exception("Statement Preparation failed(quantity)");
                     }
                 } catch (Exception $e) {
-                    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-                    header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+                    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+                    header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
                     exit();
                 }
                 
@@ -559,8 +588,8 @@
                         throw new Exception("Statement Execution failed (quantity)");
                     }
                 } catch (Exception $e) {
-                    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-                    header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+                    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+                    header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
                     exit();
                 }
 
@@ -601,8 +630,8 @@
                 throw new Exception("Statement Preparation failed(quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-            header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
             exit();
         }
         
@@ -613,8 +642,8 @@
                 throw new Exception("Statement Execution failed (quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
-            header("location: https://www.swapamc.com/swapproj/allproducts/product??id=$productid&error=sqlfailed");
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=sqlfailed");
             exit();
         }
         

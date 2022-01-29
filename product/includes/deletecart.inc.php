@@ -26,24 +26,70 @@
         header("location: ../product/viewcart");
     }
 
-    foreach ($_POST as $key => $value) {
-        //echo "$key = $value<br>";
+    // foreach ($_POST as $key => $value) {
+    //     //echo "$key = $value<br>";
         
-        if($key!="quantity"){
-            $postinformation[$key] = $value;
+    //     if($key!="quantity"){
+    //         $postinformation[$key] = $value;
+    //     }
+    // }
+
+    if(validateCSRF()==false){
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      
+      
+        if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+            
+            //dont redirect if on the same page
+      
+        } else {
+            error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+            header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+            exit;
         }
+        
+        
     }
 
     $cartid = $jwtarrayinformation['cartid'];
    
 
-    $query = $conn->prepare("DELETE FROM mydb.user_cart WHERE cart_id = $cartid");
-
-    if($query->execute()){
-
-        echo "done";
-        header("location: ../product/viewcart");
+    
+    try {
+        $query = $conn->prepare("DELETE FROM mydb.user_cart WHERE cart_id = ?");
+        $query->bind_param('s',$cartid);
+        
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
     }
+    
+    
+    
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
+    }
+
+    
+
+        // echo "done";
+    header("location: ../product/viewcart");
+    
+
 
 
 ?>

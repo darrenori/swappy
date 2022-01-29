@@ -96,12 +96,12 @@ $validarray = escapeString($conn,$validarray);
 
 
 if(checkNumber([$validarray['value']])!=false){
-    error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
     exit();
 }
 
 if(badInputThree([$validarray['name']])!=false){
-    error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
     exit();
 }
 
@@ -133,7 +133,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
     //change header location accordingly
     
 }
@@ -145,7 +145,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
     
 }
 
@@ -166,7 +166,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (UPDATE)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
     //change header location accordingly
     
 }
@@ -178,7 +178,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (UPDATE)", 0);    
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);    
 }
 
 $query->close();
@@ -193,7 +193,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
 }
 
 // throws error "Statment Execution failed" when statement fails
@@ -203,7 +203,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
     
 }
 $query->bind_result($qn);
@@ -228,7 +228,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (UPDATE)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
 }
 
 // throws error "Statment Execution failed" when statement fails
@@ -238,7 +238,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (UPDATE)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);
     
 }
 

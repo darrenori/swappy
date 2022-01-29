@@ -1,5 +1,28 @@
 <?php 
 
+function checkId($array)
+    {
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[0-9]+$/i";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+    }
+
+
+
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
     session_start();
@@ -32,67 +55,173 @@
             $postinformation[$key] = $value;
         }
     }
-
     
-
-
-
-
-
-
-
-
-
-    // 
-
-    //print_r(apache_request_headers());
     $productname = $jwtarrayinformation['productname'];
     $cartid = $jwtarrayinformation['cartid'];
-    $selectedchoices = [];
-    $checkIfValuesTampered = [];
-    if(isset($_POST['quantity'])){
-        $quantity = $_POST['quantity'];
+
+
+
+
+
+
+
+
+
+    //check if quantity valid
+    $whitelist=['quantity'];
+    $maxlengtharray['quantity']=11;
+    $methd = $_POST;
+    $empty = checkEmpty($methd,$whitelist);
+
+    if($empty!=null){
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=empty".$empty);
+        exit();
+    } 
+
+    $validarray = XSSPrevention($methd,$whitelist);
+    $validarray = escapeString($conn,$validarray);
+
+
+    if(checkId($validarray)!=false){
+        error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=malicious");
+        exit();
+    }
+
+    if(checkLength($validarray,$maxlengtharray)!=null){   
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=toolong");
+        exit();
+    }
+
+    if(validateCSRF()==false){
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      
+      
+        if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+            
+            //dont redirect if on the same page
+      
+        } else {
+            error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+            header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+            exit;
+        }
+        
+        
+    }
+
+    $quantity=$validarray['quantity'];
+
+
+
+
+    if($quantity<1){
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badqnty");
+        exit();
 
     }
+
+
+
+
+    //check others
+    foreach ($postinformation as $key => $value) {
+        // hashes all values into htmlspecialchars versions
+        $postinformation[$key] = htmlspecialchars($value, ENT_QUOTES);
+        $postinformation[$key] = mysqli_real_escape_string($conn, $value); 
+    }
+
+
+   //regex
+   if(badInputTwo($postinformation)!=false){
+        error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=malicious");
+        exit();
+   }
+
+
+ 
+     //length
+   if(bufferOverflow($postinformation,255)==true){
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=toolong");
+        exit();
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    //$cartarray = $_SESSION['cartarray'];
-
-
-
-
-
-
-    //check if there's enough quantity
+    $selectedchoices = [];
+    $checkIfValuesTampered = [];
+    
+    
+  
     $toGetProductCode = $postinformation;
     $toGetProductCode['product_name'] = $productname;
     $productcode =  calculateProductCode($toGetProductCode);
 
 
-    $query = $conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = '$productcode';");
-    if(!$query){
-        echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
-    }
-
-    if($query->execute()){
-
-        $query->bind_result($qnleft);
-
-        if($query->fetch()){
-            $qnleft = $qnleft;
+   
+    try {
+        $query=$conn->prepare("SELECT quantityleft FROM mydb.inventory WHERE productcode = ?;");
+        $query->bind_param('s',$productcode);
+        
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed");
         }
-
-
-
-    } else {
-        echo mysqli_error($query);
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
     }
+    
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
+    }
+
+    
+
+    $query->bind_result($qnleft);
+
+    if($query->fetch()){
+        $qnleft = $qnleft;
+    }
+
+
+
+    
 
     if($quantity>$qnleft){
         // echo $quantity. "<br>";
         // echo $qnleft . "<br>";
         
-        header("location: ../product/viewcart");
-        exit;
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=chooselesser");
+        exit();
     }
 
     $query->close();
@@ -102,17 +231,40 @@
 
 
 
+    try {
+        $query=$conn->prepare("SELECT type,type_choice,additional_costs,product_price FROM mydb.product_type 
+        INNER JOIN mydb.products 
+        ON mydb.products.product_id = mydb.product_type.product_id 
+        INNER JOIN mydb.type 
+        ON mydb.type.type_id = mydb.product_type.type_id 
+        WHERE  product_name =?");
+        $query->bind_param('s',$productname);
+        
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
+    }
+    
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+        exit();
+    }
 
 
-
-    $query=$conn->prepare("SELECT type,type_choice,additional_costs,product_price FROM mydb.product_type 
-    INNER JOIN mydb.products 
-    ON mydb.products.product_id = mydb.product_type.product_id 
-    INNER JOIN mydb.type 
-    ON mydb.type.type_id = mydb.product_type.type_id 
-    WHERE  product_name ='$productname';");
-
-    if ($query->execute()) {
+    
         $query->bind_result($db_type,$db_type_choice,$db_additional_costs,$db_product_price);
         
 
@@ -173,16 +325,44 @@
             
                 $query->close();
     
-                $query=$conn->prepare("SELECT product_price FROM mydb.products WHERE product_id=$productid;");
-    
-                if($query->execute()){
-                    $query->bind_result($db_empty_price);
-                    if($query->fetch()){
-                        $total = $quantity * $db_empty_price;
-                        
-                        
+                try {
+                    $query=$conn->prepare("SELECT product_price FROM mydb.products WHERE product_id=?");
+                    $query->bind_param('s',$productid);
+                    
+                    if ($query === false) {
+                        //change filename accordingly
+                        throw new Exception("Statement Preparation failed");
                     }
+                } catch (Exception $e) {
+                    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
+                    //change header location accordingly
+                    header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+                    exit();
                 }
+                
+                // throws error "Statment Execution failed" when statement fails
+                try {
+                    $execute = $query->execute();
+                    if ($execute === false) {
+                        throw new Exception("Statement Execution failed");
+                    }
+                } catch (Exception $e) {
+                    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
+                    header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+                    exit();
+                }
+            
+                
+                
+    
+                
+                $query->bind_result($db_empty_price);
+                if($query->fetch()){
+                    $total = $quantity * $db_empty_price;
+                    
+                    
+                }
+                
             }
 
 
@@ -194,9 +374,7 @@
 
 
 
-    } else {
-        echo mysqli_error($query);
-    }
+    
 
     if(isset($validtypes)){
         $typestotalcost =0;
@@ -221,21 +399,36 @@
             
 
             //change types
-
-            $query = $conn->prepare("UPDATE mydb.cart_typevariants SET cart_typevariants_variant = '$choice', 
-            cart_additionalcosts ='$additional'
-            WHERE cart_typevariants_type = '$key' AND cart_id = $cartid;");
-
-
-            if(!$query){
-                echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
+            try {
+                $query=$conn->prepare("UPDATE mydb.cart_typevariants SET cart_typevariants_variant = ?, 
+                cart_additionalcosts = ?
+                WHERE cart_typevariants_type = ? AND cart_id = ?;");
+                $query->bind_param('ssss',$choice,$additional,$key,$cartid);
+                
+                if ($query === false) {
+                    //change filename accordingly
+                    throw new Exception("Statement Preparation failed");
+                }
+            } catch (Exception $e) {
+                error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
+                //change header location accordingly
+                header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+                exit();
+            }
+            
+            // throws error "Statment Execution failed" when statement fails
+            try {
+                $execute = $query->execute();
+                if ($execute === false) {
+                    throw new Exception("Statement Execution failed");
+                }
+            } catch (Exception $e) {
+                error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);
+                header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+                exit();
             }
 
-            if($query->execute()){
-                //success
-            } else {
-                echo mysqli_error($query);
-            }
+        
             
             $query->close();
 
@@ -261,34 +454,117 @@
 
         $total = $quantity*$total;
 
-        $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = '$quantity',
-        price ='$total'
-        WHERE cart_id = $cartid;");
+        
+
+        try {
+            $query=$conn->prepare("UPDATE mydb.user_cart SET quantity = ?,
+            price =?
+            WHERE cart_id = ?");
+            $query->bind_param('sss',$quantity,$total,$cartid);
+            
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
+
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
 
         if($query->execute()){
-            echo "all done!";
+            // echo "all done!";
             header("location: ../product/viewcart");
         }
     } else {
 
         //no types
 
-        $query=$conn->prepare("SELECT product_price FROM mydb.products
-        WHERE  product_name ='$productname';");
+        
+        try {
+            $query=$conn->prepare("SELECT product_price FROM mydb.products
+            WHERE  product_name =?;");
+            $query->bind_param('s',$productname);
+            
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
 
-        if ($query->execute()) {
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
+
+        
             $query->bind_result($db_product_price);
 
             $query->fetch();
 
-        }
+        
 
         $query->close();
 
         $total = $db_product_price * $quantity;
-        $query = $conn->prepare("UPDATE mydb.user_cart SET quantity = '$quantity',
-        price ='$total'
-        WHERE cart_id = $cartid;");
+        
+
+        try {
+            $query=$conn->prepare("UPDATE mydb.user_cart SET quantity = ?,
+            price = ?
+            WHERE cart_id = ?;");
+            $query->bind_param('sss',$quantity,$total,$cartid);
+            
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (UPDATE)", 0);
+            //change header location accordingly
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
+
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (UPDATE)", 0);
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=sqlfailed");
+            exit();
+        }
+
+
+       
 
         
 
@@ -296,8 +572,8 @@
 
 
 
-        echo $total . "<br>";
-        echo $quantity . "<br>";
+        // echo $total . "<br>";
+        // echo $quantity . "<br>";
         if($query->execute()){
             //echo "all done!";
             header("location: ../product/viewcart");

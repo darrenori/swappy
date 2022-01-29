@@ -155,7 +155,7 @@ $validarray = escapeString($conn,$validarray);
 
 
 if(checkId($validarray)!=false){
-    error_log("TPAMC:".$filename.":4:$ipdd:2 Malicious input", 0);
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
     header("location: https://www.swapamc.com/swapproj/productmanager?error=badinput");
     exit();
 }
@@ -180,7 +180,7 @@ try {
         throw new Exception("Statement Preparation failed(quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
     //change header location accordingly
     header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
     exit;
@@ -193,7 +193,7 @@ try {
         throw new Exception("Statement Execution failed (quantity)");
     }
 } catch (Exception $e) {
-    error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
+    error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
 
     exit;
@@ -267,7 +267,7 @@ if($types!=null&&$alltypesvariant!=null){
                 throw new Exception("Statement Preparation failed(quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
             //change header location accordingly
             header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
             exit;
@@ -280,7 +280,7 @@ if($types!=null&&$alltypesvariant!=null){
                 throw new Exception("Statement Execution failed (quantity)");
             }
         } catch (Exception $e) {
-            error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
+            error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
             header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
 
             exit;
@@ -340,7 +340,7 @@ if($types!=null&&$alltypesvariant!=null){
             throw new Exception("Statement Preparation failed(quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR preparing statement (SELECT)", 0);
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR preparing statement (SELECT)", 0);
         //change header location accordingly
         header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
         exit;
@@ -353,7 +353,7 @@ if($types!=null&&$alltypesvariant!=null){
             throw new Exception("Statement Execution failed (quantity)");
         }
     } catch (Exception $e) {
-        error_log("TPAMC:".$filename.":3:$ipdd:1 ERROR executing statement (SELECT)", 0);
+        error_log("TPAMC:".$filename.":3:$ipadd:1 ERROR executing statement (SELECT)", 0);
         header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
 
         exit;

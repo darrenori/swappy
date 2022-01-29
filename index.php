@@ -228,7 +228,7 @@ $router->post('/forgetpassword/resetpasswordinc','forgetpass/includes/resetpass.
 $router->get('/forgetpassword/googleauth','forgetpass/forgetpassgoogleauth.php');
 $router->post('/forgetpassword/googleauthinc','forgetpass/includes/forgetpassgoogleauth.inc.php');
 
-
+$router->post('/changepassword','changepassword.inc.php');
 
 //home
 $router->get('/home','home/home.php');

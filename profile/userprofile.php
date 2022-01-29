@@ -95,6 +95,7 @@ if ($query->fetch()) {
 
     echo '<input type="submit" value="update" name="submit" formaction="/swapproj/updateprofile">';
     echo '<input type="submit" value="delete" name="submit" formaction="/swapproj/deleteprofile">';
+    echo '<input type="submit" value="changepassword" formaction="/swapproj/changepassword">';
     $csrf = generateCSRF();
     echo "<input type='hidden' name='csrf' value='$csrf'>";
 
@@ -130,7 +131,7 @@ if ($query->fetch()) {
             type: 'post',
             data: 'type=ajax',
             success: function(result) {
-                console.log(result);
+                
                 let text = result.includes("logout");
                 if (text == true) {
                     window.location.href = "https://www.swapamc.com/swapproj/logout";

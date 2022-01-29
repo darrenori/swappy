@@ -668,8 +668,10 @@ function badInputTwo($array)
 {
     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
     // checks for anything that is not from the following list
-    $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
+    // $pattern = "/^[a-zA-Z0-9_ @,().!?+-]+$/i";
+    $pattern = "/^[A-Za-z0-9_ @,().!?+:]+(-[A-Za-z0-9_ @,().!?+:]+)*$/i";
 
+    
     foreach($array as $key=>$val) {
         
         $a = !(preg_match($pattern, $val));

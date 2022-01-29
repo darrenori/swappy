@@ -1,6 +1,25 @@
 <?php
 
+function checkNumber($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[0-9]+$/i";
 
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
 #NOTE. THIS IS AN AJAX FILE. DO NOT USE HEADER
 
 // require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
@@ -23,18 +42,75 @@ if (!isset($_POST)) {
     
 }
 
-if(!isset($_GET['id'])||$_GET['id']==null){
-    echo 'Information found was not present';
-    exit;   
-}
+if(isset($_POST)){
+    $postinformation = $_POST;
 
-if(is_numeric($_GET['id'])){
-    $productid = $_GET['id'];
+    
+
+    $postinformation = json_decode(json_encode($postinformation), true);
+    if(isset($postinformation['info'])){
+        
+        $postinformation = $postinformation['info'];
+    } else {
+        echo "error";
+    }
+
+    //convert the nested json array inside to array
+    $postinformation = json_decode($postinformation, true);
+    
+
+    //line for regex here
+    //print_r($postinformation);
+
 } else {
-    echo 'Information found was not present';
-    exit;   
-
+    echo "error";
+    exit;
 }
+
+
+
+
+
+
+$methd = $postinformation;
+$whitelist=['productid'];
+$empty = checkEmpty($methd,$whitelist);
+$maxlengtharray['productid']=11;
+if($empty!=null){
+   exit();
+} 
+
+
+$validarray = XSSPrevention($methd,$whitelist);
+
+$validarray = escapeString($conn,$validarray);
+if(validateCSRFAjax($postinformation)==false){
+    echo "CSRF BAD";
+    exit;
+}
+
+if(checkNumber([$validarray['productid']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    exit();
+}
+
+
+if(checkLength($validarray,$maxlengtharray)!=null){
+    exit();
+}
+
+
+
+$productid=$validarray['productid'];
+
+
+
+
+
+
+
+
+
 
 $userid = $jwtarrayinformation['userid'];
 

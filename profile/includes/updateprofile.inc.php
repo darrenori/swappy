@@ -2,6 +2,76 @@
 ## Originally updateprofile and outside includes
 
 
+//checkusername
+function checkUsername($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[a-zA-Z]+$/i";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
+
+
+//checklastname,firstname
+function checkNames($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[a-zA-Z ]+$/i";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
+
+
+
+//check number
+function checkMobileNumber($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/(6|8|9)\d{7}/";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
+
+
 //echo "edit";
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/profile/includes/profilefunctions.inc.php';
@@ -37,13 +107,86 @@ foreach ($_POST as $key => $value) {
 
 
 
-if(isset($_POST['username'])&&$_POST['fname']&&$_POST['lname']&&$_POST['email']&&$_POST['number']){
-    $username = $postinformation['username'];
-    $fname = $postinformation['fname'];
-    $lname = $postinformation['lname'];
-    $email = $postinformation['email'];
-    $number = $postinformation['number'];
+
+//check if quantity valid
+$whitelist=['username','fname','lname','email','number'];
+$maxlengtharray['username']=60;
+$maxlengtharray['fname']=60;
+$maxlengtharray['lname']=60;
+$maxlengtharray['email']=200;
+$maxlengtharray['number']=45;
+$methd = $_POST;
+$empty = checkEmpty($methd,$whitelist);
+
+if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=empty".$empty);
+    exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkUsername([$validarray['username']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=badusername");
+    exit();
 }
+if(checkNames([$validarray['fname']])!=false){
+    // error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    // header("location: https://www.swapamc.com/swapproj/userprofile?error=badfname");
+    exit();
+}
+if(checkNames([$validarray['lname']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=badlname");
+    exit();
+}
+
+if(invalidEmail($validarray['email'])==true){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=bademail");
+    exit();
+}
+
+if(checkMobileNumber([$validarray['number']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=badnumber");
+    exit();
+}
+
+
+
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    $toolong=checkLength($validarray,$maxlengtharray);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=toolong".$toolong);
+    exit();
+}
+
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        
+        //dont redirect if on the same page
+  
+    } else {
+        error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+    
+    
+}
+
+
+$username = $validarray['username'];
+$fname = $validarray['fname'];
+$lname = $validarray['lname'];
+$email = $validarray['email'];
+$number = $validarray['number'];
+
 
 
 
@@ -180,10 +323,7 @@ if($img_size>3025000){
 
 $informationarray = [$username, $fname, $lname, $email, $number];
 
-if (badUserInput([$username, $fname, $lname, $number])) {
-    echo "stop trying to hack the website please!";
-    //header
-}
+
 
 
 
