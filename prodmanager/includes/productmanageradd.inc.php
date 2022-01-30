@@ -1,5 +1,24 @@
 <?php
+function checkId($array)
+{
+// $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+// checks for anything that is not from the following list
+$pattern = "/^[0-9]+$/i";
 
+foreach($array as $key => $value) {
+    
+    $a = !(preg_match($pattern, $value));
+
+    if ($a == 1) {
+        return true;
+    }
+}
+
+return false;
+
+//0 is valid input
+
+}
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
@@ -8,60 +27,106 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 
 
-if(!isset($_POST['name'])||$_POST['name']==null){
-    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=empty");
+
+
+// $storeid = $_POST['storeid'];
+// $about = $_POST['about'];
+// $price= $_POST['price'];
+// $name = $_POST['name'];
+
+
+//check if quantity valid
+$whitelist=['storeid','about','price','name'];
+$maxlengtharray['storeid']=11;
+$maxlengtharray['about']=255;
+$maxlengtharray['price']=11;
+$maxlengtharray['name']=100;
+$methd = $_POST;
+$empty = checkEmpty($methd,$whitelist);
+
+if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=empty".$empty);
     exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
 
 
-}
-
-
-if(!isset($_POST['price'])||$_POST['price']==null){
-    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=empty");
+if(checkId([$validarray['storeid']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=malicious");
     exit();
-    
-
 }
 
-if(!isset($_POST['about'])||$_POST['about']==null){
-    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=empty");
+
+if(!is_numeric($validarray['price'])){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=malicious");
     exit();
-    
-
 }
 
-if(!isset($_POST['storeid'])||$_POST['storeid']==null){
-    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=empty");
+
+if(badInputTwo([$validarray['about']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=malicious");
     exit();
-    
+}
 
+
+if(badInputTwo([$validarray['name']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=malicious");
+    exit();
 }
 
 
 
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    header("location: https://www.swapamc.com/swapproj/productmanageradd?error=toolong");
+    exit();
+}
 
-
-$storeid = $_POST['storeid'];
-$about = $_POST['about'];
-$price= $_POST['price'];
-$name = $_POST['name'];
-
-
-
-
-if(badInputTwo([$about,$name])==true){
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        
+        //dont redirect if on the same page
+  
+    } else {
+        error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
     
     
-    header("location: https://www.swapamc.com/swapproj/productmanager?error=malicious");
-    exit;
 }
 
 
-if(!is_numeric($price)||!is_numeric($storeid)){
-    header("location: https://www.swapamc.com/swapproj/productmanager?error=wrongnumber");
-    exit;
+
+$storeid = $validarray['storeid'];
+$about = $validarray['about'];
+$price= $validarray['price'];
+$name = $validarray['name'];
+
+
+
+
+// if(badInputTwo([$about,$name])==true){
     
-}
+    
+//     header("location: https://www.swapamc.com/swapproj/productmanager?error=malicious");
+//     exit;
+// }
+
+
+// if(!is_numeric($price)||!is_numeric($storeid)){
+//     header("location: https://www.swapamc.com/swapproj/productmanager?error=wrongnumber");
+//     exit;
+    
+// }
 
 
 //check if productname already exists in store
@@ -72,7 +137,9 @@ try {
     INNER JOIn mydb.store
     ON mydb.store.store_id = mydb.storeprod.store_id
     
-    WHERE product_name='$name';");
+    WHERE product_name=?;");
+
+    $query->bind_param('s',$name);
 
     if ($query === false) {
         //change filename accordingly

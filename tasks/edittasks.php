@@ -75,7 +75,8 @@ $csrf=generateCSRF();
 
 
 try {
-$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
+$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = ?;");
+        $query->bind_param('s',$taskid);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(edittasks)");

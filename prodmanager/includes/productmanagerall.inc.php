@@ -44,11 +44,24 @@ function badInputNumber($array){
 
 }
 
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        
+        //dont redirect if on the same page
+  
+    } else {
+        error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+    
+    
+}
 
 session_start();
-// print_r($_SESSION);
-// print_r($_POST);
-
 echo "<br><br><br>";
 
 
@@ -80,7 +93,21 @@ for($i=0;$i<sizeOf($combos);$i++){
     
 
     if(isset($_POST[$name])&&$_POST[$name]!=null){
-        $checked[$name] = $_POST[$name];
+
+        
+        $postname=$_POST[$name];
+        $postname=htmlspecialchars($postname);
+        $postname=mysqli_escape_string($conn,$postname);
+
+        if(badInputNumber([$postname])!=false){
+            error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+            header("location: https://www.swapamc.com/swapproj/productmanageraddinventory?error=malicious");
+            exit;
+        }
+
+    
+
+        $checked[$name] = $postname;
 
 
         ###DARREN
@@ -480,7 +507,7 @@ unset($_SESSION['addproductimages']);
 
 
 header("location: https://www.swapamc.com/swapproj/productmanager?error=none");
-        exit;
+exit;
 
 
 

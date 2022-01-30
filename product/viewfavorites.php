@@ -11,7 +11,8 @@ $userid = $jwtarrayinformation['userid'];
 try {
     $query = $conn->prepare("SELECT product_name,product_price,product_about,product_picone FROM mydb.usersfavorite
     INNER JOIN mydb.products
-    ON mydb.products.product_id = mydb.usersfavorite.product_id WHERE user_id = '$userid';");
+    ON mydb.products.product_id = mydb.usersfavorite.product_id WHERE user_id = ?;");
+    $query->bind_param('s',$userid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(viewnotification)");

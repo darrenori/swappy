@@ -140,7 +140,8 @@ if ($verifyTime == 0) {
 
     try {
     $query = $conn->prepare("INSERT INTO mydb.employees_task (working_id,task_name,task_details,task_progress,
-        task_assignedby,task_dateassigned,task_datetofinish) VALUES ($employeeid,'$taskname','$taskdetails',0,'$assignedby','$now','$selectedDate');");
+        task_assignedby,task_dateassigned,task_datetofinish) VALUES (?,?,?,0,?,?,?);");
+                $query->bind_param('ssssss',$employeeid,$taskname,$taskdetails,$assignedby,$now,$selectedDate);
                 if ($query === false) {
                     //change filename accordingly
                     throw new Exception("Statement Preparation failed(addtaskss.inc)");

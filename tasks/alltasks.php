@@ -118,7 +118,8 @@ if ($role == 6 || $role == 5 || $role == 3) {
         ON working_employees.working_id = employees_task.working_id
         INNER JOIN mydb.users
         ON mydb.working_employees.user_id = mydb.users.user_id 
-        WHERE working_employees.working_id = " . $employeeid . ";");
+        WHERE working_employees.working_id = ?;");
+        $query->bind_param('s',$employeeid);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(alltasks)");

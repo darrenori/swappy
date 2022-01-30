@@ -104,7 +104,8 @@ $taskid = $validarray['task'];
 
 
 try {
-    $query = $conn->prepare("DELETE FROM mydb.employees_task WHERE task_id = $taskid");
+    $query = $conn->prepare("DELETE FROM mydb.employees_task WHERE task_id = ?");
+    $query->bind_param('s',$taskid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(deletetasks.inc)");
