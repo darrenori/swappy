@@ -90,10 +90,9 @@ if(isset($_POST)){
 // print_r($postinformation);
 
 $methd = $postinformation;
-$whitelist=['reviewid','likeordislike'];
+$whitelist=['reviewid'];
 $empty = checkEmpty($methd,$whitelist);
 $maxlengtharray['reviewid']=11;
-$maxlengtharray['likeordislike']=11;
 
 if($empty!=null){
     // echo "STILL EMPTY";
@@ -111,7 +110,9 @@ if(checkNumber([$validarray['reviewid']])!=false){
     exit();
 }
 
-if(checkNumber([$validarray['likeordislike']])!=false){
+$likeordislike = $postinformation['likeordislike'];
+
+if(checkNumber([$likeordislike])!=false){
     error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
     exit();
 }
@@ -123,7 +124,7 @@ if(checkLength($validarray,$maxlengtharray)!=null){
 
 
 $reviewid = $validarray['reviewid'];
-$likeordislike = $validarray['likeordislike'];
+
 
 
 if(validateCSRFAjax($postinformation)==false){

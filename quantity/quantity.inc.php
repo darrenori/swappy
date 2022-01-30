@@ -87,7 +87,7 @@ $maxlengtharray['value']=11;
 $maxlengtharray['name']=300;
 
 if($empty!=null){
-   header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
+//    header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
    exit();
 } 
 

@@ -1278,13 +1278,18 @@ function validateCSRFAjax($postinformation){
 //method is $_GET, $_POST, or $_SESSION. DONT PUT THE [] for $method
 //array will be like $array = ['id','name'];
 function checkEmpty($method,$array){
+    
     foreach ($array as $value) {
         
-        
-        if(!isset($method[$value])||$method[$value]==null&&$method[$value]!=0){
-            return $value;
+        // if(empty())
+        if(!isset($method[$value])||$method[$value]===null||$method[$value]==''){
+                
+                return $value;
+                
             //return variable name if empty
         }
+
+        
     }
 
     return null;

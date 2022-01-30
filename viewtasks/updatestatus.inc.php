@@ -23,21 +23,68 @@ if(isset($_POST)){
         echo "error";
     }
 
-
+    //convert the nested json array inside to array
     $postinformation = json_decode($postinformation, true);
+    
+
+    //line for regex here
+    //print_r($postinformation);
+
+     
 
 
+
+
+} else {
+    echo "error";
+    exit;
+}
+
+print_r($postinformation);
+
+$methd = $postinformation;
+$whitelist=['string'];
+$empty = checkEmpty($methd,$whitelist);
+$maxlengtharray['string']=11;
+
+if($empty!=null){
+//    header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
+   exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(badInputTwo([$validarray['string']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    exit();
 }
 
 
-if(badInputTwo([$postinformation])){
-    echo "error bad";
-} else {
-    $array = explode(",",$postinformation);
+if(checkLength($validarray,$maxlengtharray)!=null){
+    exit();
+}
+
+
+$string = $validarray['string'];
+
+
+
+
+if(validateCSRFAjax($postinformation)==false){
+    echo "CSRF BAD<br>";
+   
+    exit;
+}
+
+
+
+$array = explode(",",$string);
     $tid = $array[0];
     $wid = $array[1];
     $progress= $array[2];
-}
+
 
 
 //does it exist

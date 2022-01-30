@@ -73,7 +73,7 @@ function checkIfEmployeeIdExists($conn)
         //converts id to integer (if id is not integer, id will return empty);
         $id = (int)$_GET['user'];
         if (empty($id)) {
-            header("location: https://www.swapamc.com/swapproj/taskmanager?error=invalidid");
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=invalidid");
             exit;
         }
 
@@ -109,7 +109,7 @@ function checkIfEmployeeIdExists($conn)
             $totalrows = sizeof($array);
 
             if ($totalrows == 0) {
-                header("location: https://www.swapamc.com/swapproj/taskmanager?error=invalidid");
+                header("location: https://www.swapamc.com/swapproj/employeemanager?error=invalidid");
                 exit;
             }
     }
