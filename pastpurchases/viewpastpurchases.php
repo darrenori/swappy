@@ -7,18 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
 $userid = $jwtarrayinformation['userid'];
-
-
 ?>
-
-
-
-
-
-
-
-
-
 <html>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -700,8 +689,9 @@ $userid = $jwtarrayinformation['userid'];
                         $productquantity = $arrayone[$j]['quantity'];
                         $totalproductprice = $arrayone[$j]['price'];
 
-
+                        $j = 0;
                         echo "<p class='description'>Product " . $j + 1 . ": </p>";
+                        echo $j;
                         echo "<p>$productquantity x $productname" . "($productprice)" . "</p>";
 
 
