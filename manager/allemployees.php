@@ -906,7 +906,6 @@ html, body {
                                             echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
                                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/edit?user='.$id.'">Edit</a>';
                                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/deleteinc?user='.$id.'">Delete</a>';
-                                            // echo '<a class="dropdown-item" href="#">Something else here</a>';
                                             echo '<div class="dropdown-divider"></div>';
                                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/taskmanager?user='.$id.'">Tasks</a>';
                                             echo '</div>';

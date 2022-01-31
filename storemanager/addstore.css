@@ -1,34 +1,49 @@
 body {
-    background-color: rgb(248, 197, 197);
+    background-color: rgb(255, 255, 255);
     ;
     /* background-repeat: no-repeat;
     background-image: url("https://i.pinimg.com/originals/e5/f5/3d/e5f53df1e75605a22bae02ba67351d7e.jpg");
     background-size: 1980px 1080px; */
 }
 
+.parentcontainer5 {
+    display: flex;
+    flex-basis: 100%;
+    width: 100%;
+}
+
 .container5 {
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: auto;
-    flex-direction: row;
+    flex-direction: column;
+    flex-basis: 78%;
+    background-color: #EEEEEE;
+}
+
+.role {
+    font-size: 30px;
+    color: black;
+    font-weight: 700;
+    padding-left: 50px;
     padding-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
+    background-color: white;
 }
 
 .static {
     font-size: 30px;
-    text-align: center;
-    color: white;
+    color: #8D1D25;
     font-weight: 600;
+    margin-left: 30px;
 }
 
 .item {
     /* display: flex; */
     max-width: 600px;
     min-width: 350px;
-    background-color: #8D1D25;
+    background-color: #EEEEEE;
     border-radius: 5px;
+    padding-left: 20px;
     margin-top: 20px;
     margin-bottom: 30px;
 }
@@ -76,7 +91,7 @@ body {
 .pairing1 {
     order: 1;
     flex-basis: 30%;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 20px;
 }
 
@@ -102,7 +117,7 @@ input {
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: white;
-    border: none;
+    border-width: 1px;
 }
 
 .break {
@@ -110,20 +125,391 @@ input {
     height: 1;
 }
 
-.arrow-up {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 1000px solid transparent;
-    border-right: 1000px solid transparent;
-    border-bottom: 1000px solid black;
+.sidebar {
+    flex-basis: 23%;
+    background-image: linear-gradient(180deg, black, #8D1D25);
+    min-height: 100vh;
 }
 
-.triangle {
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    background: linear-gradient(to bottom right, rgb(248, 197, 197) 0%, rgb(248, 197, 197) 58%, rgb(173, 21, 21) 50%, red 100%);
+.rowone {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+}
+
+#logo {
+    padding: 10px 30px;
+    flex-basis: 50%;
+}
+
+.information {
+    flex-basis: 70%;
+}
+
+.rowtwo {
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+.rowtwowrapper {
+    padding: 20px 30px;
+}
+
+.rowtwowrapper #profiletext {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2em;
+    color: white;
+    opacity: 50%;
+}
+
+.profileinfo {
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.profilepic {
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+    $image=new Image();
+    $profilepicture=$jwtarrayinformation['profilepic'];
+    $src=$image->show($profilepicture);
+    echo "background-image: url('$src');";
+    ?>background-position: center;
+    background-size: cover;
+    background-image: black;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.text {
+    flex-basis: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+#username {
+    color: white;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#role {
+    color: white;
+    opacity: 50%;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.rowthree {
+    padding: 20px 0px;
+}
+
+.rowthree #manage {
+    padding: 10px 30px;
+}
+
+#manage {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2em;
+    color: white;
+    opacity: 50%;
+}
+
+.managecontainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.manageproducts {
+    background: rgba(255, 255, 255, 0.3);
     padding-top: 30px;
-    padding-bottom: 30px;
+    border-left: 8px solid #8D1D25;
+}
+
+.textmanagecontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 30px;
+    flex-direction: row;
+    flex-flow: row-wrap;
+    width: 100%;
+}
+
+.textmanagecontainer i {
+    color: white;
+    font-size: 1.5em;
+    flex-basis: 5%;
+}
+
+.textmanagecontainer span {
+    color: white;
+    flex-basis: 80%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.employeecontainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.previouscontainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.bottomsection {
+    border-top: 2px solid white;
+    margin-top: 200px;
+    padding-top: 50px;
+    position: relative;
+    justify-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.manageemployee {
+    padding-top: 30px;
+}
+
+.textmanagecontaineremployee {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 38px;
+    width: 100%;
+    flex-direction: row;
+    flex-flow: row-wrap;
+}
+
+.textmanagecontaineremployee i {
+    color: white;
+    font-size: 1.5em;
+    flex-basis: 5%;
+}
+
+.textmanagecontaineremployee span {
+    color: white;
+    flex-basis: 80%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.previouscontainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.manageprevlogs {
+    padding-top: 30px;
+}
+
+.textmanagecontainerlogs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 38px;
+    flex-direction: row;
+    flex-flow: row-wrap;
+    width: 100%;
+}
+
+.textmanagecontainerlogs i {
+    color: white;
+    font-size: 1.5em;
+    flex-basis: 5%;
+}
+
+.textmanagecontainerlogs span {
+    color: white;
+    flex-basis: 80%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.submit-form {
+    background-color: white;
+    margin-left: 50px;
+    margin-right: 50px;
+    border: none;
+    color: #8D1D25;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex-basis: 45%;
+    flex-grow: 1;
+    align-content: center;
+    margin-bottom: 15px;
+    max-height: 70px;
+    /* width: 100%; */
+}
+
+.submit-form1 {
+    background-color: white;
+    border: none;
+    color: #8D1D25;
+    flex-grow: 1;
+    align-content: center;
+    width: 100%;
+}
+
+.icantdothisanymore {
+    background-color: white;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: none;
+}
+
+.table5 {
+    margin-left: 10px;
+    width: 100%;
+}
+
+.table_row5 {
+    background-color: white;
+}
+
+.table_header5 {
+    background-color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.table_details5 {
+    background-color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+
+.static1 {
+    color: black;
+    margin-left: 10px;
+    text-align: right;
+    width: 600px;
+    color: #8D1D25;
+    font-size: 23px;
+}
+
+.item5 {
+    /* display: flex; */
+    max-width: 100%;
+    min-width: 350px;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.table55 {
+    width: auto;
+    margin-left: 50px;
+    margin-right: 30px;
+    margin-top: 20px;
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+}
+
+.table_header55 {
+    background-color: #EEEEEE;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 7%;
+    padding-left: 5px;
+}
+
+.table_body55 {
+    background-color: white;
+    margin-bottom: 10px;
+    border-spacing: 15px;
+}
+
+.blank_row {
+    height: 10px !important;
+    /* overwrites any other rules */
+    background-color: #EEEEEE;
+}
+
+.add_task {
+    background-color: white;
+    margin-left: 30px;
+    width: 200px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #8D1D25 !important;
+}
+
+.add_task a {
+    color: #8D1D25 !important;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+/* trying new codes */
+
+.dropdown-menu.dropdown-unroll {
+    transition: none;
+}
+
+.kebab-link i {
+    font-size: 0.8rem;
+}
+
+.kebab-link i:active,
+.kebab-link i:hover {
+    color: #4285F4;
+}
+
+
+/*Try to delete this setting and you'll see the problem*/
+
+.kebab-dropdown {
+    position: absolute;
+}
+
+
+/* material design for dropdown */
+
+.dropdown-sm>.dropdown-menu>.dropdown-item {
+    padding: 5px;
+    margin-left: 0;
+}
+
+.dropdown-menu>.dropdown-item {
+    padding: 1rem;
+    margin-left: 0;
+}
+
+.dropdown-menu>.dropdown-item:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    color: white;
+    background: #4285F4;
+}
+
+select {
+    color: black;
+    width: 100%;
+    height: 36px;
+}
+
+option {
+    color: black;
 }
