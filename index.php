@@ -153,7 +153,7 @@ $router->get('/checkout/editshippingaddress', 'checkoutpage/editshippingaddress.
 
 //includes file for shipping address
 $router->post('/checkout/updatesa', 'checkoutpage/includes/updateshipping.inc.php');
-$router->post('/checkout/deletesa', 'checkoutpage/includes/deleteshipping.inc.php');
+$router->get('/checkout/deleteshippingaddress', 'checkoutpage/includes/deleteshipping.inc.php');
 $router->get('/checkout/defaultsa', 'checkoutpage/includes/defaultshipping.inc.php');
 
 //checkoutemailotp
