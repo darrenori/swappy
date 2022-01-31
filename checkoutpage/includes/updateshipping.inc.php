@@ -1,10 +1,10 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/addshippingaddress.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 session_start();
+session_regenerate_id();
 echo $_SESSION["shippingid"];
 // $_SESSION["shippingid"] = $shippingid;
 $name = $_POST['name'];
@@ -13,6 +13,8 @@ $email = $_POST['email'];
 $address = $_POST['address'];
 $zip = $_POST['zip'];
 $unit = $_POST['unit'];
+
+
 
 
 

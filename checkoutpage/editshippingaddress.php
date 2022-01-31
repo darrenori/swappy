@@ -562,7 +562,7 @@ if (!$query->execute()) {
 if ($query->execute()) {
     $query->bind_result($shipping_id, $name, $phone, $email, $address, $zip, $unit);
     if ($query->fetch()) {
-        echo "<form method='POST'>";
+        echo "<form method='POST' action='/swapproj/checkout/updatesa'>";
         echo "<h2>Update Shipping Address</h2>";
         echo "Name" . "<br>";
         echo "<input type='text' name='name' value='$name'><br>";
@@ -582,7 +582,7 @@ if ($query->execute()) {
         echo "Unit" . "<br>";
         echo "<input type='text' name='unit' value='$unit'><br><br>";
 
-        echo '<input style="background-color:#62A969; border:#272727; font-weight:bolder; color:white;"type="submit" value="Update" name="submit" formaction="/swapproj/checkout/updatesa"><br><br>';
+        echo '<input style="background-color:#62A969; border:#272727; font-weight:bolder; color:white;"type="submit" value="Update" name="submit"><br><br>';
         echo "</form><br><br><br>";
     }
     
