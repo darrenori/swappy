@@ -460,32 +460,32 @@ input{
         color:white;
         padding: 10px;
         border-radius: 10px;
-        margin: 10px;
-        flex-direction: column;
-        display: flex;
-        justify-content: left;
-        align-items: left;
+        margin-top: 10px;
+        margin-right: 20px;
     
     }
     .edit{
   background-color: #5681BB;
   color:white;
   padding: 14px 32px 14px 32px;
-  border-radius: 50px;
+  border-radius: 10px;
   margin-right: 10px;
+  font-weight:bold;
     }
     .delete{
   background-color: #8D1D25;
   color:white;
   padding: 14px 32px 14px 32px;
-  border-radius: 50px;
+  border-radius: 10px;
   margin-right: 10px;
+  font-weight:bold;
     }
     .setdefault{
   background-color: #62A969;
   color:white;
   padding: 14px 32px 14px 32px;
-  border-radius: 50px;
+  border-radius: 10px;
+  font-weight:bold;
     }
 </style>
 
@@ -524,8 +524,9 @@ input{
         <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
     </div>
-    <h1 style="font-weight: bold; color:white; margin-left:12vw;">Shipping<br>Information</h1>
-    <input style="background-color:white; cursor:pointer; width:10vw; margin-left:12vw; text-align:center; font-weight:bold;" value="Add" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/addshippingaddress'">
+    <input style="background-color:#8D1D25; cursor:pointer; color:white; border:#272727; width:20vw; margin-left:13.3vw; text-align:center; font-weight:bolder;" value="Back to Checkout Page" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/'"><br>
+    <br><h1 style="font-weight: bolder; color:white; margin-left:13.3vw;">Shipping<br>Information</h1>
+    <input style="background-color:white; cursor:pointer; width:10vw; margin-left:13.3vw; text-align:center; font-weight:bold;" value="Add" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/addshippingaddress'">
     <div class="container" style="color:white;">    
     
                 <?php
@@ -575,7 +576,7 @@ if ($query->execute()) {
             echo "<a class='setdefault' href='https://www.swapamc.com/swapproj/checkout/defaultsa?shippingid=" . $row['user_shipping_id'] . "'>Set Default</a>";
             echo "<br><br>";
             echo "</form>";
-            echo "</div><br><br>";
+            echo "</div><br>";
 
 
         }
@@ -591,8 +592,6 @@ $conn->close();
     <br><br><br><br>   
 
     <section>
-        <br>
-    <input style="background-color:#8D1D25; cursor:pointer; color:white; border:#272727; width:20vw; margin-left:12vw; text-align:center; font-weight:bolder;" value="Back to Checkout Page" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/'">
     <script type="text/javascript">
         history.pushState(null, document.title, location.href);
         window.addEventListener('popstate', function(event) {

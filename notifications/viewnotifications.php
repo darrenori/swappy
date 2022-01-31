@@ -402,7 +402,7 @@ $userid = $jwtarrayinformation['userid'];
 
     }
     .smallbox{
-        background-color: white;
+        background-color: rgba(255,255,255,0.8);
         color:black;
         padding: 10px;
         border-radius: 10px;
@@ -437,7 +437,7 @@ $userid = $jwtarrayinformation['userid'];
     .title{
         font-weight: bolder;
         font-size: 25px;
-        border-left:#8D1D25 10px solid;
+        border-left:#8D1D25 5px solid;
     }
     .h2 {
         color: white;

@@ -549,6 +549,8 @@ if (isset($_GET['type'])) {
 
     <div class="container" style="color:white;">                      
             <div class="thing">
+            <input style="background-color:#8D1D25; cursor:pointer; color:white; border:#272727; width:20vw;  text-align:center; font-weight:bolder;" value="Back to Shipping Page" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/viewshippingaddress'"><br>
+            <br>
 <?php
 $query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $shipping_id AND deleted != 1;");
 $stmt = mysqli_stmt_init($conn);
@@ -589,7 +591,6 @@ if ($query->execute()) {
 }
 $conn->close();
 ?>
-<input style="background-color:#8D1D25; cursor:pointer; color:white; border:#272727; width:20vw;  text-align:center; font-weight:bolder;" value="Back to Shipping Page" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/viewshippingaddress'">
 
 <svg class="loginlogo" xmlns="http://www.w3.org/2000/svg" width="510" height="672.016" viewBox="0 0 855.937 672.016">
                         <g id="mob" transform="translate(0 0)">

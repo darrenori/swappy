@@ -416,9 +416,11 @@ input::placeholder{
 
 }
 input{
-    border-radius:15px;
+    border-radius:8px;
     width:35vw; 
     height:50px;
+    margin-top: 10px;
+    margin-bottom:10px;
 }
 
 .loginbtn {
@@ -576,7 +578,7 @@ echo "<p>Username to send (Leave empty for broadcast):</p>";
 echo "<input type='text' name='usernametosend' placeholder='Username'>";
 
 echo "<br><br>";
-echo "<input type='submit'>";
+echo "<input style='background-color:#8D1D25; color:white; border:#272727; font-weight:bold;' type='submit'>";
 
 
 echo "</form>";
