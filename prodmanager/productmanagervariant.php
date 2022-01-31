@@ -4,13 +4,28 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
+$csrf=generateCSRF();
+if(!$_SESSION){
+    session_start();
+}
 
-session_start();
 
 
 if(!isset($_SESSION['addproductinfo'])||$_SESSION['addproductinfo']==null){
-    header("location: https://www.swapamc.com/swapproj/productmanagertypes");
+    header("location: https://www.swapamc.com/swapproj/productmanageradd");
    
+}
+
+if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
+    if($_SESSION['addproduct']=='A'){
+        //type
+        header("location: https://www.swapamc.com/swapproj/productmanagertypes");
+
+
+    } elseif ($_SESSION['addproduct']=='C'){
+        header("location: https://www.swapamc.com/swapproj/productmanageraddinventory");
+
+    }
 }
 
 
@@ -37,7 +52,7 @@ for($i=0;$i<sizeof($alltypes);$i++){
 
     echo "<div class='deletewrapper' id='inputfields$alltypes[$i]'>";   
     echo "<p>Variant:</p>";
-    echo '<div><input type="text" class="field" name="'.$alltypes[$i].'variant1" /><input type="number" step="any" placeholder="additionalcosts" class="field" name="'.$alltypes[$i].'variant1cost" /><a href="#" class="remove_field">Remove</a></div>';
+    echo '<div><input type="text" class="field" name="'.$alltypes[$i].'variant1" /><input type="number" value=0 step="any" placeholder="additionalcosts" class="field" name="'.$alltypes[$i].'variant1cost" /><a href="#" class="remove_field">Remove</a></div>';
     echo "</div>";
 
     echo "</div>";
@@ -49,6 +64,8 @@ for($i=0;$i<sizeof($alltypes);$i++){
 
 echo "<br><br>";
 echo "<input type='submit' value='submit'>";
+
+echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 echo "</form>";
 
@@ -97,7 +114,7 @@ $(document).ready(function() {
 
         if(currentfields[name] < max_fields){ //max input box allowed
             currentfields[name] = currentfields[name]+1;
-            $(wrapper).append('<div><input type="text" class="field" name="'+name+'variant'+currentfields[name]+'"/><input type="number" step="any" placeholder="additionalcosts" class="field" name="'+name+'variant'+currentfields[name]+'cost" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div><input type="text" class="field" name="'+name+'variant'+currentfields[name]+'"/><input type="number" step="any" value=0 placeholder="additionalcosts" class="field" name="'+name+'variant'+currentfields[name]+'cost" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
         }
     });
 

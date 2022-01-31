@@ -1,19 +1,71 @@
 <?php
+
+function checkId($array)
+{
+// $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+// checks for anything that is not from the following list
+$pattern = "/^[0-9]+$/i";
+
+foreach($array as $key => $value) {
+    
+    $a = !(preg_match($pattern, $value));
+
+    if ($a == 1) {
+        return true;
+    }
+}
+
+return false;
+
+//0 is valid input
+
+}
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
 $image = new Image();
+$whitelist=['id'];
+$maxlengtharray['id']=11;
+$methd = $_GET;
+$empty = checkEmpty($methd,$whitelist);
+
+if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/productmanager?error=empty".$empty);
+    exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkId($validarray)!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/productmanager?error=malicious");
+    exit();
+}
+
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    header("location: https://www.swapamc.com/swapproj/productmanager?error=malicious");
+    exit();
+}
+
+
+
+
+$csrf=generateCSRF();
+
 
 if(isset($_GET['id'])&&$_GET['id']!=null){
-    $prodid=$_GET['id'];
+    $prodid=$validarray['id'];
 
     if(badInputTwo([$prodid])==true){
         header("location: https://www.swapamc.com/swapproj/productmanager?error=badid");
         exit;
     }
     try {
-        $query = $conn->prepare("SELECT product_name,product_about,product_picone,product_pictwo,product_picthree FROM mydb.products WHERE product_id = '$prodid';");
+        $query = $conn->prepare("SELECT product_name,product_about,product_picone,product_pictwo,product_picthree FROM mydb.products WHERE product_id = ?;");
+        $query->bind_param('s',$prodid);
         if ($query === false) {
             //change filename accordingly
             throw new Exception("Statement Preparation failed(productedit)");
@@ -105,6 +157,7 @@ if($query->fetch()){
     
     
     
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
     echo "</form>";
     echo "<a href='https://www.swapamc.com/swapproj/productmanager/deleteproductinc?id=$prodid'><button type='button'>Delete</button></a>";
@@ -112,7 +165,7 @@ if($query->fetch()){
 } else {
     //dosent exist
     header("location: https://www.swapamc.com/swapproj/productmanager?error=badid");
-        exit;
+    exit;
 }
 
 

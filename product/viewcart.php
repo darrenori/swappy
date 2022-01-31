@@ -23,7 +23,8 @@
     $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
     INNER JOIN mydb.products
     ON mydb.user_cart.product_id = mydb.products.product_id
-    WHERE user_id = $userid AND mydb.user_cart.purchased='0';");
+    WHERE user_id = ? AND mydb.user_cart.purchased='0';");
+    $query->bind_param('s',$userid);
     $cartidrows = [];
     $productnamerows = [];
     $productpricerows = [];

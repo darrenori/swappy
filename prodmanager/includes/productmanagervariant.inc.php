@@ -17,6 +17,24 @@ if(isset($_SESSION['addtypes'])){
 }
 
 
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        
+        //dont redirect if on the same page
+  
+    } else {
+        error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+    
+    
+}
+
+
 for($i=0;$i<sizeof($alltypes);$i++){
     $type = $alltypes[$i];         //e..g color
     $variantsforatype = [];      //e.g. color can have white and blue
@@ -30,9 +48,26 @@ for($i=0;$i<sizeof($alltypes);$i++){
         $additionalcosts=$type."variant".$k."cost";
         if(isset($_POST[$variant])&&$_POST[$variant]!=null){
             $variant = $_POST[$variant]; //e.g. white
+            $variant=htmlspecialchars($variant);
+            $variant=mysqli_escape_string($conn,$variant);
+
+            if(badInputTwo([$variant])!=false){
+                error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+                header("location: https://www.swapamc.com/swapproj/productmanagervariant?error=malicious");
+                exit;
+            }
 
             if(isset($_POST[$additionalcosts])&&$_POST[$additionalcosts]!=null){
                 $additionalcosts = $_POST[$additionalcosts];
+                $additionalcosts=htmlspecialchars($additionalcosts);
+                $additionalcosts=mysqli_escape_string($conn,$additionalcosts);
+
+                if(badInputTwo([$additionalcosts])!=false){
+                    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+                    header("location: https://www.swapamc.com/swapproj/productmanagervariant?error=malicious");
+                    exit;
+                }
+                
             } else {
                 $additionalcosts = 0;
             }
@@ -58,10 +93,9 @@ for($i=0;$i<sizeof($alltypes);$i++){
 }
 
 
-// unset($_SESSION['addtypes']);
 
 $_SESSION['typesvariants'] = $typesandvariants;
-
+$_SESSION['addproduct'] = 'C';
 header("location: https://www.swapamc.com/swapproj/productmanageraddinventory");
 
 

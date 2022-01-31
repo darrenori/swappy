@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $role = $jwtarrayinformation['role'];
 $username = $jwtarrayinformation['username'];
 $imagesarraypath;
-
+$csrf=generateCSRF();
 
 
 
@@ -919,7 +919,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                         echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
                         echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
                         echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/editstore?id=' . $storeid . '">Edit</a>';
-                        echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=' . $storeid . '">Delete</a>';
+                        echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=' . $storeid . '&csrf='.$csrf.'">Delete</a>';
                         echo '</div>';
                     echo '</div>';
 
@@ -1075,7 +1075,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
                             echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown' . $counter . '">';
                             echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/editproduct?id=' . $prodid . '">Edit</a>';
-                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/deleteproductinc?id=' . $prodid . '">Delete</a>';
+                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/deleteproductinc?id=' . $prodid . '&csrf='.$csrf.'">Delete</a>';
                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/productmanager/quantity?id=' . $prodid . '">Quantity</a>';
                             echo '</div>';
                             echo '</div>';

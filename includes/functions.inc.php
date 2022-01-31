@@ -1278,15 +1278,35 @@ function validateCSRFAjax($postinformation){
 //method is $_GET, $_POST, or $_SESSION. DONT PUT THE [] for $method
 //array will be like $array = ['id','name'];
 function checkEmpty($method,$array){
+    
     foreach ($array as $value) {
         
-        
-        if(!isset($method[$value])||$method[$value]==null||$method[$value]==''){
-            return $value;
+        // if(empty())
+        if(!isset($method[$value])||$method[$value]===null||$method[$value]==''){
+                
+                return $value;
+                
             //return variable name if empty
         }
+
+        
     }
 
     return null;
     //returns null if everything is filled up!
+}
+
+
+function validateCSRFGet()
+{
+    session_start();
+    if (isset($_GET['csrf']) && isset($_SESSION['csrf'])) {
+        if ($_SESSION['csrf'] == $_GET['csrf']) {
+            return true;
+            //valid token
+        }
+    }
+
+
+    return false;
 }

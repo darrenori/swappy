@@ -112,7 +112,8 @@
     ON mydb.products.product_id = mydb.storeprod.product_id
     INNER JOIN mydb.store
     ON mydb.store.store_id = mydb.storeprod.store_id
-    WHERE mydb.storeprod.product_id = $id");
+    WHERE mydb.storeprod.product_id = ?");
+    $query->bind_param('s',$id);
 
 
     
@@ -224,7 +225,8 @@
 
     //add to favorites
     try {
-        $query = $conn->prepare("SELECT product_id,user_id FROM mydb.usersfavorite WHERE product_id = '$id' AND user_id ='$signedinuserid';");
+        $query = $conn->prepare("SELECT product_id,user_id FROM mydb.usersfavorite WHERE product_id = ? AND user_id =?;");
+        $query->bind_param('ss',$id,$signedinuserid);
         if ($query === false) {
             //change filename accordingly
             throw new Exception("Statement Preparation failed(favoriteproduct)");
@@ -327,6 +329,7 @@
     echo "<br><br>";
 
     echo "<input type='submit'>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
     
 
     echo "</form>";
@@ -349,7 +352,8 @@
     $childarray = [];
     $parentchild = [];
 
-    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=$id AND childof_id IS not null ORDER BY review_date;");
+    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=? AND childof_id IS not null ORDER BY review_date;");
+    $query->bind_param('s',$id);
     //child of = parent's id
     if($query->execute()){
         $query->bind_result($reviewid,$childofid);
@@ -397,7 +401,8 @@
 
     
 
-    $query=$conn->prepare("SELECT user_id,review_id,liked FROM mydb.likedby WHERE product_id = '$id';");
+    $query=$conn->prepare("SELECT user_id,review_id,liked FROM mydb.likedby WHERE product_id = ?;");
+    $query->bind_param('s',$id);
     if($query->execute()){
         $query->bind_result($uid,$rid,$liked);
         while($query->fetch()){
@@ -484,7 +489,11 @@
 
 
     //get all parents
-    $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,review_pic,user_role FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = $id AND childof_id IS null;");
+    $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,
+    review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,
+    review_pic,user_role FROM mydb.reviews INNER JOIN mydb.users 
+    ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = ? AND childof_id IS null;");
+    $query->bind_param('s',$id);
     if($query->execute()){
         $result = $query->get_result();
         $allparents = $result->fetch_all(MYSQLI_ASSOC);
@@ -569,7 +578,7 @@
                 echo "<br><br>";
                 echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
 
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                 
 
                 echo "</form>";
@@ -643,7 +652,7 @@
                 echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
                 echo "<br><br>";
 
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                 
 
                 echo "</form>";
@@ -696,7 +705,7 @@
 
                 echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
                 echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent"."'><button type='button'>Delete</button></a>";
+                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
 
                 echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
                     echo "<input type='hidden' name='csrf' value='$csrf'>";
@@ -855,7 +864,7 @@
                 
                             echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
                             echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                             
                             
                             echo "</form>";
@@ -926,7 +935,7 @@
                 
                             echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
                             echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
                             
                             
                             echo "</form>";
@@ -979,7 +988,7 @@
 
                             echo "<p style='margin-left:30px'>Date: ".$date."</p>";
                             echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid"."'><button type='button'>Delete</button></a>";
+                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
 
 
                             echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
@@ -1184,6 +1193,7 @@
             array['type'] = 'ajax';
             array['reviewid'] = reviewid;
             array['likeordislike'] = likeordislike;
+            array['csrf'] = '<?php echo $csrf; ?>';
 
             var jsonString = JSON.stringify(array);
             jQuery.ajax({
@@ -1193,11 +1203,13 @@
                 
 
                 success:function(result){
+                    // console.log(result);
 
                     
 
 
-
+                    console.log(result);
+                    // return null;
                     if(result!=null&&result!=''){
                         var response = JSON.parse(result);
                         if(response['likes']!=null||response['dislikes']!=null){

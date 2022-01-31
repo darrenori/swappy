@@ -30,22 +30,53 @@ if (!isset($_GET)) {
 
 
 
-if(isset($_GET['task'])){
+// if(isset($_GET['task'])){
     
 
-    if(badTaskInput([$_GET['task']])===false){
-        $taskid = $_GET['task'];
-        $jwtarrayinformation['task'] = $_GET['task'];
-        jwtupdate($jwtarrayinformation);
-    }
+   
     
+// }
+
+//check if quantity valid
+$whitelist=['task'];
+$maxlengtharray['task']=11;
+$methd = $_GET;
+$empty = checkEmpty($methd,$whitelist);
+
+if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=empty".$empty);
+    exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkId($validarray)!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=malicious");
+    exit();
+}
+
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=toolonger");
+    exit();
 }
 
 
 
+$taskid=$validarray['task'];
+
+$jwtarrayinformation['task'] = $taskid;
+jwtupdate($jwtarrayinformation);
+$csrf=generateCSRF();
+
+// exit;
+
 
 try {
-$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = $taskid;");
+$query = $conn->prepare("SELECT working_id,task_name,task_details,task_progress,task_assignedby FROM mydb.employees_task WHERE task_id = ?;");
+        $query->bind_param('s',$taskid);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(edittasks)");
@@ -114,6 +145,7 @@ if($query->execute()){
         echo "<br><br>Assigned by"."<br><br>";
         echo "<input type=text name='assignedby' value=$assignedby>"."<br><br>";
         echo "<input type=submit value=submit>";
+        echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 
         echo "</form>";

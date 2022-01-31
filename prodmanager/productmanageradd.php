@@ -4,8 +4,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
-session_start();
 
+
+$csrf=generateCSRF();
+if(!isset($_SESSION)){
+    session_start();
+}
 if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
     if($_SESSION['addproduct']=='A'){
         //type
@@ -14,8 +18,11 @@ if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
 
     } else if ($_SESSION['addproduct']=='B'){
         //variants
-        header("location: https://www.swapamc.com/swapproj/productmanagervariants");
+        header("location: https://www.swapamc.com/swapproj/productmanagervariant");
 
+
+    } elseif ($_SESSION['addproduct']=='C'){
+        header("location: https://www.swapamc.com/swapproj/productmanageraddinventory");
 
     }
 }
@@ -50,7 +57,7 @@ echo "<p>Image three:</p>";
 echo "<input type='file' name='imagethree'>";
 echo "<br><br>";
 echo "<input type='submit'>";
-
+echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 echo "</form>";
 

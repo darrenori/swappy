@@ -3,6 +3,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/tasks/includes/tasks.inc.php';
+
 unset($jwtarrayinformation['task']);
 jwtupdate($jwtarrayinformation);
 
@@ -33,18 +35,74 @@ if (!isset($_GET)) {
     // $employeeid = $getuser;
 
 //calls function from employeefunctions.inc.php
+
+
+$whitelist=['user'];
+$maxlengtharray['user']=11;
+$methd = $_GET;
+$empty = checkEmpty($methd,$whitelist);
+
+if (!isset($_GET['user']) && $_GET['user'] !== '0') {
+    echo 'asd' . ' is empty';
+}
+
+
+if($empty!=null){
+    
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=empty".$empty);
+    exit();
+} 
+
+// exit;
+
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkId($validarray)!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=malicious");
+    exit();
+}
+
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    header("location: https://www.swapamc.com/swapproj/employeemanager?error=toolongid");
+    exit();
+}
+
+
+$employeeid = $validarray['user'];
+
+
+
+// print_r($_GET['user']);
+
+
+
+
+
+
+
+$csrf=generateCSRF();
+
+
+
+
+
+
 checkIfEmployeeIdExists($conn);
 
 
 if ($role == 6 || $role == 5 || $role == 3) {
 
     if (!isset($_GET['user'])) {
-        header("location: https://www.swapamc.com/swapproj/taskmanager?error=nouserselected");
+        header("location: https://www.swapamc.com/swapproj/employeemanager?error=nouserselected");
         exit;
     }
     //if checkIfIdExists has run, the following line of code will be safe
 
-    $employeeid = $_GET['user'];
+    
     $jwtarrayinformation['employeeid'] = $employeeid;
     if (badInput([$employeeid]) === true) {
         header("location: https://www.swapamc.com/swapproj/taskmanager?error=badinput");
@@ -60,7 +118,8 @@ if ($role == 6 || $role == 5 || $role == 3) {
         ON working_employees.working_id = employees_task.working_id
         INNER JOIN mydb.users
         ON mydb.working_employees.user_id = mydb.users.user_id 
-        WHERE working_employees.working_id = " . $employeeid . ";");
+        WHERE working_employees.working_id = ?;");
+        $query->bind_param('s',$employeeid);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(alltasks)");
@@ -129,7 +188,7 @@ if ($role == 6 || $role == 5 || $role == 3) {
 
 
             echo "<td>" . "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager/edittask?task=$taskid'><input type=button name=edit value=edit></a>" . "</td>";
-            echo "<td>" . "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager/deletetask?task=$taskid'><input type=button name=edit value=delete></a>" . "</td>";
+            echo "<td>" . "<a href='https://www.swapamc.com/swapproj/employeemanager/taskmanager/deletetask?task=$taskid&csrf=$csrf'><input type=button name=edit value=delete></a>" . "</td>";
             if (isset($edited)) {
                 echo "<td>" . $edited . "</td";
             } else {
@@ -148,19 +207,19 @@ if ($role == 6 || $role == 5 || $role == 3) {
 
 
 
-    echo "<h3> PHP List All Session Variables</h3>";
-    foreach ($jwtarrayinformation as $key => $val){
-        echo "Key: ".$key;
-        if (gettype($val)!=="array") {
-        echo  " " . $val . "<br/>";
-        }else{
-            foreach ($val as $k => $v){
-                if (gettype($v)!=="array") {
-                echo "- Key of val: ".$k . " " . $v . "<br/>";
-                }
-            }
-        }
-    }
+    // echo "<h3> PHP List All Session Variables</h3>";
+    // foreach ($jwtarrayinformation as $key => $val){
+    //     echo "Key: ".$key;
+    //     if (gettype($val)!=="array") {
+    //     echo  " " . $val . "<br/>";
+    //     }else{
+    //         foreach ($val as $k => $v){
+    //             if (gettype($v)!=="array") {
+    //             echo "- Key of val: ".$k . " " . $v . "<br/>";
+    //             }
+    //         }
+    //     }
+    // }
     jwtupdate($jwtarrayinformation);
 
 

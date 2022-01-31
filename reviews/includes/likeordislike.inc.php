@@ -5,7 +5,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
     
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-
+    // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 
 function badInputThree($array){
     $pattern = "/^[a-zA-Z0-9_\- ]*$/i";
@@ -24,6 +24,37 @@ function badInputThree($array){
     //0 is valid input
 
 }
+
+function checkNumber($array)
+{
+    // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
+    // checks for anything that is not from the following list
+    $pattern = "/^[0-9]+$/i";
+
+    foreach($array as $key => $value) {
+        
+        $a = !(preg_match($pattern, $value));
+
+        if ($a == 1) {
+            return true;
+        }
+    }
+
+    return false;
+
+    //0 is valid input
+
+}
+
+// $productid=$jwtarrayinformation['productid'];
+
+$jwtarray = jwtdecrypt();
+
+if (isset($jwtarray) && $jwtarray == true) {
+
+    $jwtarrayinformation = $jwtarray['array'];
+}
+
 
 if(isset($_POST)){
     $postinformation = $_POST;
@@ -56,17 +87,51 @@ if(isset($_POST)){
 }
 
 
+// print_r($postinformation);
 
-if(isset($postinformation['type'])&&isset($postinformation['reviewid'])&&isset($postinformation['likeordislike'])){
-    if($postinformation['type']=='ajax'){
-        $reviewid = $postinformation['reviewid'];
-        $likeordislike = $postinformation['likeordislike'];
-    }
+$methd = $postinformation;
+$whitelist=['reviewid'];
+$empty = checkEmpty($methd,$whitelist);
+$maxlengtharray['reviewid']=11;
 
-    
-} else {
-    echo "error";
+if($empty!=null){
+    // echo "STILL EMPTY";
+
+//    header("location: https://www.swapamc.com/swapproj/productmanager?error=missing".$empty);
+    exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkNumber([$validarray['reviewid']])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    exit();
 }
+
+$likeordislike = $postinformation['likeordislike'];
+
+if(checkNumber([$likeordislike])!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    exit();
+}
+
+
+if(checkLength($validarray,$maxlengtharray)!=null){
+    exit();
+}
+
+
+$reviewid = $validarray['reviewid'];
+
+
+
+if(validateCSRFAjax($postinformation)==false){
+    echo "CSRF BAD";
+    exit;
+}
+
 
 
     

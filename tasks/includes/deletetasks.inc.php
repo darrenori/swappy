@@ -40,8 +40,72 @@ if (isset($_GET['task'])) {
 
 $employeeid = $jwtarrayinformation['employeeid'];
 
+
+
+
+
+
+$whitelist=['task'];
+$maxlengtharray['task']=11;
+$methd = $_GET;
+$empty = checkEmpty($methd,$whitelist);
+
+if($empty!=null){
+    header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=empty".$empty);
+    exit();
+} 
+
+$validarray = XSSPrevention($methd,$whitelist);
+$validarray = escapeString($conn,$validarray);
+
+
+if(checkId($validarray)!=false){
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=" . $employeeid . "&error=badid");
+    exit();
+}
+
+if(checkLength($validarray,$maxlengtharray)!=null){   
+    header("location: https://www.swapamc.com/swapproj/employeemanager/taskmanager?user=" . $employeeid . "&error=toolong");
+    exit();
+}
+
+
+if(validateCSRFGet()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        
+        //dont redirect if on the same page
+  
+    } else {
+        error_log("TPAMC:".$filename.":4:$ipadd:2 CSRF", 0);
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+    
+    
+}
+
+$taskid = $validarray['task'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 try {
-    $query = $conn->prepare("DELETE FROM mydb.employees_task WHERE task_id = $taskid");
+    $query = $conn->prepare("DELETE FROM mydb.employees_task WHERE task_id = ?");
+    $query->bind_param('s',$taskid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(deletetasks.inc)");

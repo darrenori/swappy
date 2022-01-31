@@ -18,9 +18,11 @@ try {
     
     INNER JOIN mydb.user_creditcardinfo
     ON mydb.user_creditcardinfo.user_creditcardinfo_id = mydb.user_past_purchases.user_creditcards
-    WHERE user_id = $userid
+    WHERE user_id = ?
     ORDER BY purchase_time DESC
     ");
+
+    $query->bind_param('s',$userid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(viewnotification)");
@@ -86,8 +88,10 @@ for($i=0;$i<sizeOf($array);$i++){
 
     //add
     try {
-        $query = $conn->prepare("SELECT user_shipping_address,user_shipping_postalcode,user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = $usershipping;
+        $query = $conn->prepare("SELECT user_shipping_address,user_shipping_postalcode,
+        user_shipping_unitnumber FROM mydb.user_shippinginformation WHERE user_shipping_id = ?;
         ");
+        $query->bind_param('s',$usershipping);
         if ($query === false) {
             //change filename accordingly
             throw new Exception("Statement Preparation failed(viewpurchases)");
@@ -154,8 +158,9 @@ for($i=0;$i<sizeOf($array);$i++){
         $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
         INNER JOIN mydb.products
         ON mydb.user_cart.product_id = mydb.products.product_id
-        WHERE bundled = '$bundled'
+        WHERE bundled = ?
         ");
+        $query->bind_param('s',$bundled);
         if ($query === false) {
             //change filename accordingly
             throw new Exception("Statement Preparation failed(viewpurchases)");
@@ -209,9 +214,10 @@ for($i=0;$i<sizeOf($array);$i++){
             $query = $conn->prepare("SELECT cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts FROM mydb.cart_typevariants 
             INNER JOIN mydb.user_cart
             ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-            WHERE bundled = '$bundled';
+            WHERE bundled = ?;
     
             ");
+            $query->bind_param('s',$bundled);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(viewnotification)");

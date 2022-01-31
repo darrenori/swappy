@@ -60,6 +60,8 @@ if ($role == 6 || $role == 5 || $role == 3) {
 
     echo "<br><br>";
     echo "<input type='submit'>";
+    $csrf=generateCSRF();
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
     echo "</form>";
 

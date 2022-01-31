@@ -12,7 +12,7 @@ if(!isset($jwtarrayinformation['workingid'])||$jwtarrayinformation['workingid']=
 } else {
     $workingid = $jwtarrayinformation['workingid'];
 }
-
+$csrf=generateCSRF();
 // print_r($jwtarrayinformation);
 
 ?>
@@ -639,7 +639,7 @@ if(!isset($jwtarrayinformation['workingid'])||$jwtarrayinformation['workingid']=
 
 
 
-
+            
         ?>
 
     </div>
@@ -668,7 +668,10 @@ if(!isset($jwtarrayinformation['workingid'])||$jwtarrayinformation['workingid']=
     function updateStatus(tid,wid){
         // console.log(tid);
         progress = document.getElementById(tid).value;
-        var jsonString = JSON.stringify(tid+','+wid+','+progress);
+        var array={};
+        array['string'] = tid+','+wid+','+progress;
+        array['csrf'] = '<?php echo $csrf ?>';
+        var jsonString = JSON.stringify(array);
 
         
 
@@ -679,6 +682,7 @@ if(!isset($jwtarrayinformation['workingid'])||$jwtarrayinformation['workingid']=
                 
 
                 success:function(result){
+                    console.log(result);
                     
                     
                     
