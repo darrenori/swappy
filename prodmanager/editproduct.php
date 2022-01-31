@@ -54,7 +54,6 @@ if($query->fetch()){
     
 
     if($picone!=null){
-        echo "<p>Pic one:</p>";
         $src = $image->show($picone);
         echo "<img src='$src';>";
         echo "<br>";
@@ -68,7 +67,6 @@ if($query->fetch()){
 
 
     if($pictwo!=null){
-        echo "<p>Pic two:</p>";
         $src = $image->show($pictwo);
         echo "<img src='$src';>";
         echo "<br>";
@@ -82,7 +80,6 @@ if($query->fetch()){
 
 
     if($picthree!=null){
-        echo "<p>Pic three:</p>";
         $src = $image->show($picthree);
         echo "<img src='$src';>";
         echo "<br>";

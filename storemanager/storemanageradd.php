@@ -164,8 +164,8 @@ $imagesarraypath;
             <div class='pairing2'><input type='text' name='storeaddress' id='storeaddress' placeholder='Address'></div>
         </div>
 
-        <div class='pairing55'>
-            <div class='pairing1'><label class="required-field" for="about">Description:</label></div>
+        <div class='pairing55' style='margin-left:5px'>
+            <div class='pairing1'  style='margin-left:5px'><label class="required-field" for="about">Description:</label></div>
             <div class='pairing2'><textarea required type='text' name='about' id='about' placeholder='Description' rows='4' cols='50'></textarea></div>
         </div>
 
@@ -203,7 +203,7 @@ $imagesarraypath;
             </select></div>
         </div>
 
-        <div class='pairing55'>
+        <div class='pairing55' style='margin-left:10px'>
             <div class='pairing1'><label for="websitelink">Link to Website:</label></div>
             <div class='pairing2'><input type='text' name='websitelink' id='websitelink' placeholder='www.cisco.com'></div>
     </div>

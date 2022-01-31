@@ -166,7 +166,7 @@ for($i=0;$i<sizeof($alltypes);$i++){
     echo "</div>";
 
     echo "</div>";
-    echo '<input type="button" class="add" id="'.$alltypes[$i].'" value="Add input"/>';
+    echo '<input style="margin-left:10px" type="button" class="add" id="'.$alltypes[$i].'" value="Add input"/>';
 
 
 }

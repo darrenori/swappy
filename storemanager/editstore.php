@@ -183,7 +183,7 @@ if ($query->fetch()) {
     echo "<div class='static'>Edit Store</div>";
     
 
-    echo "<form id='myform' style='margin-left:20px' action='https://www.swapamc.com/swapproj/storemanager/editstoreinc?id=$storeid' enctype='multipart/form-data' method='POST'>";
+    echo "<form id='my-form' style='margin-left:20px' action='https://www.swapamc.com/swapproj/storemanager/editstoreinc?id=$storeid' enctype='multipart/form-data' method='POST'>";
 
 
         
@@ -222,10 +222,9 @@ if ($query->fetch()) {
 
     echo "<div class='pairing555'>";
     if ($picone != null) {
-        echo "<p>Pic one:</p>";
+
         $src = $image->show($picone);
         echo "<img src='$src';>";
-        echo "<br>";
         echo "<input type='hidden' name='image1' value='" . $picone . "'>";
     }
 
@@ -237,7 +236,6 @@ if ($query->fetch()) {
 
     echo "<div class='pairing555'>";
     if ($pictwo != null) {
-        echo "<p>Pic two:</p>";
         $src = $image->show($pictwo);
         echo "<img src='$src';>";
         echo "<br>";
@@ -250,7 +248,6 @@ if ($query->fetch()) {
 
     echo "<div class='pairing555'>";
     if ($picthree != null) {
-        echo "<p>Pic three:</p>";
         $src = $image->show($picthree);
         echo "<img src='$src';>";
         echo "<br>";
@@ -271,7 +268,7 @@ if ($query->fetch()) {
     echo "<br>";
 
     echo "</form></div>
-    <button class='submit-form' form='myform' type='submit'>Add</button>";
+    <button class='submit-form' form='my-form' type='submit'>Edit</button>";
     echo "<a class='icantdothisanymore' href='https://www.swapamc.com/swapproj/storemanager/deletestoreinc?id=$storeid'><button class='submit-form1' type='button'>Delete</button></a></div></div>";
 } else {
     //dosent exist

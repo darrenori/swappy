@@ -145,7 +145,7 @@ if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
 
 <?php
 echo "<div class='container5'>";
-echo "<div class='role'>Employee Manager</div>";
+echo "<div class='role'>Product Manager</div>";
 echo "<div class='item'>";
 echo "<div class='static'>Add New Product</div>";
 
@@ -183,7 +183,7 @@ echo "<div class='pairing'>";
     echo "<div class='pairing2'><input type='file' name='imagetwo'></div>";
 echo "</div>";
 
-echo "<div class='pairing55'>";
+echo "<div class='pairing55' style='margin-left:10px'>";
     echo "<div class='pairing1'><p>Image three:</p></div>";
     echo "<div class='pairing2'><input type='file' name='imagethree'></div>";
 echo "</div>";
