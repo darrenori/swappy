@@ -1238,7 +1238,9 @@ function decrypt($encrypted)
 
 function generateCSRF()
 {
-    session_start();
+    if (!$_SESSION) {
+        session_start();
+    }
     $token = md5(uniqid(rand(), true));
     $_SESSION['csrf'] = $token;
     return $token;
@@ -1247,6 +1249,8 @@ function generateCSRF()
 function validateCSRF()
 {
     session_start();
+    //can only be used before any print statements
+    session_regenerate_id();
     if (isset($_POST['csrf']) && isset($_SESSION['csrf'])) {
         if ($_SESSION['csrf'] == $_POST['csrf']) {
             return true;
@@ -1258,6 +1262,22 @@ function validateCSRF()
     return false;
 }
 
+
+function validateCSRFGet()
+{
+    session_start();
+    // can only be used before any print statements
+    session_regenerate_id(); //comment out if not working ig
+    if (isset($_GET['csrf']) && isset($_SESSION['csrf'])) {
+        if ($_SESSION['csrf'] == $_GET['csrf']) {
+            return true;
+            //valid token
+        }
+    }
+
+
+    return false;
+}
 
 
 function validateCSRFAjax($postinformation){
@@ -1297,16 +1317,21 @@ function checkEmpty($method,$array){
 }
 
 
-function validateCSRFGet()
+function phoneNumRegEx($phonenumber)
 {
-    session_start();
-    if (isset($_GET['csrf']) && isset($_SESSION['csrf'])) {
-        if ($_SESSION['csrf'] == $_GET['csrf']) {
-            return true;
-            //valid token
+    $phonenumber = trim($phonenumber);
+    if (!is_numeric($phonenumber) || strlen($phonenumber) !== 8) {
+        return $phonenumber;
+    }
+    return null;
+}
+
+function checkForURL($inputarray,$filename,$ipadd){
+    foreach ($inputarray as $key => $value) {
+        $file_headers = @get_headers($value);
+        if ($key !== "websitelink" && (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found')) {
+            error_log("TPAMC:" . $filename . ":2:" . $ipadd . ":4 URL detected in REQUEST values", 0);
         }
     }
 
-
-    return false;
 }
