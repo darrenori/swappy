@@ -375,7 +375,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefun
         background-color: rgba(255,255,255,0.3);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        height:100%;
+        padding:30px 0;
          width:120%;
         margin:auto;
          display: flex;

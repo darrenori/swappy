@@ -169,11 +169,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefun
         }
 
         .container{
-            flex-direction: column-reverse;
+            /* flex-direction: column-reverse;
             justify-content: center;
-             align-items: center;
-             flex-wrap: wrap; 
-             text-align: center;
+            align-items: center;
+            flex-wrap: wrap; 
+            text-align: center; */
+            /* margin-left:13.3vw; */
+            
             
              
         }
@@ -382,14 +384,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefun
         
    
     .container{
-        height:50%;
-         width:100%;
-        margin:auto;
+        /* padding: 20px; */
+        width:100%;
+        /* margin:auto; */
          display: flex;
          justify-content: flex-start;
-        align-items: flex-start;
+        /* align-items: flex-start; */
         flex-direction: row;
         margin-bottom:50px;
+        margin-left:13.3vw;
+        padding-left: 0;
+        padding: 20px 0;
     
     }
     .thing{
@@ -527,7 +532,7 @@ input{
     <input style="background-color:#8D1D25; cursor:pointer; color:white; border:#272727; width:20vw; margin-left:13.3vw; text-align:center; font-weight:bolder;" value="Back to Checkout Page" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/'"><br>
     <br><h1 style="font-weight: bolder; color:white; margin-left:13.3vw;">Shipping<br>Information</h1>
     <input style="background-color:white; cursor:pointer; width:10vw; margin-left:13.3vw; text-align:center; font-weight:bold;" value="Add" onclick="location.href = 'https://www.swapamc.com/swapproj/checkout/addshippingaddress'">
-    <div class="container" style="color:white;">    
+    <div class="container" style="color:white">    
     
                 <?php
 $query = $conn->prepare("SELECT user_shipping_id,user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber FROM user_shippinginformation WHERE user_shipping_userid = $userid AND deleted != 1");

@@ -1238,7 +1238,7 @@ function decrypt($encrypted)
 
 function generateCSRF()
 {
-    if (!$_SESSION) {
+    if (!isset($_SESSION)) {
         session_start();
     }
     $token = md5(uniqid(rand(), true));
