@@ -1197,7 +1197,7 @@ $userid = $jwtarrayinformation['userid'];
 
 
                         success: function(result) { //we got the response
-                            alert('Successfully called');
+                            // alert('Successfully called');
                             console.log(result);
                         },
                         error: function(jqxhr, status, exception) {
