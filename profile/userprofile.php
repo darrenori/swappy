@@ -376,7 +376,7 @@ $userid = $jwtarrayinformation['userid'];
         background-color: rgba(255,255,255,0.3);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        height:100%;
+        height:125%;
          width:120%;
         margin:auto;
          display: flex;
@@ -415,10 +415,12 @@ input::placeholder{
     font-family: Montserrat;
 }
 input{
-    border-radius:15px;
+    border-radius:5px;
     width:35vw; 
     height:50px;
-    margin-left: 10px;
+    margin-top:10px;
+    margin-bottom:10px;
+
 }
 
 .loginbtn {
@@ -584,7 +586,7 @@ $query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsi
 if ($query->fetch()) {
     echo "<form method=POST enctype='multipart/form-data'>";
     echo "Username" . "<br>";
-    echo "<input type='text' name='username' value='$username'><br>";
+    echo "<input type='text' name='username' value='$username'>";
 
     echo "<p>Image:</p>";
     echo "<input type='file' name='image'>";
@@ -615,9 +617,9 @@ if ($query->fetch()) {
         echo "Type: Employee Manager <br><br>";
     }
 
-    echo '<input style="background-color:#62A969;" type="submit" value="update" name="submit" formaction="/swapproj/updateprofile">';
-    echo '<input style="background-color:#8D1D25;" type="submit" value="delete" name="submit" formaction="/swapproj/deleteprofile">';
-    echo '<br><br><input style="background-color:grey;"type="submit" value="Change Password" formaction="/swapproj/changepassword">';
+    echo '<input style="background-color:#62A969; color:white;border:#272727;" font-weight:bold; type="submit" value="Update" name="submit" formaction="/swapproj/updateprofile">';
+    echo '<br><input style="background-color:#8D1D25;color:white;border:#272727;font-weight:bold;" type="submit" value="Delete" name="submit" formaction="/swapproj/deleteprofile">';
+    echo '<br><input style="background-color:#5681BB;color:white; border:#272727;font-weight:bold;"type="submit" value="Change Password" formaction="/swapproj/changepassword">';
     echo "<input type='hidden' name='csrf' value='$csrf'>";
 
     echo "</form>";
