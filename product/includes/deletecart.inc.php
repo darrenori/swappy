@@ -18,7 +18,12 @@
 
     
 
+    if(isset($_SESSION['cart'])){
+        unset($_SESSION['cart']);
+    }
 
+    // print_r($_SESSION);
+    // exit;
     //take note
     if(!isset($jwtarrayinformation["progresscheckout"])){
         header("location: ../product/viewcart");
@@ -88,6 +93,7 @@
 
         // echo "done";
     header("location: ../product/viewcart");
+    
     
 
 

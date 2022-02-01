@@ -4,7 +4,6 @@ print "<h3>Your Cart</h3>";
 session_start();
 session_regenerate_id();
 
-
 // user press submit from view cart
 $selectedcarts = [];
 if (isset($_POST["submit"])) {
@@ -17,9 +16,9 @@ if (isset($_POST["submit"])) {
     $_SESSION['cart'] = $selectedcarts;
 }
 
+
 // print_r($_POST);
-// print_r($_SESSION['cart']);
-// exit;    
+// exit;
 
 if (empty($selectedcarts)) {
     if (!empty($_SESSION['cart'])) {
@@ -28,7 +27,7 @@ if (empty($selectedcarts)) {
                 array_push($selectedcarts, $val);
             }
     } else {
-       
+
         header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=emptycart");
         exit();
     }

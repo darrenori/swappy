@@ -86,15 +86,18 @@ if (isset($selectedcarts)) {
         INNER JOIN mydb.user_cart
         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
         where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
+        if(!isset($productnamerows[$i])){
+            break;
 
+        }
 
         if ($query->execute()) {
             $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
 
 
-
-
-
+            
+            
+            
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
 
             //if there are types
@@ -171,10 +174,12 @@ if (isset($selectedcarts)) {
 } else {
     // echo "Total items: " . sizeof($cartidrows)."<br>";
     // echo "<br><br>";
-
+    
     echo '<div class="allcontainer">';
     echo '<div class="left">';
-    echo "<h2 class='bag'>Bag: " . sizeOf($cartidrows) . " Items</h2>";
+    
+    echo "<a href='https://www.swapamc.com/swapproj/allproducts'><h2 class='bag'>Bag: " . sizeOf($cartidrows) . " Items</h2></a>";
+    
 
     echo "<form id='chkoutform' method='POST' action='/swapproj/checkout'>";
 
@@ -300,9 +305,9 @@ if (isset($selectedcarts)) {
 
             $query->close();
 
-            echo "<div class='remove'>";
-            echo "<p>Remove from Cart</p>";
-            echo "</div>";
+            // echo "<div class='remove'>";
+            // echo "<p>Remove from Cart</p>";
+            // echo "</div>";
 
             echo "</div>";
             echo "</div>";
@@ -320,7 +325,7 @@ if (isset($selectedcarts)) {
     // echo "Grand Total: " . $totalprice * 1.07;
     // echo '<br>';
 
-    echo "<input style='display:none' type='submit' name='submit' value='submit'>";
+    echo "<input type='hidden' name='submit' value='submit'>";
     echo "</form>";
 
     echo "<div class=\"right\">";
