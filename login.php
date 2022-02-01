@@ -15,7 +15,6 @@ $csrf = generateCSRF();
 date_default_timezone_set('Asia/Singapore');
     $time = time();
 
-    print_r($time);
 //session started
 $jwtarray = jwtdecrypt();
 
@@ -46,7 +45,6 @@ if (isset($jwtarray) && $jwtarray == true) {
         }
     }
 } // include_once 'header.php';
-// print_r(apache_request_headers());
 
 
 

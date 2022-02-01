@@ -46,29 +46,32 @@ function badEmployeeInput($array)
 //called in alltasks.php
 function checkIfEmployeeIdExists($conn)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
 
     if (isset($_GET["user"])) {
 
-            //renders any scripts into html form of special char e.g., & = &amp
-    foreach ($_GET as $key => $val) {
-        if (gettype($key) == "string" && $key !== "0") {
-            $goodkey = htmlentities($key);
-            $_GET[$goodkey] = $_GET[$key];
-            unset($_GET[$key]);
+        //renders any scripts into html form of special char e.g., & = &amp
+        foreach ($_GET as $key => $val) {
+            if (gettype($key) == "string" && $key !== "0") {
+                $goodkey = htmlentities($key);
+                $_GET[$goodkey] = $_GET[$key];
+                unset($_GET[$key]);
+            }
+            //only checks if of string type (integers will not run through htmlspecialchars)
+            if (gettype($val) == "string") {
+                $goodval = htmlentities($val);
+                $_GET[$goodkey] = $goodval;
+            }
+            if (empty($val)) {
+                $_GET[$goodkey] = "0";
+            }
         }
-        //only checks if of string type (integers will not run through htmlspecialchars)
-        if (gettype($val) == "string") {
-            $goodval = htmlentities($val);
-            $_GET[$goodkey] = $goodval;
-        }
-        if (empty($val)) {
-            $_GET[$goodkey] = "0";
-        }
-    }
 
-    // $getuser = htmlentities($_GET["user"]);
-    // $employeeid = $getuser;
+        // $getuser = htmlentities($_GET["user"]);
+        // $employeeid = $getuser;
 
         //converts id to integer (if id is not integer, id will return empty);
         $id = (int)$_GET['user'];
@@ -79,14 +82,15 @@ function checkIfEmployeeIdExists($conn)
 
         // throws error "Statment Preparation failed" when statement fails
         try {
-            $query = $conn->prepare("SELECT working_id FROM mydb.working_employees WHERE working_employees.working_id = " . $id . ";");
+            $query = $conn->prepare("SELECT working_id FROM mydb.working_employees WHERE working_employees.working_id = ?;");
+            $query->bind_param('s', $id);
 
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(employee.inc)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
             //change header location accordingly
             header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement");
             exit;
@@ -98,19 +102,19 @@ function checkIfEmployeeIdExists($conn)
                 throw new Exception("Statement Execution failed (employee.inc)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
             header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement"); // echo "Prepare failed: (". $conn->errno.") ".$conn->error."<br>";
             exit;
         }
 
-            $result = $query->get_result();
-            $array = $result->fetch_all(MYSQLI_ASSOC);
+        $result = $query->get_result();
+        $array = $result->fetch_all(MYSQLI_ASSOC);
 
-            $totalrows = sizeof($array);
+        $totalrows = sizeof($array);
 
-            if ($totalrows == 0) {
-                header("location: https://www.swapamc.com/swapproj/employeemanager?error=invalidid");
-                exit;
-            }
+        if ($totalrows == 0) {
+            header("location: https://www.swapamc.com/swapproj/employeemanager?error=invalidid");
+            exit;
+        }
     }
 }

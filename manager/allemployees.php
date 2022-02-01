@@ -25,7 +25,7 @@ try {
         throw new Exception("Statement Preparation failed(allemployees)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
     exit;
 
@@ -38,7 +38,7 @@ try {
     }
 
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/campus?error=badstatement");
     exit;
 }

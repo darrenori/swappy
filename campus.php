@@ -8,6 +8,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
 // phpinfo();
+$csrf = generateCSRF();
+
 
 echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
 echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
@@ -24,6 +26,7 @@ echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button val
 echo '<form action="/swapproj/searchinc" method="post">';
 echo '<input type="text" name ="searchitem" placeholder="Router...">';
 echo '<input type="submit" value="Submit">';
+echo "<input type='hidden' name='csrf' value='$csrf'>";
 echo '</form>';
 
 
