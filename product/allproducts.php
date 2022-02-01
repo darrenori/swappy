@@ -8,7 +8,6 @@ $sortname = false;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/sort.inc.php';
 
 
 

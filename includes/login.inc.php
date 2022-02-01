@@ -32,12 +32,11 @@ if (isset($_POST["submit"])) {
     ### XSS DONE
     $_POST = XSSPrevention($_POST, $whitelist);
     $_POST = escapeString($conn, $_POST);
-    var_dump($_POST);exit;
 
 
     $maxlengtharray['uid'] = 60;
     $maxlengtharray['pwd'] = 60;
-    $maxlengtharray['g-recaptcha-response'] = 65535;
+    $maxlengtharray['g-recaptcha-response'] = 500;
     $maxlengtharray['remember'] = 3;
     
     // gets the username password and captcha input
@@ -45,16 +44,6 @@ if (isset($_POST["submit"])) {
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
     $remember =  $_POST['remember'];
-        // echo "here are your items".$username.$pwd.$captchaa;
-
-
-
-
-        // foreach ($_SESSION as $key => $val)
-        //     echo $key . " " . $val . "<br/>";
-
-
-
 
 
         // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
@@ -84,33 +73,18 @@ if (isset($_POST["submit"])) {
     }
     // returns failedcaptcha if failed captcha
     //commented out cos no wifi
-    // if ($failedCaptcha === "empty captcha") {
-    //     header("location: https://www.swapamc.com/swapproj/login?error=emptycaptcha");
-    //     exit();
-    // } else if ($failedCaptcha === "bad captcha") {
-    //     header("location: https://www.swapamc.com/swapproj/login?error=badcaptcha");
-    //     exit();
-    // } else if ($failedCaptcha === "good captcha") {
-    //     header("location: https://www.swapamc.com/swapproj/login?error=goodcaptcha");
-    //     exit();
-    // }
+    if ($failedCaptcha === "empty captcha") {
+        header("location: https://www.swapamc.com/swapproj/login?error=emptycaptcha");
+        exit();
+    } else if ($failedCaptcha === "bad captcha") {
+        header("location: https://www.swapamc.com/swapproj/login?error=badcaptcha");
+        exit();
+    } else if ($failedCaptcha === "good captcha") {
+        header("location: https://www.swapamc.com/swapproj/login?error=goodcaptcha");
+        exit();
+    }
 
 
-    //remember me codes
-    // if(empty($_POST["remember"]))
-    // {
-    //     // setcookie("user_login",$_POST["uid"],time()+ (10 * 365 * 24 * 60 * 60));
-    //     // setcookie("user_pwd",$_POST["pwd"],time()+ (10 * 365 * 24 * 60 * 60));
-    // }
-    // else
-    // {
-    //     if(isset($_COOKIE["user_login"]))
-    //     {
-    //         //setcookie("user_login","");
-    //     }
-
-    // }
-    // //end of remember me codes
     $remember = false;
     if (isset($_POST["remember"])) { //if checked
         if ($_POST['remember'] == true) {

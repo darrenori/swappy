@@ -205,7 +205,12 @@ function isEmployee($conn, $id)
 {
     $workingid = null;
 
-    $query = $conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = $id;");
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
+    $query = $conn->prepare("SELECT working_id FROM mydb.working_employees WHERE user_id = ?;");
+    $query->bind_param('s', $id);
 
     if ($query->execute()) {
         $query->bind_result($workingid);
@@ -215,11 +220,16 @@ function isEmployee($conn, $id)
         } else {
             return null;
         }
+    } else {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
     }
 }
 
 function checkSuspended($conn, $username)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
     #DEFINED VARIABLES SO THAT WONT HAVE SQUIGGLY LINES
     $is_suspended = 0;
@@ -229,7 +239,9 @@ function checkSuspended($conn, $username)
     #CHECK IF USER IS SUSPSENDE AND UNTIL WHEN THEY ARE
     $query = $conn->prepare("SELECT user_suspended,suspendedfinish FROM mydb.users WHERE user_username = ?");
     $query->bind_param('s', $username);
-    $query->execute();
+    if (!$query->execute()) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+    }
     $query->bind_result($is_suspended, $finish);
     if ($query->fetch()) {
     }
@@ -249,7 +261,9 @@ function checkSuspended($conn, $username)
         if ($time > $finish) {
             $query = $conn->prepare("UPDATE mydb.users SET suspendedfinish = 0, user_failedattempts = 0, user_suspended = 0 WHERE user_username = ?");
             $query->bind_param('s', $username);
-            $query->execute();
+            if (!$query->execute()) {
+                error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+            }
             $query->close();
             return null;
         } else {
@@ -268,6 +282,10 @@ function checkSuspended($conn, $username)
 //logs in user whether username or email is used
 function loginUser($conn, $username, $pwd, $remember)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
 
     $uidExists = uidExists($conn, $username, $username);
     $numberoftimesbeforesuspend = 5;
@@ -310,7 +328,9 @@ function loginUser($conn, $username, $pwd, $remember)
 
         $query = $conn->prepare("SELECT user_failedattempts FROM mydb.users WHERE user_username = ?");
         $query->bind_param('s', $username);
-        $query->execute();
+        if (!$query->execute()) {
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+        }
         $query->bind_result($numberoffailed);
         if ($query->fetch()) {
             $numberoffailed = $numberoffailed + 1;
@@ -327,12 +347,16 @@ function loginUser($conn, $username, $pwd, $remember)
 
             $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, suspendedfinish = ? WHERE user_username = ?");
             $query->bind_param('ss', $suspended, $username);
-            $query->execute();
+            if (!$query->execute()) {
+                error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+            }
             $query->close();
         } else {
             $query = $conn->prepare("UPDATE mydb.users SET user_failedattempts = ? WHERE user_username = ?");
             $query->bind_param('is', $numberoffailed, $username);
-            $query->execute();
+            if (!$query->execute()) {
+                error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+            }
             $query->close();
         }
 
@@ -700,6 +724,9 @@ function emptyInputShippingAdd($name, $email, $phonenumber, $address, $unit, $zi
 }
 function viewDefaultShippingAdd($conn)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
 
     $jwtarray = jwtdecrypt();
@@ -712,10 +739,14 @@ function viewDefaultShippingAdd($conn)
 
 
     $userid = $jwtarrayinformation['userid'];
-    $query = $conn->prepare("SELECT user_shipping_id, user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_default FROM user_shippinginformation WHERE user_shipping_userid = $userid AND user_shipping_default = 1 AND deleted != 1");
+    $query = $conn->prepare("SELECT user_shipping_id, user_shipping_name, user_shipping_number, user_shipping_email, user_shipping_address, user_shipping_postalcode, user_shipping_unitnumber, user_shipping_default FROM user_shippinginformation WHERE user_shipping_userid = ? AND user_shipping_default = 1 AND deleted != 1");
+    $query->bind_param('s', $userid);
     $stmt = mysqli_stmt_init($conn);
     if (!$query->execute()) {
-        header("location: ../swapproj/checkout?error=stmtfailed");
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+
+
+        header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
     if ($query->execute()) {
@@ -738,13 +769,19 @@ function viewDefaultShippingAdd($conn)
 
 function cartpurchased($conn)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
     $selectedcarts = $_SESSION['cart'];
     $harry = implode(',', $selectedcarts);
     $bundledidrandom = $_SESSION['bundledid'];
-    $query = $conn->prepare("UPDATE mydb.user_cart SET  mydb.user_cart.purchased = 1 , mydb.user_cart.bundled=$bundledidrandom WHERE  mydb.user_cart.cart_id IN (" . $harry . ") ");
+    $query = $conn->prepare("UPDATE mydb.user_cart SET  mydb.user_cart.purchased = 1 , mydb.user_cart.bundled=? WHERE  mydb.user_cart.cart_id IN ( ? ) ");
+    $query->bind_param('ss', $bundledidrandom, $harry);
     $stmt = mysqli_stmt_init($conn);
     if (!$query->execute()) {
-        header("location: ../swapproj/checkout?error=stmtfailed");
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
     if ($query->execute()) {
@@ -758,6 +795,10 @@ function cartpurchased($conn)
 
 function reduceInventory($conn)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
     print_r($_SESSION['cart']);
 
     $cartarray = $_SESSION['cart'];
@@ -778,7 +819,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(productedit)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
             //change header location accordingly
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
@@ -791,7 +832,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(checkout)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
@@ -819,7 +860,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(productedit)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
             //change header location accordingly
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
@@ -832,7 +873,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(productedit)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
@@ -857,7 +898,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(productedit)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (UPDATE)", 0);
             //change header location accordingly
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
@@ -870,7 +911,7 @@ function reduceInventory($conn)
                 throw new Exception("Statement Preparation failed(productedit)");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (UPDATE)", 0);
             header("location: https://www.swapamc.com/swapproj/checkout");
             exit;
         }
@@ -885,13 +926,18 @@ function reduceInventory($conn)
 
 function calculatetotalprice($conn)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
     $selectedcarts = $_SESSION['cart'];
     $harry = implode(',', $selectedcarts);
     $bundledidrandom = $_SESSION['bundledid'];
     $query = $conn->prepare("SELECT SUM(mydb.user_cart.price) FROM mydb.user_cart WHERE mydb.user_cart.cart_id IN (" . $harry . ")");
     $stmt = mysqli_stmt_init($conn);
     if (!$query->execute()) {
-        header("location: ../swapproj/checkout?error=stmtfailed");
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         exit();
     }
     $totalprice = 0;
@@ -904,10 +950,15 @@ function calculatetotalprice($conn)
 }
 function selectCreditCardInfo($conn, $userid)
 {
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
     $query = $conn->prepare("SELECT MAX(user_creditcardinfo_id) FROM mydb.user_creditcardinfo WHERE user_creditcardinfo_userid = " . $userid);
     $stmt = mysqli_stmt_init($conn);
     if (!$query->execute()) {
-        header("location: ../swapproj/checkout?error=stmtfailed");
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
     }
     $ccinfo = 0;
     if ($query->execute()) {
@@ -969,7 +1020,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../swapproj/checkout/addshippingaddress?error=stmtfailed");
+        header("location: https://www.swapamc.com/swapproj/checkout/addshippingaddress?error=stmtfailed");
         echo "error";
         exit();
     }
@@ -979,7 +1030,7 @@ function addShippingAdd($conn, $name, $phonenumber, $email, $address, $zip, $uni
     //closes the connection
     mysqli_stmt_close($stmt);
 
-    // header("location: ../swapproj/checkout/addshippingaddress?=success");
+    // header("location: https://www.swapamc.com/swapproj/checkout/addshippingaddress?=success");
     header("location: https://www.swapamc.com/swapproj/checkout/viewshippingaddress");
     echo "success added";
     exit();
@@ -1003,7 +1054,7 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum, $
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        // header("location: ../swapproj/checkout?error=stmtfailed");
+        // header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
         // exit();
     }
 
@@ -1119,19 +1170,23 @@ function duplicateEmail($conn, $email)
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "invalidemail";
-        exit;
         return true;
         exit;
     }
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
 
     try {
-        $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = '$email';");
+        $query = $conn->prepare("SELECT user_id FROM mydb.users WHERE username_email = ?;");
+        $query->bind_param('s', $email);
         if ($query === true) {
             //change filename accordingly
             // return true;
         }
     } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
         return true;
     }
     // throws error "Statment Execution failed" when statement fails
@@ -1141,6 +1196,7 @@ function duplicateEmail($conn, $email)
             // return true;
         }
     } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
         return true;
     }
 
