@@ -152,4 +152,7 @@ cleanValues($_GET,$whitelistvalues,$exemptkeys);
 $filename=basename(__FILE__, '.php');// filename variable is now set as allstores for example
 $ipadd=$_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
+    var_dump($_GET);
+    var_dump($bufferflag);
+    var_dump($emptyflag);exit;
 
