@@ -5,20 +5,18 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 ### CSRF ####
-if(validateCSRF()==false){
+if (validateCSRF() == false) {
     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-  
-  
-    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+
+
+    if ($actual_link == "http://www.swapamc.com/swapproj/campus?error=badcsrf") {
         echo 'bad csrf';
         //dont redirect if on the same page
-  
+
     } else {
         header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
         exit;
     }
-    
-    
 }
 ### CSRF ####
 
@@ -61,28 +59,33 @@ $maxlengtharray['image1'] = 200;
 $maxlengtharray['image2'] = 200;
 $maxlengtharray['image3'] = 200;
 
-//removes any nondigit characters.
-$storeid = preg_replace('/[^\d]/', '', $_GET['id']);
-
-// bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
-$bufferflag = empty(checkLength($_GET, $maxlengtharray));
-$emptyflag = empty(checkEmpty($_GET, ['id']));
-
-if (!($bufferflag && $emptyflag)) {
-    header("location: https://www.swapamc.com/swapproj/productmanager?error=invalidid");
-    exit;
-}
-
-##### ALL POST ITEMS DECLARED #######
+// $bufferflag will return false (undesired) if any of the fields exceed the buffer length
+$bufferflag = empty(checkLength($_POST, $maxlengtharray));
+// emptyflag will return false (undesired) if any of the required fields are not filled
+$emptyflag = empty(checkEmpty($_POST, $requiredfields));
 
 
 
-foreach ($requiredimgs as $i => $requiredimg) {
-    if (!isset($_FILES[$requiredimg]) || empty($_FILES[$requiredimg])) {
-        header("location: https://www.swapamc.com/swapproj/storemanageradd?error=empty$requiredimg");
-        exit();
+//is id valid
+if ($emptyflag === false) {
+    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
+    exit();
+} elseif ($bufferflag === false) {
+    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
+    exit();
+} // log changes to websitelink
+else
+
+    ##### ALL POST ITEMS DECLARED #######
+
+
+
+    foreach ($requiredimgs as $i => $requiredimg) {
+        if (!isset($_FILES[$requiredimg]) || empty($_FILES[$requiredimg])) {
+            header("location: https://www.swapamc.com/swapproj/storemanageradd?error=empty$requiredimg");
+            exit();
+        }
     }
-}
 
 
 
@@ -96,11 +99,39 @@ $storerating = 0; //rating to default to zero calculated based on reviews.
 
 //Is true if variable is set to active
 $storestatus = $_POST['storestatus'] === "Active";
-$websitelink="NULL";
+$websitelink = "NULL";
 if (isset($_POST['websitelink']) && !empty($_POST['websitelink'])) {
     $websitelink = $_POST['websitelink'];
 }
 $storenumber = str_replace(' ', '', $storenumber);
+// phoneflag will return false (undesired) if the phone number is not valid (a number and 8 characters in length)
+$phoneflag = empty(phoneNumRegEx($storenumber));
+// $bufferflag will return false (undesired) if any of the fields exceed the buffer length
+$bufferflag = empty(checkLength($_POST, $maxlengtharray));
+// emptyflag will return false (undesired) if any of the required fields are not filled
+$emptyflag = empty(checkEmpty($_POST, $requiredfields));
+// phoneflag will return false (undesired) if the phone number is not valid (a number and 8 characters in length)
+$phoneflag = empty(phoneNumRegEx($storenumber));
+
+if ($phoneflag === false) {
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=invalidphonenumber");
+    exit();
+}
+
+
+//is id valid
+if ($emptyflag === false) {
+    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
+    exit();
+} elseif ($bufferflag === false) {
+    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
+    exit();
+} 
+if ($phoneflag === false) {
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=invalidphonenumber");
+    exit();
+}
+
 
 
 
@@ -155,30 +186,6 @@ if (sizeof($array) > 0) {
     exit;
 }
 
-// $bufferflag will return false (undesired) if any of the fields exceed the buffer length
-$bufferflag = empty(checkLength($_POST, $maxlengtharray));
-// emptyflag will return false (undesired) if any of the required fields are not filled
-$emptyflag = empty(checkEmpty($_POST, $requiredfields));
-// phoneflag will return false (undesired) if the phone number is not valid (a number and 8 characters in length)
-$phoneflag = empty(phoneNumRegEx($storenumber));
-
-if ($phoneflag === false) {
-    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=invalidphonenumber");
-    exit();
-}
-
-
-//is id valid
-if ($emptyflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
-    exit();
-} elseif ($bufferflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
-    exit();
-} // log changes to websitelink
-elseif ($originalwebsite !== $websitelink) {
-    error_log("TPAMC:" . $filename . ":2:" . $ipadd . ":4 URL UPDATED", 0);
-}
 
 
 
@@ -329,6 +336,7 @@ try {
     header("location: https://www.swapamc.com/swapproj/storemanager?error=stmtallerror");
     exit;
 }
+header("location: https://www.swapamc.com/swapproj/productmanager?error=none");
 
 $query->close();
 

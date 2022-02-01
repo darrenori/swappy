@@ -4,6 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
+$csrf = generateCSRF();
 
 $signedinrole = $jwtarrayinformation['role'];
 $signedinuser = $jwtarrayinformation['username'];
@@ -77,9 +78,9 @@ try {
 $query->bind_result($username, $role, $number, $department, $perhourpay);
 ?>
 <div class=parentcontainer5>
-<div class='sidebar'>
+    <div class='sidebar'>
 
-    <div class='rowone'>
+        <div class='rowone'>
             <svg id='logo' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='307.688' height='105.376' viewBox='0 0 307.688 105.376'>
                 <defs>
                     <linearGradient id='linear-gradient' x1='1.363' y1='-0.243' x2='0.149' y2='0.921' gradientUnits='objectBoundingBox'>
@@ -206,53 +207,53 @@ $query->bind_result($username, $role, $number, $department, $perhourpay);
 
 
 
-<?php
-echo "<div class='container5'>";
-echo "<div class='role'>Employee Manager</div>";
-echo "<div class='item'>";
+    <?php
+    echo "<div class='container5'>";
+    echo "<div class='role'>Employee Manager</div>";
+    echo "<div class='item'>";
 
-echo "<form id='myform' style='padding-left: 20px' method=POST action=https://www.swapamc.com/swapproj/employeemanager/editinc>";
+    echo "<form id='myform' style='padding-left: 20px' method=POST action=https://www.swapamc.com/swapproj/employeemanager/editinc>";
 
-if ($query->fetch()) {
+    if ($query->fetch()) {
 
-    echo "<div class='static'> <h3>Username: " . $username . "</h3></div>";
+        echo "<div class='static'> <h3>Username: " . $username . "</h3></div>";
 
-    echo "<div class='pairing'>";
-    echo "<div class='pairing1'><p>Role:</p></div>" ;
-    echo "<div class='pairing2'><input type=text name=role value=$role></div>";
-    echo "</div>";
-
-
-    echo "<div class='pairing'>";
-    echo "<div class='pairing1'><p>Number:</p></div>" ;
-    echo "<div class='pairing2'><input type=text name=number value=$number></div>";
-    echo "</div>";
+        echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Role:</p></div>";
+        echo "<div class='pairing2'><input type=text name=role value=$role></div>";
+        echo "</div>";
 
 
-    echo "<div class='pairing'>";
-    echo "<div class='pairing1'><p>Department:</p></div>";
-    echo "<div class='pairing2'><input type=text name=department value=$department></div>" ;
-    echo "</div>";
+        echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Number:</p></div>";
+        echo "<div class='pairing2'><input type=text name=number value=$number></div>";
+        echo "</div>";
 
 
-    echo "<div class='pairing'>";
-    echo "<div class='pairing1'><p>Hourly wage:</p></div>";
-    echo "<div class='pairing2'><input type=text name=pay value=$perhourpay></div>";
-    echo "</div>";
-}
+        echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Department:</p></div>";
+        echo "<div class='pairing2'><input type=text name=department value=$department></div>";
+        echo "</div>";
 
-// echo "<input style='margin-left: 9px; width:97%' type=submit>";
 
-echo "</form></div>
+        echo "<div class='pairing'>";
+        echo "<div class='pairing1'><p>Hourly wage:</p></div>";
+        echo "<div class='pairing2'><input type=text name=pay value=$perhourpay></div>";
+        echo "</div>";
+        echo "<input type='hidden' name='csrf' value='$csrf'>";
+    }
+
+    // echo "<input style='margin-left: 9px; width:97%' type=submit>";
+
+    echo "</form></div>
 <button class='submit-form' form='myform' type='submit'>Edit</button>
 </div></div>";
 
-?>
-<style>
-    <?php include 'storemanager/addstore.css'; ?>
-</style>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    ?>
+    <style>
+        <?php include 'storemanager/addstore.css'; ?>
+    </style>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

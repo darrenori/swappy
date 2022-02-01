@@ -33,11 +33,12 @@ $bufferflag = checkLength($_GET,$maxlengtharray);
 //makes sure item is not 
 $emptyflag = checkEmpty($_GET, ['id']);
 
+
 //is id valid
-if ($emptyflag === null) {
+if ($emptyflag !== null) {
     header("location: https://www.swapamc.com/swapproj/productmanager?error=invalidid");
     exit();
-}elseif ($bufferflag===null){
+}elseif ($bufferflag!==null){
     header("location: https://www.swapamc.com/swapproj/productmanager?error=invalidid");
     exit();
 }
@@ -87,7 +88,7 @@ $query->close();
 
 //delete
 try {
-    $query = $conn->prepare("DELETE FROM mydb.store WHERE `store_id` = '$storeid';");
+    $query = $conn->prepare("DELETE FROM mydb.store WHERE `store_id` = ?;");
     $query->bind_param('s',$storeid);
     if ($query === false) {
         //change filename accordingly

@@ -53,6 +53,8 @@ $currenturlstripped = preg_replace('/[^a-zA-Z0-9]+/', '', $_SERVER['REQUEST_URI'
 
 //array of not allowed urls
 $notallowedauthuser = [];
+//array of allowed urls
+$allowedauthuser=[];
 $role = $jwtarrayinformation['role'];
 if ((int)$role < 0 || (int)$role > 6) {
     //if user role does not exist... logout   
@@ -63,10 +65,10 @@ if ((int)$role < 0 || (int)$role > 6) {
 ///changes the allowed urls depending on the role number
 if ($role === (int)0) {
     //if user is authorised user.. 
-    $notallowedauthuser = ['allstores', 'employeemanager',/*employee tasks page */];
+    $notallowedauthuser = ['allstores', 'employeemanager','productmanager','addnotification'];
 } else if ($role === (int)1) {
     //if user is employee.. currently unable to access tasks from homepage
-    $notallowedauthuser = ['allstores', 'employeemanager'];
+    $notallowedauthuser = ['allstores', 'employeemanager','productmanager','addnotification'];
 } else if ($role === (int)2) {
     //if user is Employeemanager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['allstores', ];
