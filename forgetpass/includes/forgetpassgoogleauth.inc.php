@@ -1,15 +1,43 @@
 <?php
+// var_dump($_POST);exit;
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/googleauth/vendor/autoload.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-
 session_start();
 session_regenerate_id();
 
+### CSRF ####
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        echo 'bad csrf';
+        //dont redirect if on the same page
+  
+    } else {
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+}
+### CSRF ####
+
+
+// removes any other GET and POST names and does html specialchars
+$whitelist =['googleauthotp'];
+$_POST = XSSPrevention($_POST, $whitelist);
+
+//removes any nondigit characters.
+$storeid = preg_replace('/[^\d]/', '', $_POST['googleauthotp']);
+
+
+
+
 $email = $_SESSION['forgetpassemail'];
 $randomsecret = $_SESSION['newsecret'];
-$code = htmlspecialchars($_POST['googleauthotp']);
+$code = $_POST['googleauthotp'];
 
 
 

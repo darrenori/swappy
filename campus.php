@@ -53,13 +53,14 @@ $userid = $jwtarrayinformation['userid'];
 try {
     $query = $conn->prepare("SELECT user_username, user_fname,user_lname,user_role,username_email,
 user_number,date_of_signup, user_profilepicture
-FROM mydb.users WHERE user_id = $userid;");
+FROM mydb.users WHERE user_id = ?;");
+$query->bind_param('s',$userid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(userprofile)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
     //change header location accordingly
     
 }
@@ -70,8 +71,7 @@ try {
         throw new Exception("Statement Execution failed (userprofile)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
-    
+    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);    
 }
 $query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsignup,$profilepic);
 

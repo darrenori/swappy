@@ -2,28 +2,49 @@
 
 declare(strict_types=1);
 // THIS CODE RUNS WHEN LOGIN BUTTON IS CLICKED 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+//imports the verification code class that will be used in login user functions.inc.php
 
 
 
 if (isset($_POST["submit"])) {
 
-    $whitelist = ['uid', 'pwd', 'g-recaptcha-response', 'remember'];
-    ### XSS DONE
-    foreach ($_POST as $key => $value) {
-        $_POST[$key] = htmlspecialchars($value);
-        if (!in_array(htmlspecialchars($key), $whitelist)) {
-            unset($_POST[$key]);
+    ### CSRF ####
+    if (validateCSRF() == false) {
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+
+        if ($actual_link == "http://www.swapamc.com/swapproj/campus?error=badcsrf") {
+            echo 'bad csrf';
+            //dont redirect if on the same page
+
+        } else {
+            header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+            exit;
         }
     }
+    ### CSRF ####
 
 
+    $whitelist = ['uid', 'pwd', 'g-recaptcha-response', 'remember'];
+    ### XSS DONE
+    $_POST = XSSPrevention($_POST, $whitelist);
+    $_POST = escapeString($conn, $_POST);
+    var_dump($_POST);exit;
 
 
+    $maxlengtharray['uid'] = 60;
+    $maxlengtharray['pwd'] = 60;
+    $maxlengtharray['g-recaptcha-response'] = 65535;
+    $maxlengtharray['remember'] = 3;
+    
     // gets the username password and captcha input
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
-    $remember =
+    $remember =  $_POST['remember'];
         // echo "here are your items".$username.$pwd.$captchaa;
 
 
@@ -34,18 +55,14 @@ if (isset($_POST["submit"])) {
 
 
 
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-    //imports the verification code class that will be used in login user functions.inc.php
 
 
-    // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
-    // the ?error=emptyinput will be used later to identify errors
-    ////Checks if inputs are empty, invalid
+        // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
+        // the ?error=emptyinput will be used later to identify errors
+        ////Checks if inputs are empty, invalid
 
 
-    $inkey = badInput($_POST);
+        $inkey = badInput($_POST);
 
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);

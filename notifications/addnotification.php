@@ -3,6 +3,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
+$csrf = generateCSRF();
+
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
@@ -578,7 +580,8 @@ echo "<p>Username to send (Leave empty for broadcast):</p>";
 echo "<input type='text' name='usernametosend' placeholder='Username'>";
 
 echo "<br><br>";
-echo "<input style='background-color:#8D1D25; color:white; border:#272727; font-weight:bold;' type='submit'>";
+echo "<input style='background-color:#8D1D25; color:white; border:#272727; font-weight:bold;' type='submit' name ='submit'>";
+echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 
 echo "</form>";

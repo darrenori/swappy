@@ -401,44 +401,52 @@ $userid = $jwtarrayinformation['userid'];
 
 
     }
-    .smallbox{
-        background-color: rgba(255,255,255,0.8);
-        color:black;
+
+    .smallbox {
+        background-color: white;
+        color: black;
         padding: 10px;
         border-radius: 10px;
         margin-right: 3vw;
         margin-bottom: 3vw;
     }
 
-    .description low{
+    .description low {
         color: blue;
         font-weight: bold;
     }
-    .description medium{
+
+    .description medium {
         color: #ffe200;
         font-weight: bold;
     }
-    .description high{
+
+    .description high {
         color: red;
         font-weight: bold;
     }
-    .description maintenance{
+
+    .description maintenance {
         color: red;
         font-weight: bold;
     }
-    .description warning{
+
+    .description warning {
         color: #ffe200;
         font-weight: bold;
     }
-    .description others{
+
+    .description others {
         color: red;
         font-weight: bold;
     }
-    .title{
+
+    .title {
         font-weight: bolder;
         font-size: 25px;
         border-left:#8D1D25 5px solid;
     }
+
     .h2 {
         color: white;
         font-weight: bold;
@@ -594,13 +602,14 @@ $userid = $jwtarrayinformation['userid'];
 
                 //add
                 try {
-                    $query = $conn->prepare("SELECT notification,header,level,type FROM mydb.notification WHERE user_id = '0' OR user_id='$userid';");
+                    $query = $conn->prepare("SELECT notification,header,level,type FROM mydb.notification WHERE user_id = '0' OR user_id=?;");
+                    $query->bind_param('s', $userid);
                     if ($query === false) {
                         //change filename accordingly
                         throw new Exception("Statement Preparation failed(viewnotification)");
                     }
                 } catch (Exception $e) {
-                    echo 'Message: ' . $e->getMessage();
+                    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
                     header("location: https://www.swapamc.com/swapproj/campus?error=statement");
                     exit;
                 }
@@ -614,7 +623,7 @@ $userid = $jwtarrayinformation['userid'];
                         throw new Exception("Statement Execution failed (viewnotification)");
                     }
                 } catch (Exception $e) {
-                    echo 'Message: ' . $e->getMessage();
+                    error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
                     header("location: https://www.swapamc.com/swapproj/campus?error=statement");
                     exit;
                 }
@@ -655,7 +664,7 @@ $userid = $jwtarrayinformation['userid'];
         </div>
 
     </div>
-<br><br>
+    <br><br>
 
 
 

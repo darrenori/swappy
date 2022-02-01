@@ -4,22 +4,45 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 $image = new Image();
+$csrf=generateCSRF();
+
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $storeid = $_GET['id'];
 
-    if (badInputTwo([$storeid]) === true) {
-        header("location: https://www.swapamc.com/swapproj/productmanager?error=badid");
+    ## CLEANING GET ID AND GET ERROR ##
+
+    $_GET = XSSPrevention($_GET, ['id', 'error']);
+    $_GET = escapeString($conn, $_GET);
+    //errors will only ever contain letters so, we remove all other characters
+    if (isset($_GET['error'])) {
+        $error = preg_replace('/[^a-z]+/', '', $_GET['error']);
+    }
+    //removes any nondigit characters in the id
+    $storeid = preg_replace('/[^\d]/', '', $_GET['id']);
+
+    // declares variable length in chars for each item. 
+    $maxlengtharray['id'] = 11;
+
+    // bufferflag returns false (undesired) if length of item is not agreeable
+    $bufferflag = empty(checkLength($_GET, $maxlengtharray));
+
+    if (!($bufferflag)) {
+        header("location: https://www.swapamc.com/swapproj/productmanager?error=invalidid");
         exit;
     }
+    $storeid = $_GET['id'];
+
+    ## CLEANING GET ID AND GET ERROR ##
+
     try {
-        $query = $conn->prepare("SELECT store_name, store_pricepoint, store_about, store_picone, store_pictwo, store_picethree, store_address, store_number, store_url, store_status, store_rating FROM mydb.store WHERE store_id = '$storeid';");
+        $query = $conn->prepare("SELECT store_name, store_pricepoint, store_about, store_picone, store_pictwo, store_picethree, store_address, store_number, store_url, store_status, store_rating FROM mydb.store WHERE store_id = ?;");
+        $query->bind_param('s', $storeid);
         if ($query === false) {
             //change filename accordingly
             throw new Exception("Statement Preparation failed(storeedit)");
         }
     } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
         //change header location accordingly
         header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
         exit;
@@ -32,7 +55,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             throw new Exception("Statement Preparation failed(storeedit)");
         }
     } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
         header("location: https://www.swapamc.com/swapproj/productmanager?error=stmt");
         exit;
     }
@@ -60,7 +83,16 @@ if ($query->fetch()) {
     <input type="text" name="storenumber" id="storenumber" placeholder="88888888" value ="' . $storenumber . '"> <br><br>
 
     <label class="required-field" for="storepricepoint">Price Point:</label>
-    <input required type="text" name="storepricepoint" id="storepricepoint" min=1 max=5 placeholder="5" value="' . $storepricepoint . '"><br><br>
+    <br><select id="storepricepoint" name="storepricepoint">
+    <option value="' . $storepricepoint . '" selected hidden>' . $storepricepoint . '</option> 
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select><br><br>
+
+
 
     <label class="required-field" for="storestatus">Active Status:</label>
     <br><select id="storestatus" name="storestatus">
@@ -115,6 +147,8 @@ if ($query->fetch()) {
     echo "<br><br>";
 
     echo "<input type='submit'>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
+
 
     echo "<br>";
 

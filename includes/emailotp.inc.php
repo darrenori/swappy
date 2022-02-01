@@ -3,6 +3,42 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
+### CSRF ####
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+        echo 'bad csrf';
+        //dont redirect if on the same page
+  
+    } else {
+        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        exit;
+    }
+}
+### CSRF ####
+// removes any other POST names and does html specialchars
+$whitelist =['resend','submit','emailotp','csrf'];
+$_POST = XSSPrevention($_POST, $whitelist);
+
+// declares variable length in chars for each item. 
+$maxlengtharray['resend'] = 0;
+$maxlengtharray['submit'] = 0;
+$maxlengtharray['csrf'] = 32;
+$maxlengtharray['emailotp'] = 6;
+
+// bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
+$bufferflag = empty(checkLength($_POST, $maxlengtharray));
+$emptyflag = empty(checkEmpty($_POST, ['csrf']));
+
+if (!($bufferflag && $emptyflag)) {
+    header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
+    exit();
+}
+
+
+
 $jwtarray = jwtdecrypt();
 if (isset($jwtarray) && $jwtarray == true) {
 
@@ -29,13 +65,6 @@ if (isset($jwtarray) && $jwtarray == true) {
             $useremailotp = (int)$useremailotp;
         }
 
-        require_once 'functions.inc.php';
-        #####the verification2fa.php file is only required if we plan to implement resending of email and code. 
-        //there is a phenomenon that when the page is refreshed, a new code is generated into the session storage
-        //however an email is not sent, this is interesting and will require more looking into. 
-        //this is also a problem because if the user refreshes/fills in a bad otp, they will have no idea what the otp is.
-        // require_once 'phpmailer/verification2fa.php';
-
         ////Checks if inputs are not identical
         $failedverification = pwdMatch($userinput, $useremailotp);
         echo $failedverification;
@@ -48,12 +77,10 @@ if (isset($jwtarray) && $jwtarray == true) {
         } else {
             // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
             if ($failedverification !== false) {
-                echo "badotp";
                 jwtupdate($jwtarrayinformation); // updates the JWT session without 'emailotp'
                 header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
                 exit();
             } else {
-                echo "goodotp";
                 $jwtarrayinformation['loginstate'] = "B";
                 //removes 'emailotp' from the array
                 unset($jwtarrayinformation["emailotp"]);

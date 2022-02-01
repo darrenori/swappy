@@ -671,9 +671,9 @@ function badInputTwo($array)
     // $pattern = "/^[a-zA-Z0-9_ @,().!?+-]+$/i";
     $pattern = "/^[A-Za-z0-9_ @,().!?+:]+(-[A-Za-z0-9_ @,().!?+:]+)*$/i";
 
-    
-    foreach($array as $key=>$val) {
-        
+
+    foreach ($array as $key => $val) {
+
         $a = !(preg_match($pattern, $val));
 
         if ($a == 1) {
@@ -999,7 +999,8 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum, $
     $userid = $jwtarrayinformation['userid'];
 
 
-    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb,user_creditcardinfo_encryptkey,user_creditcardinfo_iv) VALUES (?,$userid,?,?,?,?,?,?)";    $stmt = mysqli_stmt_init($conn);
+    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb,user_creditcardinfo_encryptkey,user_creditcardinfo_iv) VALUES (?,$userid,?,?,?,?,?,?)";
+    $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         // header("location: ../swapproj/checkout?error=stmtfailed");
@@ -1168,13 +1169,14 @@ function bufferOverflow($arrayofitems, $numberofcharacters)
     return false;
 }
 
-function checkLength($inputarray,$maxlengtharray){
+function checkLength($inputarray, $maxlengtharray)
+{
 
-    foreach($inputarray as $key => $val){
+    foreach ($inputarray as $key => $val) {
         $maxlength = $maxlengtharray[$key];
-        $lengthuserinputted = strlen((string)$val);
+        $lengthuserinputted = strlen(trim((string)$val));
 
-        if($lengthuserinputted>$maxlength){
+        if ($lengthuserinputted > $maxlength) {
             return $key;
         }
     }
@@ -1204,7 +1206,7 @@ function XSSPrevention($inputarray, $whitelist)
 function escapeString($conn, $inputarray)
 {
     foreach ($inputarray as $key => $value) {
-        $inputarray[$key] = mysqli_real_escape_string($conn, $value); 
+        $inputarray[$key] = mysqli_real_escape_string($conn, $value);
     }
     return $inputarray;
     //SYNTAX example, $_POST = escapeString($conn, $_POST);
@@ -1248,7 +1250,9 @@ function generateCSRF()
 
 function validateCSRF()
 {
-    session_start();
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     //can only be used before any print statements
     session_regenerate_id();
     if (isset($_POST['csrf']) && isset($_SESSION['csrf'])) {
@@ -1265,7 +1269,9 @@ function validateCSRF()
 
 function validateCSRFGet()
 {
-    session_start();
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     // can only be used before any print statements
     session_regenerate_id(); //comment out if not working ig
     if (isset($_GET['csrf']) && isset($_SESSION['csrf'])) {
@@ -1280,36 +1286,37 @@ function validateCSRFGet()
 }
 
 
-function validateCSRFAjax($postinformation){
-    session_start();
-    if(isset($postinformation['csrf'])&&isset($_SESSION['csrf'])){
-        if($_SESSION['csrf']==$postinformation['csrf']){
+function validateCSRFAjax($postinformation)
+{
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    if (isset($postinformation['csrf']) && isset($_SESSION['csrf'])) {
+        if ($_SESSION['csrf'] == $postinformation['csrf']) {
             return true;
             //valid token
         }
-    } 
+    }
 
 
     return false;
-
 }
 
 
 //method is $_GET, $_POST, or $_SESSION. DONT PUT THE [] for $method
 //array will be like $array = ['id','name'];
-function checkEmpty($method,$array){
-    
+function checkEmpty($method, $array)
+{
+
     foreach ($array as $value) {
-        
+
         // if(empty())
-        if(!isset($method[$value])||$method[$value]===null||$method[$value]==''){
-                
-                return $value;
-                
+        if (!isset($method[$value]) || $method[$value] === null || $method[$value] == '') {
+
+            return $value;
+
             //return variable name if empty
         }
-
-        
     }
 
     return null;
@@ -1326,12 +1333,46 @@ function phoneNumRegEx($phonenumber)
     return null;
 }
 
-function checkForURL($inputarray,$filename,$ipadd){
+function checkForURL($inputarray, $filename, $ipadd)
+{
     foreach ($inputarray as $key => $value) {
         $file_headers = @get_headers($value);
         if ($key !== "websitelink" && (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found')) {
             error_log("TPAMC:" . $filename . ":2:" . $ipadd . ":4 URL detected in REQUEST values", 0);
         }
     }
+}
 
+
+function cleanValues($array, $whitelistvalues, $exemptkeys)
+{
+    if (!empty($array)) {
+        $newarray = [];
+        //shortlists keys with fixed values
+        foreach ($array as $key => $value) {
+            if (!in_array($key, $exemptkeys)) {
+                array_push($newarray, $key);
+            }
+        }
+        foreach ($newarray as $key => $value) {
+            if (!in_array($value, $whitelistvalues)) {
+                // item does not exist in whitelisted array
+                // any unknown values of keys, we will 
+                $array[$key] = "failed";
+            }
+        }
+    }
+}
+
+function strongPassword($password)
+{
+    $uppercase = preg_match('@[A-Z]@', $password);
+    $lowercase = preg_match('@[a-z]@', $password);
+    $number    = preg_match('@[0-9]@', $password);
+    $specialchar    = preg_match('@[!\@#$%^&*()_=+{};:,.]@', $password);
+    // $specialchar=true;
+    if (!$uppercase || !$lowercase || !$number || !$specialchar || strlen($password) < 8 || badInputTwo([$password])) {
+        return false;
+    }
+    return $password;
 }

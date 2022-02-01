@@ -10,6 +10,8 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
+$csrf = generateCSRF();
+
 date_default_timezone_set('Asia/Singapore');
     $time = time();
 
@@ -701,6 +703,7 @@ input{
                         <br><aaa style="color: grey; cursor:pointer; margin-left:0vw;"><a href="https://www.swapamc.com/swapproj/forgetpassword">Forgot Password</a><br>
                         <br><div class="g-recaptcha" data-sitekey="6LceTzMdAAAAAMmsVPxewTs4O4ujsgATF5_otzYu"></div><br>
                         <button class="loginbtn" type="submit" name="submit">Sign in</button>
+                        <?php echo "<input type='hidden' name='csrf' value='$csrf'>";?>
                     </form>
                     <div class="modal fade" id="pass">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -716,6 +719,7 @@ input{
                                     <input type="email" style="background-color:#8D1D25;" name="email" class="form-control" required>
                                     <br>
                                     <input type="hidden" name="_next" value="https://swapamc.com/swapproj/faq">
+                                    <?php echo "<input type='hidden' name='csrf' value='$csrf'>";?>
                                     <button style="color:#8D1D25; background-color:white; width:100%;" class="btn" type="submit">Submit</button>
                                     </form> 
                                 </div>

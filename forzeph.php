@@ -36,7 +36,7 @@ $whitelist = array_merge($allfields, $allimgs);
 // if filenames have more than 1 slash, convert it to jsut 1 slash (not working, dk why)
 // foreach ($allimgs as $value) {
 //     if (isset($_POST[$value]) && !empty($_POST[$value])) {
-//         $_POST[$value] = preg_replace('/\\{2,}/i', '\\', $_POST[$value], -1);
+//         $_POST[$value] = preg_replace('/\\\\{2,}/i', '\\', $_POST[$value], -1);
 //     }
 // }
 
@@ -88,9 +88,6 @@ if (!($bufferflag && $emptyflag)) {
 
 ##### ALL POST ITEMS DECLARED #######
 
-//logs if any values are strings and are links to page
-checkForURL($_POST, $filename, $ipadd);
-
 #### all 
 
 
@@ -125,18 +122,29 @@ if ($emptyflag === false) {
 } elseif ($bufferflag === false) {
     header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
     exit();
-} // log changes to websitelink
+}
+
+
+// log changes to websitelink
 elseif ($originalwebsite !== $websitelink) {
     error_log("TPAMC:" . $filename . ":2:" . $ipadd . ":4 URL UPDATED", 0);
-}
+}//logs if any values are strings and are links to page
+checkForURL($_POST, $filename, $ipadd);
+
+
 
 
 
 ##SESSION 
 //if have session
+session_regenerate_id();
+//clear echos 
 
 
 
+$whitelistvalues=['reset'];
+$exemptkeys=['key','email']; // no exemptkeys are specified.
+cleanValues($_GET,$whitelistvalues,$exemptkeys);
 
 
 

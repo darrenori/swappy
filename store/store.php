@@ -1,6 +1,8 @@
 <?php
 
 //db con
+###ZEPH
+// Checked for bad keys, checked for bad values, params bound,
 
 
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
@@ -8,42 +10,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/store/storefunctions.inc.php';
 
-checkIfStoreIdExists($conn);
-$_GET = escapeString($conn, $_GET);
 $_GET = XSSPrevention($_GET, ['id']);
-print_r($_GET);exit();
+$_GET = escapeString($conn, $_GET);
+checkIfStoreIdExists($conn); //checks if store id exists, if it doesn't exist, code will exit
 
-
-//renders any scripts into html form of special char e.g., & = &amp
-foreach ($_GET as $key => $val) {
-    if (gettype($key) == "string" && $key !== "0") {
-        $goodkey = htmlspecialchars($key, ENT_QUOTES);
-        $_GET[$goodkey] = $_GET[$key];
-        unset($_GET[$key]);
-    }
-    //only checks if of string type (integers will not run through htmlspecialchars)
-    if (gettype($val) == "string") {
-        $goodval = htmlspecialchars($val, ENT_QUOTES);
-        $_GET[$goodkey] = $goodval;
-    }
-    if (empty($val)) {
-        $_GET[$goodkey] = "0";
-    }
-}
-
-
-
-
-// $getuser = htmlentities($_GET["user"]);
-// $employeeid = $getuser;
-//if checkIfIdExists has run, the following line of code will be safe
-$id = $_GET["id"];
+//if checkIfIdExists has run, the id variable would have been considered safe
+$id = (string)$_GET["id"];
 try {
     $query = $conn->prepare("SELECT * FROM mydb.storeprod INNER JOIN mydb.store 
     ON mydb.store.store_id = mydb.storeprod.store_id 
     INNER JOIN mydb.products 
     ON mydb.products.product_id = mydb.storeprod.product_id 
-    WHERE mydb.store.store_id = '$id';");
+    WHERE mydb.store.store_id = ?;");
+    $query->bind_param('s', $id);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(store)");
@@ -61,7 +40,7 @@ try {
         throw new Exception("Statement Execution failed (store)");
     }
 } catch (Exception $e) {
-    echo 'Message: ' . $e->getMessage();
+    error_log("TPAMC:" . $filename . ":1:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
     header("location: https://www.swapamc.com/swapproj/allstores?error=badstatement"); //    echo mysqli_error($query);
 
     exit;
@@ -125,8 +104,11 @@ if (sizeof($info) > 1) {
     $newcostsarray = $info[1];
 }
 
-print_r($newchoicesarray);
-echo "<br>";
-if (isset($newcostsarray)) {
-    print_r($newcostsarray);
-}
+
+##ZEPH
+//purpose of print statement unrecognized.
+// print_r($newchoicesarray);
+// echo "<br>";
+// if (isset($newcostsarray)) {
+//     print_r($newcostsarray);
+// }
