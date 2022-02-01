@@ -376,7 +376,7 @@ $userid = $jwtarrayinformation['userid'];
         background-color: rgba(255,255,255,0.3);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        height:125%;
+        padding: 20px;
          width:120%;
         margin:auto;
          display: flex;
@@ -384,6 +384,7 @@ $userid = $jwtarrayinformation['userid'];
         align-items: flex-start;
         flex-direction: row;
         margin-bottom:50px;
+       
     
     }
     .thing{

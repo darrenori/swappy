@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@500&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    
+    color:white;
+}
+body {
+    background:black;
+}
+
+html, body {
+max-width: 100%;
+overflow-x: hidden;
+}
+
+.allcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 100px 45px;
+}
+
+.left {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex-basis: 50%;
+    font-family:Montserrat;
+
+
+}
+
+.left h2 .bag {
+    flex-basis: 100%;
+}
+
+
+.row {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin:0;
+    justify-content: flex-start;
+    margin-bottom: 100px;
+    
+}
+
+
+
+.rowchild {
+    
+}
+.check {
+    height: 30px;
+
+    width: 30px;
+    margin-right: 10px;
+    /* flex-basis: 5%; */
+}
+
+
+
+.elements {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin:0;
+    flex-basis: 60%;
+}
+
+.elements h1 {
+    margin: 0;
+}
+
+.elementone {
+    min-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    /* padding-bottom: 10px; */
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.editbutton {
+    font-size: 12.5px;
+    padding: 0 40px;
+    font-weight:500;
+        border:0;
+    background:#8D1D25;
+    color:white;
+    border-radius:16px;
+    cursor:pointer;
+    height: 35px;
+    margin-left: 10px;
+    transition: .25s;
+}
+
+.editbutton:hover {
+    background-color: white;
+    color: red;
+}
+
+.price {
+    justify-self: flex-end;
+    padding-left: 100px;
+}
+
+.picture {
+    flex-basis: 20%;
+}
+
+.pic {
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+
+.tag {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+    padding-left: 10px;
+
+}
+
+.variants {
+    padding-left: 10px;
+    flex-basis: 100%;
+    color: white;
+    opacity: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 5px;
+
+}
+
+.variantoptions {
+    margin-right: 30px;
+}
+
+.quantity {
+    flex-basis: 100%;
+    margin-left:10px;
+    opacity: 80%;
+}
+
+.remove {
+    flex-basis: 100%;
+
+    margin-left: 10px;
+    opacity: 0.8;
+    text-decoration: underline;
+    /* text-decoration: none; */
+    text-decoration-color: #8D1D25;
+    cursor: pointer;
+
+}
+
+.remove:hover {
+    color: red;
+    text-decoration-color: white;
+}
+
+.right {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    /* flex-basis: 50%;  */
+    flex-basis: 35%;
+    
+}
+
+.summary {
+    padding: 20px 30px;
+    background-color: #8D1D25;
+    border-radius: 3px;
+    font-family:Montserrat;
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+}
+
+.summary h4 {
+    font-size:2.5em;
+    letter-spacing: 0.8px;
+    font-family: 'Bebas Neue', cursive;
+    padding-bottom: 30px;
+    flex-basis: 100%;
+}
+
+.chkoutbtn {
+    background-color: black;
+    color: white;
+    letter-spacing: 0.8px;
+    font-family: 'Bebas Neue', cursive;
+    border:0;
+    flex-basis: 100%;
+    padding:10px 0;
+    transition: .25s;
+}
+
+.chkoutbtn:hover {
+    background-color: white;
+    color: black;
+}
+.subtotal {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.taxes {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.shipping {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    
+}
+
+.total {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+

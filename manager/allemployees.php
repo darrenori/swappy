@@ -267,12 +267,9 @@ html, body {
 
 .textmanagecontainer i{
     color: white;
-    
     font-size: 1.5em;
     flex-basis: 5%;
     
-    
-
 }
 
 .textmanagecontainer span{

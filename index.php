@@ -300,3 +300,5 @@ $router->post('/productmanager/quantityinc','quantity/quantity.inc.php');
 $router->get('/viewpastpurchase','pastpurchases/viewpastpurchases.php');
 $router->post('/updatepastpurchase','pastpurchases/includes/updatepastpurchases.inc.php');
 
+$router->get('/storeoverview','product/storeoverview.php');
+
