@@ -1043,25 +1043,44 @@ function addCreditCard($conn, $cname,  $expmonth, $expyear, $cardtype, $ccnum, $
 
         $jwtarrayinformation = $jwtarray['array'];
     }
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ip = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
 
 
 
     $userid = $jwtarrayinformation['userid'];
 
+    try {
+        $query = $conn->prepare("INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb,user_creditcardinfo_encryptkey,user_creditcardinfo_iv) VALUES (?,?,?,?,?,?,?,?)");
+        $query->bind_param("ssssssss", $cname, $userid, $expmonth, $expyear, $cardtype, $ccnum, $encryptkey, $iv);
 
-    $sql = "INSERT INTO mydb.user_creditcardinfo (user_creditcardinfo_nameoncard,user_creditcardinfo_userid, user_creditcardinfo_expirymonth, user_creditcardinfo_expiryyear, user_creditcardinfo_cardtype,user_creditcardinfo_cardnumb,user_creditcardinfo_encryptkey,user_creditcardinfo_iv) VALUES (?,$userid,?,?,?,?,?,?)";
-    $stmt = mysqli_stmt_init($conn);
-
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        // header("location: https://www.swapamc.com/swapproj/checkout?error=stmtfailed");
-        // exit();
+        if ($query === false) {
+            throw new Exception("Statement Preparation failed (attendance)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=stmtallerror");
+        error_log("TPAMC:$filename:0:$ip:Error(stmtallerror)", 0);
+        exit;
     }
 
-    mysqli_stmt_bind_param($stmt, "sssssss", $cname, $expmonth, $expyear, $cardtype, $ccnum, $encryptkey, $iv);
-    mysqli_stmt_execute($stmt);
-    //closes the connection
-    mysqli_stmt_close($stmt);
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (attendance)");
+        }
+    } catch (Exception $e) {
+        header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=badstatement");
+        error_log("TPAMC:$filename:0:$ip:Error(badstatement)", 0);
+
+        exit;
+    }
+
+
+    //closes the query
+    $query->close();
 }
 
 
@@ -1427,7 +1446,7 @@ function strongPassword($password)
     $number    = preg_match('@[0-9]@', $password);
     $specialchar    = preg_match('@[!\@#$%^&*()_=+{};:,.]@', $password);
     // $specialchar=true;
-    if (!$uppercase || !$lowercase || !$number || !$specialchar || strlen($password) < 8 || badInputTwo([$password])) {
+    if (!$uppercase || !$lowercase || !$number || !$specialchar || strlen($password) < 8) {
         return false;
     }
     return $password;

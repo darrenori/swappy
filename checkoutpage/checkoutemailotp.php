@@ -3,13 +3,14 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/sendemailotp.php';
-
 session_start();
 session_regenerate_id();
+$csrf = generateCSRF();
+
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 $emailotp = $jwtarrayinformation["emailotp"];
-echo $emailotp;
+// echo $emailotp;
 
 
 if ($jwtarrayinformation["checkoutstate"] === "A") {
@@ -70,6 +71,7 @@ if ($jwtarrayinformation["checkoutstate"] === "A") {
                         <input type="text" id="emailotp" name="emailotp" placeholder="Verification code..."><br>
                         <button type="submit" name="submit">Submit</button>
                         <button type="submit" name="resend">Resend Email</button>
+                        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>";
 
                     </form>
             </div>

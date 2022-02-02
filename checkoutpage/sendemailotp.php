@@ -10,6 +10,8 @@ $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 
 
+//NO INPUT FROM USER
+
 class VerificationCode
 {
 

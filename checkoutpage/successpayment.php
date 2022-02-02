@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 
+// NO INPUT DETECTED or used
 if ($jwtarrayinformation['checkoutstate'] == "B" ){
 
 ?>

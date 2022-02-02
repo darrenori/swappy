@@ -16,6 +16,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
+$csrf = generateCSRF();
+
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
@@ -580,6 +582,7 @@ if ($query->execute()) {
             echo "<a class='delete'href='https://www.swapamc.com/swapproj/checkout/deleteshippingaddress?shippingid=" . $row['user_shipping_id'] . "'>Delete</a>";
             echo "<a class='setdefault' href='https://www.swapamc.com/swapproj/checkout/defaultsa?shippingid=" . $row['user_shipping_id'] . "'>Set Default</a>";
             echo "<br><br>";
+            echo "<input type='hidden' name='csrf' value='$csrf'>";
             echo "</form>";
             echo "</div><br>";
 

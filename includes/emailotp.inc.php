@@ -3,17 +3,20 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
+// var_dump($_POST['csrf']);
+// var_dump($_SESSION['csrf']); exit;
+
 ### CSRF ####
 if(validateCSRF()==false){
     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   
   
-    if($actual_link=="http://www.swapamc.com/swapproj/campus?error=badcsrf"){
+    if($actual_link=="http://www.swapamc.com/swapproj/emailverification?error=badcsrf"){
         echo 'bad csrf';
         //dont redirect if on the same page
   
     } else {
-        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+        header("location: https://www.swapamc.com/swapproj/emailverification?error=badcsrf");
         exit;
     }
 }
@@ -31,7 +34,9 @@ $maxlengtharray['emailotp'] = 6;
 // bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
 $bufferflag = empty(checkLength($_POST, $maxlengtharray));
 $emptyflag = empty(checkEmpty($_POST, ['csrf']));
-
+// var_dump($bufferflag);
+// var_dump($emptyflag);
+// var_dump($_POST);exit;
 if (!($bufferflag && $emptyflag)) {
     header("location: https://www.swapamc.com/swapproj/emailverification?error=badotp");
     exit();
@@ -67,7 +72,7 @@ if (isset($jwtarray) && $jwtarray == true) {
 
         ////Checks if inputs are not identical
         $failedverification = pwdMatch($userinput, $useremailotp);
-        echo $failedverification;
+        // var_dump( $failedverification);exit;
         $currentrequestime = $_SERVER["REQUEST_TIME"];
         if ($currentrequestime - $jwtarrayinformation["emailotptime"] > 100) {
             echo "session has expired";

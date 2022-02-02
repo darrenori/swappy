@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-
+$csrf=generateCSRF();
 $jwtarray = jwtdecrypt();
 if(isset($jwtarray)&&$jwtarray==true){
     
@@ -21,16 +21,14 @@ if (mysqli_query($conn, $query)) {
 
 
     if (mysqli_query($conn, $query)) {
-        header("location: https://www.swapamc.com/swapproj/checkout?default=success");
         echo "Default Address set.";
     } else {
         echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
     }
-    exit();
     mysqli_close($conn);
 } else {
     echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
 }
 
-exit();
 mysqli_close($conn);
+header("location: https://www.swapamc.com/swapproj/checkout?default=success");

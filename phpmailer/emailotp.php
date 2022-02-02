@@ -12,7 +12,6 @@ if (isset($jwtarray) && $jwtarray == true) {
     ## use $jwtinformation["key"] to retrieve the values 
     ## keys and values can be viewed on campus.php page
     $jwtarrayinformation = $jwtarray['array'];
-
     // print_r($jwtarrayinformation);
     // foreach ($jwtarrayinformation as $key => $val)
     //     if (gettype($val) != "array") {
@@ -38,7 +37,7 @@ if (isset($jwtarray) && $jwtarray == true) {
     if (isset($_SESSION['variable']) && $_SESSION['variable'] === "hi") {
         $vc = new VerificationCode($jwtarrayinformation["useremail"]);
         $vc->sendMail(); // MAIL SENT SUCCESSFULLY
-        session_destroy();
+        unset($_SESSION['variable']);
     }
 
 

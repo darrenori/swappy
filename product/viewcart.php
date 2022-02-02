@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
 
@@ -7,6 +7,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunc
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+
+$csrf = generateCSRF();
+
 $jwtarray = jwtdecrypt();
 if (isset($jwtarray) && $jwtarray == true) {
 
@@ -86,18 +89,17 @@ if (isset($selectedcarts)) {
         INNER JOIN mydb.user_cart
         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
         where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
-        if(!isset($productnamerows[$i])){
+        if (!isset($productnamerows[$i])) {
             break;
-
         }
 
         if ($query->execute()) {
             $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
 
 
-            
-            
-            
+
+
+
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
 
             //if there are types
@@ -174,12 +176,12 @@ if (isset($selectedcarts)) {
 } else {
     // echo "Total items: " . sizeof($cartidrows)."<br>";
     // echo "<br><br>";
-    
+
     echo '<div class="allcontainer">';
     echo '<div class="left">';
-    
+
     echo "<a href='https://www.swapamc.com/swapproj/allproducts'><h2 class='bag'>Bag: " . sizeOf($cartidrows) . " Items</h2></a>";
-    
+
 
     echo "<form id='chkoutform' method='POST' action='/swapproj/checkout'>";
 
@@ -325,6 +327,8 @@ if (isset($selectedcarts)) {
     // echo "Grand Total: " . $totalprice * 1.07;
     // echo '<br>';
 
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
+
     echo "<input type='hidden' name='submit' value='submit'>";
     echo "</form>";
 
@@ -341,7 +345,7 @@ if (isset($selectedcarts)) {
 
     echo "<div class='taxes'>";
     echo "<span>Taxes</span>";
-    echo "<span>".$totalprice * 0.07."</span>";
+    echo "<span>" . $totalprice * 0.07 . "</span>";
     echo "</div>";
 
 
@@ -352,7 +356,7 @@ if (isset($selectedcarts)) {
 
     echo "<div class='total'>";
     echo "<span>TOTAL</span>";
-    echo "<span>S$".$totalprice * 1.07."</span>";
+    echo "<span>S$" . $totalprice * 1.07 . "</span>";
     echo "</div>";
 
     echo "<input type='submit' class='chkoutbtn' value='CHECKOUT' form='chkoutform'>";
@@ -404,167 +408,20 @@ if (isset($selectedcarts)) {
 
 
 ?>
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-
-<!-- <div class="allcontainer">
-    <div class="left">
-        <h2 class='bag'>Bag</h2>
-
-        <div class='row'>
-            
-            <input type='checkbox' class='check'>
-            <div class="picture">
-                <?php
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
-
-                $image = new Image();
-                $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
-
-                echo '<img class="pic" width=150px src="' . $src . '" />';
-                ?>
-            </div>
-
-            <div class="elements">
-                <div class="elementone">
-                    <h2 class='name'>Torchlight</h2>
-                    <input type='button' value='Edit' class='editbutton'>
-                    <h3 class='price'>$15.99</h3>
-
-
-                </div>
-
-                <div class='tag'>
-                    <p class='tagvalues'>Utility,Portable</p>
-                </div>
-
-                <div class='variants'>
-                    <span class='variantoptions'>Color: Red</span>
-                    <span class='variantoptions'>Size: Large</span>
-
-                    <span class='variantoptions'>Weight: 5kg</span>
-
-                </div>
-
-                <div class='quantity'>
-                    <p>Quantity: 2</p>
-                </div>
-
-                <div class='remove'>
-                    <p>Remove from Cart</p>
-                </div>
-                
-
-            </div>
-            
-            
-        </div>
-
-        <div class='row'>
-            
-            <input type='checkbox' class='check'>
-            <div class="picture">
-                <?php
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
-
-                $image = new Image();
-                $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
-
-                echo '<img class="pic" width=150px src="' . $src . '" />';
-                ?>
-            </div>
-
-            <div class="elements">
-                <div class="elementone">
-                    <h2 class='name'>Torchlight</h2>
-                    <input type='button' value='Edit' class='editbutton'>
-                    <h3 class='price'>$15.99</h3>
-
-
-                </div>
-
-                <div class='tag'>
-                    <p class='tagvalues'>Utility,Portable</p>
-                </div>
-
-                <div class='variants'>
-                    <span class='variantoptions'>Color: Red</span>
-                    <span class='variantoptions'>Size: Large</span>
-
-                    <span class='variantoptions'>Weight: 5kg</span>
-
-                </div>
-
-                <div class='quantity'>
-                    <p>Quantity: 2</p>
-                </div>
-
-                <div class='remove'>
-                    <p>Remove from Cart</p>
-                </div>
-                
-
-            </div>
-
-    </div>
-
-
-    
-
-    </div>
-
-    <div class="right">
-
-        <div class='summary'>
-            <h6>TPAMC</h6>
-            <h4>SUMMARY</h4>
-
-            <div class='subtotal'>
-                <span>Subtotal</span>
-                <span class='subtotalactl'>$11.98</span>
-            </div>
-
-            <div class='taxes'>
-                <span>Taxes</span>
-                <span>$11.98</span>
-            </div>
-
-
-            <div class='shipping'>
-                <span>Shipping</span>
-                <span>$11.98</span>
-            </div>
-
-            <div class='total'>
-                <span>TOTAL</span>
-                <span>$11.98</span>
-            </div>
-
-            <input type="submit" class='chkoutbtn' value='CHECKOUT' >
-
-
-        
-        </div>
-
-
-    
-    </div> -->
-
 
 
 
 
 
 <style>
-    <?php 
-    if(!isset($selectedcarts)){
+    <?php
+    if (!isset($selectedcarts)) {
         include 'product/css/viewcart.css';
-
     }
-     
-    
-    
-    ?>
-    a {
+
+
+
+    ?>a {
         color: black !important;
     }
 </style>
@@ -584,3 +441,5 @@ if (isset($selectedcarts)) {
 </head>
 
 </html>
+<?php
+ob_flush();

@@ -1,29 +1,45 @@
 <?php
 //show cart
+ob_start();
 print "<h3>Your Cart</h3>";
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 session_regenerate_id();
-
 // user press submit from view cart
 $selectedcarts = [];
+
+
+
 if (isset($_POST["submit"])) {
-    unset($_SESSION['cart']);
-    foreach ($_POST as $key => $val)
-        if ($key !== "submit") {
-            array_push($selectedcarts, $key);
+    unset($_SESSION['cart']); // unset the session for new updated values
+
+    foreach ($_POST as $key => $value) {
+        // hashes all values into htmlspecialchars versions
+        $_POST[$key] = htmlspecialchars($value, ENT_QUOTES);
+
+        if ((!is_numeric($key) || strlen((string)$key) !== 8) && $key !=='csrf') {//only allows numeric keys with strings of length eight
+            // removes any keys that are not 
+            unset($_POST[$key]);
         }
+    }
+    //at this time all values have been cleaned to contain the IDs of selected carts
+    foreach ($_POST as $key => $val)
+    if ($key !== "csrf") {
+        array_push($selectedcarts, $key);
+    }
 
     $_SESSION['cart'] = $selectedcarts;
+}elseif (isset($_POST)) {//remove all variables if any, because we don't want any items passed unnecessarily
+    foreach ($_POST as $key => $value) {
+            unset($_POST[$key]);
+        }
 }
-
-
-// print_r($_POST);
-// exit;
 
 if (empty($selectedcarts)) {
     if (!empty($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $key => $val)
-            if ($key !== "submit") {
+            if ($key !== "csrf") {
                 array_push($selectedcarts, $val);
             }
     } else {
@@ -33,11 +49,28 @@ if (empty($selectedcarts)) {
     }
 }
 
-include 'product/viewcart.php';
-require_once 'includes/functions.inc.php';
-include 'checkoutpage/verification.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Back To View Cart</a>";
+### CSRF ####
+if(validateCSRF()==false){
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+    if($actual_link=="http://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf"){
+        echo 'bad csrf';
+        //dont redirect if on the same page
+  
+    } else {
+        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf");
+        exit;
+    }
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/viewcart.php';
+$csrf = generateCSRF();
 
+### CSRF ####
 ?>
 
 <html>
@@ -51,7 +84,7 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
 
     $shippingaddress = viewDefaultShippingAdd($conn);
 
-    
+
     if (!empty($shippingaddress)) {
         echo "<form method='POST'>";
         echo "<br><br>";
@@ -94,7 +127,7 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
     <br><label for="cname">Name on Card</label>
     <br><input type="text" id="cname" name="cname" placeholder="John More Doe">
     <br><label for="ccnum">Credit card number</label>
-    <br><input type="text" pattern="\d*" maxlength="16" id="ccnum" name="ccnum" placeholder="1111222233334444"  class="creditcardnumber">
+    <br><input type="text" pattern="\d*" maxlength="16" id="ccnum" name="ccnum" placeholder="1111222233334444" class="creditcardnumber">
     <div class="ccvalue"></div>
     <br><label for="expmonth">Exp Month</label>
     <br><input type="text" pattern="\d*" maxlength="2" id="expmonth" name="expmonth" placeholder="12" min="1" max="12">
@@ -112,8 +145,6 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type='text/javascript'>
-    
-
     function creditCardTypeAction() {
         $('.creditcardnumber').on('keyup', function() {
             if ($(this).val().length >= 4) {
@@ -124,7 +155,7 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
 
     creditCardTypeAction();
 
-    
+
 
     function creditCardTypeFromNumber(ccnum) {
 
@@ -134,7 +165,7 @@ echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Ba
         if (ccnum.match(/^5[1-5][0-9]{14}$/)) {
             $('.cardsacceptedicon').removeClass('active');
             $('.cardsacceptedicon.mastercard').addClass('active');
-            
+
             $('div.ccvalue').html('MasterCard');
             return 'MasterCard';
 
@@ -182,7 +213,7 @@ if (isset($_GET["error"])) {
     } else if ($_GET["error"] == "paymentemptyinput") {
         echo "<p>Fill in Credit Card fields!</p>";
         exit();
-    }  else if ($_GET["error"] == "invalidcardtype") {
+    } else if ($_GET["error"] == "invalidcardtype") {
         echo "<p>Invalid card number</p>";
         exit();
     } else if ($_GET["error"] == "paymentbadnumb") {
@@ -201,10 +232,9 @@ if (isset($_GET["error"])) {
         echo "<p>Something went wrong, try again!</p>";
     } else if ($_GET["error"] == "invalidstate") {
         echo "<p>Invalid State</p>";
-    } 
-
+    }
 }
 
 
-
+ob_flush();
 ?>
