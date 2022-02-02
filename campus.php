@@ -251,38 +251,12 @@ if ($query->fetch()) {
         </svg></div>";
     echo  "</div>";
 
-    // Attendance
-    echo "<div class='attendance5'> Attendance </div>";
 
-    // Nerve centre && Robotics
-    echo "<div class='booking'> 
-    <div class='booking1'>   
-        <div class='bookingname'>
-            <div class='booking2'> 
-            <div class='redline'></div>
-            Nerve Centre </div>
-        </div>
-        <div class='details'>
-            <div class='timing'> Start Time <br> 3 January 2021, <br> 03:00PM</div>
-            <div class='break1'> </div>
-            <div class='timing'> End Time <br> 3 January 2021, <br> 04:00PM</div>
-        </div>
-    </div>
-
-
-    <div class='booking1'> 
-        <div class='bookingname'>
-            <div class='booking2'> 
-            <div class='redline'></div>
-            Robotics Centre </div>
-        </div>
-        <div class='details'>
-            <div class='timing'> Start Time <br> 3 January 2021, <br> 03:00PM</div>
-            <div class='break1'> </div>
-            <div class='timing'> End Time <br> 3 January 2021, <br> 05:00PM</div>
-        </div>
-    </div>
+    echo "<div class='attendance-btn'>
+    <button id='attendanceButton' class='attendance-btn1'>VIEW/EDIT ATTENDANCE</button>
     </div>";
+
+
 
     // White Line
     echo "<div class='break2'></div>";
@@ -402,12 +376,19 @@ a {color: black !important; }
 </style>
 <body>
     
+<div class='logout-edit-btn'>
 <form method="POST">
-        <input type="submit" value="logout" name="submit" formaction="/swapproj/logout">
-        <input type="submit" value="editprofile" name="submit" formaction="/swapproj/userprofile">
+        <input class='logout-btn5' type="submit" value="Logout" name="submit" formaction="/swapproj/logout">
+        <input class='editprofile-btn'type="submit" value="Edit" name="submit" formaction="/swapproj/userprofile">
     </form>
+</div>
 
 </body>
+<script type="text/javascript">
+    document.getElementById("attendanceButton").onclick = function () {
+        location.href = "attendance";
+    };
+</script>
 
 </html>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"

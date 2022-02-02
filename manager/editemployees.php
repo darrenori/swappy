@@ -216,7 +216,7 @@ $query->bind_result($username, $role, $number, $department, $perhourpay);
 
     if ($query->fetch()) {
 
-        echo "<div class='static'> <h3>Username: " . $username . "</h3></div>";
+        echo "<div class='static' style='margin-left:10px'> <h3>Username: " . $username . "</h3></div>";
 
         echo "<div class='pairing'>";
         echo "<div class='pairing1'><p>Role:</p></div>";
@@ -252,7 +252,7 @@ $query->bind_result($username, $role, $number, $department, $perhourpay);
 
     ?>
     <style>
-        <?php include 'storemanager/addstore.css'; ?>
+        <?php include 'storemanager/addstore1.css'; ?>
     </style>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1">

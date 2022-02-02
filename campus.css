@@ -426,3 +426,56 @@ font .firstfooter h5 {
     padding-right: 10px;
     cursor: pointer;
 }
+
+.attendance-btn {
+    flex-basis: 100%;
+    background-color: #E26565;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: none;
+    border-radius: 5px;
+}
+
+.attendance-btn1 {
+    flex-basis: 100%;
+    width: 100%;
+    background-color: #E26565;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 3px;
+    border: none;
+}
+
+.logout-edit-btn {
+    flex-basis: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.logout-btn5 {
+    min-width: 15%;
+    border: none;
+    border-radius: 30px;
+    background-color: #5681BB;
+    color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-right: 3%;
+}
+
+.editprofile-btn {
+    min-width: 15%;
+    border: none;
+    border-radius: 30px;
+    background-color: #8D1D25;
+    color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
