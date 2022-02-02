@@ -16,6 +16,10 @@ if (isset($_POST["submit"])) {
     $_SESSION['cart'] = $selectedcarts;
 }
 
+
+// print_r($_POST);
+// exit;
+
 if (empty($selectedcarts)) {
     if (!empty($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $key => $val)
@@ -23,6 +27,7 @@ if (empty($selectedcarts)) {
                 array_push($selectedcarts, $val);
             }
     } else {
+
         header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=emptycart");
         exit();
     }

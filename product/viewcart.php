@@ -1,310 +1,272 @@
 <?php
 
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
 
 
 
-    
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-    $jwtarray = jwtdecrypt();
-    if(isset($jwtarray)&&$jwtarray==true){
-        
-        $jwtarrayinformation = $jwtarray['array'];
-    
-    } else {
-        
-        header("location: https://www.swapamc.com/swapproj/logout");
-        exit();
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+$jwtarray = jwtdecrypt();
+if (isset($jwtarray) && $jwtarray == true) {
+
+    $jwtarrayinformation = $jwtarray['array'];
+} else {
+
+    header("location: https://www.swapamc.com/swapproj/logout");
+    exit();
+}
+
+$userid = $jwtarrayinformation['userid'];
+
+$query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
+    INNER JOIN mydb.products
+    ON mydb.user_cart.product_id = mydb.products.product_id
+    WHERE user_id = ? AND mydb.user_cart.purchased='0';");
+$query->bind_param('s', $userid);
+$cartidrows = [];
+$productnamerows = [];
+$productpricerows = [];
+$arrayforemptytypes = [];
+$totalprice = 0;
+
+if ($query->execute()) {
+    $query->bind_result($cartid, $productname, $productprice, $productpic, $emptyquantity, $emptyprice);
+    while ($query->fetch()) {
+        // echo $emptyquantity."<br>".$emptyprice."<br>";
+
+        array_push($cartidrows, $cartid);
+        array_push($productnamerows, $productname);
+        array_push($productpricerows, $productprice);
+        array_push($arrayforemptytypes, [$emptyquantity, $emptyprice]);
+    }
+}
+
+//  print_r($arrayforemptytypes[1]);
+
+
+
+$query->close();
+
+if (isset($selectedcarts)) {
+    // echo 'Hi there. If you cannot find me, look at viewcart.php'."<br>";
+    // for checkout page
+    if (!empty($selectedcarts)) {
+        //this code should only run in view cart page
+        $_SESSION['cart'] = array_values($selectedcarts);
+    } else if (!isset($_SESSION['cart'])) {
+        // this code runs if session was not set
+        $_SESSION['cart'] = [];
     }
 
-    $userid = $jwtarrayinformation['userid'];
+
+    $cartidrows = $_SESSION['cart'];
+
+    echo "Total items: " . sizeof($selectedcarts) . "<br>";
+
+
+    echo "<br><br>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    for ($i = 0; $i < sizeof($cartidrows); $i++) {
+        $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
+        INNER JOIN mydb.user_cart
+        ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
+        where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
+        if(!isset($productnamerows[$i])){
+            break;
+
+        }
+
+        if ($query->execute()) {
+            $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
+
+
+            
+            
+            
+            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
+
+            //if there are types
+            echo "<br>";
+
+            $counter = 0;
+
+            while ($query->fetch()) {
+
+
+
+
+
+                if (isset($type) && $counter != 1) {  //only execute header once
+                    $counter = 1;
+
+                    echo "<table>";
+
+                    echo "<tr>";
+                    echo "<th>type</th>";
+                    echo "<th>variant</th>";
+                    echo "<th>additionalcosts</th>";
+                    echo "</tr>";
+                }
+
+                if (isset($type)) {
+                    echo "<tr>";
+                    echo "<th>$type</th>";
+                    echo "<th>$variant</th>";
+                    echo "<th>$additionalcosts</th>";
+                    echo "</tr>";
+                }
+            }
+
+
+
+
+
+
+            if (isset($type)) {  //if there are types within
+                echo "</table>";
+
+
+                echo "QUANTITY: " . $quantity . "<br>";
+                echo "PRICE: " . $price . "<br>";
+                echo "<br>";
+
+                $totalprice = $totalprice + $price;
+            } else {
+                //if no types   
+                echo "</table>";
+
+
+                echo "QUANTITY: " . $arrayforemptytypes[$i][0] . "<br>";
+                echo "PRICE: " . $arrayforemptytypes[$i][1] . "<br>";
+                echo "<br>";
+
+                $totalprice = $totalprice + $arrayforemptytypes[$i][1];
+            }
+
+
+            $query->close();
+
+            unset($type);
+        } else {
+            echo "Smthin wnt wrong";
+        }
+    }
+
+    echo "TOTAL (BEFORE GST): " . $totalprice;
+    $totalpricegst = $totalprice * 1.07;
+    echo "<br>TOTAL (AFTER GST): " . "$" . $totalpricegst;
+    echo "<br>";
+} else {
+    // echo "Total items: " . sizeof($cartidrows)."<br>";
+    // echo "<br><br>";
     
-//     $query = $conn->prepare("SELECT cart_id,product_name,product_price,product_picone,quantity,price FROM mydb.user_cart 
-//     INNER JOIN mydb.products
-//     ON mydb.user_cart.product_id = mydb.products.product_id
-//     WHERE user_id = ? AND mydb.user_cart.purchased='0';");
-//     $query->bind_param('s',$userid);
-//     $cartidrows = [];
-//     $productnamerows = [];
-//     $productpricerows = [];
-//     $arrayforemptytypes = [];
-//     $totalprice = 0;
-
-//     if($query->execute()){
-//         $query->bind_result($cartid,$productname,$productprice,$productpic,$emptyquantity,$emptyprice);
-//         while($query->fetch()){
-//             // echo $emptyquantity."<br>".$emptyprice."<br>";
-            
-//             array_push($cartidrows,$cartid);
-//             array_push($productnamerows,$productname);
-//             array_push($productpricerows,$productprice);
-//             array_push($arrayforemptytypes,[$emptyquantity,$emptyprice]);
-
-
-//         }
-        
-
-
-
-//     }
-
-//   //  print_r($arrayforemptytypes[1]);
-
+    echo '<div class="allcontainer">';
+    echo '<div class="left">';
     
-
-// $query->close();
-
-// if(isset($selectedcarts)){
-//     echo 'Hi there. If you cannot find me, look at viewcart.php'."<br>";
-//     // for checkout page
-//     if (!empty($selectedcarts)) {
-//         //this code should only run in view cart page
-//         $_SESSION['cart'] = array_values($selectedcarts);
-        
-//     } else if (!isset($_SESSION['cart'])) {
-//         // this code runs if session was not set
-//         $_SESSION['cart'] = [];
-//     }
-
-
-//     $cartidrows = $_SESSION['cart'];
-
-//     echo "Total items: " . sizeof($selectedcarts) . "<br>";
-
-   
-//     echo "<br><br>";
-
-//     for($i=0;$i<sizeof($cartidrows);$i++){
-    
-
-
-//         $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
-//         INNER JOIN mydb.user_cart
-//         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-//         where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
-    
-
-//         if($query->execute()){
-//             $query->bind_result($cartidnow,$type,$variant,$additionalcosts,$quantity,$price);
-
-            
-
-        
-        
-//             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>".$productnamerows[$i]."</a>"."(".$productpricerows[$i].")"."<br>";
-            
-//             //if there are types
-//             echo "<br>";
-            
-//             $counter = 0;
-
-//             while($query->fetch()){
-                
-
-
-                
-
-//                 if(isset($type)&&$counter!=1){  //only execute header once
-//                     $counter=1;
-
-//                     echo "<table>";
-
-//                     echo "<tr>";
-//                     echo "<th>type</th>";
-//                     echo "<th>variant</th>";
-//                     echo "<th>additionalcosts</th>";
-//                     echo "</tr>";
-
-                    
-//                 } 
-
-//                 if(isset($type)){
-//                     echo "<tr>";
-//                     echo "<th>$type</th>";
-//                     echo "<th>$variant</th>";
-//                     echo "<th>$additionalcosts</th>";
-//                     echo "</tr>";
-
-//                 }
-            
-
-                
-
-//             }
-
-        
-
-
-        
-
-//             if(isset($type)){  //if there are types within
-//                 echo "</table>";
-
-            
-//                 echo "QUANTITY: ". $quantity ."<br>";
-//                 echo "PRICE: ". $price ."<br>";
-//                 echo "<br>";
-
-//                 $totalprice = $totalprice +$price;
-                
-
-//             } else {
-//                 //if no types   
-//                 echo "</table>";
-                
-            
-//                 echo "QUANTITY: ". $arrayforemptytypes[$i][0] ."<br>";
-//                 echo "PRICE: ". $arrayforemptytypes[$i][1] ."<br>";
-//                 echo "<br>";
-
-//                 $totalprice = $totalprice +$arrayforemptytypes[$i][1];
-
-//             }
-        
-
-//             $query->close();
-
-//             unset($type);
-
-        
-
-        
-//         } else {
-//                 echo "Smthin wnt wrong";
-//         }
-
-        
-//     }
-
-//     echo "TOTAL (BEFORE GST): " . $totalprice;
-//     $totalpricegst = $totalprice * 1.07;
-//     echo "<br>TOTAL (AFTER GST): " . "$" . $totalpricegst;
-//     echo "<br>";
-
-
-// } else {
-//     echo "Total items: " . sizeof($cartidrows)."<br>";
-//     echo "<br><br>";
-
-//     echo "<form  method='POST' action='/swapproj/checkout'>";
-
-
-
-//     for($i=0;$i<sizeof($cartidrows);$i++){
+    echo "<a href='https://www.swapamc.com/swapproj/allproducts'><h2 class='bag'>Bag: " . sizeOf($cartidrows) . " Items</h2></a>";
     
 
+    echo "<form id='chkoutform' method='POST' action='/swapproj/checkout'>";
 
-//         $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
-//         INNER JOIN mydb.user_cart
-//         ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
-//         where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
-    
 
-//         if($query->execute()){
-//             $query->bind_result($cartidnow,$type,$variant,$additionalcosts,$quantity,$price);
 
-//             echo "<input type='checkbox' name ='" . $cartidrows[$i] . "' >";
 
-        
-        
-//             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>".$productnamerows[$i]."</a>"."(".$productpricerows[$i].")"."<br>";
-            
-//             //if there are types
-//             echo "<br>";
-            
-//             $counter = 0;
+    for ($i = 0; $i < sizeof($cartidrows); $i++) {
 
-//             while($query->fetch()){
-                
 
 
-                
+        $query = $conn->prepare("SELECT cart_typevariants.cart_id,cart_typevariants_type,cart_typevariants_variant,cart_additionalcosts,quantity,price FROM mydb.cart_typevariants 
+        INNER JOIN mydb.user_cart
+        ON mydb.cart_typevariants.cart_id = mydb.user_cart.cart_id
+        where mydb.cart_typevariants.cart_id=$cartidrows[$i];");
 
-//                 if(isset($type)&&$counter!=1){  //only execute header once
-//                     $counter=1;
 
-//                     echo "<table>";
+        if ($query->execute()) {
+            $query->bind_result($cartidnow, $type, $variant, $additionalcosts, $quantity, $price);
 
-//                     echo "<tr>";
-//                     echo "<th>type</th>";
-//                     echo "<th>variant</th>";
-//                     echo "<th>additionalcosts</th>";
-//                     echo "</tr>";
+            echo "<div class='row'>";
 
-                    
-//                 } 
 
-//                 if(isset($type)){
-//                     echo "<tr>";
-//                     echo "<th>$type</th>";
-//                     echo "<th>$variant</th>";
-//                     echo "<th>$additionalcosts</th>";
-//                     echo "</tr>";
+            echo "<input type='checkbox' class='check' name ='" . $cartidrows[$i] . "' >";
+            echo "<div class='picture'>";
 
-//                 }
-            
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 
-                
+            $image = new Image();
+            $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
 
-//             }
+            echo '<img class="pic" width=150px src="' . $src . '" />';
 
-        
 
+            echo "</div>";
 
-        
 
-//             if(isset($type)){  //if there are types within
-//                 echo "</table>";
+            // echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>".$productnamerows[$i]."</a>"."(".$productpricerows[$i].")"."<br>";
 
-            
-//                 echo "QUANTITY: ". $quantity ."<br>";
-//                 echo "PRICE: ". $price ."<br>";
-//                 echo "<br>";
 
-//                 $totalprice = $totalprice +$price;
-                
 
-//             } else {
-//                 //if no types   
-//                 echo "</table>";
-                
-            
-//                 echo "QUANTITY: ". $arrayforemptytypes[$i][0] ."<br>";
-//                 echo "PRICE: ". $arrayforemptytypes[$i][1] ."<br>";
-//                 echo "<br>";
+            echo "<div class='elements'>";
+            echo "<div class=\"elementone\">";
+            echo "<div class='test'>";
+            echo "<h2 class='name'>" . $productnamerows[$i] . "</h2>";
+            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'><input type='button' value='Edit' class='editbutton'></a>";
+            echo "</div>";
+            echo "<h3 class='price'>" . $productpricerows[$i] . " /ea</h3>";
+            echo "</div>";
 
-//                 $totalprice = $totalprice +$arrayforemptytypes[$i][1];
+            echo "<div class='tag'>";
+            echo "<p class='tagvalues'>Utility,Portable</p>";
+            echo "</div>";
 
-//             }
-        
 
-//             $query->close();
+            //if there are types    
+            $counter = 0;
+            $arrayfordesign = [];
+            while ($query->fetch()) {
 
-//             unset($type);
 
-        
 
-        
-//         } else {
-//                 echo "Smthin wnt wrong";
-//         }
 
-        
-//     }
 
-//     echo "TOTAL (BEFORE GST): " . $totalprice;
-//     echo "<br>";
-//     echo "Grand Total: " . $totalprice * 1.07;
-//     echo '<br>';
 
-//     echo "<input type='submit' name='submit'>";
-//     echo "</form>";
 
+                if (isset($type) && $counter != 1) {  //only execute header once
+                    $counter = 1;
+                }
 
-// }
+                if (isset($type)) {
+                    $arrayfordesign[$type] = $variant . "($" . $additionalcosts . ")";
+                    // echo "<tr>";
+                    // echo "<th>$type</th>";
+                    // echo "<th>$variant</th>";
+                    // echo "<th>$additionalcosts</th>";
+                    // echo "</tr>";
 
+                }
+            }
 
+            if (isset($type)) {
+                echo "<div class='variants'>";
+                foreach ($arrayfordesign as $key => $val) {
+                    echo "<span class='variantoptions'>$key: $val</span>";
+                }
+                echo "</div>";
+            }
 
 
 
@@ -312,39 +274,139 @@
 
 
 
+            if (isset($type)) {  //if there are types within
+                // echo "</table>";
 
+                echo "<div class='quantity'>";
+                // echo "QUANTITY: ". $quantity ."<br>";
+                // echo "PRICE: ". $price ."<br>";
+                echo "<span>Quantity: $quantity</span>";
+                echo "<span class='ittotal'>S$$price Total</span>";
+                echo "</div>";
 
 
+                $totalprice = $totalprice + $price;
+            } else {
+                //if no types   
+                // echo "</table>";
 
+                echo "<div class='quantity'>";
 
+                // echo "QUANTITY: ". $arrayforemptytypes[$i][0] ."<br>";
+                // echo "PRICE: ". $arrayforemptytypes[$i][1] ."<br>";
+                echo "<span>Quantity: " . $arrayforemptytypes[$i][0] . "</span>";
+                echo "<span class='ittotal'>S$" . $arrayforemptytypes[$i][1] . " Total</span>";
 
+                echo "</div>";
 
+                $totalprice = $totalprice + $arrayforemptytypes[$i][1];
+            }
 
 
+            $query->close();
 
+            // echo "<div class='remove'>";
+            // echo "<p>Remove from Cart</p>";
+            // echo "</div>";
 
+            echo "</div>";
+            echo "</div>";
 
+            unset($type);
+        } else {
+            echo "Smthin wnt wrong";
+        }
+    }
 
+    echo "</div>";
 
+    // echo "TOTAL (BEFORE GST): " . $totalprice;
+    // echo "<br>";
+    // echo "Grand Total: " . $totalprice * 1.07;
+    // echo '<br>';
 
+    echo "<input type='hidden' name='submit' value='submit'>";
+    echo "</form>";
 
+    echo "<div class=\"right\">";
 
+    echo "<div class='summary'>";
+    echo "<h6>TPAMC</h6>";
+    echo "<h4>SUMMARY</h4>";
 
+    echo "<div class='subtotal'>";
+    echo "<span>Subtotal</span>";
+    echo "<span class='subtotalactl'>$totalprice</span>";
+    echo "</div>";
 
+    echo "<div class='taxes'>";
+    echo "<span>Taxes</span>";
+    echo "<span>".$totalprice * 0.07."</span>";
+    echo "</div>";
 
 
+    echo "<div class='shipping'>";
+    echo "<span>Shipping</span>";
+    echo "<span>FOC</span>";
+    echo "</div>";
 
+    echo "<div class='total'>";
+    echo "<span>TOTAL</span>";
+    echo "<span>S$".$totalprice * 1.07."</span>";
+    echo "</div>";
 
+    echo "<input type='submit' class='chkoutbtn' value='CHECKOUT' form='chkoutform'>";
 
 
 
+    echo "</div>";
 
-    
+
+
+    echo "</div>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 
-<div class="allcontainer">
+<!-- <div class="allcontainer">
     <div class="left">
         <h2 class='bag'>Bag</h2>
 
@@ -353,12 +415,12 @@
             <input type='checkbox' class='check'>
             <div class="picture">
                 <?php
-                    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 
-                    $image = new Image();
-                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
-        
-                    echo '<img class="pic" width=150px src="'.$src.'" />';
+                $image = new Image();
+                $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+
+                echo '<img class="pic" width=150px src="' . $src . '" />';
                 ?>
             </div>
 
@@ -402,12 +464,12 @@
             <input type='checkbox' class='check'>
             <div class="picture">
                 <?php
-                    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 
-                    $image = new Image();
-                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
-        
-                    echo '<img class="pic" width=150px src="'.$src.'" />';
+                $image = new Image();
+                $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+
+                echo '<img class="pic" width=150px src="' . $src . '" />';
                 ?>
             </div>
 
@@ -485,7 +547,7 @@
 
 
     
-</div>
+    </div> -->
 
 
 
@@ -493,18 +555,32 @@
 
 
 <style>
-<?php include 'product/css/viewcart.css';?>
-a{color: black !important;}
+    <?php 
+    if(!isset($selectedcarts)){
+        include 'product/css/viewcart.css';
+
+    }
+     
+    
+    
+    ?>
+    a {
+        color: black !important;
+    }
 </style>
 
 
 <html>
-    <head>
-        <style>
-            table,th,td {
-                border:1px solid black;
-            }
-        </style>
 
-    </head>
+<head>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
 </html>
