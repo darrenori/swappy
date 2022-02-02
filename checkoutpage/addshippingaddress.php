@@ -1,3 +1,9 @@
+<?php
+    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+    $csrf= generateCSRF();
+    ?>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
     * {
@@ -500,11 +506,6 @@
 </script>
 
 <head>
-    <?php
-    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-    $csrf = generateCSRF();
-    ?>
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>

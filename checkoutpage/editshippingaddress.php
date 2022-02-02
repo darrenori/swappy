@@ -5,8 +5,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 session_start();
 session_regenerate_id();
+$csrf = generateCSRF();
+
 
 $shipping_id = (int)$_GET['shippingid'];
+if (!is_numeric($shipping_id) || strlen((string)($shipping_id))>11) {
+    header("location: https://www.swapamc.com/swapproj/checkout/viewshippingaddress?error=invalidid");
+    exit();
+}
+
+
+
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];
 
 ?>
@@ -585,6 +594,8 @@ if ($query->execute()) {
         echo "<input type='text' name='unit' value='$unit'><br><br>";
 
         echo '<input style="background-color:#62A969; border:#272727; font-weight:bolder; color:white;"type="submit" value="Update" name="submit"><br><br>';
+        echo "<input type='hidden' name='csrf' value='$csrf'>";
+
         echo "</form><br><br><br>";
     }
     

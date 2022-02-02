@@ -25,7 +25,7 @@ if (isset($_POST["submit"])) {
     }
     //at this time all values have been cleaned to contain the IDs of selected carts
     foreach ($_POST as $key => $val)
-    if ($key !== "csrf") {
+    if (!in_array($key,['csrf','csrfspecial'])) {
         array_push($selectedcarts, $key);
     }
 
@@ -53,19 +53,30 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'>Back To View Cart</a>";
 ### CSRF ####
-if(validateCSRF()==false){
-    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-  
-  
-    if($actual_link=="http://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf"){
-        echo 'bad csrf';
-        //dont redirect if on the same page
-  
-    } else {
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf");
-        exit;
+$csrfpass=false;
+if (isset($_SESSION['csrfspecial'])) {
+    if ($_SESSION['csrfspecial']==$_SESSION['csrf']) {
+        $csrfpass=true;
     }
-}
+ }
+//  var_dump($_SESSION);
+//  var_dump($_POST);
+//  var_dump($u=validateCSRF());exit;
+// if(validateCSRF()==false && $csrfpass===false){
+//     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  
+  
+//     if($actual_link=="http://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf"){
+//         echo 'bad csrf';
+//         //dont redirect if on the same page
+  
+//     } else {
+//         header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf");
+//         exit;
+//     }
+// }
+
+///commented out because this page is too diverse to contain csrf effeciently.
 include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/viewcart.php';
 $csrf = generateCSRF();
@@ -137,7 +148,7 @@ $csrf = generateCSRF();
     <br><input type="text" pattern="\d*" id="cvc" name="cvc" placeholder="352" maxlength="3">
     <br>
     <input type="submit" name="submit" value="Pay" class="btn">
-
+    <input type='hidden' name='csrf' value='<?php $csrf?>'>
 
 </form>
 

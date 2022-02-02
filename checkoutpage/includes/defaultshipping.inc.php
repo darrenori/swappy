@@ -25,7 +25,6 @@ if (mysqli_query($conn, $query)) {
     } else {
         echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
     }
-    mysqli_close($conn);
 } else {
     echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
 }

@@ -10,6 +10,12 @@ if (isset($_POST["submit"])) {
     $jwtarrayinformation = $jwtarray['array'];
 
 
+
+
+
+    
+
+
     $cname = htmlspecialchars($_POST["cname"]);
     $number = $_POST["ccnum"];
     $expmonth = $_POST["expmonth"];
