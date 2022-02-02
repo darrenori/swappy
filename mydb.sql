@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jan 25, 2022 at 02:52 PM
+-- Generation Time: Feb 02, 2022 at 11:30 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -43,36 +43,10 @@ CREATE TABLE `cart_typevariants` (
 --
 
 INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type`, `cart_typevariants_variant`, `cart_additionalcosts`, `cart_id`) VALUES
-(204, 'Size', 'Large', '2.3', 71776166),
-(205, 'Color', 'White', '3.1', 71776166),
-(206, 'Size', 'Large', '2.3', 37323656),
-(207, 'Color', 'Black', '0', 37323656),
-(208, 'Additional_Server_Rack', 'Yes', '1242.99', 21520909),
-(209, 'Length', '100m', '20', 45864688),
-(210, 'Length', '100m', '20', 42682064),
-(211, 'Size', 'Large', '2.3', 86324416),
-(212, 'Color', 'White', '3.1', 86324416),
-(213, 'Length', '100m', '20', 67869677),
-(214, 'Size', 'Large', '50', 36916921),
-(215, 'Additional_Server_Rack', 'Yes', '1242.99', 34781975),
-(216, 'Size', 'Large', '2.3', 88901636),
-(217, 'Color', 'White', '3.1', 88901636),
-(218, 'Additional_Server_Rack', 'Yes', '1242.99', 34313007),
-(219, 'Size', 'Large', '50', 52484361),
-(220, 'Additional_Server_Rack', 'Yes', '1242.99', 20540189),
-(221, 'Size', 'Large', '2.3', 13149631),
-(222, 'Color', 'White', '3.1', 13149631),
-(223, 'Size', 'Medium', '20', 77630643),
-(224, 'Size', 'Large', '2.3', 70669906),
-(225, 'Color', 'White', '3.1', 70669906),
-(226, 'Size', 'Large', '2.3', 81829872),
-(227, 'Color', 'White', '3.1', 81829872),
-(228, 'Size', 'Medium', '20', 45339864),
-(229, 'Additional_Server_Rack', 'Yes', '1242.99', 24985198),
-(230, 'Size', 'Large', '2.3', 39405689),
-(231, 'Color', 'White', '3.1', 39405689),
-(232, 'Size', 'Large', '50', 80608462),
-(233, 'Length', '100m', '20', 62857993);
+(268, 'Size', 'Large', '2.3', 33918750),
+(269, 'Color', 'Black', '0', 33918750),
+(271, 'Size', 'Large', '2.3', 40029523),
+(272, 'Color', 'White', '3.1', 40029523);
 
 -- --------------------------------------------------------
 
@@ -108,9 +82,9 @@ CREATE TABLE `employees_task` (
   `task_id` int(11) NOT NULL,
   `working_id` int(11) NOT NULL,
   `task_name` text NOT NULL,
-  `task_details` varchar(45) NOT NULL,
+  `task_details` varchar(255) NOT NULL,
   `task_progress` varchar(9) NOT NULL,
-  `task_assignedby` varchar(45) NOT NULL,
+  `task_assignedby` varchar(125) NOT NULL,
   `task_dateassigned` varchar(45) NOT NULL,
   `task_datetofinish` varchar(45) NOT NULL,
   `task_dateedited` varchar(45) NOT NULL
@@ -121,8 +95,7 @@ CREATE TABLE `employees_task` (
 --
 
 INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_details`, `task_progress`, `task_assignedby`, `task_dateassigned`, `task_datetofinish`, `task_dateedited`) VALUES
-(4, 3, 'buy v', 'dasani', '1', 'root', '2021-12-30 21:15:11', '2022-01-01 21:15:00', '2021-12-30 23:10:28'),
-(6, 3, 'asdsd', 'sdasd', '0', 'root', '2022-01-25 20:46:19', '2022-01-27 20:50:00', '');
+(10, 3, 'uwu', 'chance', '1', 'root', '2022-01-30 16:13:39', '2022-02-02 16:13:00', '2022-02-01 19:00:02');
 
 -- --------------------------------------------------------
 
@@ -149,7 +122,8 @@ CREATE TABLE `employee_attendance` (
 --
 
 INSERT INTO `employee_attendance` (`attendance_id`, `attendance_date`, `attendance_in_time`, `attendance_out_time`, `attendance_status`, `attendance_userid`, `attendance_break`, `attendance_current_month`, `attendance_current_year`, `attendance_workingid`) VALUES
-(1, '24/01/2022', '12:58:43 am', '', 'Clock In Verified', 2, '60', '01', '2022', 3);
+(1, '24/01/2022', '12:58:43 am', '', 'Clock In Verified', 2, '60', '01', '2022', 3),
+(2, '25/01/2022', '11:27:11 pm', '11:27:25 pm', 'Valid', 2, '60', '01', '2022', 3);
 
 -- --------------------------------------------------------
 
@@ -170,7 +144,8 @@ CREATE TABLE `employee_leave` (
 --
 
 INSERT INTO `employee_leave` (`leave_id`, `leave_date`, `leave_status`, `leave_userid`) VALUES
-(1, '25/01/2022', 'Approved', 2);
+(1, '25/01/2022', 'Approved', 2),
+(2, '29/01/2022', 'Approved', 2);
 
 -- --------------------------------------------------------
 
@@ -191,18 +166,22 @@ CREATE TABLE `inventory` (
 
 INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (1, '05bbf12433b036df8b503f774db14486', '42'),
-(1, '0d783821eeb637b7b245f0c5b53bb191', '21'),
-(1, '2b22d78d21ff5850b75ed3d38c0111fb', '31'),
+(1, '0d783821eeb637b7b245f0c5b53bb191', '62'),
+(1, '2b22d78d21ff5850b75ed3d38c0111fb', '39'),
 (5, '38fc554ba26a85cc454f3a4b8ec7b301', '14'),
-(2, '3c771bf8d75fb729a61fd38cdf7e08c2', '12'),
+(2, '3c771bf8d75fb729a61fd38cdf7e08c2', '10'),
+(21, '408a1744d8ac2c168bf466c088858cc0', '9'),
+(25, '463c84564ef84217c934f75641aafa2f', '5'),
+(25, '5b1dbab9438b78c28f756b31d5c7324c', '5'),
 (5, '63fbb9b1eb1701eb3ab328f218ba65df', '10'),
 (6, '6d30558d5156e1f2e9875fcc1bfaffa8', '24'),
-(1, '7588ffe7c10af6736e7f1095d6433ea1', '12'),
+(1, '7588ffe7c10af6736e7f1095d6433ea1', '9'),
 (6, '7a05910580d20aa3e139c990b68b3673', '25'),
 (2, '7a661e7347e9d0a868cc9cdf91f634ce', '41'),
-(4, 'bd8dd1cda82f264d6a392e161e290dfa', '21'),
-(3, 'c9ca592076cfdc0f97ea3132e770c1f6', '10'),
-(3, 'f40d7fba5e93532f0c84a3a874b47889', '42');
+(4, 'bd8dd1cda82f264d6a392e161e290dfa', '27'),
+(21, 'c4a1c4c2054ef9b4f8b53e305bc4fac3', '4'),
+(3, 'c9ca592076cfdc0f97ea3132e770c1f6', '1'),
+(3, 'f40d7fba5e93532f0c84a3a874b47889', '80');
 
 -- --------------------------------------------------------
 
@@ -224,7 +203,13 @@ CREATE TABLE `likedby` (
 --
 
 INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `liked`) VALUES
-(20, 47, 2, 4, 1);
+(22, 65, 2, 3, 1),
+(23, 64, 2, 3, 1),
+(24, 63, 2, 3, 1),
+(25, 62, 2, 3, 1),
+(26, 42, 2, 1, 0),
+(27, 43, 2, 1, 1),
+(29, 67, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -261,7 +246,8 @@ CREATE TABLE `notification` (
 
 INSERT INTO `notification` (`idnotification`, `user_id`, `notification`, `header`, `level`, `type`) VALUES
 (1, 0, 'uwu', 'HARLO NOTI', 0, 0),
-(2, 2, 'um root i am testing groot', 'ee', 2, 1);
+(2, 2, 'um root i am testing groot', 'ee', 2, 1),
+(3, 0, 'wasup nibba', 'harlo', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -330,12 +316,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_about`, `product_picone`, `product_pictwo`, `product_picthree`, `total_quantity`, `old`) VALUES
-(1, 'Torchlight', 7.99, 'light', 'uploads/IMG-61defbc17855d4.53770359.jpg', NULL, NULL, 110, NULL),
+(1, 'Torchlight', 7.99, 'lighter', NULL, NULL, NULL, 154, NULL),
 (2, 'Cisco SG250-08 8 Port Gigabit Smart Switch SG250', 190.21, 'The Cisco 250 Series is the next generation of affordable smart switches that combine powerful network performance and reliability with a complete suite of the network features you need for a solid business network. These powerful Fast Ethernet or Gigabit Ethernet switches, with Gigabit or 10 Gigabit Ethernet uplinks, provide multiple management options, sophisticated security capabilities, fine-tuned Quality-of-Service (QoS) and Layer 3 static routing features far beyond those of an unmanaged or consumer-grade switch, at a lower cost than for fully managed switches. And with an easy-to-use web user interface, Smart Network Application, and Power over Ethernet Plus (PoE) capability, you can deploy and configure a complete business network in minutes.', '', '', '', 53, NULL),
-(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 53, NULL),
+(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 90, NULL),
 (4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', NULL, NULL, NULL, 21, NULL),
 (5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', NULL, NULL, NULL, 25, NULL),
-(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL);
+(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL),
+(21, 'willuwork', 23.1, 'um', NULL, NULL, NULL, 13, NULL),
+(25, 'chicken rice', 2.31, 'ansdjansjndn', NULL, NULL, NULL, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -365,7 +353,13 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 (5, 11),
 (5, 12),
 (6, 13),
-(6, 14);
+(6, 14),
+(21, 61),
+(21, 62),
+(21, 63),
+(25, 71),
+(25, 72),
+(25, 73);
 
 -- --------------------------------------------------------
 
@@ -378,7 +372,7 @@ CREATE TABLE `reviews` (
   `review_id` int(11) NOT NULL,
   `review_product_id` int(11) NOT NULL,
   `review_user_id` int(11) NOT NULL,
-  `review_comment` varchar(45) DEFAULT NULL,
+  `review_comment` varchar(255) DEFAULT NULL,
   `review_rating` int(11) DEFAULT NULL,
   `review_pic` varchar(45) DEFAULT NULL,
   `review_total_likes` int(11) DEFAULT NULL,
@@ -393,13 +387,20 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `review_comment`, `review_rating`, `review_pic`, `review_total_likes`, `review_total_dislikes`, `review_date`, `childof_id`, `edited`) VALUES
-(42, 1, 2, 'ead', 2, 'uploads/IMG-61cea8bab469c9.94053952.jpg', 0, 0, '2021-12-31 14:52:42', NULL, NULL),
-(43, 1, 2, 'uwu', 0, '', 0, 0, '2021-12-31 14:54:36', 42, NULL),
-(44, 1, 2, 'huh', 0, '', 0, 0, '2021-12-31 14:54:48', 42, NULL),
-(45, 3, 2, 'a', 2, 'uploads/IMG-61d092a3024967.81706745.jpg', 0, 0, '2022-01-02 01:42:59', NULL, NULL),
+(42, 1, 2, 'ead', 2, 'uploads/IMG-61cea8bab469c9.94053952.jpg', 0, 1, '2021-12-31 14:52:42', NULL, NULL),
+(43, 1, 2, 'uwu', 0, '', 1, 0, '2021-12-31 14:54:36', 42, NULL),
 (46, 4, 2, 'dar', 2, 'uploads/IMG-61d27bbf4c5e92.66886824.png', 0, 0, '2022-01-03 12:29:51', NULL, NULL),
-(47, 4, 2, 'sucks', 0, '', 1, 0, '2022-01-03 12:29:58', 46, NULL),
-(48, 2, 2, 'katamine', 2, 'uploads/IMG-61d400cc221287.01194408.jpg', 0, 0, '2022-01-04 16:09:48', NULL, NULL);
+(48, 2, 2, 'katamine', 2, 'uploads/IMG-61d400cc221287.01194408.jpg', 0, 0, '2022-01-04 16:09:48', NULL, NULL),
+(51, 2, 2, 'asdds', 3, 'uploads/IMG-61f57de7ed4421.06036147.png', 0, 0, '2022-01-30 01:48:24', NULL, NULL),
+(52, 2, 2, 'asd', 2, 'uploads/IMG-61f57dfa068300.43887107.png', 0, 0, '2022-01-30 01:48:42', NULL, NULL),
+(53, 2, 2, 'asdsd', 3, 'uploads/IMG-61f57e6f9d99c8.73472745.png', 0, 0, '2022-01-30 01:50:39', NULL, NULL),
+(54, 6, 2, 'asd', 2, 'uploads/IMG-61f58091b6d7a2.12559038.png', 0, 0, '2022-01-30 01:59:45', NULL, NULL),
+(55, 6, 2, 'asd', 0, '', 0, 0, '2022-01-30 02:01:22', 54, NULL),
+(62, 3, 2, 'why', 3, 'uploads/IMG-61f589788e6130.64497937.png', 1, 0, '2022-01-30 02:37:44', NULL, 1),
+(63, 3, 2, 'yay', 5, '', 1, 0, '2022-01-30 02:37:49', 62, 1),
+(64, 3, 2, 's', 0, '', 1, 0, '2022-01-30 03:01:12', 62, NULL),
+(65, 3, 2, 'hello reply', 0, '', 1, 0, '2022-01-30 03:23:04', 62, NULL),
+(67, 1, 2, 'sd', 0, '', 1, 0, '2022-01-31 02:05:25', 66, NULL);
 
 -- --------------------------------------------------------
 
@@ -441,7 +442,8 @@ CREATE TABLE `store` (
 
 INSERT INTO `store` (`store_id`, `store_name`, `store_pricepoint`, `store_about`, `store_picone`, `store_pictwo`, `store_picethree`, `store_address`, `store_number`, `store_url`, `store_status`, `store_rating`) VALUES
 (1, 'TPAMC', 1, 'Industry 4.0 is set to transform Singapore’s manufacturing sector, as more companies embrace advanced manufacturing technologies to increase their productivity and efficiency.', NULL, NULL, NULL, '21 Tampines Ave 1, Singapore 529757', '6788 2000', 'https://www.tp.edu.sg/research-and-industry/centres-of-excellence/centres-under-school-of-engineering/advanced-manufacturing-centre.html', 1, NULL),
-(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL);
+(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL),
+(3, 'anjsndjnsdnj', 1, 'njsjdjnsdj', 'uploads/IMG-61f96efcafdee8.46392473.png', NULL, NULL, 'jndnsjnnds', '83810308', 'www.abc.com', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -465,6 +467,8 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
+(1, 21),
+(1, 25),
 (2, 2);
 
 -- --------------------------------------------------------
@@ -519,7 +523,34 @@ INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`, `autom
 (43, 'length', '10m', 0, '30068854'),
 (44, 'length', '50m', 5, '30068854'),
 (45, 'color', 'black', 2.3, '30068854'),
-(46, 'color', 'green', 0, '30068854');
+(46, 'color', 'green', 0, '30068854'),
+(47, 'color', 'black', 0, '30068854'),
+(48, 'color', 'white', 0, '30068854'),
+(49, 'size', 'large', 0, '30068854'),
+(50, 'size', 'small', 0, '30068854'),
+(51, 'color', 'green', 23.1, '30068854'),
+(52, 'color', 'yellow', 0, '30068854'),
+(53, 'size', 'large', 1, '30068854'),
+(54, 'size', 'small', 0, '30068854'),
+(55, 'color', 'grene', 2, '30068854'),
+(56, 'size', 'large', 1, '30068854'),
+(57, 'size', 'small', 2, '30068854'),
+(58, 'color', 'green', 1, '30068854'),
+(59, 'color', 'blue', 0, '30068854'),
+(60, 'size', 'large', 1, '30068854'),
+(61, 'color', 'black', 2, '89344557'),
+(62, 'color', 'green', 42, '89344557'),
+(63, 'weight', '10kg', 1, '89344557'),
+(64, 'color', 'green', 3, '33547592'),
+(65, 'color', 'blue', 1, '33547592'),
+(66, 'color', 'green', 0, '30824308'),
+(67, 'color', 'yelow', 10, '30824308'),
+(68, 'size', 'large', 5, '30824308'),
+(69, 'asd', 'ueu', 0, '71622024'),
+(70, 'ds', '12', 0, '71622024'),
+(71, 'Color', 'green', 23, '68363530'),
+(72, 'Color', 'yellow', 10, '68363530'),
+(73, 'Size', 'large', 12, '68363530');
 
 -- --------------------------------------------------------
 
@@ -553,10 +584,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`, `user_suspended`, `user_failedattempts`, `user_warning`, `suspendedfinish`) VALUES
-(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'root@gmail.com', '1', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-61e1cb8da936a9.05590953.jpg', 0, 1, NULL, 0),
+(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'roos@gmail.com', '91231231', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-61e1cb8da936a9.05590953.jpg', 0, 3, NULL, 0),
 (4, 'tester', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'tester', 'tester', 6, 'tester@gmail.com', '213aa', '2022-01-04 16:56:49', 'tester', 'tester', 'VSOARC5JUW5O5UM7', 'uploads/IMG-61d41294d13813.99076896.png', NULL, NULL, NULL, NULL),
 (5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
-(6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
+(6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(7, 'darrenasd', '$2y$10$MqKo09oW55SGOxbTze.mB.aFysxF1hu6vkBJ56o.ZJCrOEXdVeZTa', 'darren', 'darren', 0, 'darrenasd@gmail.com', '91031231', '2022-01-31 17:27:11', 'a', 'a', 'HOOTJPVWUD33BZAJ', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -575,8 +607,8 @@ CREATE TABLE `usersfavorite` (
 --
 
 INSERT INTO `usersfavorite` (`product_id`, `user_id`) VALUES
-(1, 2),
-(3, 2);
+(3, 2),
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -617,30 +649,8 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
-(13149631, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 49129281, 1),
-(20540189, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 44238904, 1),
-(21520909, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 65038689, 1),
-(24985198, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 69471694, 1),
-(34313007, 5, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 1, 1433.2, 96137789, 1),
-(34781975, 2, 2, '3c771bf8d75fb729a61fd38cdf7e08c2', 2, 2866.4, 56525308, 1),
-(36916921, 2, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 41074234, 1),
-(37323656, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 2, 20.58, 39102838, 1),
-(39405689, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 68866060, 1),
-(42682064, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 1, 30.9, 91226347, 1),
-(45339864, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 69471694, 1),
-(45864688, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 9, 278.1, 78749148, 1),
-(52484361, 5, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 13626326, 1),
-(62857993, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 2, 61.8, 43239748, 1),
-(63250878, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 83719910, 1),
-(67869677, 2, 3, 'c9ca592076cfdc0f97ea3132e770c1f6', 2, 61.8, 93906941, 1),
-(70669906, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 3, 40.17, 41022897, 1),
-(71776166, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 10849871, 1),
-(77630643, 2, 6, '6d30558d5156e1f2e9875fcc1bfaffa8', 1, 43.23, 41022897, 1),
-(80608462, 2, 5, '38fc554ba26a85cc454f3a4b8ec7b301', 1, 650.21, 68866060, 1),
-(81829872, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 3, 40.17, 69471694, 1),
-(86324416, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 7, 93.73, 29692911, 1),
-(88901636, 5, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 90644407, 1),
-(93551889, 5, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 90644407, 1);
+(33918750, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 1, 10.29, 95414179, 1),
+(40029523, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -656,41 +666,17 @@ CREATE TABLE `user_creditcardinfo` (
   `user_creditcardinfo_expirymonth` varchar(45) NOT NULL,
   `user_creditcardinfo_expiryyear` varchar(45) NOT NULL,
   `user_creditcardinfo_cardtype` varchar(45) NOT NULL,
-  `user_creditcardinfo_cardnumb` varchar(45) NOT NULL
+  `user_creditcardinfo_cardnumb` varchar(45) NOT NULL,
+  `user_creditcardinfo_encryptkey` varchar(255) DEFAULT NULL,
+  `user_creditcardinfo_iv` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_creditcardinfo`
 --
 
-INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinfo_userid`, `user_creditcardinfo_nameoncard`, `user_creditcardinfo_expirymonth`, `user_creditcardinfo_expiryyear`, `user_creditcardinfo_cardtype`, `user_creditcardinfo_cardnumb`) VALUES
-(1, 2, 'Darren', '12', '2023', 'visa', ''),
-(2, 2, 'darren', '12', '2023', 'visa', ''),
-(3, 2, 'darren', '12', '2023', 'visa', ''),
-(4, 2, 'darren', '12', '2023', 'visa', ''),
-(5, 2, 'darren', '12', '2023', 'visa', ''),
-(6, 2, 'darren', '12', '2023', 'visa', ''),
-(7, 2, 'darren', '12', '2023', 'visa', ''),
-(8, 2, 'darren', '12', '2023', 'visa', ''),
-(9, 2, 'darren', '12', '2023', 'visa', ''),
-(10, 2, 'danre', '12', '2023', 'visa', ''),
-(11, 2, 'darren', '12', '2023', 'visa', ''),
-(12, 2, 'sean lim', '12', '2023', 'visa', ''),
-(13, 2, 'darren', '12', '2023', 'visa', ''),
-(14, 2, 'd', '12', '2023', 'visa', ''),
-(15, 2, 'drn', '12', '2023', 'visa', ''),
-(16, 2, 'darremmgp', '12', '2023', 'visa', '1111'),
-(17, 2, 'darmrekm', '12', '2022', 'visa', '1111'),
-(18, 5, 'darren', '12', '2023', 'visa', '1111'),
-(19, 5, 'uwu', '12', '2023', 'visa', '1111'),
-(20, 5, 'jasnjdnadsjn', '12', '2023', 'visa', '1111'),
-(21, 5, 'aksmdamsmd', '12', '2024', 'visa', '1111'),
-(22, 5, 'asdkmaskmd', '12', '2024', 'visa', '1111'),
-(23, 2, 'darren', '12', '2023', 'visa', '1111'),
-(24, 2, 'dar', '12', '2023', 'visa', '1111'),
-(25, 2, 'darren', '12', '2023', 'visa', '1111'),
-(26, 2, 'd', '12', '2023', 'visa', '1111'),
-(27, 2, 'ansajsdn3', '12', '2023', 'visa', '1111');
+INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinfo_userid`, `user_creditcardinfo_nameoncard`, `user_creditcardinfo_expirymonth`, `user_creditcardinfo_expiryyear`, `user_creditcardinfo_cardtype`, `user_creditcardinfo_cardnumb`, `user_creditcardinfo_encryptkey`, `user_creditcardinfo_iv`) VALUES
+(35, 2, 'darren', '12', '2023', 'visa', 'Xy7WDtY21UuqlZlRIrVwZg==', '294928c71509a94cacd30b53ee81bc286eced837a5e4e8ac', '00fe9b9eee645bbfc64eb586548b9f68');
 
 -- --------------------------------------------------------
 
@@ -727,13 +713,7 @@ CREATE TABLE `user_past_purchases` (
 --
 
 INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `user_creditcards`, `purchase_time`, `purchase_cost`, `purchase_status`, `cart_bundled`) VALUES
-(13, 5, 4, 21, '2022-01-06 18:25:49', 441.289, 1, 83719910),
-(14, 5, 6, 22, '2022-01-06 18:28:48', 1533.52, 1, 44238904),
-(15, 2, 7, 23, '2022-01-14 15:46:34', 100.291, 1, 33590214),
-(16, 2, 7, 24, '2022-01-14 16:12:43', 89.238, 1, 41022897),
-(17, 2, 7, 25, '2022-01-14 16:16:02', 3156.29, 1, 69471694),
-(18, 2, 7, 26, '2022-01-14 16:17:43', 710.052, 1, 68866060),
-(19, 2, 7, 27, '2022-01-24 19:05:19', 66.126, 1, 43239748);
+(27, 2, 9, 35, '2022-02-01 21:24:16', 11.0103, 2, 95414179);
 
 -- --------------------------------------------------------
 
@@ -763,7 +743,11 @@ INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_numbe
 (4, '12313212', 'kmasdm@gmail.com', 'sad', '123123', '1231', 5, 0, 'darrem', '1'),
 (5, '12312222', 'dskmd@gmail.com', 'qwe', '123112', '1231', 5, 0, 'amsda', '1'),
 (6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', ''),
-(7, '83182912', 'asds@gmail.com', '231 sd', '123123', '14-230', 2, 1, 'asdasd', '');
+(7, '83182912', 'asds@gmail.com', '231 sd', '123123', '14-2301', 2, 0, 'asdasd', '1'),
+(8, '12312312', 'sndjnjn@gmail.com', 'aksndanjsndj', '123123', '12-230', 2, 0, 'asdasn', '1'),
+(9, '83810308', 'jnsadnjdsnj@gmail.com', 'absdhbahsbdbhb', '820123', '14-230', 2, 1, 'darren', ''),
+(10, '83180308', 'darren@gmail.com', 'asd', '123123', '14-230', 2, 0, 'darrren', '1'),
+(11, '83182312', 'darern@gamil.com', 'asd', '123123', '14-230', 7, 1, 'darren', '');
 
 -- --------------------------------------------------------
 
@@ -802,7 +786,7 @@ CREATE TABLE `working_employees` (
 --
 
 INSERT INTO `working_employees` (`working_id`, `user_id`, `working_role`, `working_number`, `working_department`, `working_perhourpay`) VALUES
-(3, 2, 'Engineers', '91226969', 'Labour', 123);
+(3, 2, 'Engineers', '91226969', 'Labour', 12312);
 
 --
 -- Indexes for dumped tables
@@ -1020,7 +1004,7 @@ ALTER TABLE `working_employees`
 -- AUTO_INCREMENT for table `cart_typevariants`
 --
 ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
+  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1032,31 +1016,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `employees_task`
 --
 ALTER TABLE `employees_task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee_leave`
 --
 ALTER TABLE `employee_leave`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `likedby`
 --
 ALTER TABLE `likedby`
-  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `place`
@@ -1068,19 +1052,19 @@ ALTER TABLE `place`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `total_people_in_lab`
@@ -1092,13 +1076,13 @@ ALTER TABLE `total_people_in_lab`
 -- AUTO_INCREMENT for table `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_booking`
@@ -1110,19 +1094,19 @@ ALTER TABLE `user_booking`
 -- AUTO_INCREMENT for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `user_past_purchases`
 --
 ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `user_shippinginformation`
 --
 ALTER TABLE `user_shippinginformation`
-  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `working_booking`
