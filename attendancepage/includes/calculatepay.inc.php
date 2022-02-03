@@ -6,8 +6,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
 $jwtarray = jwtdecrypt();
 $userid = $jwtarrayinformation['userid'];
-$attendanceCurrentMonth = $jwtarrayinformation['currentmonth'];
-$attendanceCurrentYear = $jwtarrayinformation['currentyear'];
+$attendanceCurrentMonth = date('m');
+$attendanceCurrentYear = date('Y');
+// $attendanceCurrentMonth = $jwtarrayinformation['currentmonth'];
+// $attendanceCurrentYear = $jwtarrayinformation['currentyear'];
 
 ?>
 

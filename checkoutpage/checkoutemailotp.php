@@ -71,7 +71,7 @@ if ($jwtarrayinformation["checkoutstate"] === "A") {
                         <input type="text" id="emailotp" name="emailotp" placeholder="Verification code..."><br>
                         <button type="submit" name="submit">Submit</button>
                         <button type="submit" name="resend">Resend Email</button>
-                        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>";
+                        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>
 
                     </form>
             </div>

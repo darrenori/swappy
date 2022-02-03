@@ -3,6 +3,20 @@
     background-color: rgb(0, 0, 0);
 }
 
+*{
+    margin:0;
+    padding:0;
+    font-family:sans-serif;
+}
+body {
+    overflow:hidden;
+    
+}
+html, body {
+max-width: 100%;
+overflow-x: hidden;
+}
+
 body {
     background-color: black;
 }
@@ -43,6 +57,11 @@ button {
 .fa-search {
     background-color: #8D1D25;
     color: white;
+    font-family: sans-serif;
+    font-weight: regular;
+    font-size: 0.7em;
+    padding:0;
+    height: 36px;
 }
 
 header {
@@ -402,7 +421,7 @@ button:hover {
     font-size: 30px;
 }
 
-.nav-bar {
+/* .nav-bar {
     display: flex;
     padding: 40px 7vw;
     text-align: right;
@@ -451,7 +470,7 @@ button:hover {
 
 .nav-links ul li:hover::after {
     width: 100%;
-}
+} */
 
 .btn {
     padding: 10px 20px;

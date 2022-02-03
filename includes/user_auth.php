@@ -9,8 +9,8 @@ if (isset($_COOKIE['jwt'])) {
     $info = jwtdecrypt();
     $iat  = $info['iat'];
     $exp = $info['exp'];
-    echo "expiry time " . $exp;
-    echo "<br>" . "now time " .  time();
+    // echo "expiry time " . $exp;
+    // echo "<br>" . "now time " .  time();
 
     if (isset($_POST['type']) && $_POST['type'] == 'ajax') {
 

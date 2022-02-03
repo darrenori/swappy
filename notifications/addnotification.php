@@ -1,3 +1,17 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+<html>
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
@@ -25,7 +39,7 @@ $csrf = generateCSRF();
 
     
 
-    .nav-bar {
+    /* .nav-bar {
         display:flex;
         padding: 40px 7vw;
         text-align:right;
@@ -82,7 +96,7 @@ $csrf = generateCSRF();
         width:100%;
         
 
-    }
+    } */
 
     .btn {
         padding: 10px 20px;
@@ -498,7 +512,7 @@ input{
 
 </head>
 <body>
-<div class='nav-bar'>
+<!-- <div class='nav-bar'>
         <div class='nav-logo'>
             <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
             
@@ -513,7 +527,7 @@ input{
         </div>
         <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
-    </div>
+    </div> -->
 <div class="ballshape3">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="339.834" height="339.834" viewBox="0 0 339.834 339.834">
   <defs>

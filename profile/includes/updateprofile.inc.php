@@ -370,7 +370,16 @@ if (notEmpty($informationarray) == 1) {
                     
                         exit;
                     }
-                    
+
+         
+                    $jwtarrayinformation['username'] = $username;
+                    if(isset($img_name)){
+                        $jwtarrayinformation['profilepic'] = $img_upload_path;
+                    }
+                    $jwtarrayinformation['email'] = $email;
+
+                    jwtupdate($jwtarrayinformation);
+                    // exit;
 
                     header("location: https://www.swapamc.com/swapproj/campus");
             }

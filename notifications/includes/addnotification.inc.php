@@ -166,7 +166,7 @@ if (validTypes($notificationtype, $validtypes) == false) {
 
 //add
 try {
-    $query = $conn->prepare("INSERT INTO mydb.notification (user_id,notification,header,level,type) VALUES (');");
+    $query = $conn->prepare("INSERT INTO mydb.notification (user_id,notification,header,level,type) VALUES (?,?,?,?,?);");
     $query ->bind_param('issii',$useridtosend,$notificationtext,$notificationheader,$notificationsevere,$notificationtype);
     if ($query === false) {
         //change filename accordingly

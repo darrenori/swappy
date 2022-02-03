@@ -1,4 +1,16 @@
 <html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+<html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
 
@@ -18,65 +30,7 @@
 
     
 
-    .nav-bar {
-        display:flex;
-        padding: 40px 7vw;
-        text-align:right;
-        align-items:center;
-    }
-
-    .nav-bar .fas {
-        display:none;
-    }
-
-    .nav-logo img {
-        width:150px;
-        
-    }
-
-    .nav-links {
-        flex:1;
-
-        right:-200px;
-
-        
-    }
-
-    .nav-links ul {
-        margin-right:50px;
-        display:inline;
-        
-    }
-
-    .nav-links ul li {
-        list-style:none;
-        display:inline-block;
-        padding:8px 25px;
-        
-    }
-
-    .nav-links ul a {
-        color: white;
-        text-decoration:none;
-        font-size:13px;
-    }
-
-    .nav-links ul li::after {
-        content:'';
-        width:0;
-        height:2px;
-        background:#8D1D25;
-        display:block;
-        margin:auto;
-        transition:.25s;
-    }
-
-    .nav-links ul li:hover::after {
-        
-        width:100%;
-        
-
-    }
+    
 
     .btn {
         font-size: 12.5px;
@@ -438,8 +392,7 @@
 
 </style>
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 
@@ -448,29 +401,7 @@
 </head>
 <body>
 <div class='hero'>
-    <div class='nav-bar'>
-        <div class='nav-logo'>
-            <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
-            
-        </div>
-
-        <div class='nav-links' id='nav-links'>
-            <i class="fas fa-arrow-circle-left" onclick="closeMenu()" style="color:white"></i>
-
-            <ul>
-                <a href="https://www.swapamc.com/swapproj/home/"><li>HOME</li></a>
-                <a href="https://www.swapamc.com/swapproj/faq"><li>FAQs</li></a>
-                <a href="#"><li>PRODUCTS</li></a>
-               
-                
-            </ul>
-
-            <button type="button" class="btn">LOGIN</button>
-
-        </div>
-        <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
-
-    </div>
+    
 
     <div class="container">
         <div class="thing">
@@ -504,7 +435,10 @@
             
         </div>
         <div class="thing">
-             <h1 class="useraccount"><spann>Who are we?</spann><br><img src="https://drive.google.com/uc?export=view&id=19HUPvXqVQGI5aKo4l1tiFzFZSyPKs3H8" width="200px" height="300px"><br><span>I cheated while playing the darts tournament by using a longbow.<br>While all her friends were positive that Mary had a sixth sense, she knew she actually had a seventh sense.<br>She wanted a pet platypus but ended up getting a duck and a ferret instead.<br>The fox in the tophat whispered into the ear of the rabbit.<br>David proudly graduated from high school top of his class at age 97.<br>Happiness can be found in the depths of chocolate pudding. <span>         </div>
+             <h1 class="useraccount"><spann>Bringing Education to Life and Life to Education</spann><br><span>
+             Temasek Polytechnic (TP) is a post-secondary education institution and statutory board under the purview of the Ministry of Education in Singapore. Established in 1990, the institution is the third polytechnic established in the country.
+
+<span>         </div>
          </div>
     </div>
 

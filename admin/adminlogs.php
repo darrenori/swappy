@@ -801,7 +801,7 @@ html, body {
                             $handle = fopen("C:\\xampp\\htdocs\\swap.log", "r");
                             if ($handle) {
                                 $counter = 0;
-                                while (($line = fgets($handle)) !== false && $counter<50) {
+                                
                                     // process the line read.
                                     $counter++;
                                     

@@ -1,9 +1,39 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
 <?php
-$filename=basename(__FILE__, '.php');
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+<html>
+
+</html>
+<?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+?>
+<style>
+<?php include 'campus.css'; ?>
+body { background: #272727 !important;}
+a {color:black;}
+</style>
+<?php
+$filename=basename(__FILE__, '.php');
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
@@ -11,23 +41,23 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
 $csrf = generateCSRF();
 
 
-echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><input type=button name=viewcart value='View Cart'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button name=allstores value='All Stores'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
-echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button value='Tasks'></a>";
+// echo "<br><br><a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value=Employee_Manager></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allproducts'><input type=button name=allproducts value=Storefront></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><input type=button name=viewcart value='View Cart'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/allstores'><input type=button name=allstores value='All Stores'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/employeemanager'><input type=button name=employeemanager value='Tasks need to be accessed thru employee manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Tasks need to be accessed thru product manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/addnotification'><input type=button name=employeemanager value='Notification'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/productmanager'><input type=button name=employeemanager value='Product Manager'></a>";
+// echo "<a href='https://www.swapamc.com/swapproj/viewtask'><input type=button value='Tasks'></a>";
 
 ###zeph
 //search box
-echo '<form action="/swapproj/searchinc" method="post">';
-echo '<input type="text" name ="searchitem" placeholder="Router...">';
-echo '<input type="submit" value="Submit">';
-echo "<input type='hidden' name='csrf' value='$csrf'>";
-echo '</form>';
+// echo '<form action="/swapproj/searchinc" method="post">';
+// echo '<input type="text" name ="searchitem" placeholder="Router...">';
+// echo '<input type="submit" value="Submit">';
+// echo "<input type='hidden' name='csrf' value='$csrf'>";
+// echo '</form>';
 
 
 
@@ -95,11 +125,11 @@ if ($query->fetch()) {
 
     }
 
-    echo "<div class='username'> Hello $username,  </div>";
+    echo "<div class='username'> <h1>Hello $username,</h1>  </div>";
     echo "<div class='static'> this is what you are up to </div>";
     
     echo  "<div class='container5'>";
-        echo "<div class='item'><a href='https://www.swapamc.com/swapproj/viewnotifications'>Notification</a><svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 234.416 210.07'>
+        echo "<div class='item'><a class='imptt' href='https://www.swapamc.com/swapproj/viewnotifications'>Notification</a><svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 234.416 210.07'>
             <g id='inb' transform='translate(0 0.014)'>
             <path id='Path_743' data-name='Path 743' d='M724.508,660.454A12.578,12.578,0,0,1,720,649.611a10.168,10.168,0,0,1,7.559-8.633c3.988-.86,8.535,1.521,9.746,5.417.667-7.511,1.435-15.338,5.429-21.734A23.018,23.018,0,0,1,759.4,613.983a20.652,20.652,0,0,1,18.168,7.416,18.743,18.743,0,0,1,2.3,19.3c-2.184,4.531-6.208,7.9-10.424,10.647a67.277,67.277,0,0,1-46.013,10.066' transform='translate(-561.151 -452.053)' fill='#f2f2f2'/>
             <path id='Path_744' data-name='Path 744' d='M805.3,620.3a111.009,111.009,0,0,0-32.618,44.106c-.311.762.927,1.094,1.234.34A109.775,109.775,0,0,1,806.2,621.208c.639-.52-.271-1.421-.905-.905Z' transform='translate(-595.596 -456.159)' fill='#fff'/>
@@ -128,7 +158,7 @@ if ($query->fetch()) {
             </g>
             </svg></div>";
         
-            echo "<div class='item'><a href='https://www.swapamc.com/swapproj/viewfavorites'>Favorites</a><svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 246.606 220.024'>
+            echo "<div class='item'><a class='imptt' href='https://www.swapamc.com/swapproj/viewfavorites'>Favorites</a><svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 246.606 220.024'>
         <g id='Group_265' data-name='Group 265' transform='translate(-15677.513 -4872.09)'>
         <path id='Path_699' data-name='Path 699' d='M485.157,675.139a6.056,6.056,0,0,1,.139-7.841c.193-.218.54.072.347.29a5.608,5.608,0,0,0-.114,7.294C485.714,675.105,485.341,675.361,485.157,675.139Z' transform='translate(15266.723 4390.927)' fill='#fff'/>
         <path id='Path_700' data-name='Path 700' d='M473.088,707.785a11.673,11.673,0,0,0,8.21-2.229c.234-.174.491.2.257.371a12.142,12.142,0,0,1-8.548,2.3C472.718,708.2,472.8,707.753,473.088,707.785Z' transform='translate(15272.938 4369.212)' fill='#fff'/>
@@ -178,7 +208,7 @@ if ($query->fetch()) {
         <path id='Path_726' data-name='Path 726' d='M827.841,439.632a.842.842,0,0,1-.842-.842V426.4a.842.842,0,0,1,1.684,0V438.79a.842.842,0,0,1-.842.842Z' transform='translate(15072.082 4527.978)' fill='#c11427'/>
         </g>
         </svg></div>";
-        echo "<div class='item'><a href='https://www.swapamc.com/swapproj/viewpastpurchase'>Purchases</a><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 232.042 213.512'>
+        echo "<div class='item'><a class='imptt' href='https://www.swapamc.com/swapproj/viewpastpurchase'>Purchases</a><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 232.042 213.512'>
         <g id='notify' transform='translate(-173.299 -0.047)'>
             <path id='Path_727' data-name='Path 727' d='M912.406,663.771,903,635.385s10.346,10.346,10.346,18.836l-1.857-19.631a29.959,29.959,0,0,1,4.775,18.04C915.734,663.506,912.406,663.771,912.406,663.771Z' transform='translate(-510.961 -450.843)' fill='#e6e6e6'/>
             <path id='Path_728' data-name='Path 728' d='M428.18,602.752l-9.18-27.7s10.1,10.1,10.1,18.383l-1.812-19.16a29.24,29.24,0,0,1,4.66,17.606C431.428,602.493,428.18,602.752,428.18,602.752Z' transform='translate(-228.733 -415.671)' fill='#e6e6e6'/>
@@ -200,7 +230,7 @@ if ($query->fetch()) {
             <path id='Path_742' data-name='Path 742' d='M439.313,334.013a18.827,18.827,0,0,1-17.2-11.168L380.446,229.01a24.942,24.942,0,1,1,46.637-17.453l30.173,98.14a18.793,18.793,0,0,1-17.943,24.317Z' transform='translate(-205 -193.896)' fill='#c11427'/>
         </g>
         </svg></div>";
-        echo "<div class='item'><a href='https://www.swapamc.com/swapproj/storeoverview'>Store Overview</a><svg id='goal' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 290.028 217.715'>
+        echo "<div class='item'><a class='imptt' href='https://www.swapamc.com/swapproj/allproducts'>Store Overview</a><svg id='goal' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 290.028 217.715'>
         <path id='Path_649' data-name='Path 649' d='M854.09,627.842l.435-9.789a31.616,31.616,0,0,1,14.747-3.733c-7.083,5.791-6.2,16.953-11,24.74a19.017,19.017,0,0,1-13.945,8.788l-5.927,3.629a31.866,31.866,0,0,1,6.717-25.823,30.778,30.778,0,0,1,5.657-5.256C852.194,624.14,854.09,627.842,854.09,627.842Z' transform='translate(-589.078 -433.762)' fill='#f2f2f2'/>
         <path id='Path_650' data-name='Path 650' d='M403.738,422.889a3.627,3.627,0,0,1,.237-5.556L399.914,405.1l6.468,1.738,2.864,11.349a3.646,3.646,0,0,1-5.508,4.7Z' transform='translate(-342.207 -315.836)' fill='#a0616a'/>
         <path id='Path_651' data-name='Path 651' d='M410.826,292.853c1.073.615,7.423-.909,8.663-.476-.685,4.177,3.033,2.609-1,8.094s-12.169,21.93-14.016,28.076-.019,14.808-.3,17.721a30.233,30.233,0,0,0,.025,5.07c-2.181-.028-4.331.425-6.547.136-2.363-6.685-3.951-16.2-5.03-21.46s-1.118-3.035-.623-5.665.615-.719.095-3.234,1.582-5.677,3.524-7.479c.837-2.408,1.919-4.654,2.748-7.037C404.44,301.3,404.84,298.24,410.826,292.853Z' transform='translate(-337.574 -252.254)' fill='#c11427'/>
@@ -250,11 +280,36 @@ if ($query->fetch()) {
         <circle id='Ellipse_36' data-name='Ellipse 36' cx='4.621' cy='4.621' r='4.621' transform='translate(197.533 168.683)' fill='#e6e6e6'/>
         </svg></div>";
     echo  "</div>";
+            print_r($jwtarrayinformation);
 
+    if($role>1){
+        // print_r($jwtarrayinformation);
+        echo "<div class='attendance-btn'>
+        <button id='attendanceButton' class='attendance-btn1'>VIEW ATTENDANCE</button>
+        </div>";
 
-    echo "<div class='attendance-btn'>
-    <button id='attendanceButton' class='attendance-btn1'>VIEW/EDIT ATTENDANCE</button>
-    </div>";
+        
+        
+    }
+
+    if($role>4){
+        echo "<div class='attendance-btn'>
+        <button id='notificationButton' class='attendance-btn1'>ADD NOTIFICATIONS</button>
+        </div>";
+
+    }
+
+    if($role>4){
+        echo "<div class='attendance-btn'>
+        <button id='adminButton' class='attendance-btn1'>ADMIN</button>
+        </div>";
+
+    }
+
+    
+
+    
+    
 
 
 
@@ -360,7 +415,7 @@ echo"</div>";
 
 
 
-
+ob_flush();
 
 
 
@@ -369,12 +424,10 @@ echo"</div>";
 ?>
 
 <html>
-<style>
-<?php include 'campus.css'; ?>
-body { background: #272727 !important;}
-a {color: black !important; }
-</style>
+
 <body>
+
+
     
 <div class='logout-edit-btn'>
 <form method="POST">
@@ -388,10 +441,18 @@ a {color: black !important; }
     document.getElementById("attendanceButton").onclick = function () {
         location.href = "attendance";
     };
+
+    document.getElementById("notificationButton").onclick = function () {
+        location.href = "addnotification";
+    };
+
+    document.getElementById("adminButton").onclick = function () {
+        location.href = "productmanager";
+    };
 </script>
 
 </html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

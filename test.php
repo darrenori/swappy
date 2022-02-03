@@ -261,7 +261,7 @@
 
 
             </div>
-            <p class='reviewdetails'>Very nice product. makes it portable and stuff.</p>
+            <p class='reviewdetails'>Very nice product. makes it portable stuanjsdnkasnkdanjskdankdsnksndnsdknsdskdksndff stuff.</p>
 
             <div class="imagescontainer">
                 <div class='picturesreview'>

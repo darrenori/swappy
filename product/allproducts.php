@@ -1,3 +1,16 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
 <?php
 
 ////  WHITELIST OF GETITEMS (IF ADDING ANY MORE NAMES TO GET FORM, be sure to append them here.)
@@ -43,7 +56,7 @@ $specialkey = "HSHTY6";
 $selectedcategory; //used to identify selected category
 ?>
 
-<div class='nav-bar'>
+<!-- <div class='nav-bar'>
     <div class='nav-logo'>
         <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
         
@@ -58,7 +71,7 @@ $selectedcategory; //used to identify selected category
     </div>
     <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     
-</div>
+</div> -->
 
 <header>
         <div class=navbar5>
@@ -74,7 +87,13 @@ $selectedcategory; //used to identify selected category
         </ul> 
         <form action="/swapproj/searchinc" method="post">
             <input class='search' type="text" name ="searchitem" placeholder="Router...">
-            <input class='fa fa-search' type="submit" value="Submit">
+            <?php
+            $csrf=generateCSRF();
+            echo "<input type='hidden' name='csrf' value='$csrf'>";
+
+            ?>
+            <!-- <button><i class="fas fa-search"></i></button> -->
+            <input class='fa fa-search' type="submit" value="Search">
         </form>
         </div>  
 </header>
@@ -276,11 +295,13 @@ echo "</div>";
 <html>
 
 
-<a href='https://www.swapamc.com/swapproj/campus'><input type=button name=employeemanager value='Home'></a>
+<!-- <a href='https://www.swapamc.com/swapproj/campus'><input type=button name=employeemanager value='Home'></a> -->
 
 </html>
 <style>
-<?php include 'product/css/allproduct.css'; ?>
+<?php include 'product/css/allproduct.css'; 
+ob_flush();
+?>
 body { background: black !important; }
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

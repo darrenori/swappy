@@ -1,3 +1,16 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
+
+?>
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
@@ -37,7 +50,7 @@ $_SESSION["shippingid"] = (int)$_GET['shippingid'];
 
     
 
-    .nav-bar {
+    /* .nav-bar {
         display:flex;
         padding: 40px 7vw;
         text-align:right;
@@ -94,7 +107,7 @@ $_SESSION["shippingid"] = (int)$_GET['shippingid'];
         width:100%;
         
 
-    }
+    } */
 
     .btn {
         padding: 10px 20px;
@@ -527,7 +540,7 @@ if (isset($_GET['type'])) {
 
 </head>
 <body>
-<div class='nav-bar'>
+<!-- <div class='nav-bar'>
         <div class='nav-logo'>
             <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
             
@@ -542,7 +555,7 @@ if (isset($_GET['type'])) {
         </div>
         <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
-    </div>
+    </div> -->
 <div class="ballshape3">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="339.834" height="339.834" viewBox="0 0 339.834 339.834">
   <defs>
@@ -734,6 +747,8 @@ if (isset($_GET["error"])) {
         header("location: https://www.swapamc.com/swapproj/checkout/editshippingaddress?type=success");
     }
 }
+
+ob_flush();
 //     }
 // }
 ?>

@@ -303,3 +303,6 @@ $router->post('/updatepastpurchase','pastpurchases/includes/updatepastpurchases.
 $router->get('/storeoverview','product/storeoverview.php');
 
 $router->get('/justin','justin.php');
+
+
+$router->get('/navbar','navbar.php');

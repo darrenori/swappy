@@ -826,6 +826,8 @@ jwtupdate($jwtarrayinformation);
                     
                     ?>
             </form> 
+            <button style='cursor:pointer; border:#E26565;  width:200px; height:50px; border-radius:100px; background-color:#333333; color:white;' class='leave' onclick="location.href='/swapproj/attendance/calculatepay'">Monthly Pay</button>
+
             <div class="banner">
             <p style="padding: 20px 10px;">Do not fake your attendance.<br>Serious actions will be taken against those who do.</p>
              </div>

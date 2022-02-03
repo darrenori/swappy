@@ -1,4 +1,17 @@
 <html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+
+<html>
 <style type="text/css">
     *{
         margin:0;
@@ -15,71 +28,7 @@
     overflow-x: hidden;
 }
     
-    .nav-bar {
-        display:flex;
-        padding: 40px 7vw;
-        text-align:right;
-        align-items:center;
-    }
-    .nav-bar .fas {
-        display:none;
-    }
-    .nav-logo img {
-        width:150px;
-        
-    }
-    .nav-links {
-        flex:1;
-        right:-200px;
-        
-  
-       
-        
-        
-        
-    }
-    .nav-links ul {
-        margin-right:50px;
-        display:inline;
-        
-    }
-    .nav-links ul li {
-        list-style:none;
-        display:inline-block;
-        padding:8px 25px;
-        
-    }
-    .nav-links ul a {
-        color: white;
-        text-decoration:none;
-        font-size:13px;
-    }
-    .nav-links ul li::after {
-        content:'';
-        width:0;
-        height:2px;
-        background:#8D1D25;
-        display:block;
-        margin:auto;
-        transition:.25s;
-    }
-    .nav-links ul li:hover::after {
-        
-        width:100%;
-        
-    }
-    .btn {
-        padding: 10px 30px;
-        font-weight:500;
-        border:0;
-        background:#8D1D25;
-        color:white;
-        border-radius:16px;
-        cursor:pointer;
-    }
-    .nav-links .btn {
-        float:right;
-    }
+
     .rowone {
         display:flex;
         justify-content:space-between;
@@ -524,8 +473,7 @@
 
     
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 
@@ -536,7 +484,7 @@
 <div id='cursor' class='cursor'></div>
 
 
-
+<!-- 
 <div class='nav-bar'>
     <div class='nav-logo'>
         <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
@@ -555,7 +503,7 @@
     </div>
     <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     
-</div>
+</div> -->
 
 
 <div class='rowone'>

@@ -398,9 +398,10 @@ overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: flex-start;
+    
     width: 100%;
     margin-bottom: 50px;
+    flex-basis: 100%;
 
 }
 
@@ -424,6 +425,7 @@ overflow-x: hidden;
     
     margin-left: 10px;
     width: 100%;
+    padding-bottom: 20px;
 }
 
 
@@ -437,9 +439,14 @@ overflow-x: hidden;
 }
 
 .reviewdetails {
+    /* width: 100%; */
     color: white;
-    flex-basis: 100%;
+    flex-basis: 70%;
+    max-width: 80%;
+    overflow: auto;
+    padding: 20px 0px;
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .imagescontainer {
@@ -604,6 +611,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
 
 .childreview {
     margin-left: 6vw;
+    flex-basis: 100%;
 }
 
 .childright {

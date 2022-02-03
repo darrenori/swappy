@@ -1,22 +1,37 @@
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+ <?php
+ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+
+
+ ?>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"> -->
+        <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" -->
+         <!-- integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
+
 <head>
 
 
 </head>
 
 <style>
-    <style type="text/css">
+    
     *{
         margin:0;
         padding:0;
         font-family:sans-serif;
     }
+
     body {
-        background:black;
-        overflow:hidden;
-        cursor:none;
+        /* background:black; */
+        /* font-family: 'Montserrat', sans-serif; */
+        color: white;
+    
     }
     html, body {
     max-width: 100%;
@@ -24,12 +39,13 @@
 }
     
     .nav-bar {
+        color: white;
         display:flex;
         padding: 40px 7vw;
         text-align:right;
         align-items:center;
     }
-    .nav-bar .fas {
+    .navlinksic {
         display:none;
     }
     .nav-logo img {
@@ -53,14 +69,14 @@
     }
     .nav-links ul li {
         list-style:none;
-        display:inline-block;
-        padding:8px 25px;
+        display:inline-block !important;
+        padding:8px 25px !important;
         
     }
     .nav-links ul a {
         color: white;
         text-decoration:none;
-        font-size:13px;
+        font-size:14px;
     }
     .nav-links ul li::after {
         content:'';
@@ -71,7 +87,7 @@
         margin:auto;
         transition:.25s;
     }
-    .nav-links ul li:hover::after {
+    .nav-links ul .links:hover::after {
         
         width:100%;
         
@@ -88,82 +104,160 @@
     .nav-links .btn {
         float:right;
     }
-    .rowone {
-        display:flex;
-        justify-content:space-between;
-        flex-wrap:wrap;
-        flex-direction:row;
-        align-items:center;
-        margin:100px 7vw;
-        max-width: 80vw;
-        width:80vw;
+
+    .profileinfo {
+        color: white;
+        font-size: 20px;
+    }
+
+    @media(max-width:900px){
+        
+        .nav-bar {
+            padding: 10px 30px;
+        }
+        .fa-bars {
+            position: absolute;
+            right:20px;
+            top:10px;
+        }
+        .nav-bar .fas {
+            display:block;
+            color:white;
+            margin: 10px 25px;
+            font-size:22px;
+            cursor:pointer;
+        }
+        .nav-links{
+            height:100vh;
+            width:200px;
+            background:#000;
+            top:0;
+            right:-200px;
+            position:fixed;
+            text-align:left;
+            z-index:2;
+            transition:.5s;
+            
+        }
+        .nav-links ul a{
+            display:block;
+        }
+        .nav-links .btn {
+            float:none;
+            margin-left:25px;
+            margin-top:10px;
+        }
+      
+        
+        .btnthree {
+        
+            margin-left:0;
+        }
+
+        .navic {
+            padding-right: 0;
+            flex-basis: 20%;
+            background-color: #8D1D25;
+
+        }
+
+        #lblCartCount {
+            display: none;
+        }
+
+        .profileinfo {
+            /* width: 100%; */
+            flex-basis: 100%;
+            
+            padding:0;
+        }
+
+
+        
         
     }
-    .banner-title {
-        
-        color:white;
-        flex-basis:50%;
-        position: relative;
+
+    .navic {
+        /* padding-right: 20px; */
+        padding-right: 25px;
+        font-size: 18px;
+        transition: .25s;
+        flex-basis: 20%;
+        width: 20px;
+        height: 20px;
+        box-sizing: initial !important;
+        background: inherit ;
+
+    }
+
+    .naviclast {
+        font-size: 18px;
+        transition: .25s;
+        flex-basis: 20%;
+        width: 20px;
+        height: 20px;
+        background: inherit ;
+        /* position: absolute; */
+    }
+
+    .navic:hover {
+        opacity: 0.7;
         
     }
-    .banner-title h1 {
-        font-size:50px;
-        margin-bottom: 30px;
+
+    .naviclast:hover{
+        opacity: 0.7;
     }
-    .banner-title h2 {
-        font-size:80px;
-        opacity:10%;
-        z-index: -10000;
-        font-weight:900;
-        
-    }
-    .banner-title h3{
-        color:#8D1D25;
-        font-size:30px;
-        font-weight:bold;
-        z-index: 2;
-    }
-    .buttoncontainer {
-        width:70%;
-        display:flex;
-        
-        flex-wrap:wrap;
-        justify-content:space-between;
-        
-        flex-direction:row;
+
+    .profileinfo {
+        /* font-size: 20px; */
+
+        background-color: rgba(141, 29, 37, 0.8) !important;   
+        padding: 10px 20px;
+        /* padding-left: 20px; */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 16px;
+        transition: .5s;
         
         
     }
-    .btntwo {
-        flex-basis:30%;
-        
-        
-        padding: 10px 60px;
-        font-weight:bold;
-        border:0;
-        background:#8D1D25;
-        color:white;
+
+    .profileinfo:hover {
+        background-color: rgba(226, 101, 101, 0.8);
+    }
+
+    .badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+  
+}
+#lblCartCount {
+    font-size: 12px;
+    background: black;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -1px;
+    margin-top: -10px;
+    position: relative;
+    z-index: 100;
+    position: absolute;
+}
+
     
-        cursor:pointer;
-        border: 2px solid #8D1D25;
-        margin-top:30px;
-        margin-bottom:30px;
-    }
-    .btnthree {
-        flex-basis:30%;
-        
-        padding: 10px 69px;
-        font-weight:bold;
-        border: 2px solid #8D1D25;
-        color:white;
-        cursor:pointer;
-        background:none;
-        margin-top:30px;
-        margin-bottom:30px;
-    }
-    .banner-title h1 span  {
-        color:#8D1D25;
-    }
+   
 </style>
 
 <div class='nav-bar'>
@@ -171,17 +265,136 @@
         <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
         
     </div>
-    <div class='nav-links' id='nav-links'>
-        <i class="fas fa-arrow-circle-left" onclick="closeMenu()" style="color:white"></i>
+
+    
+    <div class='nav-links' id='nav-links' style='list-style-type: disc !important;'>
+        <i class="navlinksic fas fa-arrow-circle-left" onclick="closeMenu()" style="color:white"></i>
         <ul>
-            <a href="#"><li>HOME</li></a>
-            <a href="https://www.swapamc.com/swapproj/faq/"><li>FAQs</li></a>
-            <a href="#"><li>PRODUCTS</li></a>
+
+            <?php
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+                $jwtarray = jwtdecrypt();
+                
+
+                if(isset($jwtarray)&&$jwtarray!=null){
+                    $jwtarrayinformation = $jwtarray['array'];
+                    //signedin
+
+
+
+
+
+
+
+
+
+
+
+                    ###calculate cart
+
+
+
+                    $cartsze=0;
+
+                    $useriduni=$jwtarrayinformation['userid'];
+                    try {
+                       $query = $conn->prepare("SELECT cart_id FROM mydb.user_cart 
+                       WHERE user_id = ? AND mydb.user_cart.purchased='0';");
+                       $query->bind_param('s', $useriduni);
+                       if ($query === false) {
+                           //change filename accordingly
+                           throw new Exception("Statement Preparation failed(nav)");
+                       }
+                   } catch (Exception $e) {
+                       error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+                       //change header location accordingly
+                       
+                   }
+                   // throws error "Statment Execution failed" when statement fails
+                   try {
+                       $execute = $query->execute();
+                       if ($execute === false) {
+                           throw new Exception("Statement Execution failed (navbar)");
+                       }
+                   } catch (Exception $e) {
+                       error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+                       
+                   }
+                   
+                   $result = $query->get_result();
+                   $arrayone = $result->fetch_all(MYSQLI_ASSOC);
+                   $cartsze= sizeof($arrayone);
+
+
+
+                   if($cartsze>9){
+                       $cartsze="9+";
+                   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
+                    echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';
+                    echo '<a href="https://www.swapamc.com/swapproj/allproducts"><li class="links">PRODUCTS</li></a>';
+                    echo '<li>';
+                        echo '<div class="profileinfo" style="color: white;">';
+                            echo "<a href='https://www.swapamc.com/swapproj/campus'><i class='navic fas fa-user'></i></a>";
+                            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><i class='navic fas fa-shopping-cart'><span class='badge badge-warning' id='lblCartCount'>$cartsze</span></i></a>";
+                            echo "<a href='https://www.swapamc.com/swapproj/viewnotifications'><i class='navic fas fa-bell'></i></a>";
+                            echo "<a href='https://www.swapamc.com/swapproj/viewfavorites'><i class='naviclast fas fa-heart'></i></a>";
+                        echo "</div>";
+                    echo "</li>";
+                } else {
+                    echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
+                    echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';
+                    echo '<a href="https://www.swapamc.com/swapproj/allproducts/product/viewcart"><li class="links">PRODUCTS</li></a>';
+                    echo "<button onclick=location.href='https://www.swapamc.com/swapproj/login' type='button' class='btn'>LOGIN</button>";
+
+
+                }
+
+
+            ?>
+            
             
             
         </ul>
-        <button onclick="location.href = 'https://www.swapamc.com/swapproj/login'" type="button" class="btn">LOGIN</button>
+        <!-- <button onclick="location.href = 'https://www.swapamc.com/swapproj/login'" type="button" class="btn">LOGIN</button> -->
     </div>
-    <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
+    <i class="navlinksic fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     
 </div>
+
+
+<script>
+    var show = document.getElementById('nav-links');
+    function showMenu(){
+        show.style.display='block';
+        
+        show.style.right='0';
+    }
+    
+    function closeMenu(){
+        show.style.right='-200px';
+    }
+</script>
