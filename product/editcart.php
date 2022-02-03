@@ -46,7 +46,7 @@ $jwtarray = jwtdecrypt();
     $jwtarray_insidearray = $jwtarray['array'];
     $postinformation = [];
     $userid = $jwtarray_insidearray['userid'];
-    $productid = $jwtarray_insidearray["productid"];
+    // $productid = $jwtarray_insidearray["productid"];
 
 
    
@@ -60,15 +60,14 @@ $jwtarray = jwtdecrypt();
         exit();
     }
 
-
-
+   
 
     
-    if(!isset($jwtarray_insidearray["progresscheckout"])){
-        header("location: ../product/viewcart");
-    } elseif($jwtarray_insidearray["progresscheckout"]!='A'){
-        header("location: ../product/viewcart");
-    } 
+    // if(!isset($jwtarray_insidearray["progresscheckout"])){
+    //     header("location: ../product/viewcart");
+    // } elseif($jwtarray_insidearray["progresscheckout"]!='A'){
+    //     header("location: ../product/viewcart");
+    // } 
 
     
 
@@ -81,7 +80,7 @@ $jwtarray = jwtdecrypt();
     }
 
    
-
+    
     
 
     //check if quantity valid
@@ -126,6 +125,7 @@ if(!isset($_GET['cart'])){
 
     
 } elseif(!is_numeric($_GET['cart'])){
+    
     header("location: ../product/viewcart");
 
 } else {
