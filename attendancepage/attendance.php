@@ -8,6 +8,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 //jwt
 $jwtarray = jwtdecrypt();
 
+
+if($jwtarrayinformation['role']<1){
+    
+    header("location: https://www.swapamc.com/swapproj/campus");
+    exit;
+}
+
 unset($jwtarrayinformation['employeeusername']);
 unset($jwtarrayinformation['employeeid']);
 $userid = $jwtarrayinformation['userid'];

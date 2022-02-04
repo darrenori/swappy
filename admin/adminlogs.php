@@ -773,7 +773,7 @@ html, body {
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=3';">Alert</button>
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=2';">Error</button>
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=1';">Warning</button>
-                    <button style='background-color:black' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">Reset</button>
+                    <button style='background-color:black' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">Show All</button>
                     
                 </div>
                 
@@ -801,9 +801,9 @@ html, body {
                             $handle = fopen("C:\\xampp\\htdocs\\swap.log", "r");
                             if ($handle) {
                                 $counter = 0;
-                                
+                                while (($line = fgets($handle)) !== false && $counter<50) {
                                     // process the line read.
-                                    $counter++;
+                                    
                                     
 
                                     $array = explode("] ",$line);
@@ -834,6 +834,7 @@ html, body {
                                     $custom = $array[4];
                                     //only custom has tpamc
                                     if (strpos($custom, 'TPAMC') !== false) {
+                                        $counter++;
                                         $custom=explode(":",$custom);
                                         // print_r($custom);
 
