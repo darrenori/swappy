@@ -92,9 +92,9 @@ if (isset($jwtarray) && $jwtarray == true) {
     /////THIS is the code if user accesses page through the login page
 
 
-    echo "<h3 style='color:white'> PHP List All JWT Session Variables</h3>";
-    foreach ($jwtarrayinformation as $key => $val)
-        echo "<p style='color:white'>" . $key . " " . $val . "</p>";
+    // echo "<h3 style='color:white'> PHP List All JWT Session Variables</h3>";
+    // foreach ($jwtarrayinformation as $key => $val)
+    //     echo "<p style='color:white'>" . $key . " " . $val . "</p>";
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     require 'googleauth/vendor/autoload.php';

@@ -799,7 +799,7 @@ function reduceInventory($conn)
     $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
     $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
 
-    print_r($_SESSION['cart']);
+    // print_r($_SESSION['cart']);
 
     $cartarray = $_SESSION['cart'];
 
@@ -1099,7 +1099,7 @@ function emptyDefaultShipping($sa)
 {
 
     $sa = $_SESSION['shippingaddress'];
-    var_dump($sa);
+    // var_dump($sa);
     $result = false;
     if (empty($sa) or $sa = "0") {
         $result = true;
@@ -1113,7 +1113,7 @@ function emptyCart($emptycarts)
 {
     $result = false;
     $emptycarts = $_SESSION['cart'];
-    var_dump($emptycarts);
+    // var_dump($emptycarts);
     if (empty($emptycarts)) {
         $result = true;
     } else {

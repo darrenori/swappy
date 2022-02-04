@@ -846,9 +846,8 @@ jwtupdate($jwtarrayinformation);
                     exit();
                 }
             } catch (Exception $e) {
-                echo 'Message: ' . $e->getMessage();
-                header("location: https://www.swapamc.com/swapproj/attendance?error=stmtallerror");
                 error_log("TPAMC:ATTENDANCE:0:$ip:Error(stmtallerror)", 0);
+                header("location: https://www.swapamc.com/swapproj/attendance?error=stmtallerror");
                 exit;
             }
 

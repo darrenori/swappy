@@ -9,7 +9,7 @@
     
 
 
-    echo 'Current PHP version: ' . phpversion();
+    // echo 'Current PHP version: ' . phpversion();
     // print_r(apache_request_headers());
     // $array['role'] = 'admin';
     // $array['name'] = 'darren'; 

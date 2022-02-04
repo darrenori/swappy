@@ -40,7 +40,7 @@ if(isset($_POST)){
     exit;
 }
 
-print_r($postinformation);
+// print_r($postinformation);
 
 $methd = $postinformation;
 $whitelist=['string'];

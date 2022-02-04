@@ -302,7 +302,7 @@ function checkId($array)
                 } else {
                     echo "interception deleted key "."<br>";
                     echo "here->";
-                    print_r($db_type);
+                    // print_r($db_type);
                     echo "<br>";
 
                 }

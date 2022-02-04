@@ -280,7 +280,7 @@ if ($query->fetch()) {
         <circle id='Ellipse_36' data-name='Ellipse 36' cx='4.621' cy='4.621' r='4.621' transform='translate(197.533 168.683)' fill='#e6e6e6'/>
         </svg></div>";
     echo  "</div>";
-            print_r($jwtarrayinformation);
+            // print_r($jwtarrayinformation);
 
     if($role>1){
         // print_r($jwtarrayinformation);
@@ -405,7 +405,7 @@ echo"</div>";
         }
     }
 }else {
-    echo 'something went wrong';
+    // echo 'something went wrong';
     // exit;
 }
 

@@ -98,7 +98,7 @@ foreach ($notallowedauthuser as $key => $val) {
         header("location: https://www.swapamc.com/swapproj/campus?error=unauthorized");
         exit;
     } else {
-        echo "you are authorised:)";
+        // echo "you are authorised:)";
     }
 }
 

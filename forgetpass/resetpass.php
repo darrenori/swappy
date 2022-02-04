@@ -38,9 +38,9 @@ $key=$_GET['key'];
 $email=$_GET['email'];
 
 
-print_r($_GET);
-echo "<br><br><br><br>";
-print_r($_SESSION);
+// print_r($_GET);
+// echo "<br><br><br><br>";
+// print_r($_SESSION);
 
 
 
@@ -49,8 +49,8 @@ if (!isset($_SESSION["forgetpasskey"])) {
     header("location: https://www.swapamc.com/swapproj/forgetpassword?email=expired");
     exit();
 } else {
-    var_dump($_GET);
-    var_dump($_SESSION);
+    // var_dump($_GET);
+    // var_dump($_SESSION);
 
     //THIS CONDITION DOES NOT SATISFY AND THUS CANNOT ADVANCE
     if ($_GET["key"] ===  $_SESSION["forgetpasskey"]) {

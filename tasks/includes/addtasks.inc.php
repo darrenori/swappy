@@ -136,7 +136,7 @@ if ($verifyTime == 0) {
     $assignedby = $jwtarrayinformation['username'];
 
 
-    print_r($postinformation);
+    // print_r($postinformation);
 
     try {
     $query = $conn->prepare("INSERT INTO mydb.employees_task (working_id,task_name,task_details,task_progress,

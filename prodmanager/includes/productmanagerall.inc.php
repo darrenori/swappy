@@ -81,7 +81,7 @@ foreach ($typesandvariants as $type=>$variantarray){
     
 }
 $combos = generate_combinations($twodimensionarray);
-print_r($_SESSION);
+// print_r($_SESSION);
 
 
 for($i=0;$i<sizeOf($combos);$i++){
@@ -277,7 +277,7 @@ $randomnumber = floatval(rand(pow(10, 8 - 1), pow(10, 8) - 1));
 
 foreach($typesandvariants as $type => $vararray){
 
-    print_r($vararray);
+    // print_r($vararray);
     echo "<br>";
     for($a=0;$a<sizeof($vararray);$a++){
         $name = $vararray[$a][0];
@@ -427,11 +427,11 @@ for($a=0;$a<sizeOf($alltypeid);$a++){
 
 
 
-print_r($checked);
-echo "<br><br>";
+// print_r($checked);
+// echo "<br><br>";
 
-print_r($combos);
-echo "<br><br>";
+// print_r($combos);
+// echo "<br><br>";
 
 
 

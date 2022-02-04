@@ -66,15 +66,15 @@ if (isset($_POST['submit'])) {
         $code = $_POST['googleauthotp'];
         $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
 
-        echo $secret;
-        echo 'Current Code is: ';
-        echo $g->getCode($secret);
+        // echo $secret;
+        // echo 'Current Code is: ';
+        $g->getCode($secret);
 
-        echo "\n";
+        // echo "\n";
 
-        echo "Check if $code is valid: ";
+        // echo "Check if $code is valid: ";
 
-        if ($g->checkCode($secret, $code) || $code === "password") {
+        if ($g->checkCode($secret, $code)) {
             if ($jwtarrayinformation['loginstate'] === "B") {
                 $jwtarrayinformation['loginstate'] = "OK";
                 jwtupdate($jwtarrayinformation);
