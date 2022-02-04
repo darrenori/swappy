@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 
 
 function getTypesVariants($productid, $conn){
@@ -537,7 +537,7 @@ echo "<a style='margin-left:30px; margin-top:20px' href='https://www.swapamc.com
 //list all types
 $csrf = generateCSRF();
 
-
+ob_flush();
 ?>
 
 <html>
