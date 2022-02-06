@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['submit'])) {
-    require_once 'googleauth/vendor/autoload.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/googleauth/vendor/autoload.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
 
         if (!isset($_SESSION)) {
             session_start();
-        }
+        }var_dump($_SESSION);
         $secret = $_SESSION['usersecret'];
 
         session_regenerate_id();
@@ -68,7 +68,9 @@ if (isset($_POST['submit'])) {
 
         // echo $secret;
         // echo 'Current Code is: ';
-        $g->getCode($secret);
+        echo ($code."<br>");
+        var_dump($g->checkCode($secret, $code));
+        echo $g->getCode($secret); var_dump($g->checkCode($secret, $code)); exit;
 
         // echo "\n";
 
