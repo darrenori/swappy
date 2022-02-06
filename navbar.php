@@ -7,11 +7,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-        <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"> -->
-        <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" -->
-         <!-- integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
 
 
 <head>
@@ -395,7 +391,6 @@
             
             
         </ul>
-        <!-- <button onclick="location.href = 'https://www.swapamc.com/swapproj/login'" type="button" class="btn">LOGIN</button> -->
     </div>
     <i class="navlinksic fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     

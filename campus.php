@@ -9,12 +9,6 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
-
-?>
-<html>
-
-</html>
-<?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
@@ -28,11 +22,6 @@ a {color:black;}
 <?php
 $filename=basename(__FILE__, '.php');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
@@ -53,7 +42,7 @@ $csrf = generateCSRF();
 
 ###zeph
 //search box
-// echo '<form action="/swapproj/searchinc" method="post">';
+// echo '<form action="/swapproj/search" method="post">';
 // echo '<input type="text" name ="searchitem" placeholder="Router...">';
 // echo '<input type="submit" value="Submit">';
 // echo "<input type='hidden' name='csrf' value='$csrf'>";
@@ -452,7 +441,4 @@ ob_flush();
 </script>
 
 </html>
-<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

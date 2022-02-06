@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
             if ($jwtarrayinformation['loginstate'] === "B") {
                 $jwtarrayinformation['loginstate'] = "OK";
                 jwtupdate($jwtarrayinformation);
-                header("location: https://www.swapamc.com/swapproj/campus");
+                header("location: https://www.swapamc.com/swapproj/home");
                 exit();
             } elseif ($jwtarrayinformation['loginstate'] === "Z") {
                 //destroys any jwt 'sessions' that might exist

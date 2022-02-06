@@ -36,7 +36,7 @@ if (isset($jwtarray) && $jwtarray == true) {
                 header("location: https://www.swapamc.com/swapproj/googleauthentication");
                 exit();
             } elseif ($jwtarrayinformation['loginstate'] === "OK" and isset($jwtarrayinformation['username'])) {
-                header("location: https://www.swapamc.com/swapproj/campus");
+                header("location: https://www.swapamc.com/swapproj/home");
                 exit();
             } else {
                 header("location: https://www.swapamc.com/swapproj/logout");

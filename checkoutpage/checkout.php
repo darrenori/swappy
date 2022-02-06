@@ -173,7 +173,7 @@ $csrf = generateCSRF();
         <br><input style="background-color: white; color: black;"type="text" pattern="\d*" id="cvc" name="cvc" placeholder="352" maxlength="3">
         <br><br>
         <input type="submit" name="submit" value="Complete Payment" class="btn">
-        <input type='hidden' name='csrf' value='<?php $csrf?>'>
+        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>
 
     </form>
 </div>

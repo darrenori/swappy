@@ -133,8 +133,8 @@ if(checkUsername([$validarray['username']])!=false){
     exit();
 }
 if(checkNames([$validarray['fname']])!=false){
-    // error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
-    // header("location: https://www.swapamc.com/swapproj/userprofile?error=badfname");
+    error_log("TPAMC:".$filename.":4:$ipadd:2 Malicious input", 0);
+    header("location: https://www.swapamc.com/swapproj/userprofile?error=badfname");
     exit();
 }
 if(checkNames([$validarray['lname']])!=false){

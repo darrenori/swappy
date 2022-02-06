@@ -43,7 +43,9 @@ if (isset($_POST["submit"])) {
     $username = $_POST["uid"];
     $pwd = $_POST["pwd"];
     $captchaa = $_POST['g-recaptcha-response'];
+    if (isset($_POST['remember'])) {
     $remember =  $_POST['remember'];
+    }
 
 
         // THE FOLLOWING IF LOOPS ARE FOR ERRORHANDLING
@@ -51,15 +53,11 @@ if (isset($_POST["submit"])) {
         ////Checks if inputs are empty, invalid
 
 
-        $inkey = badInput($_POST);
 
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);
     if ($loginempty !== false) {
         header("location: https://www.swapamc.com/swapproj/login?error=emptyinput");
-        exit();
-    } else if ($inkey !== false) {
-        header("location: https://www.swapamc.com/swapproj/signup?error=" . $inkey);
         exit();
     } elseif (bufferOverflow([$username], 200) === true) {
         header("location: https://www.swapamc.com/swapproj/login?error=longinputu");

@@ -85,7 +85,7 @@ $selectedcategory; //used to identify selected category
                 <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="catothers" >OTHERS</button>
             </form>
         </ul> 
-        <form action="/swapproj/searchinc" method="post">
+        <form action="/swapproj/search" method="post">
             <input class='search' type="text" name ="searchitem" placeholder="Router...">
             <?php
             $csrf=generateCSRF();
