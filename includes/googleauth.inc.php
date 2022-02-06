@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['submit'])) {
-    require_once 'googleauth/vendor/autoload.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/googleauth/vendor/autoload.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
@@ -68,7 +68,6 @@ if (isset($_POST['submit'])) {
 
         // echo $secret;
         // echo 'Current Code is: ';
-        $g->getCode($secret);
 
         // echo "\n";
 

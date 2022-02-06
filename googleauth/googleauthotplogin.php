@@ -105,7 +105,7 @@ if (isset($jwtarray) && $jwtarray == true) {
     $uidExists = uidExists($conn, $username, $username);
 
     //GOOGLE AUTH QR CODE GENERATED
-    // $jwtarrayinformation['usersecret'] = $uidExists['user_secret'];
+    $_SESSION['usersecret'] = $uidExists['user_secret'];
     // $randomsecret = $jwtarrayinformation['usersecret'];
 
     // jwtupdate($jwtarrayinformation);

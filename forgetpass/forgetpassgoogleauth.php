@@ -5,11 +5,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 session_start();
-session_regenerate_id();
+session_regenerate_id();    
+$csrf = generateCSRF();
+
 $email = $_SESSION['forgetpassemail'];
 $randomsecret = $_SESSION['newsecret'];
 
-if (!empty($_SESSION['newsecret'])){
+if (!empty($_SESSION['newsecret'])) {
 
     //select userinfo based on email
     try {
@@ -47,7 +49,6 @@ if (!empty($_SESSION['newsecret'])){
 
 
 
-
     //generate qr code
     $link = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($username, $randomsecret, 'swapamc.com');
 
@@ -63,12 +64,9 @@ if (!empty($_SESSION['newsecret'])){
     echo "<input type='text' id='googleauthotp' name='googleauthotp' placeholder='Enter Code'>";
     echo "<br><br>";
     echo "<input type='submit' value='submit' name='submit'>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
     echo "</center>";
     echo "</form>";
-
-
-
-
 } else {
     header("location: https://www.swapamc.com/swapproj/forgetpassword?error=invalidgoogleauth");
     error_log("TPAMC:FORGETPASS:0:$ip:Error(invalidgoogleauth)", 0);

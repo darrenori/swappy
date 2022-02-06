@@ -45,15 +45,20 @@ $code = $_POST['googleauthotp'];
 //validate output
 $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
 
-echo $randomsecret;
-echo 'Current Code is: ';
-echo $g->getCode($randomsecret);
-echo "\n";
-echo "Check if $code is valid: ";
+// echo $randomsecret;
+
+// echo ($code."<br>");
+// var_dump($g->checkCode($randomsecret, $code));
+// echo $g->getCode($randomsecret); var_dump($g->checkCode($randomsecret, $code)); 
+
+// echo 'Current Code is: ';
+// echo $g->getCode($randomsecret);
+// echo "\n";
+// echo "Check if $code is valid: ";
 
 
 
-if ($g->checkCode($randomsecret, $code) || $code = "password") {
+if ($g->checkCode($randomsecret, $code)) {
 
     //update secret code for the user
     try {

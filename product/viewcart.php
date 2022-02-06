@@ -86,7 +86,7 @@ if (isset($selectedcarts)) {
     echo "Total items: " . sizeof($selectedcarts) . "<br>";
 
 
-    echo "<br><br>";
+    echo "<br>";
 
 
 
@@ -147,7 +147,7 @@ if (isset($selectedcarts)) {
                     echo "<tr>";
                     echo "<th>$type</th>";
                     echo "<th>$variant</th>";
-                    echo "<th>$additionalcosts</th>";
+                    echo "<th>$ $additionalcosts</th>";
                     echo "</tr>";
                 }
             }
@@ -187,9 +187,13 @@ if (isset($selectedcarts)) {
         }
     }
 
-    echo "TOTAL (BEFORE GST): " . $totalprice;
+    echo "<div style='background-color:#707070; height:15%; text-align:right; padding:1vw; width:97.5%;'>";
     $totalpricegst = $totalprice * 1.07;
-    echo "<br>TOTAL (AFTER GST): " . "$" . $totalpricegst;
+    $gst = $totalpricegst - $totalprice;
+    echo "Subtotal:" . "<span style='background-color:#707070; color:white; margin-left:10vw;'>$" . $totalprice . "</span>";
+    echo "<br>Taxes:" . "<span style='background-color:#707070; color:white; margin-left:10vw;'>$" . $gst . "</span><br>";
+    echo "<br><hr>";
+    echo "<br><span style='background-color:#707070; color:white; '>Grand Total:</span>" . "<span style='background-color:#707070; color:#8D1D25; margin-left:10vw; font-weight:bold;'>$" . $totalpricegst . "</span></div>";
     echo "<br>";
 } else {
     // echo "Total items: " . sizeof($cartidrows)."<br>";
