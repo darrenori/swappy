@@ -86,7 +86,7 @@ if(validateCSRF()==false){
 
 
 $whitelist=['about'];
-$maxlengtharray['about']=11;
+$maxlengtharray['about']=65535;
 $methd = $_POST;
 $empty = checkEmpty($methd,$whitelist);
 

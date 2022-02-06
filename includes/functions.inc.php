@@ -340,7 +340,7 @@ function loginUser($conn, $username, $pwd, $remember)
     #IS THE USER SUSPENDED? (returns date if they still are) returns null if they ar enot
     $datesus = checkSuspended($conn, $username);
     if ($datesus != null) {
-        header("location: https://www.swapamc.com/swapproj/login?error=suspended&till=" . $datesus);
+        header("location: https://www.swapamc.com/swapproj/login?error=suspended");
         exit();
     }
 
@@ -376,7 +376,7 @@ function loginUser($conn, $username, $pwd, $remember)
 
         if ($numberoffailed > $numberoftimesbeforesuspend) {
 
-            $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, suspendedfinish = ? WHERE user_username = ?");
+            $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, user_failedattempts = 1, suspendedfinish = ? WHERE user_username = ?");
             $query->bind_param('ss', $suspended, $username);
             if (!$query->execute()) {
                 error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);

@@ -21,6 +21,7 @@ overflow-x: hidden;
 
 .top {
     margin: 120px 45px;
+    margin-top: 0px;
     
     display: flex;
     flex-wrap: wrap;
@@ -57,7 +58,7 @@ overflow-x: hidden;
 
 .tags {
     font-weight: bold;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     margin-top: 10px;
 }
 
@@ -142,7 +143,7 @@ overflow-x: hidden;
 
 
 .typescontainer {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .typename {
@@ -154,7 +155,7 @@ overflow-x: hidden;
     /* display: flex; */
     flex-basis: 100%;
     flex-wrap: wrap;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 
 .variants {
@@ -171,12 +172,23 @@ overflow-x: hidden;
   padding: 0; */
 }
 
+
+
 .donate-now li {
   float: left;
   /* margin: 0 5px 0 0; */
-  width: 100px;
-  height: 40px;
+  
+  margin-right: 10px;
+  /* width: 100%; */
+  /* height: 40px; */
   /* position: relative; */
+  
+}
+
+label {
+    width: 100%;
+    padding: 30px 20px;
+    
 }
 
 .donate-now label,
@@ -303,6 +315,7 @@ overflow-x: hidden;
     padding: 20px 0px;
     border: 1px solid white;
     background-color: transparent;
+    transition: all .5s;
 
 }
 
@@ -313,6 +326,7 @@ overflow-x: hidden;
     border: 1px solid white;
     cursor: pointer;
     background-color: #8D1D25;
+    transition: all .5s;
 
 }
 
@@ -398,12 +412,18 @@ overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    width: max-content;
     
     width: 100%;
     margin-bottom: 50px;
     flex-basis: 100%;
 
 }
+
+/* form {
+    width: fit-content;
+    
+} */
 
 .circle {
     width: 6vw;
@@ -412,10 +432,14 @@ overflow-x: hidden;
     background-color:green;
     border-radius: 50%;
     display: inline-block;
+    background-position: center;
+        background-size: cover;
+        /* background-image: black; */
 
 }
 
 .parentleft {
+    /* flex-basis: 1%; */
     
 
 }
@@ -434,7 +458,7 @@ overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     flex-basis: 100%;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     margin-top: 5px;
 }
 
@@ -444,9 +468,10 @@ overflow-x: hidden;
     flex-basis: 70%;
     max-width: 80%;
     overflow: auto;
-    padding: 20px 0px;
-    margin-bottom: 5px;
+    padding: 5px 0px;
+    /* margin-bottom: 5px; */
     word-wrap: break-word;
+    margin-bottom: 0;
 }
 
 .imagescontainer {
@@ -458,10 +483,12 @@ overflow-x: hidden;
 
 
 .picturesreview {
-    width: 5.5vw;
-    height: 5.5vw;
+    width: 15vw;
+    height: 15vw;
     background-color: white;
     margin-right: 10px;
+    background-position: center;
+        background-size: cover;
     
 }
 
@@ -491,6 +518,7 @@ overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
 }
 
 .btn {
@@ -507,8 +535,24 @@ overflow-x: hidden;
 
 
 
+.inptdesign {
+    color:white;
+    padding: 8px 15px;
+    padding-left: 6px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 0;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
 
-
+.inptdesignbtn {
+    background-color: #8D1D25;
+    border: 0;
+    color: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 3px;
+}
 
 
 
@@ -544,7 +588,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
 /*Try to delete this setting and you'll see the problem*/
 
 .kebab-dropdown {
-    position: absolute;
+    position: relative;
 }
 
 
@@ -616,6 +660,7 @@ Created a dropdown-sm class for smaller dropdowns when using kebabs
 
 .childright {
     margin-left: 10px;
+    width: 89.3%;
     /* flex-basis: 100%; */
     /* width: 100%; */
     /* display: flex;
