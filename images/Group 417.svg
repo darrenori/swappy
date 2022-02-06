@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 64 64">
+  <g id="Group_417" data-name="Group 417" transform="translate(-18760 100)">
+    <rect id="Rectangle_492" data-name="Rectangle 492" width="64" height="64" transform="translate(18760 -100)" fill="#8d1d25"/>
+    <path id="iconmonstr-credit-card-6" d="M34.086,4H3.1A3.1,3.1,0,0,0,0,7.1V25.691a3.1,3.1,0,0,0,3.1,3.1H34.086a3.1,3.1,0,0,0,3.1-3.1V7.1A3.1,3.1,0,0,0,34.086,4Zm0,20.916a.775.775,0,0,1-.775.775H3.873a.775.775,0,0,1-.775-.775V14.845H34.086Zm0-14.719H3.1V7.873A.775.775,0,0,1,3.873,7.1H33.311a.775.775,0,0,1,.775.775Zm-13.944,9.3H6.2V17.944H20.142Zm-4.648,3.1H6.2V21.043h9.3Zm15.494-3.1H26.339V17.944h4.648Z" transform="translate(18773.408 -84.395)" fill="#fff"/>
+  </g>
+</svg>
