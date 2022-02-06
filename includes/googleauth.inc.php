@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
 
         if (!isset($_SESSION)) {
             session_start();
-        }var_dump($_SESSION);
+        }
         $secret = $_SESSION['usersecret'];
 
         session_regenerate_id();
@@ -68,9 +68,6 @@ if (isset($_POST['submit'])) {
 
         // echo $secret;
         // echo 'Current Code is: ';
-        echo ($code."<br>");
-        var_dump($g->checkCode($secret, $code));
-        echo $g->getCode($secret); var_dump($g->checkCode($secret, $code)); exit;
 
         // echo "\n";
 
