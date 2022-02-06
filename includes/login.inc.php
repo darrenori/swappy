@@ -53,21 +53,14 @@ if (isset($_POST["submit"])) {
         ////Checks if inputs are empty, invalid
 
 
-<<<<<<< Updated upstream
-=======
     // $inkey = badInput($_POST);
->>>>>>> Stashed changes
 
     $loginempty = emptyInputLogin($username, $pwd);
     $failedCaptcha = failedCaptcha($captchaa);
     if ($loginempty !== false) {
         header("location: https://www.swapamc.com/swapproj/login?error=emptyinput");
         exit();
-<<<<<<< Updated upstream
-    } elseif (bufferOverflow([$username], 200) === true) {
-=======
     }elseif (bufferOverflow([$username], 200) === true) {
->>>>>>> Stashed changes
         header("location: https://www.swapamc.com/swapproj/login?error=longinputu");
         exit();
     } elseif (bufferOverflow([$pwd], 60) === true) {
