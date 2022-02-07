@@ -4,9 +4,6 @@
 </html>
 
 
-
-
-
 <?php
 ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
@@ -31,7 +28,7 @@ $userid = $jwtarrayinformation['userid'];
 
 //add
 try {
-    $query = $conn->prepare("SELECT product_name,product_price,product_about,product_picone FROM mydb.usersfavorite
+    $query = $conn->prepare("SELECT mydb.products.product_id,product_name,product_price,product_about,product_picone FROM mydb.usersfavorite
     INNER JOIN mydb.products
     ON mydb.products.product_id = mydb.usersfavorite.product_id WHERE user_id = ?;");
     $query->bind_param('s', $userid);
@@ -70,7 +67,7 @@ try {
 <?php
 
 
-$query->bind_result($productname, $productprice, $productabout, $productpicone);
+$query->bind_result($productid, $productname, $productprice, $productabout, $productpicone);
 
 
 echo "<div class='container5'>";
@@ -139,7 +136,7 @@ while ($query->fetch()) {
     // echo '<img src="'.$src.'"/>';
     echo "</div>";
     echo "<div class='item-details'>";
-    echo "<div class='item-name'>$productname</div>";
+    echo "<div class='item-name'>$productid</div>";
     echo "<div class='item-price'>$$productprice</div>";
     echo "</div>";
     echo "</div>";
@@ -162,13 +159,16 @@ ob_flush();
 
 ?>
 <html>
+    <script>
+        
+    </script>
 <style>
-<<<<<<< HEAD
     <?php include 'product/css/viewfavourites.css';
     ?>
+    
 </style>
 
-<head>
+<!-- <head>
     <style>
         table,
         th,
@@ -177,18 +177,7 @@ ob_flush();
         }
     </style>
 
-</head>
-
-</html>
-=======
-
-<?php include 'product/css/viewfavourites.css'; 
-?>
-
-
-.navlinksic {
-    display: none;
-}
+</head> -->
 
 </style>
     <head>
@@ -196,6 +185,9 @@ ob_flush();
             table,th,td {
                 border:1px solid black;
             }
+            .navlinksic {
+    display: none;
+}
             
         </style>
 
@@ -206,7 +198,6 @@ ob_flush();
          <!-- integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
->>>>>>> c7c7059b6e5231a0dbdef858661696e4818ca5f2
 
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
