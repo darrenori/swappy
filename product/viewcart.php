@@ -366,12 +366,12 @@ if (isset($selectedcarts)) {
 
     echo "<div class='subtotal'>";
     echo "<span>Subtotal</span>";
-    echo "<span class='subtotalactl' id='subber'>S$$totalprice</span>";
+    echo "<span class='subtotalactl' id='subber'>S$0.00</span>";
     echo "</div>";
 
     echo "<div class='taxes'>";
     echo "<span>Taxes</span>";
-    echo "<span id='taxes'>S$" . $totalprice * 0.07 . "</span>";
+    echo "<span id='taxes'>S$0.00</span>";
     echo "</div>";
 
 
@@ -382,7 +382,7 @@ if (isset($selectedcarts)) {
 
     echo "<div class='total'>";
     echo "<span>TOTAL</span>";
-    echo "<span id='total'>S$" . $totalprice * 1.07 . "</span>";
+    echo "<span id='total'>S$0.00</span>";
     echo "</div>";
 
     echo "<input type='submit' class='chkoutbtn' value='CHECKOUT' form='chkoutform'>";
