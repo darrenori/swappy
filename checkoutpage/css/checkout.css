@@ -73,7 +73,7 @@
 
 
 .fa {
-    background-color: #8D1D25;
+    background-color: none;
 }
 
 .fa-home::before {
@@ -592,7 +592,7 @@ font .firstfooter h5 {
     }
 }
 
-.navic {
+/* .navic {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
@@ -600,7 +600,7 @@ font .firstfooter h5 {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
-/* .navic:hover {
+/* .navic:hover { */
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 

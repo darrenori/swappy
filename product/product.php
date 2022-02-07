@@ -14,10 +14,7 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
-        
-
 ?>
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -41,6 +38,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 
     }
 </style>
+
+<style>
+    .reviewsrating i {
+        margin-right: 3px;
+    }
+</style>
 <?php include 'product/css/productcss.php'; ?>
 
 
@@ -49,11 +52,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 function getRating($number,$reviewid){
     if($number==0){
         echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
         echo "</div>";
 
 
@@ -61,10 +64,10 @@ function getRating($number,$reviewid){
 
         echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
         echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
         echo "</div>";
 
 
@@ -73,9 +76,9 @@ function getRating($number,$reviewid){
         echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
         echo "<i class=\"fas fa-cog\"></i>";
         echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
         echo "</div>";
 
 
@@ -83,9 +86,9 @@ function getRating($number,$reviewid){
         echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
         echo "<i class=\"fas fa-cog\"></i>";
         echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
         echo "</div>";
 
 
@@ -95,7 +98,7 @@ function getRating($number,$reviewid){
         echo "<i class=\"fas fa-cog\"></i>";
         echo "<i class=\"fas fa-cog\"></i>";
         echo "<i class=\"fas fa-cog\"></i>";
-        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i style='opacity:0.5' class=\"fas fa-cog\"></i>";
         echo "</div>";
 
 
@@ -353,7 +356,7 @@ function getRating($number,$reviewid){
 
     $numberofTypes= sizeof($alltypes);
 
-   echo "<form method='POST' action='/swapproj/allproducts/product/addtocart'>";
+    echo "<form method='POST' action='/swapproj/allproducts/product/addtocart'>";
     for ($i=0;$i<$numberofTypes;$i++){
         $info[$i] = getVariantsFromTypes($alltypes[$i],$id,$conn);
 
@@ -435,31 +438,24 @@ function getRating($number,$reviewid){
     echo "</div>"; //types container
 
     echo "<div class='cont'>";
-echo "<p class='quantityheader'>Quantity</p>";
-echo "<div class=\"quantity-control\" data-quantity=\"\">";
-echo "<button type='button' class=\"quantity-btn\" data-quantity-minus=\"\"><svg viewBox=\"0 0 409.6 409.6\">";
-echo "<g>";
-echo "<g>";
-echo "<path d=\"M392.533,187.733H17.067C7.641,187.733,0,195.374,0,204.8s7.641,17.067,17.067,17.067h375.467 c9.426,0,17.067-7.641,17.067-17.067S401.959,187.733,392.533,187.733z\" />";
-echo "</g>";
-echo "</g>";
-echo "</svg></button>";
-echo "<input type='number' id='quantity' onchange='calculatePriceUserSide()' class='quantity-input' data-quantity-target='' value='1' step='1' min='1' max='10' name='quantity'>";
-echo "<button type='button' class=\"quantity-btn\" data-quantity-plus=\"\"><svg viewBox=\"0 0 426.66667 426.66667\">";
-echo "<path d=\"m405.332031 192h-170.664062v-170.667969c0-11.773437-9.558594-21.332031-21.335938-21.332031-11.773437 0-21.332031 9.558594-21.332031 21.332031v170.667969h-170.667969c-11.773437 0-21.332031 9.558594-21.332031 21.332031 0 11.777344 9.558594 21.335938 21.332031 21.335938h170.667969v170.664062c0 11.777344 9.558594 21.335938 21.332031 21.335938 11.777344 0 21.335938-9.558594 21.335938-21.335938v-170.664062h170.664062c11.777344 0 21.335938-9.558594 21.335938-21.335938 0-11.773437-9.558594-21.332031-21.335938-21.332031zm0 0\" />";
-echo "</svg>";
-echo "</button>";
-echo "</div>";
-echo "";
-echo "</div>";
-echo "<p id='left' style='opacity:0.7;margin-top:10px'></p>";
-
-
-    // echo "<p id='left' ></p>";
-
-//    echo "<p>Quantity: </p>";
-   
-//    echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' min=1 max=100  value=1>"."<br><br>";
+        echo "<p class='quantityheader'>Quantity</p>";
+        echo "<div class=\"quantity-control\" data-quantity=\"\">";
+        echo "<button type='button' class=\"quantity-btn\" data-quantity-minus=\"\"><svg viewBox=\"0 0 409.6 409.6\">";
+        echo "<g>";
+        echo "<g>";
+        echo "<path d=\"M392.533,187.733H17.067C7.641,187.733,0,195.374,0,204.8s7.641,17.067,17.067,17.067h375.467 c9.426,0,17.067-7.641,17.067-17.067S401.959,187.733,392.533,187.733z\" />";
+        echo "</g>";
+        echo "</g>";
+        echo "</svg></button>";
+        echo "<input type='number' id='quantity' onchange='calculatePriceUserSide()' class='quantity-input' data-quantity-target='' value='1' step='1' min='1' max='10' name='quantity'>";
+        echo "<button type='button' class=\"quantity-btn\" data-quantity-plus=\"\"><svg viewBox=\"0 0 426.66667 426.66667\">";
+        echo "<path d=\"m405.332031 192h-170.664062v-170.667969c0-11.773437-9.558594-21.332031-21.335938-21.332031-11.773437 0-21.332031 9.558594-21.332031 21.332031v170.667969h-170.667969c-11.773437 0-21.332031 9.558594-21.332031 21.332031 0 11.777344 9.558594 21.335938 21.332031 21.335938h170.667969v170.664062c0 11.777344 9.558594 21.335938 21.332031 21.335938 11.777344 0 21.335938-9.558594 21.335938-21.335938v-170.664062h170.664062c11.777344 0 21.335938-9.558594 21.335938-21.335938 0-11.773437-9.558594-21.332031-21.335938-21.332031zm0 0\" />";
+        echo "</svg>";
+        echo "</button>";
+        echo "</div>";
+        echo "";
+    echo "</div>";
+    echo "<p id='left' style='opacity:0.7;margin-top:10px'></p>";
 
 
 //check fi already favorited
@@ -520,7 +516,7 @@ if(sizeOf($array)==1){
                 echo '<input class="addtocart" type="submit" value="ADD TO CART">';
                 echo "<button type='button' onclick='favorite($id)' id='favorite$id' class='favoritebtn'><i class='far fa-heart'></i></button>";
             echo '</div>';
-        echo '</div>';
+    echo '</div>';
 
 }
 
@@ -541,7 +537,7 @@ if(sizeOf($array)==1){
    
    
 //    echo "<p id='price'>"."S$".$product_price . "</p>";
-   echo "<input type='hidden' name='csrf' value='$csrf'>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 //    echo "<input type='submit' >";
 
@@ -782,24 +778,6 @@ if(sizeOf($array)==1){
 
 
 
-    
-
-    
-
-
-
-   
-
-
-
-    // $signedinrole=6;
-
-
-
-
-
-
-    
 
 
     //get all parents
@@ -1996,8 +1974,5 @@ if(sizeOf($array)==1){
             $(this).find('.dropdown-unroll').first().stop(true, true).slideUp();
         });
 
-   
-
-    
 </script>
 </html>
