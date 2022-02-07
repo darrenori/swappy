@@ -38,7 +38,7 @@
         </g>
         </svg>
     </div>
-        <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; ">
+        <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; padding-bottom:4px; font-weight:300; ">
         &nbsp;Delivery Address
         <input type="submit" name="shipping" value="Select/Edit Address" style=" cursor:pointer; background-color: #8D1D25; border-radius:5px; font-weight:bold; border:#272727; height:30px; width:150px; ">        
         </h2>
