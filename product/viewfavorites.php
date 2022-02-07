@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefun
 
 
 ob_start();
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
 $userid = $jwtarrayinformation['userid'];
 
 //add
@@ -14,14 +14,14 @@ try {
     $query = $conn->prepare("SELECT product_name,product_price,product_about,product_picone FROM mydb.usersfavorite
     INNER JOIN mydb.products
     ON mydb.products.product_id = mydb.usersfavorite.product_id WHERE user_id = ?;");
-    $query->bind_param('s',$userid);
+    $query->bind_param('s', $userid);
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(viewnotification)");
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/campus?error=statement"); 
+    header("location: https://www.swapamc.com/swapproj/campus?error=statement");
     exit;
 }
 
@@ -33,7 +33,7 @@ try {
     }
 } catch (Exception $e) {
     echo 'Message: ' . $e->getMessage();
-    header("location: https://www.swapamc.com/swapproj/campus?error=statement"); 
+    header("location: https://www.swapamc.com/swapproj/campus?error=statement");
     exit;
 }
 
@@ -48,7 +48,9 @@ try {
 
 
 <?php
-$query->bind_result($productname,$productprice,$productabout,$productpicone);
+
+
+$query->bind_result($productname, $productprice, $productabout, $productpicone);
 
 
 echo "<div class='container5'>";
@@ -103,20 +105,30 @@ echo "<div class='header5'><p class='static5'>Favorites</p><svg xmlns='http://ww
     </g>
     </svg></div>";
 echo "<div class='body5'>";
-    while($query->fetch()){
 
-        echo "<div class='item'>";
-            echo "<div class='item-image'>";
-                echo "$productpicone";
-            echo "</div>";
-            echo"<div class='item-details'>";
-                echo "<div class='item-name'>$productname</div>";
-                echo "<div class='item-price'>$$productprice</div>";
-            echo "</div>";
-        echo "</div>";
+// require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
+// $image=new Image();
+// $src= $image ->show($productpicone);
 
-    }
+
+while ($query->fetch()) {
+
+    echo "<div class='item'>";
+    echo "<div class='item-image'>";
+    echo "$productpicone";
+    // echo '<img src="'.$src.'"/>';
     echo "</div>";
+    echo "<div class='item-details'>";
+    echo "<div class='item-name'>$productname</div>";
+    echo "<div class='item-price'>$$productprice</div>";
+    echo "</div>";
+    echo "</div>";
+}
+
+if ($query->num_rows === 0) {
+    echo "<a href='https://www.swapamc.com/swapproj/allproducts' class='button5'>Add products to favourites now !!</a>";
+}
+echo "</div>";
 echo "</div>";
 
 
@@ -130,21 +142,24 @@ ob_flush();
 
 ?>
 <html>
-<style><?php include 'product/css/viewfavourites.css'; 
-?></style>
-    <head>
-        <style>
-            table,th,td {
-                border:1px solid black;
-            }
-            
-        </style>
+<style>
+    <?php include 'product/css/viewfavourites.css';
+    ?>
+</style>
 
-    </head>
+<head>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
 </html>
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
