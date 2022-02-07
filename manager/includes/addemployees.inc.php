@@ -183,6 +183,14 @@ if ($result) {
         // exit;
 
         //if there is no error
+        if($jwtarrayinformation['username']==$username){
+            
+            $empid = isEmployee($conn,$jwtarrayinformation['userid']);
+            $jwtarrayinformation['workingid'] = $empid;
+            jwtupdate($jwtarrayinformation);
+        }
+
+
         header("location: https://www.swapamc.com/swapproj/employeemanager");
     }
 } else {

@@ -1,18 +1,34 @@
-<?php
-//show cart
-ob_start();
-if (!isset($_SESSION)) {
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
-    session_start();
-}
-session_regenerate_id();
-// user press submit from view cart
-$selectedcarts = [];
-?>
 <html>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-</html>  
+</html>
+
+
+<?php
+    //show cart
+    // ob_start();
+    ob_start();
+    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    session_regenerate_id();
+    // user press submit from view cart
+    $selectedcarts = [];
+?>
+<style>
+    <?php
+        ob_start();
+        
+        include 'checkoutpage/css/checkout.css';
+
+    ?>
+    
+    
+</style>
+
+
+
     <form method="POST" action="/swapproj/checkout/viewshippingaddress" class="shippinginfo">
     <div style="float:left; clear:both;">
     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="32.5" viewBox="0 0 64 64">
@@ -173,12 +189,13 @@ $csrf = generateCSRF();
         <br><input style="background-color: white; color: black;"type="text" pattern="\d*" id="cvc" name="cvc" placeholder="352" maxlength="3">
         <br><br>
         <input type="submit" name="submit" value="Complete Payment" class="btn">
-        <input type='hidden' name='csrf' value='<?php $csrf?>'>
+        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>
 
     </form>
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type='text/javascript'>
@@ -273,18 +290,7 @@ if (isset($_GET["error"])) {
 }
 ?>
 
-<style>
-    <?php
-    if (isset($_SESSION)) {
-        include 'checkoutpage/css/checkout.css';
-    }
 
-
-
-    ?>a {
-        color: black !important;
-    }
-</style>
 <html>
 
 <head>

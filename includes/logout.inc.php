@@ -8,5 +8,5 @@ if (isset($_COOKIE['jwt'])) {
 }
 
 
-header("location: https://www.swapamc.com/swapproj/login");
+header("location: https://www.swapamc.com/swapproj/home");
 exit();

@@ -15,6 +15,8 @@ jwtupdate($jwtarrayinformation);
 $userid = $jwtarrayinformation['userid'];
 $role = $jwtarrayinformation['role'];
 
+$csrf = generateCSRF();
+
 // throws error "Statment Preparation failed" when statement fails
 try {
     $query = $conn->prepare("SELECT mydb.users.user_id, user_username, working_id,working_role,working_number,working_department,working_perhourpay FROM mydb.working_employees 
@@ -905,7 +907,7 @@ html, body {
                                             echo '<div class="dropdown kebab-dropdown dropdown-sm" id="dropdown'.$counter.'">';
                                             echo '<div class="dropdown-menu dropdown-unroll dropdown-menu-right">';
                                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/edit?user='.$id.'">Edit</a>';
-                                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/deleteinc?user='.$id.'">Delete</a>';
+                                            echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/deleteinc?user='.$id.'&csrf='.$csrf.'">Delete</a>';
                                             // echo '<a class="dropdown-item" href="#">Something else here</a>';
                                             echo '<div class="dropdown-divider"></div>';
                                             echo '<a class="dropdown-item" href="https://www.swapamc.com/swapproj/employeemanager/taskmanager?user='.$id.'">Tasks</a>';

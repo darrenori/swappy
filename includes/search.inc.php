@@ -124,8 +124,8 @@ if (isset($_POST['searchitem'])) {
     if (isset($allstoreslist)) {
         foreach ($allstoreslist as $key => $value) {
             $matchessearch = str_contains(strtolower($value), strtolower($searchitem));
-            if (!$matchessearch) {
-                unset($filteredstoreslist[$key]);
+            if ($matchessearch) {
+                $filteredstoreslist[$key] = $value;
             }
         }
     }
@@ -179,7 +179,7 @@ if (isset($_POST['searchitem'])) {
     if (!empty($filteredstoreslist)) {
         echo "Showing <b>Store</b> results for <i>" . $searchitem . "</i><br>";
         foreach ($filteredstoreslist as $key => $value) {
-            echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$storeID'>$storeNAME</a>";
+            echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$value</a>";
             echo "<br>";
         }
         echo "<br><br>";

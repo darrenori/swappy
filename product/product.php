@@ -1,4 +1,117 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+
+
+
+
+
 <?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+        
+
+?>
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<style>
+    .rectangle {
+
+        flex-basis: 100%;
+        height: 85vh;
+        
+        background-position: center;
+        background-size: cover;
+        background-image: black;
+        background-repeat: no-repeat;
+
+
+
+    }
+</style>
+<?php include 'product/css/productcss.php'; ?>
+
+
+<?php
+
+function getRating($number,$reviewid){
+    if($number==0){
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }elseif($number==1){
+
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }elseif($number==2){
+
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }elseif($number==3){
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }elseif($number==4){
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }elseif($number==5){
+        echo "<div class='reviewsrating' id='reviewsrating$reviewid'>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "<i class=\"fas fa-cog\"></i>";
+        echo "</div>";
+
+
+    }
+}
+
     
     function checkId($array)
     {
@@ -116,6 +229,49 @@
     $query->bind_param('s',$id);
 
 
+
+    
+    echo "<div class='top'>";
+    echo "<div class='left'>";
+    echo "<div class='rectangle'>";
+    echo "</div>";
+    echo "<div class=\"tags\">";
+    echo "<p class='tagsheader'>Tags</p>";
+    echo "<button class='tagsbtn'>Others</button>";
+    echo "<button class='tagsbtn'>Utility</button>";
+    echo "</div>";
+    
+    echo "<div class='extrainfo'>";
+    echo "<div class='extrainforow'>";
+    echo "<span>Delivery Available</span>";
+    echo "<i class=\"tk fas fa-check-circle\"></i>";
+    
+    
+    echo "</div>";
+    
+    echo "<div class='extrainforow'>";
+    echo "<span>Fixed Shipping Costs</span>";
+    echo "<i class=\"tk fas fa-check-circle\"></i>";
+    
+    
+    echo "</div>";
+    
+    echo "<div class='extrainforow'>";
+    echo "<span>Return/Refund</span>";
+    echo "<i class=\"tk fas fa-times-circle\"></i>";
+    
+    
+    
+    
+    echo "</div>";
+    echo "</div>";
+    
+    echo "</div>";
+    
+
+
+    echo "<div class='right'>";
+
     
             
     if($query->execute()){
@@ -130,22 +286,66 @@
         $product_name= $array[0]['product_name'];
         $product_price= $array[0]['product_price'];
         $product_about= $array[0]['product_about'];
+        $productpicturea = $array[0]['product_picone'];
+
+
+        if(isset($productpicturea)&&$productpicturea!=null){
+            
+
+        } else {
+            
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+            $image = new Image();
+
+            $src = $image->show('uploads/IMG-DEFAULTPROFILE.jpg');
+            echo "<style>";
+            echo ".rectangle{";
+                echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                echo 'flex-basis: 100%;';
+                echo 'height: 85vh;';
+                echo 'background-position: center;';
+                echo 'background-size: cover;';
+                echo 'background-image: black;';
+                echo 'background-repeat: no-repeat;';
+            echo "}";
+            echo "</style>";
+    
+        }
+
         $store_name = $array[0]['store_name'];
-        echo "<h2>Store: " . $store_name . "</h2>";
-        echo "Name: " . $product_name . "<br>";
+        echo "<p class='tpamc'>$store_name</p>";
+        echo "<h1 class='prodname'>$product_name</h1>";
 
-        echo "Price: " . $product_price . "<br>";
-        echo "About: " . $product_about. "<br><br><br>";
+        echo "<h3 class='price'>$product_price</h3>";
+        // echo "<h2>Store: " . $store_name . "</h2>";
+        // echo "Name: " . $product_name . "<br>";
+
+        // echo "Price: " . $product_price . "<br>";
+
+
+
+        echo "<div class='refunds'>";
+        echo "<p class='refundsheader'>No returns/refunds</p>";
+        echo "<p class='refundsbody'>Item is confirmed after payment confirmation. No";
+        echo "refunds, returns or exchanges will be entertained";
+        echo "as required by law</p>";
+        echo "</div>";
+
+        echo "<div class=\"details\">";
+            echo "<p class='detailsheader'>Details</p>";
+            echo "<p class='detailsbody'>$product_about</p>";
+
+        echo "</div>";
+
+
+
+        // echo "About: " . $product_about. "<br><br><br>";
 
         
-
-
-        
-        
-    } else {
-        echo "faile";
     }
 
+
+    echo "<div class='typescontainer'>";
 
     
     $alltypes = getTypeForProduct($id,$conn);
@@ -157,29 +357,71 @@
     for ($i=0;$i<$numberofTypes;$i++){
         $info[$i] = getVariantsFromTypes($alltypes[$i],$id,$conn);
 
-        // print_r($info[$i]);
+        echo "<div class='typerow'>";
+        
 
-        echo $alltypes[$i] . "<br>";
+        
+
+        // echo $alltypes[$i] . "<br>";
+        echo "<p class='typename'>".$alltypes[$i]."</p>";
+
+        echo '<div class="variants">';
+        echo '<ul class="donate-now">';
+        
         $variant = $info[$i][0];
         $pricevariant = $info[$i][1];
         for($j=0;$j<sizeof($variant);$j++){
             if($pricevariant[$j]!= null && $pricevariant[$j] != "" && $pricevariant[$j]!=0){
-                echo "<span class='optionscontainer'>".
-                    "<span>".$variant[$j] ."</span> ".
-                    "+S$"."<span id='price$variant[$j]'>".$pricevariant[$j]."</span>" .
-                    "<input class='checkbox $alltypes[$i]' name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]'>".
-                "</span>";
-                echo "<br>";
+                // echo 
+                // "<span class='optionscontainer'>".
+                //     "<span>".$variant[$j] ."</span> ".
+                //     "+S$"."<span id='price$variant[$j]'>".$pricevariant[$j]."</span>" .
+                //     "<input class='checkbox $alltypes[$i]' name='$alltypes[$i]' value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio  id='$variant[$j]'>".
+                // "</span>";
+
+                //with additinal costs
+
+                $txx = $variant[$j] . " (+$".$pricevariant[$j].")";
+                
+                    
+                echo '<li>';
+                    echo "<input type='radio' class='checkbox $alltypes[$i]' style='opacity:0' id='$variant[$j]' value='$variant[$j]' onChange='calculatePriceUserSide()' name='$alltypes[$i]' />";
+                    echo "<label for='$variant[$j]'>".$txx."</label>";
+                    echo "<span style='display:none' id='price$variant[$j]'>".$pricevariant[$j]."</span>";
+
+                echo '</li>';
+                    
+
+                    
+
+
+
+
+                
+
+
+                
             } else {
-                echo $variant[$j]  ."<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' 
-                type=radio name='$alltypes[$i]'>";
-                echo "<br>";
+                // echo $variant[$j]  ."<input class=checkbox value='$variant[$j]' onChange='calculatePriceUserSide()' type=radio name='$alltypes[$i]'>";
+                // echo "<br>";
+
+                echo '<li>';
+                    echo "<input type='radio' class='checkbox $alltypes[$i]' id='$variant[$j]' style='opacity:0'  value='$variant[$j]' onChange='calculatePriceUserSide()' name='$alltypes[$i]' />";
+                    echo "<label for='$variant[$j]'>".$variant[$j]."</label>";
+                echo '</li>';
+
+
                 
             }
             
         }
 
-        echo "<br>";
+        // echo "<br>";
+        echo '</ul>';
+
+        echo '</div>';//variants
+
+        echo "</div>"; //typerow
         
 
 
@@ -190,22 +432,118 @@
         
     };
 
+    echo "</div>"; //types container
 
-    echo "<p id='left' ></p>";
+    echo "<div class='cont'>";
+echo "<p class='quantityheader'>Quantity</p>";
+echo "<div class=\"quantity-control\" data-quantity=\"\">";
+echo "<button type='button' class=\"quantity-btn\" data-quantity-minus=\"\"><svg viewBox=\"0 0 409.6 409.6\">";
+echo "<g>";
+echo "<g>";
+echo "<path d=\"M392.533,187.733H17.067C7.641,187.733,0,195.374,0,204.8s7.641,17.067,17.067,17.067h375.467 c9.426,0,17.067-7.641,17.067-17.067S401.959,187.733,392.533,187.733z\" />";
+echo "</g>";
+echo "</g>";
+echo "</svg></button>";
+echo "<input type='number' id='quantity' onchange='calculatePriceUserSide()' class='quantity-input' data-quantity-target='' value='1' step='1' min='1' max='10' name='quantity'>";
+echo "<button type='button' class=\"quantity-btn\" data-quantity-plus=\"\"><svg viewBox=\"0 0 426.66667 426.66667\">";
+echo "<path d=\"m405.332031 192h-170.664062v-170.667969c0-11.773437-9.558594-21.332031-21.335938-21.332031-11.773437 0-21.332031 9.558594-21.332031 21.332031v170.667969h-170.667969c-11.773437 0-21.332031 9.558594-21.332031 21.332031 0 11.777344 9.558594 21.335938 21.332031 21.335938h170.667969v170.664062c0 11.777344 9.558594 21.335938 21.332031 21.335938 11.777344 0 21.335938-9.558594 21.335938-21.335938v-170.664062h170.664062c11.777344 0 21.335938-9.558594 21.335938-21.335938 0-11.773437-9.558594-21.332031-21.335938-21.332031zm0 0\" />";
+echo "</svg>";
+echo "</button>";
+echo "</div>";
+echo "";
+echo "</div>";
+echo "<p id='left' style='opacity:0.7;margin-top:10px'></p>";
 
-   echo "<p>Quantity: </p>";
-   
-   echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' min=1 max=100  value=1>"."<br><br>";
 
-   echo "Total Costs: <br>";
+    // echo "<p id='left' ></p>";
+
+//    echo "<p>Quantity: </p>";
+   
+//    echo "<input id='quantity' onchange='calculatePriceUserSide()' type=number name='quantity' min=1 max=100  value=1>"."<br><br>";
+
+
+//check fi already favorited
+
+$query->close();
+
+
+//add to favorites
+try {
+    $query = $conn->prepare("SELECT product_id,user_id FROM mydb.usersfavorite WHERE product_id = ? AND user_id =?;");
+    $query->bind_param('ss',$id,$signedinuserid);
+    if ($query === false) {
+        //change filename accordingly
+        throw new Exception("Statement Preparation failed(favoriteproduct)");
+    }
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    //change header location accordingly
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
+    exit;
+}
+
+
+// throws error "Statment Execution failed" when statement fails
+try {
+    $execute = $query->execute();
+    if ($execute === false) {
+        throw new Exception("Statement Execution failed (favoriteproduct)");
+    }
+} catch (Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+    header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
+    exit;
+}
+
+$result = $query->get_result();
+$array = $result->fetch_all(MYSQLI_ASSOC);
+
+if(sizeOf($array)==1){
+
+    //already favorited
+    // echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Unfavorite</button></div>";
+
+    echo "<div class='lastpart'>";
+            echo "<h1 class='totaloverall' id='price'>Total: S$".$product_price."</h1>";
+            echo "<div class='lastpartbuttons'>";
+                echo '<input class="addtocart" type="submit" value="ADD TO CART">';
+                echo "<button type='button' onclick='favorite($id)' id='favorite$id' class='afterfavoritebtn'><i class='far fa-heart'></i></button>";
+            echo '</div>';
+        echo '</div>';
+
+} else {
+    // echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
+
+    echo "<div class='lastpart'>";
+            echo "<h1 class='totaloverall' id='price'>Total: S$".$product_price."</h1>";
+            echo "<div class='lastpartbuttons'>";
+                echo '<input class="addtocart" type="submit" value="ADD TO CART">';
+                echo "<button type='button' onclick='favorite($id)' id='favorite$id' class='favoritebtn'><i class='far fa-heart'></i></button>";
+            echo '</div>';
+        echo '</div>';
+
+}
+
+
+
+
+
+
+
+        
+
+
+
+   
+//    echo "Total Costs: <br>";
 
    
    
    
-   echo "<p id='price'>"."S$".$product_price . "</p>";
+//    echo "<p id='price'>"."S$".$product_price . "</p>";
    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
-   echo "<input type='submit' >";
+//    echo "<input type='submit' >";
 
 
     echo "</form>";
@@ -218,53 +556,11 @@
 
 
 
-    //check fi already favorited
-
-    $query->close();
-
-
-    //add to favorites
-    try {
-        $query = $conn->prepare("SELECT product_id,user_id FROM mydb.usersfavorite WHERE product_id = ? AND user_id =?;");
-        $query->bind_param('ss',$id,$signedinuserid);
-        if ($query === false) {
-            //change filename accordingly
-            throw new Exception("Statement Preparation failed(favoriteproduct)");
-        }
-    } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
-        //change header location accordingly
-        header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
-        exit;
-    }
-
-
-    // throws error "Statment Execution failed" when statement fails
-    try {
-        $execute = $query->execute();
-        if ($execute === false) {
-            throw new Exception("Statement Execution failed (favoriteproduct)");
-        }
-    } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
-        header("location: https://www.swapamc.com/swapproj/allproducts?error=badstatement");
-        exit;
-    }
-
-    $result = $query->get_result();
-    $array = $result->fetch_all(MYSQLI_ASSOC);
-
-    if(sizeOf($array)==1){
-
-        //already favorited
-        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Unfavorite</button></div>";
-
-    } else {
-        echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
-
-    }
-
     
+    
+
+    echo "</div>";
+    echo "</div>"; //end top
 
 
 
@@ -312,34 +608,52 @@
 
 
     //start of reviews
-    echo "<h2>Reviews</h2>";
+    // echo "<h2>Reviews</h2>";
+
+    // echo "<form method='POST' action='/swapproj/addreview' enctype='multipart/form-data'>";
+
+    // echo "<p>Comment:</p>";
+    // echo "<input type='text' name='comment'>";
+
+
+    // echo "<p>Rating:</p>";
+    // echo "<input type='number' max=5 min=1 name='rating'>";
+
+
+    // echo "<p>Image:</p>";
+    // echo "<input type='file' name='image'>";
+    // echo "<br><br>";
+
+    // echo "<input type='submit'>";
+    // echo "<input type='hidden' name='csrf' value='$csrf'>";
+    
+
+    // echo "</form>";
+
+
 
     echo "<form method='POST' action='/swapproj/addreview' enctype='multipart/form-data'>";
-
-    echo "<p>Comment:</p>";
-    echo "<input type='text' name='comment'>";
-
-
-    echo "<p>Rating:</p>";
-    echo "<input type='number' max=5 min=1 name='rating'>";
-
-
-    echo "<p>Image:</p>";
-    echo "<input type='file' name='image'>";
-    echo "<br><br>";
-
-    echo "<input type='submit'>";
-    echo "<input type='hidden' name='csrf' value='$csrf'>";
+    echo "<div class=\"addreview\">";
+    echo "<h3 class='addareview'>Add a review</h3>";
     
-
+    echo "<div class='ratingreviewadd'>";
+    echo "<p class='ratingreviewheader'>Rating</p>";
+    echo "<input class='number' name='rating' type=\"number\" placeholder='1-5'>";
+    echo "</div>";
+    echo "<div class='productimageadd'>";
+    echo "<p>Product Image</p>";
+    echo "<input type='file' name='image'>";
+    echo "</div>";
+    echo "<textarea name='comment' placeholder=\"I loved this product! I really hope I can get A for SWAP!\" class='addreivewtextarea' style=\"width:100%\"></textarea>";
+    echo "<input type=\"submit\" class='addreviewbtn' value='Post Publicly'>";
+    
+    echo "</div>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
     echo "</form>";
 
-    
-    // require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
-    // $image = new Image();
-    // $src = $image->show("images/wite.jpg");
-    // echo '<img src="'.$src.'" />';
 
+
+    
 
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/images/showimage.php';
     $image = new Image();
@@ -352,7 +666,7 @@
     $childarray = [];
     $parentchild = [];
 
-    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=? AND childof_id IS not null ORDER BY review_date;");
+    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=? AND childof_id IS not null ORDER BY review_date DESC;");
     $query->bind_param('s',$id);
     //child of = parent's id
     if($query->execute()){
@@ -478,7 +792,7 @@
 
 
 
-
+    // $signedinrole=6;
 
 
 
@@ -492,7 +806,7 @@
     $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,
     review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,
     review_pic,user_role FROM mydb.reviews INNER JOIN mydb.users 
-    ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = ? AND childof_id IS null;");
+    ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = ? AND childof_id IS null ORDER BY review_date DESC;");
     $query->bind_param('s',$id);
     if($query->execute()){
         $result = $query->get_result();
@@ -504,159 +818,199 @@
     $query->close();
 
 
+    echo "<div class='allreviews'>";
+    echo "<h2 class='numberofreviews'>All Reviews</h2>";
+
+  
+
+
+
+
+
+
+
+
+
+
+
+    //allparents
+
     for($i=0;$i<sizeof($allparents);$i++){
 
         //echo parent first
 
         
+        // echo '<div >';
 
+        
         if($signedinuserid==$allparents[$i]['user_id']){
 
 
-            if($allparents[$i]['user_role']==6){
+            
                 //if review posted by user currently signed in
 
                 $reviewidparent = $allparents[$i]['review_id'];
-                $profilepicture = $image->show($allparents[$i]['review_pic']);
+                $revpic = $image->show($allparents[$i]['review_pic']);
                 $likes = $allparents[$i]['review_total_likes'];
                 $dislikes = $allparents[$i]['review_total_dislikes'];
+                $pic=$allparents[$i]['user_profilepicture'];
 
-                echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+                echo "<form class='parentsectionreviews' method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
 
-                echo "<div id='image$reviewidparent'>";
-                echo '<img  width="100px" src="'.$profilepicture.'" />';
+                //parentprofilepic
+                echo "<div class='parentleft'>";
+                        
+                echo "<div class='circle' id='circle$reviewidparent'>";
                 echo "</div>";
+                
+                if(isset($pic)){
+                    $image = new Image();
 
-                echo "<br>";
-
-                echo "<div id='comment$reviewidparent'>";
-                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-                echo "</div>";
-
-                echo "<div id='rating$reviewidparent'>";
-                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-                echo "</div>";
-
-                echo "<div id=likeordislikecontainer$reviewidparent>";
-
-
-                if(in_array($reviewidparent,$listwhichuserliked)){
-                    //if its liked already
+                    $src = $image->show($pic);
                     
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
-                } else {
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
-
-                }
-
-                if(in_array($reviewidparent,$listwhichuserdisliked)){
-                    //if its disliked already
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
-                } else {
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
-                }
-
-                echo "</div>";
                 
-                
-
-                
-
-
-                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
-
-                echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
-
-
-                echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
-                echo "<br><br>";
-                echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
-
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
-                
-
-                echo "</form>";
-
-                echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
-                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                echo "<input type='text' name='comment' placeholder='comment'>";
-                echo "<input type='submit'>";
-                echo "</form>";
-
-            } else {
-                //if review posted by user currently signed in
-
-                $reviewidparent = $allparents[$i]['review_id'];
-                $profilepicture = $image->show($allparents[$i]['review_pic']);
-                $likes = $allparents[$i]['review_total_likes'];
-                $dislikes = $allparents[$i]['review_total_dislikes'];
-
-                echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
-
-                echo "<div id='image$reviewidparent'>";
-                echo '<img  width="100px" src="'.$profilepicture.'" />';
-                echo "</div>";
-
-                echo "<br>";
-
-                echo "<div id='comment$reviewidparent'>";
-                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-                echo "</div>";
-
-                echo "<div id='rating$reviewidparent'>";
-                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-                echo "</div>";
-
-
-                // echo "<p>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                // echo "<p>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-
-                echo "<div id=likeordislikecontainer$reviewidparent>";
-
-                if(in_array($reviewidparent,$listwhichuserliked)){
-                    //if its liked already
                     
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
-                } else {
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                    echo "<style>";
+                        echo "#circle$reviewidparent {";
+                        echo "background-image: url('$src');";
+                        echo "}";
+                    echo "</style>";
 
                 }
-
-                if(in_array($reviewidparent,$listwhichuserdisliked)){
-                    //if its disliked already
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
-                } else {
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
-                }
-
+                    
                 echo "</div>";
 
+                echo '<div class="parentright">';
 
-                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
+                    echo "<div class='usernamereviewcontainer'>";
+                        echo "<h4 class='usernamereview'>".$allparents[$i]['user_username']."</h4>";
+                        echo "<div class='kea'>";
+                            echo "<a class=\"kebab-link\" data-toggle='dropdown' data-target=\"#dropdown$reviewidparent\"><i class=\"fa fa-ellipsis-v\"></i></a>";
+                            echo "<div class='dropdown kebab-dropdown dropdown-sm' id=\"dropdown$reviewidparent\">";
+                                echo "<div class=\"dropdown-menu dropdown-unroll dropdown-menu-right\">";
+                                    echo "<a id='delete$reviewidparent' class=\"dropdown-item\" href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'>Delete Review</a>";
+                                    echo "<div class=\"dropdown-divider\"></div>";
+                                    echo "<a id='editbutton$reviewidparent'  onclick='editReview($reviewidparent)' class=\"dropdown-item\">Edit Review</a>";
+                                    
+                                echo "</div>";
+                            echo "</div>";
+                        echo "</div>";
+                    echo "</div>";
 
-                echo "<button type='button' id='editbutton$reviewidparent' onclick='editReview($reviewidparent)'>"."Edit". "</button>";
+                    
+                    echo "<input type='hidden' name='csrf' value='$csrf'>";
+                    // echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+
+                    // echo "<div id='image$reviewidparent'>";
+                    // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                    // echo "</div>";
+
+                    // echo "<br>";
+                    getRating($allparents[$i]['review_rating'],$reviewidparent);
+
+                    echo "<div id='rating$reviewidparent'>";
+                    
+                    echo "</div>";
+                    
+                    
+
+                    echo "<div id='comment$reviewidparent'>";
+                    echo "<p class='reviewdetails'>".$allparents[$i]['review_comment']."</p>";
+                    echo "</div>";
+
+                    // echo "<div id='rating$reviewidparent'>";
+                    // echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                    // echo "</div>";
+
+                    echo "<div class=\"imagescontainer\">";
 
 
-                echo "<button type='submit' id='submit$reviewidparent' style='display:none'>Submit</button>";
-                echo "<br><br>";
+                        
 
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
+                        $image = new Image();
+
+                        $src = $image->show($revpic);
+                        
+                    
+                        echo "<div class='picturesreview' id='picturesreview$reviewidparent'>";
+                        
+                        
+                        echo "</div>";
+                        
+
+                        echo "<style>";
+                            echo "#picturesreview$reviewidparent {";
+                            echo "background-image: url('$src');";
+                            echo "}";
+                        echo "</style>";
+                    
+                        
+                    echo "</div>";
+
+                    echo "<p class='date'>".$allparents[$i]['review_date']."</p>";
+
+                    
+                    echo "<div id=likeordislike>";
+                        
+                        
+                        
+
+                        if(in_array($reviewidparent,$listwhichuserliked)){
+                            //if its liked already
+                            echo "<span id='likeid$reviewidparent' class='like'>".$allparents[$i]['review_total_likes']."&nbsp&nbsp<i  style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-up\"></i></span>";
+                            // echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                            // echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                        } else {
+                            echo "<span id='likeid$reviewidparent' class='like'>".$allparents[$i]['review_total_likes']."&nbsp&nbsp<i onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)' class=\"fas fa-chevron-up\"></i></span>";
+                            // echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                            // echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                        }
+                        
+
+                        
+                        if(in_array($reviewidparent,$listwhichuserdisliked)){
+                            //if its disliked already
+                            // echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                            // echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                            echo "<span id='dislikeid$reviewidparent' class='dislike'>".$allparents[$i]['review_total_dislikes']."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class='fas fa-chevron-down'></i></span>";
+                        } else {
+                            echo "<span id='dislikeid$reviewidparent' class='dislike'>".$allparents[$i]['review_total_dislikes']."&nbsp&nbsp<i onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)' class=\"fas fa-chevron-down\"></i></span>";
+                            // echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                            // echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                        }
+
+                    echo "</div>";
+                    
+
+                    
+
+
+                    echo "<button type='submit' class='inptdesignbtn' id='submit$reviewidparent' style='display:none'>Update Changes</button>";
+
+                    if($signedinrole==6){
+                        echo "<p class='replybtn' type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</p>";
+
+
+                    }
+                    
+
+                    
+
+                    echo "</form>";
+
+                    echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
+                        echo "<input type='hidden' name='csrf' value='$csrf'>";
+                        echo "<input class='inptdesign' type='text' name='comment' placeholder='comment'><br>";
+                        echo "<input class='inptdesignbtn' type='submit'>";
+                    echo "</form>";
+
+                    
+                echo "</div>"; //parentright
+
+            
                 
-
-                echo "</form>";
-            }
             
 
 
@@ -664,111 +1018,181 @@
             
 
         } else {
+
+            //if review posted by user currently signed in
+
             $reviewidparent = $allparents[$i]['review_id'];
-            
-            
-            if($signedinrole==6){
-                $likes = $allparents[$i]['review_total_likes'];
-                $dislikes = $allparents[$i]['review_total_dislikes'];
-                //if now is admin
-                $profilepicture = $image->show($allparents[$i]['review_pic']);
-                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
-                echo '<img width="100px" src="'.$profilepicture.'" />';
-                echo "<br>";
-                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+            $revpic = $image->show($allparents[$i]['review_pic']);
+            $likes = $allparents[$i]['review_total_likes'];
+            $dislikes = $allparents[$i]['review_total_dislikes'];
+            $pic=$allparents[$i]['user_profilepicture'];
 
+            echo "<form class='parentsectionreviews' method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
 
-                echo "<div id=likeordislikecontainer$reviewidparent>";
-                if(in_array($reviewidparent,$listwhichuserliked)){
-                    //if its liked already
+            //parentprofilepic
+            echo "<div class='parentleft'>";
+                // echo "<div class='circle'>";
+                // echo "</div>";
+                echo "<div class='circle' id='circle$reviewidparent'>";
+                    echo "</div>";
+
                     
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
-                } else {
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                if(isset($pic)){
+                    $image = new Image();
+
+                    $src = $image->show($pic);
+                    
+                
+                    
+
+                    echo "<style>";
+                        echo "#circle$reviewidparent {";
+                        echo "background-image: url('$src');";
+                        echo "}";
+                    echo "</style>";
 
                 }
+                
+            echo "</div>";
 
-                if(in_array($reviewidparent,$listwhichuserdisliked)){
-                    //if its disliked already
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
-                } else {
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
-                }
+            echo '<div class="parentright">';
+
+                echo "<div class='usernamereviewcontainer'>";
+                    echo "<h4 class='usernamereview'>".$allparents[$i]['user_username']."</h4>";
+                    if($signedinrole==6){
+                        echo "<div class='kea'>";
+                        echo "<a class=\"kebab-link\" data-toggle=\"dropdown\" data-target=\"#dropdown$reviewidparent\"><i class=\"fa fa-ellipsis-v\"></i></a>";
+                        echo "<div class=\"dropdown kebab-dropdown dropdown-sm\" id=\"dropdown$reviewidparent\">";
+                            echo "<div class=\"dropdown-menu dropdown-unroll dropdown-menu-right\">";
+                                echo "<a id='delete$reviewidparent' class=\"dropdown-item\" href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'>Delete Review</a>";
+                                echo "<div class=\"dropdown-divider\"></div>";
+                                echo "<a id='editbutton$reviewidparent'  onclick='editReview($reviewidparent)' class=\"dropdown-item\">Edit Review</a>";
+                                
+                            echo "</div>";
+                        echo "</div>";
+                    echo "</div>";
+
+                    }
+                    
                 echo "</div>";
 
+                
+                echo "<input type='hidden' name='csrf' value='$csrf'>";
+                // echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
+
+                // echo "<div id='image$reviewidparent'>";
+                // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                // echo "</div>";
+
+                // echo "<br>";
+                getRating($allparents[$i]['review_rating'],$reviewidparent);
+
+                echo "<div id='rating$reviewidparent'>";
+                
+                echo "</div>";
+                
+                
+
+                echo "<div id='comment$reviewidparent'>";
+                echo "<p class='reviewdetails'>".$allparents[$i]['review_comment']."</p>";
+                echo "</div>";
+
+                // echo "<div id='rating$reviewidparent'>";
+                // echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
+                // echo "</div>";
+
+                echo "<div class=\"imagescontainer\">";
 
 
-                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
-                echo "<button type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</button>";
-                echo "<a id='delete$reviewidparent' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewidparent&csrf=$csrf"."'><button type='button'>Delete</button></a>";
+                        
+
+                        $image = new Image();
+
+                        $src = $image->show($revpic);
+                        
+                    
+                        echo "<div class='picturesreview' id='picturesreview$reviewidparent'>";
+                        
+                        
+                        echo "</div>";
+                        
+
+                        echo "<style>";
+                            echo "#picturesreview$reviewidparent {";
+                            echo "background-image: url('$src');";
+                            echo "}";
+                        echo "</style>";
+                    
+                        
+                    echo "</div>";
+
+
+                echo "<p class='date'>".$allparents[$i]['review_date']."</p>";
+
+                
+                echo "<div id=likeordislike>";
+                    
+                    
+                    
+
+                    if(in_array($reviewidparent,$listwhichuserliked)){
+                        //if its liked already
+                        echo "<span id='likeid$reviewidparent' class='like'>".$allparents[$i]['review_total_likes']."&nbsp&nbsp<i  style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-up\"></i></span>";
+                        // echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                        // echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
+                    } else {
+                        echo "<span id='likeid$reviewidparent' class='like'>".$allparents[$i]['review_total_likes']."&nbsp&nbsp<i onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)' class=\"fas fa-chevron-up\"></i></span>";
+                        // echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
+                        // echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
+
+                    }
+                    
+
+                    
+                    if(in_array($reviewidparent,$listwhichuserdisliked)){
+                        //if its disliked already
+                        // echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                        // echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
+                        echo "<span id='dislikeid$reviewidparent' class='dislike'>".$allparents[$i]['review_total_dislikes']."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class='fas fa-chevron-down'></i></span>";
+                    } else {
+                        echo "<span id='dislikeid$reviewidparent' class='dislike'>".$allparents[$i]['review_total_dislikes']."&nbsp&nbsp<i onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)' class=\"fas fa-chevron-down\"></i></span>";
+                        // echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
+                        // echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
+                    }
+
+                echo "</div>";
+                
+
+                
+
+
+                echo "<button type='submit' class='inptdesignbtn' id='submit$reviewidparent' style='display:none'>Update Changes</button>";
+
+                if($signedinrole==6){
+                    echo "<p class='replybtn' type='button' id='replybutton$reviewidparent' onclick='replyReview($reviewidparent)'>"."Reply". "</p>";
+
+
+                }
+                
+
+                
+
+                echo "</form>";
 
                 echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewidparent' id='replybox$reviewidparent'>";
                     echo "<input type='hidden' name='csrf' value='$csrf'>";
-                    echo "<input type='text' name='comment' placeholder='comment'>";
-                echo "<input type='submit'>";
+                    echo "<input class='inptdesign' type='text' name='comment' placeholder='comment'><br>";
+                    echo "<input class='inptdesignbtn' type='submit'>";
                 echo "</form>";
 
                 
-            } else {
-                $profilepicture = $image->show($allparents[$i]['review_pic']);
-                $likes = $allparents[$i]['review_total_likes'];
-                $dislikes = $allparents[$i]['review_total_dislikes'];
-                echo "<p>Username: ".$allparents[$i]['user_username']."</p>";
-                echo '<img width="100px" src="'.$profilepicture.'" />';
-                echo "<br>";
-                echo "<p>Comment: ".$allparents[$i]['review_comment']."</p>";
-                echo "<p>Rating: ".$allparents[$i]['review_rating']."</p>";
-
-
-                echo "<div id=likeordislikecontainer$reviewidparent>";
-
-                
-                if(in_array($reviewidparent,$listwhichuserliked)){
-                    //if its liked already
-                    
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<h4 id='likesbutton$reviewid'>Liked</h4>";
-                } else {
-                    echo "<p id='likes$reviewid'>Likes: ".$allparents[$i]['review_total_likes']."</p>";
-                    echo "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,1,$likes,$dislikes)'>Like</button>";
-
-                }
-
-                if(in_array($reviewidparent,$listwhichuserdisliked)){
-                    //if its disliked already
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<h4 id='dislikesbutton$reviewid'>Disliked</h4>";
-                } else {
-                    echo "<p id='dislikes$reviewid'>Dislikes: ".$allparents[$i]['review_total_dislikes']."</p>";
-                    echo "<button id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewidparent,0,$likes,$dislikes)'>Dislike</button>";
-                }
-
-                echo "</div>";
-
-
-
-                echo "<p>Date: ".$allparents[$i]['review_date']."</p>";
-                
-            }
+            echo "</div>"; //parentright
             
         }
 
-        
-        
-        
-
-
-
-
-
-
-
-
+  
+        //children
         if(array_key_exists($allparents[$i]['review_id'],$parentchild)){
             //if there are more child elements
             $parentid = $allparents[$i]['review_id'];
@@ -797,152 +1221,153 @@
                 $query->bind_result($uid,$reviewid,$username,$profilepicture,$comment,$rating,$likes,$dislikes,$date,$childofid,$reviewpic);
                 while($query->fetch()){
                     
-                    if($signedinuserid==$uid){
-                            //if review posted by user currently signed in
+                    if($signedinrole==6){
+                        //if review posted by user currently signed in
 
 
-                        if($signedinrole==6){
-                            //only admin can reply >:)
-                            
-                            // $profilepicture = $image->show($reviewpic);
-            
-                            echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                            echo "<input type='hidden' name='csrf' value='$csrf'>";
-                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-                
-                            // echo "<div id='image$reviewid' style='margin-left:30px'>";
-                            // echo '<img  width="100px" src="'.$profilepicture.'" />';
-                            // echo "</div>";
-                
-                            //echo "<br>";
-                
-                            echo "<div id='comment$reviewid' style='margin-left:30px'>";
-                            echo "<p>Comment: ".$comment."</p>";
-                            echo "</div>";
-                
-                            
-                
-                
-                            // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
-                            // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
-
-
-                            echo "<div id=likeordislikecontainer$reviewid>";
-                            if(in_array($reviewid,$listwhichuserliked)){
-                                //if its liked already
-                                
-                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
-                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
-                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
-            
-                            }
-            
-                            if(in_array($reviewid,$listwhichuserdisliked)){
-                                //if its disliked already
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
-                            }
-                            echo "</div>";
-
-
-
-
-
-
-
-                            
-                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
-                
-                            echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
-                            echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
-                
-                
-                            echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
-                            echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
-                            
-                            
-                            echo "</form>";
-
-                            echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
-                                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                                echo "<input type='text' name='comment' placeholder='comment'>";
-                            echo "<input type='submit'>";
-                            
-                            echo "</form>";
-                            
-
-                        } else {
-                            // $profilepicture = $image->show($reviewpic);
-            
-                            echo "<form method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
-                                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-                
-                            // echo "<div id='image$reviewid' style='margin-left:30px'>";
-                            // echo '<img  width="100px" src="'.$profilepicture.'" />';
-                            // echo "</div>";
-                
-                            //echo "<br>";
-                
-                            echo "<div id='comment$reviewid' style='margin-left:30px'>";
-                            echo "<p>Comment: ".$comment."</p>";
-                            echo "</div>";
-                
-                            // echo "<div id='rating$reviewid' style='margin-left:30px'>";
-                            // echo "<p>Rating: ".$rating."</p>";
-                            // echo "</div>";
-                
-                
-                            // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
-                            // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
-
-                            echo "<div id=likeordislikecontainer$reviewid>";
-
-                            if(in_array($reviewid,$listwhichuserliked)){
-                                //if its liked already
-                                
-                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
-                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
-                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
-            
-                            }
-            
-                            if(in_array($reviewid,$listwhichuserdisliked)){
-                                //if its disliked already
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
-                            }
-                            echo "</div>";
-
-
-
-
-                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
-                
-                            echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
-                
-                
-                            echo "<button style='margin-left:30px;display:none' type='submit' id='submit$reviewid'>Submit</button>";
-                            echo "<br><br>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
-                            
-                            
-                            echo "</form>";
-                           
-                        }
+                    
+                        //only admin can reply >:)
                         
-            
+                        // $profilepicture = $image->show($reviewpic);
+
+                        echo "<div class='childreview'>";
+        
+                            echo "<form class='parentsectionreviews' method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
+
+
+                                //parentprofilepic
+                                echo "<div class='parentleft'>";
+                                    echo "<div class='circle' id='circle$reviewid'>";
+                                    echo "</div>";
+
+                                    if(isset($profilepicture)){
+                                        $image = new Image();
+
+                                        $src = $image->show($profilepicture);
+                                        
+                                    
+                                        
+                    
+                                        echo "<style>";
+                                            echo "#circle$reviewid {";
+                                            echo "background-image: url('$src');";
+                                            echo "}";
+                                        echo "</style>";
+
+                                    }
+                                    
+                                echo "</div>";
+
+                                echo "<div class='childright'>";
+
+
+                                    echo "<div class='usernamereviewcontainer'>";
+                                        echo "<h4 class='usernamereview'>".$username."</h4>";
+
+                                        echo "<div class='kea'>";
+                                            echo "<a class=\"kebab-link\" data-toggle=\"dropdown\" data-target=\"#dropdown$reviewid\"><i class=\"fa fa-ellipsis-v\"></i></a>";
+                                            echo "<div class=\"dropdown kebab-dropdown dropdown-sm\" id=\"dropdown$reviewid\">";
+                                                echo "<div class=\"dropdown-menu dropdown-unroll dropdown-menu-right\">";
+                                                    echo "<a id='delete$reviewid' class=\"dropdown-item\" href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'>Delete Review</a>";
+                                                    echo "<div class=\"dropdown-divider\"></div>";
+                                                    echo "<a id='editbutton$reviewid'  onclick='editReview($reviewid)' class=\"dropdown-item\">Edit Review</a>";
+                                                    
+                                                echo "</div>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                    echo "</div>";
+
+
+                                    echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                    // echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                        
+                                    
+                                    // echo "<div id='image$reviewid' style='margin-left:30px'>";
+                                    // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                                    // echo "</div>";
+                        
+                                    //echo "<br>";
+                        
+                                    echo "<div id='comment$reviewid'>";
+                                        
+                                        echo "<p class='reviewdetails'>".$comment.'</p>';
+                                    echo "</div>";
+                
+                            
+                                    echo "<p class='date'>".$date."</p>";
+                
+                                    // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                                    // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
+
+
+                                    echo "<div id=likeordislike>";
+                                        if(in_array($reviewid,$listwhichuserliked)){
+                                            //if its liked already
+                                            
+                                            // echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                            // echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                                            echo "<span id='likeid$reviewid' class='like'>".$likes."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-up\"></i></span>";
+                                        } else {
+                                            echo "<span id='likeid$reviewid' class='like'>".$likes."&nbsp&nbsp<i onclick='likeOrDislike($reviewid,1,$likes,$dislikes)' class=\"fas fa-chevron-up\"></i></span>";
+                                            // echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                            // echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+                        
+                                        }
+                        
+                                        if(in_array($reviewid,$listwhichuserdisliked)){
+                                            //if its disliked already
+                                            echo "<span id='dislikeid$reviewid' class='dislike'>".$dislikes."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class='fas fa-chevron-down'></i></span>";
+
+
+                                            // echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                            // echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                                        } else {
+                                            echo "<span id='dislikeid$reviewid' class='dislike'>".$dislikes."&nbsp&nbsp<i onclick='likeOrDislike($reviewid,0,$likes,$dislikes)' class=\"fas fa-chevron-down\"></i></span>";
+
+                                            // echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                            // echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                                        }
+                                    echo "</div>";
+
+
+
+
+
+
+
+                            
+                                        // echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                            
+                                        // echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
+                                        // echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
+                            
+                            
+                                        echo "<button style='display:none' class='inptdesignbtn' type='submit' id='submit$reviewid'>Update Changes</button>";
+                                        
+                                        // echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
+                                        
+                                        if($signedinrole==6){
+                                            echo "<p class='replybtn' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</p>";
+                                        }
+                                        
+                                        echo "</form>";
+
+                                        echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
+                                            echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                            echo "<input class='inptdesign' type='text' name='comment' placeholder='comment'>";
+                                            echo "<input class='inptdesign' type='submit'>";
+                                        
+                                        echo "</form>";
+
+
+
+
+                                echo "</div>";//childright
+                        
+                        echo "</div>";//childreivews
+                            
+                            
+                
                         
             
             
@@ -950,97 +1375,142 @@
                        
             
                     } else {
-                        if($signedinrole==6){
-                            //$profilepicture = $image->show($reviewpic);
-            
-                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-                            //echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
-                            //echo "<br>";
-                            echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
-                            //echo "<p style='margin-left:30px'>Rating: ".$rating."</p>";
+
+                        echo "<div class='childreview'>";
+        
+                            echo "<form class='parentsectionreviews' method=POST action='https://www.swapamc.com/swapproj/editreview' enctype='multipart/form-data'>";
 
 
-                            echo "<div id=likeordislikecontainer$reviewid>";
-                            if(in_array($reviewid,$listwhichuserliked)){
-                                //if its liked already
-                                
-                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
-                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
-                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
-            
-                            }
-            
-                            if(in_array($reviewid,$listwhichuserdisliked)){
-                                //if its disliked already
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
-                            }
+                                //parentprofilepic
+                                echo "<div class='parentleft'>";
+                                echo "<div class='circle' id='circle$reviewid'>";
+                                echo "</div>";
 
-                            echo"</div>";
+                                    if(isset($profilepicture)){
+                                        $image = new Image();
 
+                                        $src = $image->show($profilepicture);
+                                        
+                                    
+                                        
+                    
+                                        echo "<style>";
+                                            echo "#circle$reviewid {";
+                                            echo "background-image: url('$src');";
+                                            echo "}";
+                                        echo "</style>";
 
+                                    }
+                                    
+                                echo "</div>";
 
-
-                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
-                            echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
-                            echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
+                                echo "<div class='childright'>";
 
 
-                            echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
-                                echo "<input type='hidden' name='csrf' value='$csrf'>";
-                                echo "<input type='text' name='comment' placeholder='comment'>";
-                            echo "<input type='submit'>";
-                            echo "</form>";
+                                    echo "<div class='usernamereviewcontainer'>";
+                                        echo "<h4 class='usernamereview'>".$username."</h4>";
+
+                                        // echo "<div class='kea'>";
+                                        //     echo "<a class=\"kebab-link\" data-toggle=\"dropdown\" data-target=\"#dropdown$reviewid\"><i class=\"fa fa-ellipsis-v\"></i></a>";
+                                        //     echo "<div class=\"dropdown kebab-dropdown dropdown-sm\" id=\"dropdown$reviewid\">";
+                                        //         echo "<div class=\"dropdown-menu dropdown-unroll dropdown-menu-right\">";
+                                        //             echo "<a id='delete$reviewid' class=\"dropdown-item\" href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'>Delete Review</a>";
+                                        //             echo "<div class=\"dropdown-divider\"></div>";
+                                        //             echo "<a id='editbutton$reviewid'  onclick='editReview($reviewid)' class=\"dropdown-item\">Edit Review</a>";
+                                                    
+                                        //         echo "</div>";
+                                        //     echo "</div>";
+                                        // echo "</div>";
+                                    echo "</div>";
+
+
+                                    echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                    // echo "<p style='margin-left:30px'>Username: ".$username."</p>";
+                        
+                                    
+                                    // echo "<div id='image$reviewid' style='margin-left:30px'>";
+                                    // echo '<img  width="100px" src="'.$profilepicture.'" />';
+                                    // echo "</div>";
+                        
+                                    //echo "<br>";
+                        
+                                    echo "<div id='comment$reviewid>'";
+                                        echo "<p class='reviewdetails'>".$comment."</p>";
+                                    echo "</div>";
+                
                             
-
-                        } else {
-                            //$profilepicture = $image->show($reviewpic);
-            
-                            echo "<p style='margin-left:30px'>Username: ".$username."</p>";
-                            //echo '<img style="margin-left:30px" width="100px" src="'.$profilepicture.'" />';
-                           // echo "<br>";
-                            echo "<p style='margin-left:30px'>Comment: ".$comment."</p>";
+                                    echo "<p class='date'>".$date."</p>";
+                
+                                    // echo "<p style='margin-left:30px'>Likes: ".$likes."</p>";
+                                    // echo "<p style='margin-left:30px'>Dislikes: ".$dislikes."</p>";
 
 
-
-                            echo "<div id=likeordislikecontainer$reviewid>";
-                            if(in_array($reviewid,$listwhichuserliked)){
-                                //if its liked already
-                                
-                                echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
-                                echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
-                                echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
-            
-                            }
-            
-                            if(in_array($reviewid,$listwhichuserdisliked)){
-                                //if its disliked already
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
-                            } else {
-                                echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
-                                echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
-                            }
-                            echo "</div>";
+                                    echo "<div id=likeordislike>";
+                                        if(in_array($reviewid,$listwhichuserliked)){
+                                            //if its liked already
+                                            
+                                            // echo "<p style='margin-left:30px' id='likes$reviewid'>Likes: ".$likes."</p>";
+                                            // echo "<h4 style='margin-left:30px' id='likesbutton$reviewid'>Liked</h4>";
+                                            echo "<span id='likeid$reviewid' class='like'>".$likes."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-up\"></i></span>";
+                                        } else {
+                                            echo "<span id='likeid$reviewid' class='like'>".$likes."&nbsp&nbsp<i onclick='likeOrDislike($reviewid,1,$likes,$dislikes)' class=\"fas fa-chevron-up\"></i></span>";
+                                            // echo "<p style='margin-left:30px' id='likes$reviewid' >Likes: ".$likes."</p>";
+                                            // echo "<button style='margin-left:30px' id='likesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,1,$likes,$dislikes)'>Like</button>";
+                        
+                                        }
+                        
+                                        if(in_array($reviewid,$listwhichuserdisliked)){
+                                            //if its disliked already
+                                            echo "<span id='dislikeid$reviewid' class='dislike'>".$dislikes."&nbsp&nbsp<i style='color:#73C2FB;opacity:0.8;' class='fas fa-chevron-down'></i></span>";
 
 
+                                            // echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                            // echo "<h4 style='margin-left:30px' id='dislikesbutton$reviewid' >Disliked</h4>";
+                                        } else {
+                                            echo "<span id='dislikeid$reviewid' class='dislike'>".$dislikes."&nbsp&nbsp<i onclick='likeOrDislike($reviewid,0,$likes,$dislikes)' class=\"fas fa-chevron-down\"></i></span>";
 
-
+                                            // echo "<p style='margin-left:30px' id='dislikes$reviewid' >Dislikes: ".$dislikes."</p>";
+                                            // echo "<button style='margin-left:30px' id='dislikesbutton$reviewid' type='button' onclick='likeOrDislike($reviewid,0,$likes,$dislikes)'>Dislike</button>";
+                                        }
+                                    echo "</div>";
 
 
 
 
-                            echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+
+
+
                             
+                                        // echo "<p style='margin-left:30px'>Date: ".$date."</p>";
+                            
+                                        // echo "<button style='margin-left:30px' type='button' id='editbutton$reviewid' onclick='editReview($reviewid)'>"."Edit". "</button>";
+                                        // echo "<button style='margin-left:30px' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</button>";
+                            
+                            
+                                        echo "<button style='display:none' class='inptdesignbtn' type='submit' id='submit$reviewid'>Update Changes</button>";
+                                        
+                                        // echo "<a style='margin-left:30px' id='delete$reviewid' href='"."https://www.swapamc.com/swapproj/deletereview?id=$reviewid&csrf=$csrf"."'><button type='button'>Delete</button></a>";
+                                        
+                                        if($signedinrole==6){
+                                            echo "<p class='replybtn' type='button' id='replybutton$reviewid' onclick='replyReview($reviewid)'>"."Reply". "</p>";
+                                        }
+                                        
+                                        echo "</form>";
 
-                        }
+                                        echo "<form style='display:none' method='POST' action='https://www.swapamc.com/swapproj/replyreview?id=$reviewid' id='replybox$reviewid'>";
+                                            echo "<input type='hidden' name='csrf' value='$csrf'>";
+                                            echo "<input class='inptdesign' type='text' name='comment' placeholder='comment'>";
+                                            echo "<input class='inptdesign' type='submit'>";
+                                        
+                                        echo "</form>";
+
+
+
+
+                                echo "</div>";//childright
+                        
+                        echo "</div>";//childreivews
+                        
                         
                     }
 
@@ -1058,6 +1528,9 @@
 
     }
 
+
+    echo "</div>"; //allreviews
+
     
     
     
@@ -1068,6 +1541,21 @@
 
 
 <html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1091,15 +1579,23 @@
 
             //cgeckbox are inputfield
             var checkboxesarray = document.getElementsByClassName("checkbox");
+
+            
             for (let i = 0; i < checkboxesarray.length; i++) {
                 if (checkboxesarray[i].checked){
                     
                     var additional = document.getElementById("price"+checkboxesarray[i].id);
 
+                    if(additional!=null){
+                        if(!isNaN(parseFloat(additional.innerHTML))){
                     
-                    if(!isNaN(parseFloat(additional.innerHTML))){
-                        priceforone = (parseFloat(priceforone) + parseFloat(additional.innerHTML)).toFixed(2);
+                            priceforone = (parseFloat(priceforone) + parseFloat(additional.innerHTML)).toFixed(2);
+                        }
+
                     }
+
+                    
+                    
                     
                     
                    // console.log("one" + priceforone);
@@ -1120,9 +1616,24 @@
 
             var total = (quantity * priceforone).toFixed(2);
 
+            // console.log(total);
+
             //new
             total = sanitizeHTML(total);
-            document.getElementById("price").textContent = "S$"+total;
+            document.getElementById("price").textContent = "Total: S$"+total;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             calculateInventory();
@@ -1152,8 +1663,10 @@
                         
 
                         if(document.getElementById("favorite"+productid)){
+                            document.getElementById("favorite"+productid).classList.add("afterfavoritebtn");
+                            document.getElementById("favorite"+productid).classList.remove("favoritebtn");
                             
-                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
+                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
                         }
 
                         
@@ -1162,8 +1675,10 @@
                     } else if (result=='unfavorited'){
 
                         if(document.getElementById("favorite"+productid)){
+                            document.getElementById("favorite"+productid).classList.remove("afterfavoritebtn");
+                            document.getElementById("favorite"+productid).classList.add("favoritebtn");
 
-                            document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
+                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
                         }
                     }
 
@@ -1188,6 +1703,13 @@
 
 
         function likeOrDislike(reviewid,likeordislike,likes,dislikes){
+            // prnt=ele.parentNode;
+            
+            
+
+            var likeid = "likeid"+reviewid;
+            var dislikedid = "dislikeid"+reviewid;
+
             
             var array= {};
             array['type'] = 'ajax';
@@ -1225,27 +1747,33 @@
                             if(likeordislike==1){
                                 //if liked
                                 
-                                var x= 
-                                "<p id='likes$reviewid'>Likes: "+likes+"</p>"+
-                                "<h4 id='likesbutton$reviewid'>Liked</h4>"+
-                                "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
-                                "<button id='dislikesbutton"+reviewid+"' type='button' onclick='likeOrDislike("+reviewid+",0,"+likes+","+dislikes+")'>Dislike</button>";
+                                // var x= 
+                                // "<p id='likes$reviewid'>Likes: "+likes+"</p>"+
+                                // "<h4 id='likesbutton$reviewid'>Liked</h4>"+
+                                // "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
+                                // "<button id='dislikesbutton"+reviewid+"' type='button' onclick='likeOrDislike("+reviewid+",0,"+likes+","+dislikes+")'>Dislike</button>";
 
+                                document.getElementById(likeid).innerHTML = likes+"&nbsp&nbsp<i  style='color:#73C2FB;opacity:0.8;' style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-up\"></i>";
+                                document.getElementById(dislikedid).innerHTML = dislikes+"&nbsp&nbsp<i onclick='likeOrDislike("+reviewid+",0,"+likes+","+dislikes+")' class=\"fas fa-chevron-down\"></i></span>";
                             } else if(likeordislike==0){
                             
 
-                                var x ="<p id='likes$reviewid'>Likes: "+likes+"</p>"+
-                                "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike("+reviewid+",1,"+likes+","+dislikes+")'>Like</button>"+
-                                "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
-                                "<h4 id='dislikesbutton"+reviewid+"'>Disliked</h4>";
+                                // var x ="<p id='likes$reviewid'>Likes: "+likes+"</p>"+
+                                // "<button d='likesbutton$reviewid' type='button' onclick='likeOrDislike("+reviewid+",1,"+likes+","+dislikes+")'>Like</button>"+
+                                // "<p id='dislikes$reviewid'>Dislikes: "+dislikes+"</p>"+
+                                // "<h4 id='dislikesbutton"+reviewid+"'>Disliked</h4>";
+
+                                document.getElementById(likeid).innerHTML = likes+"&nbsp&nbsp<i  onclick='likeOrDislike("+reviewid+",1,"+likes+","+dislikes+")' class=\"fas fa-chevron-up\"></i>";
+                                document.getElementById(dislikedid).innerHTML = dislikes+"&nbsp&nbsp<i  style='color:#73C2FB;opacity:0.8;' class=\"fas fa-chevron-down\"></i></span>";
+
+
                             }
 
-                            var box  = "likeordislikecontainer"+reviewid;
 
                             // console.log(box);
                             // console.log(x);
 
-                            document.getElementById(box).innerHTML = x;
+                            // prnt.innerHTML = x;
 
                         }
 
@@ -1276,12 +1804,13 @@
 
             
             if(document.getElementById(commentid)){
-                document.getElementById(commentid).innerHTML = "<input type='text' name='comment' placeholder='Comment'><input name='id' value="+reviewid+" style=display:none>";
+                document.getElementById(commentid).innerHTML = "<input type='text' name='comment' class='inptdesign' placeholder='Comment'><input name='id' value="+reviewid+" style=display:none>";
             }
 
             if(document.getElementById(ratingid)){
+                document.getElementById("reviewsrating"+reviewid).innerHTML="";
                 
-                document.getElementById(ratingid).innerHTML = "<input type='text' name='rating' placeholder='Rating'>";
+                document.getElementById(ratingid).innerHTML = "<input class='inptdesign' type='text' name='rating' placeholder='Rating'>";
             }
 
             if(document.getElementById(submitid)){
@@ -1393,5 +1922,82 @@
     </script>
 
 
+<script>
+    (function() {
+        "use strict";
+        var jQueryPlugin = (window.jQueryPlugin = function(ident, func) {
+            return function(arg) {
+                if (this.length > 1) {
+                    this.each(function() {
+                        var $this = $(this);
 
+                        if (!$this.data(ident)) {
+                            $this.data(ident, func($this, arg));
+                        }
+                    });
+
+                    return this;
+                } else if (this.length === 1) {
+                    if (!this.data(ident)) {
+                        this.data(ident, func(this, arg));
+                    }
+
+                    return this.data(ident);
+                }
+            };
+        });
+    })();
+
+    (function() {
+        "use strict";
+
+        function Guantity($root) {
+            const element = $root;
+            const quantity = $root.first("data-quantity");
+            const quantity_target = $root.find("[data-quantity-target]");
+            const quantity_minus = $root.find("[data-quantity-minus]");
+            const quantity_plus = $root.find("[data-quantity-plus]");
+            var quantity_ = quantity_target.val();
+            $(quantity_minus).click(function() {
+
+                // value=document.getElementById('qnn').value;
+
+
+                if (parseInt(document.getElementById('quantity').value) > parseInt(document.getElementById('quantity').min)) {
+                    quantity_target.val(--quantity_);
+                    calculatePriceUserSide();
+
+                }
+
+
+
+
+            });
+            $(quantity_plus).click(function() {
+
+                if (parseInt(document.getElementById('quantity').value) < parseInt(document.getElementById('quantity').max)) {
+                    quantity_target.val(++quantity_);
+                    calculatePriceUserSide();   
+
+                }
+            });
+        }
+        $.fn.Guantity = jQueryPlugin("Guantity", Guantity);
+        $("[data-quantity]").Guantity();
+    })();
+</script>
+
+<script>
+    
+        // Add slideDown animation to Bootstrap dropdown when expanding.
+        $('.dropdown').on('show.bs.dropdown', function() {
+            $(this).find('.dropdown-unroll').first().stop(true, true).slideDown();
+        }).on('hide.bs.dropdown', function() {
+            $(this).find('.dropdown-unroll').first().stop(true, true).slideUp();
+        });
+
+   
+
+    
+</script>
 </html>

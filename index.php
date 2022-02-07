@@ -175,8 +175,8 @@ $router->post('/product/favorite','product/includes/favorite.inc.php');
 
 ###Zeph
 //search and sort
-$router->post('/searchinc', 'includes/search.inc.php');
-$router->get('/searchinc', 'includes/search.inc.php');
+$router->post('/search', 'includes/search.inc.php');
+$router->get('/search', 'includes/search.inc.php');
 $router->post('/sortinc', 'includes/sort.inc.php');
 $router->get('/sortinc', 'includes/sort.inc.php');
 
@@ -247,7 +247,7 @@ $router->post('/updatestatus','viewtasks/updatestatus.inc.php');
 ###zeph
 //store amager
 $router->get('/storemanageradd','storemanager/storemanageradd.php');
-$router->get('/storemanage','storemanager/storemanager.php');
+// $router->get('/storemanage','storemanager/storemanager.php');
 $router->get('/storemanager/editstore','storemanager/editstore.php');
 
 
@@ -270,8 +270,8 @@ $router->get('/downloadlogs','admin/download.php');
 
 
 //attendance
-$router->get('/attendanced','attendance/attendance.php');
-$router->post('/attendanced','attendance/includes/attendance.php');
+// $router->get('/attendanced','attendance/attendance.php');
+// $router->post('/attendanced','attendance/includes/attendance.php');
 
 
 //attendance

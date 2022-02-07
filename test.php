@@ -89,8 +89,6 @@
             <p class='refundsbody'>Item is confirmed after payment confirmation. No
                 refunds, returns or exchanges will be entertained
                 except as required by law</p>
-
-
         </div>
 
 
@@ -221,76 +219,76 @@
 
     <h2 class='numberofreviews'>15 Reviews</h2>
 
-    <div class="parentsectionreviews">
+    <form class="parentsectionreviews">
 
-        <div class="parentleft">
-            <div class='circle'>
+        
+
+            <div class="parentleft">
+                <div class='circle'>
+
+                </div>
 
             </div>
 
-        </div>
+            <div class="parentright">
+                <div class='usernamereviewcontainer'>
+                    <h4 class='usernamereview'>darrenong</h4>
 
-        <div class="parentright">
-            <div class='usernamereviewcontainer'>
-                <h4 class='usernamereview'>darrenong</h4>
-
-                <div class='kea'>
-                    <a class="kebab-link" data-toggle="dropdown" data-target="#dropdown1"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown kebab-dropdown dropdown-sm" id="dropdown1">
-                        <div class="dropdown-menu dropdown-unroll dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit Product</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Delete Product</a>
+                    <div class='kea'>
+                        <a class="kebab-link" data-toggle="dropdown" data-target="#dropdown1"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown kebab-dropdown dropdown-sm" id="dropdown1">
+                            <div class="dropdown-menu dropdown-unroll dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit Product</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Delete Product</a>
+                            </div>
                         </div>
                     </div>
-
                 </div>
 
 
 
-            </div>
+                <div class='reviewsrating'>
+                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-cog"></i>
 
-
-
-            <div class='reviewsrating'>
-                <i class="fas fa-cog"></i>
-                <i class="fas fa-cog"></i>
-                <i class="fas fa-cog"></i>
-                <i class="fas fa-cog"></i>
-                <i class="fas fa-cog"></i>
-
-
-            </div>
-            <p class='reviewdetails'>Very nice product. makes it portable stuanjsdnkasnkdanjskdankdsnksndnsdknsdskdksndff stuff.</p>
-
-            <div class="imagescontainer">
-                <div class='picturesreview'>
 
                 </div>
+                <p class='reviewdetails'>Very nice product. makes it portable stuanjsdnkasnkdanjskdankdsnksndnsdknsdskdksndff stuff.</p>
 
-                <div class="picturesreview">
+                <div class="imagescontainer">
+                    <div class='picturesreview'>
 
+                    </div>
+
+                    <div class="picturesreview">
+
+                    </div>
                 </div>
+
+                <p class='date'>2021-09-12 20:33</p>
+
+                <div class="likeordislike">
+                    <span class='like'>1&nbsp&nbsp<i class="fas fa-chevron-up"></i></span>
+                    <span class='dislike'>1&nbsp&nbsp<i class="fas fa-chevron-down"></i></span>
+                </div>
+
+                <p class='replybtn'>Reply</p>
+
+
             </div>
 
-            <p class='date'>2021-09-12 20:33</p>
-
-            <div class="likeordislike">
-                <span class='like'>1&nbsp&nbsp<i class="fas fa-chevron-up"></i></span>
-                <span class='dislike'>1&nbsp&nbsp<i class="fas fa-chevron-down"></i></span>
-            </div>
-
-            <p class='replybtn'>Reply</p>
-
-
-        </div>
+        
 
 
 
-    </div>
+    </form>
 
     <div class='childreview'>
-        <div class="parentsectionreviews">
+        <form class="parentsectionreviews">
 
             <div class="parentleft">
                 <div class='circle'>
@@ -321,7 +319,7 @@
 
 
 
-                <div class='reviewsrating'>
+                <!-- <div class='reviewsrating'>
                     <i class="fas fa-cog"></i>
                     <i class="fas fa-cog"></i>
                     <i class="fas fa-cog"></i>
@@ -329,10 +327,10 @@
                     <i class="fas fa-cog"></i>
 
 
-                </div>
+                </div> -->
                 <p class='reviewdetails'>Very nice product. makes it portable and stuff.</p>
 
-                <div class="imagescontainer">
+                <!-- <div class="imagescontainer">
                     <div class='picturesreview'>
 
                     </div>
@@ -340,7 +338,7 @@
                     <div class="picturesreview">
 
                     </div>
-                </div>
+                </div> -->
 
                 <p class='date'>2021-09-12 20:33</p>
 
@@ -358,7 +356,7 @@
 
 
 
-        </div>
+        </form>
 
     </div>
 

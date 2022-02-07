@@ -2,21 +2,54 @@
 if (isset($_POST["submit"])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+    var_dump($_POST['csrf']);
+    session_start();
+
+    ### CSRF ####
+    if (validateCSRF() == false) {
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 
-    // session_start();
+        if ($actual_link == "http://www.swapamc.com/swapproj/home?error=badcsrf") {
+            echo 'bad csrf';
+            //dont redirect if on the same page
+
+        } else {
+            header("location: https://www.swapamc.com/swapproj/home?error=badcsrf");
+            exit;
+        }
+    }
+    ### CSRF ####
+
     session_regenerate_id();
     $jwtarray = jwtdecrypt();
     $jwtarrayinformation = $jwtarray['array'];
 
+    $whitelist = ['cname', 'ccnum', 'expmonth', 'expyear', 'cvc'];
+    $_POST = XSSPrevention($_POST, $whitelist);
+    // declares variable length in chars for each item. 
+    $maxlengtharray['cname'] = 45;
+    $maxlengtharray['ccnum'] = 45;
+    $maxlengtharray['expmonth'] = 45;
+    $maxlengtharray['expyear'] = 45;
+    $maxlengtharray['cvc'] = 4;
+
+    //removes any nondigit characters.
+    $_POST['cvc'] = preg_replace('/[^\d]/', '', $_POST['cvc']);
+    $_POST['ccnum'] = preg_replace('/[^\d]/', '', $_POST['ccnum']);
+    // bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
+    $bufferflag = empty(checkLength($_POST, $maxlengtharray));
+    $emptyflag = empty(checkEmpty($_POST, $whitelist));
+
+
+    if (!($bufferflag && $emptyflag)) {
+        header("location: https://www.swapamc.com/swapproj/checkout/checkout?error=invalidinput");
+        exit;
+    }
 
 
 
-
-    
-
-
-    $cname = htmlspecialchars($_POST["cname"]);
+    $cname = $_POST["cname"];
     $number = $_POST["ccnum"];
     $expmonth = $_POST["expmonth"];
     $expyear = $_POST["expyear"];
@@ -47,8 +80,8 @@ if (isset($_POST["submit"])) {
     $ccnum = openssl_encrypt($ccnumber, $cipher, $encryption_key, 0, $iv);
     $hexkey = bin2hex($encryption_key);
     $hexiv = bin2hex($iv);
-    
-    
+
+
 
 
 

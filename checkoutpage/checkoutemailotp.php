@@ -6,6 +6,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/sendemailotp.php';
 session_start();
 session_regenerate_id();
 $csrf = generateCSRF();
+echo $_SESSION['csrf'];
 
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];

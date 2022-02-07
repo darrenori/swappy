@@ -97,6 +97,33 @@ function uidExists($conn, $username, $email)
 
     mysqli_stmt_close($stmt);
 }
+// check if username already exists AND if it exists returns the values of the user
+// creates prepared statements so it runs into the db without input?
+function workingIdExists($conn, $userID)
+{
+    $sql = "SELECT * FROM users WHERE user_id =?;";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: https://www.swapamc.com/swapproj/signup?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $userID);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    //RETURNS THE DATA FROM THE TABLE AND STORES IT IN $ROW
+    //THIS WAY WE CAN USE IT FOR LOGGING IN
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
 
 
 // check if username already exists 
@@ -305,11 +332,15 @@ function loginUser($conn, $username, $pwd, $remember)
         header("location: https://www.swapamc.com/swapproj/login?error=wronglogin");
         exit();
     }
+    $workingIDExists = workingIdExists($conn, $uidExists['user_id']);
+    if ($workingIDExists !== false) {
+        $jwtarrayinformation['workingid']=$workingIDExists['working_id'];
+    }
 
     #IS THE USER SUSPENDED? (returns date if they still are) returns null if they ar enot
     $datesus = checkSuspended($conn, $username);
     if ($datesus != null) {
-        header("location: https://www.swapamc.com/swapproj/login?error=suspended&till=" . $datesus);
+        header("location: https://www.swapamc.com/swapproj/login?error=suspended");
         exit();
     }
 
@@ -345,7 +376,7 @@ function loginUser($conn, $username, $pwd, $remember)
 
         if ($numberoffailed > $numberoftimesbeforesuspend) {
 
-            $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, suspendedfinish = ? WHERE user_username = ?");
+            $query = $conn->prepare("UPDATE mydb.users SET user_suspended = 1, user_failedattempts = 1, suspendedfinish = ? WHERE user_username = ?");
             $query->bind_param('ss', $suspended, $username);
             if (!$query->execute()) {
                 error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
@@ -666,26 +697,6 @@ function calculateProductCode($array)
     return md5($string);
 }
 
-// function badInputTwo($array)
-// {
-//     // $pattern = "/^[a-zA-Z0-9_ ]*$/i";
-//     // checks for anything that is not from the following list
-//     $pattern = "/^[a-zA-Z0-9_ ,().!?+-]+$/i";
-
-//     for ($i = 0; $i < sizeof($array); $i++) {
-//         $input = $array[$i];
-//         $a = !(preg_match($pattern, $input));
-
-//         if ($a == 1) {
-//             return true;
-//         }
-//     }
-
-//     return false;
-
-//     //0 is valid input
-
-// }
 
 
 function badInputTwo($array)
@@ -1248,7 +1259,9 @@ function checkLength($inputarray, $maxlengtharray)
 {
 
     foreach ($inputarray as $key => $val) {
-        $maxlength = $maxlengtharray[$key];
+        if (isset($maxlengtharray[$key])) {
+            $maxlength = $maxlengtharray[$key];
+        }
         $lengthuserinputted = strlen(trim((string)$val));
 
         if ($lengthuserinputted > $maxlength) {

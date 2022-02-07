@@ -4,6 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
+$csrf = generateCSRF();
 
 $role = $jwtarrayinformation['role'];
 $username = $jwtarrayinformation['username'];
@@ -170,6 +171,7 @@ echo "<form id='myform' style='padding-left: 20px' method=POST action=https://ww
         echo "<div class='pairing1'><p>Hourly Wage:</p></div>" ;
         echo "<div class='pairing2'><input type=text name=pay placeholder='$12/hr'></div>";
     echo "</div>";
+    echo "<input type='hidden' name='csrf' value='$csrf'>";
 
 
         // echo "<input style='margin-left: 9px; width:97%' type=submit>";
