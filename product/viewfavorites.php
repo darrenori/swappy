@@ -136,7 +136,7 @@ while ($query->fetch()) {
     // echo '<img src="'.$src.'"/>';
     echo "</div>";
     echo "<div class='item-details'>";
-    echo "<div class='item-name'>$productid</div>";
+    echo "<div class='item-name'> <a href='https://www.swapamc.com/swapproj/allproducts/product?id=$productid'> $productname</a></div>";
     echo "<div class='item-price'>$$productprice</div>";
     echo "</div>";
     echo "</div>";
