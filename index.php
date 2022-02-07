@@ -175,8 +175,8 @@ $router->post('/product/favorite','product/includes/favorite.inc.php');
 
 ###Zeph
 //search and sort
-$router->post('/searchinc', 'includes/search.inc.php');
-$router->get('/searchinc', 'includes/search.inc.php');
+$router->post('/search', 'includes/search.inc.php');
+$router->get('/search', 'includes/search.inc.php');
 $router->post('/sortinc', 'includes/sort.inc.php');
 $router->get('/sortinc', 'includes/sort.inc.php');
 

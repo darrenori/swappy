@@ -666,7 +666,7 @@ if(sizeOf($array)==1){
     $childarray = [];
     $parentchild = [];
 
-    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=? AND childof_id IS not null ORDER BY review_date;");
+    $query=$conn->prepare("SELECT review_id,childof_id FROM mydb.reviews INNER JOIN mydb.users ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id=? AND childof_id IS not null ORDER BY review_date DESC;");
     $query->bind_param('s',$id);
     //child of = parent's id
     if($query->execute()){
@@ -806,7 +806,7 @@ if(sizeOf($array)==1){
     $query = $conn->prepare("SELECT user_id,review_id,user_username,user_profilepicture,
     review_comment,review_rating,review_total_likes,review_total_dislikes,review_date,childof_id,
     review_pic,user_role FROM mydb.reviews INNER JOIN mydb.users 
-    ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = ? AND childof_id IS null;");
+    ON mydb.reviews.review_user_id = mydb.users.user_id WHERE review_product_id = ? AND childof_id IS null ORDER BY review_date DESC;");
     $query->bind_param('s',$id);
     if($query->execute()){
         $result = $query->get_result();

@@ -52,10 +52,6 @@
         flex:1;
         right:-200px;
         
-  
-       
-        
-        
         
     }
     .nav-links ul {

@@ -1,7 +1,11 @@
 <html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-</html>
+<?php
+if(!isset($selectedcarts)){
+    echo '<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>';
+
+}
+
+?>
 <?php
 ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
@@ -226,7 +230,7 @@ if (isset($selectedcarts)) {
             echo "<div class='row'>";
 
 
-            echo "<input type='checkbox' class='check' name ='" . $cartidrows[$i] . "' >";
+            echo "<input onchange='updatePricing()' type='checkbox' class='check' name ='" . $cartidrows[$i] . "' >";
             echo "<div class='picture'>";
 
             require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
@@ -305,7 +309,7 @@ if (isset($selectedcarts)) {
                 // echo "QUANTITY: ". $quantity ."<br>";
                 // echo "PRICE: ". $price ."<br>";
                 echo "<span>Quantity: $quantity</span>";
-                echo "<span class='ittotal'>S$$price Total</span>";
+                echo "<span id='ittotal". $cartidrows[$i]."' class='ittotal'>S$$price Total</span>";
                 echo "</div>";
 
 
@@ -319,7 +323,7 @@ if (isset($selectedcarts)) {
                 // echo "QUANTITY: ". $arrayforemptytypes[$i][0] ."<br>";
                 // echo "PRICE: ". $arrayforemptytypes[$i][1] ."<br>";
                 echo "<span>Quantity: " . $arrayforemptytypes[$i][0] . "</span>";
-                echo "<span class='ittotal'>S$" . $arrayforemptytypes[$i][1] . " Total</span>";
+                echo "<span id='ittotal". $cartidrows[$i]."' class='ittotal'>S$" . $arrayforemptytypes[$i][1] . " Total</span>";
 
                 echo "</div>";
 
@@ -362,12 +366,12 @@ if (isset($selectedcarts)) {
 
     echo "<div class='subtotal'>";
     echo "<span>Subtotal</span>";
-    echo "<span class='subtotalactl'>$totalprice</span>";
+    echo "<span class='subtotalactl' id='subber'>S$$totalprice</span>";
     echo "</div>";
 
     echo "<div class='taxes'>";
     echo "<span>Taxes</span>";
-    echo "<span>" . $totalprice * 0.07 . "</span>";
+    echo "<span id='taxes'>S$" . $totalprice * 0.07 . "</span>";
     echo "</div>";
 
 
@@ -378,7 +382,7 @@ if (isset($selectedcarts)) {
 
     echo "<div class='total'>";
     echo "<span>TOTAL</span>";
-    echo "<span>S$" . $totalprice * 1.07 . "</span>";
+    echo "<span id='total'>S$" . $totalprice * 1.07 . "</span>";
     echo "</div>";
 
     echo "<input type='submit' class='chkoutbtn' value='CHECKOUT' form='chkoutform'>";
@@ -463,5 +467,66 @@ if (isset($selectedcarts)) {
 </head>
 
 </html>
+
+<script>
+    function updatePricing(){
+        var checkboxesarray = document.getElementsByClassName("check");
+        // console.log(checkboxesarray);
+        var subtotal=0;
+        for (let i = 0; i < checkboxesarray.length; i++) {
+            if(checkboxesarray[i].checked){
+                name= checkboxesarray[i].name;
+                if(name!=null){
+                    name = "ittotal"+name;
+                    price= document.getElementById(name).innerHTML;
+                    price = price.split(" ")[0];
+                    price=price.substr(2);
+                    
+                    
+                    if(!isNaN(price)){
+                        price = parseFloat(price);  
+                        subtotal = subtotal+price;
+                        // console.log(price);
+                    }
+
+
+                } 
+                
+            } else {
+                continue;
+            }
+            
+            
+        }
+
+        // console.log(subtotal);
+
+        subtotal = subtotal.toFixed(2);
+        subtotal = parseFloat(subtotal);
+        var taxes=0;
+        var total=0;
+        
+        taxes = parseFloat(subtotal*0.07);
+        taxes = taxes.toFixed(2);
+        taxes = parseFloat(taxes);  
+
+
+        total = taxes+subtotal;
+        total = parseFloat(total);
+        total = total.toFixed(2);
+
+        
+
+        document.getElementById('subber').innerHTML = "S$"+subtotal;
+        document.getElementById('taxes').innerHTML = "S$"+taxes;
+        document.getElementById('total').innerHTML = "S$"+total;
+
+
+
+        
+    }
+</script>
 <?php
 ob_flush();
+
+?>

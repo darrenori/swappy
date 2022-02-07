@@ -1,3 +1,25 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+
+
+
+
+
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+        
+
+?>
+
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
@@ -5,8 +27,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 
 
-ob_start();
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
 $userid = $jwtarrayinformation['userid'];
 
 //add
@@ -130,8 +151,17 @@ ob_flush();
 
 ?>
 <html>
-<style><?php include 'product/css/viewfavourites.css'; 
-?></style>
+<style>
+
+<?php include 'product/css/viewfavourites.css'; 
+?>
+
+
+.navlinksic {
+    display: none;
+}
+
+</style>
     <head>
         <style>
             table,th,td {
@@ -143,8 +173,8 @@ ob_flush();
     </head>
 </html>
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" -->
+         <!-- integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
