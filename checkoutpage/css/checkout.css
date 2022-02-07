@@ -73,7 +73,7 @@
 
 
 .fa {
-    background-color: #8D1D25;
+    background-color: none;
 }
 
 .fa-home::before {
@@ -592,7 +592,7 @@ font .firstfooter h5 {
     }
 }
 
-.navic {
+/* .navic {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
@@ -600,7 +600,7 @@ font .firstfooter h5 {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
-/* .navic:hover {
+/* .navic:hover { */
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
@@ -626,3 +626,40 @@ font .firstfooter h5 {
     
 }
 
+/*Table Styles*/
+.styled-table {
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+    min-width: 400px;
+    width: 10%;
+    font-weight: bold;
+}
+
+.styled-table thead tr {
+    background-color: #E26565;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #E26565;
+}
+
+.styled-table tbody tr:nth-of-type(odd) {
+    background-color: white;
+
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: darkgray;
+    color: white;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #E26565;
+}

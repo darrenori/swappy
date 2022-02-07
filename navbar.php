@@ -122,7 +122,7 @@
         .nav-links{
             height:100vh;
             width:200px;
-            background:#000;
+            background:inherit;
             top:0;
             right:-200px;
             position:fixed;
@@ -148,9 +148,14 @@
 
         .navic {
             padding-right: 0;
-            flex-basis: 20%;
+            /* flex-basis: 100%; */
             background-color: #8D1D25;
 
+        }
+
+        .naviclast {
+            padding-right: 25px;
+            
         }
 
         #lblCartCount {
@@ -188,6 +193,8 @@
         flex-basis: 20%;
         width: 20px;
         height: 20px;
+        background: inherit ;
+        box-sizing: initial !important;
         background: inherit ;
         /* position: absolute; */
     }

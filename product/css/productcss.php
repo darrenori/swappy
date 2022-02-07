@@ -492,6 +492,14 @@ label {
     
 }
 
+.deletecss {
+    width: 100%;
+    margin-top: 30px;
+    padding: 10px 0;
+    background-color: #8D1D25;
+    border: none;
+}
+
 .date {
     flex-basis: 100%;
     margin-bottom: 10px;

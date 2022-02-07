@@ -122,7 +122,7 @@ if (isset($selectedcarts)) {
 
 
 
-            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "(" . $productpricerows[$i] . ")" . "<br>";
+            echo "<a style='background-color:white; color:black; font-weight:bold; text-decoration:none; font-size:1.8em;' href='https://www.swapamc.com/swapproj/allproducts/product/editcart?cart=$cartidrows[$i]'>" . $productnamerows[$i] . "</a>" . "<br>". " ($" . $productpricerows[$i] . ")" . "<br>";
 
             //if there are types
             echo "<br>";
@@ -138,21 +138,21 @@ if (isset($selectedcarts)) {
                 if (isset($type) && $counter != 1) {  //only execute header once
                     $counter = 1;
 
-                    echo "<table>";
+                    echo "<table class='styled-table'>";
 
-                    echo "<tr>";
-                    echo "<th>type</th>";
-                    echo "<th>variant</th>";
-                    echo "<th>additionalcosts</th>";
-                    echo "</tr>";
+                    echo "<tr><thead>";
+                    echo "<th style='background-color:#8D1D25; color:white;'>Type</th>";
+                    echo "<th style='background-color:#8D1D25; color:white;'>Variant</th>";
+                    echo "<th style='background-color:#8D1D25; color:white;'>Additional Costs</th>";
+                    echo "</tr></thead>";
                 }
 
                 if (isset($type)) {
-                    echo "<tr>";
-                    echo "<th>$type</th>";
-                    echo "<th>$variant</th>";
-                    echo "<th>$ $additionalcosts</th>";
-                    echo "</tr>";
+                    echo "<tr><thead>";
+                    echo "<th style='background-color:white; color:black;'>$type</th>";
+                    echo "<th style='background-color:white; color:black;'>$variant</th>";
+                    echo "<th style='background-color:white; color:black;'>$ $additionalcosts</th>";
+                    echo "</tr></thead>";
                 }
             }
 
@@ -166,7 +166,7 @@ if (isset($selectedcarts)) {
 
 
                 echo "QUANTITY: " . $quantity . "<br>";
-                echo "PRICE: " . $price . "<br>";
+                echo "PRICE: $" . $price . "<br>";
                 echo "<br>";
 
                 $totalprice = $totalprice + $price;

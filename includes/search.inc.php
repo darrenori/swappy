@@ -1,3 +1,45 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+
+
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+
+// $newcsrf=generateCSRF();
+        
+
+?>
+
+
+<header>
+        <div class=navbar5>
+        <ul class=nav_links>
+            <form class='nav_form' action="/swapproj/allproducts" method="get">
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="cat" >ALL PRODUCTS</button>
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="catrouter" >ROUTERS</button>
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="cataccessory" >ACCESSORIES</button>
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="catswitch" >SWITCHES</button>
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="catutility" >UTILITY</button>
+                <button class='nav_btn' type="submit" value="'  <?php echo $specialkey?>  '" name="catothers" >OTHERS</button>
+            </form>
+        </ul> 
+        <form action="/swapproj/search" method="post">
+            <input class='search' type="text" name ="searchitem" placeholder="Router...">
+            <input class='fa fa-search' type="submit" value="Submit">
+            <!-- <input class="hidden" value="<?php echo $newcsrf?>"> -->
+        </form>
+        </div>  
+</header>
+
 <?php
 
 if (!isset($_POST['searchitem'])) {
@@ -14,19 +56,19 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 ### CSRF ####
-if (validateCSRF() == false) {
-    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+// if (validateCSRF() == false) {
+//     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 
-    if ($actual_link == "http://www.swapamc.com/swapproj/campus?error=badcsrf") {
-        echo 'bad csrf';
-        //dont redirect if on the same page
+//     if ($actual_link == "http://www.swapamc.com/swapproj/campus?error=badcsrf") {
+//         echo 'bad csrf';
+//         //dont redirect if on the same page
 
-    } else {
-        header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
-        exit;
-    }
-}
+//     } else {
+//         header("location: https://www.swapamc.com/swapproj/campus?error=badcsrf");
+//         exit;
+//     }
+// }
 ### CSRF ####
 
 $whitelist = ['searchitem'];
@@ -140,7 +182,7 @@ if (isset($_POST['searchitem'])) {
 
 
     if (empty($filteredproductslist) and empty($filteredstoreslist)) {
-        echo "No search results for <i>" . $searchitem . "</i><br>";
+        // echo "No search results for <i>" . $searchitem . "</i><br>";
         $specialproductlist = [];
 
         ### SUGGEST RESULTS   ####
@@ -149,8 +191,12 @@ if (isset($_POST['searchitem'])) {
         } else if (strpos($searchitem, "c") !== false) {
             $specialkey = "Cisco";
         } else $specialkey = "Router";
-        echo "Showing <b>Product</b> results for <i>" . $specialkey . "</i> instead.<br>";
+        // echo "Showing <b>Product</b> results for <i>" . $specialkey . "</i> instead.<br>";
         if (isset($allproductslist)) {
+            echo "<div class='category55'>No results for ".$searchitem.". Showing&nbsp;<b>Product</b>&nbspresults for&nbsp;<i>" . $specialkey . " instead</i></div>";
+            echo "<div class='container5'>";
+
+
             foreach ($allproductslist as $key => $value) {
                 $matchessearch = str_contains(strtolower($value), strtolower($specialkey));
                 if ($matchessearch) {
@@ -158,20 +204,30 @@ if (isset($_POST['searchitem'])) {
                 }
             }
             foreach ($specialproductlist as $key => $value) {
+                echo "<div class='item'>";
+                echo "<div class='itemimage'></div>";
+                echo "<div class='itemname'>";
                 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
-                echo "<br>";
+                echo "</div></div><br>";
             }
-            echo "<br><br>";
+            echo "</div><br><br>";
         }
     }
+
+
+
     //print out product results
     if (!empty($filteredproductslist)) {
-        echo "Showing <b>Product</b> results for <i>" . $searchitem . "</i><br>";
+        echo "<div class='category55'>Showing &nbsp;<b>Product</b>&nbsp; results for &nbsp;<i>" . $searchitem . "</i></div>";
+        echo "<div class='container5'>";
         foreach ($filteredproductslist as $key => $value) {
+            echo "<div class='item'>";
+            echo "<div class='itemimage'></div>";
+            echo "<div class='itemname'>";
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
-            echo "<br>";
+            echo "</div></div><br>";
         }
-        echo "<br><br>";
+        echo "</div><br><br>";
     }
 
 
@@ -179,12 +235,28 @@ if (isset($_POST['searchitem'])) {
     if (!empty($filteredstoreslist)) {
         echo "Showing <b>Store</b> results for <i>" . $searchitem . "</i><br>";
         foreach ($filteredstoreslist as $key => $value) {
+            echo "<div class='itemname'>";
             echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$value</a>";
             echo "<br>";
         }
         echo "<br><br>";
     }
+
+
+
 } else {
     header("location: https://www.swapamc.com/swapproj/campus");
     exit;
 }
+
+?>
+
+<style>
+<?php include 'product/css/allproduct.css'; 
+
+
+?>
+body { background: black !important; }
+</style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

@@ -38,7 +38,7 @@
         </g>
         </svg>
     </div>
-        <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; ">
+        <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; padding-bottom:4px; font-weight:300; ">
         &nbsp;Delivery Address
         <input type="submit" name="shipping" value="Select/Edit Address" style=" cursor:pointer; background-color: #8D1D25; border-radius:5px; font-weight:bold; border:#272727; height:30px; width:150px; ">        
         </h2>
@@ -172,10 +172,17 @@ $csrf = generateCSRF();
         <!-- Payment -->
         <label style="background-color: white; color: black;">Accepted Cards</label>
         <br>
-        <i class="fa fa-cc-visa" style="color:navy;"></i>
-        <i class="fa fa-cc-amex" style="color:blue;"></i>
-        <i class="fa fa-cc-mastercard" style="color:red;"></i>
-        <i class="fa fa-cc-discover" style="color:orange;"></i>
+        <!-- <i class="fa fa-cc-visa" ></i>
+        <i class="fa fa-cc-amex" ></i>
+        <i class="fa fa-cc-mastercard" ></i>
+        <i class="fa fa-cc-discover" ></i> -->
+
+        <i class="fab fa-cc-visa" style="font-size:1.55em;"></i>
+        <i class="fab fa-cc-amex" style="font-size:1.55em;"></i>
+        <i class="fab fa-cc-mastercard" style="font-size:1.55em;"></i>
+        <i class="fab fa-cc-discover" style="font-size:1.55em;"></i>
+        
+
         <br><label style="background-color: white; color: black;" for="cname">Name on Card</label>
         <br><input style="background-color: white; color: black; width:50%;" type="text" id="cname" name="cname" placeholder="John More Doe">
         <br><label style="background-color: white; color: black;" for="ccnum">Credit card number</label>
