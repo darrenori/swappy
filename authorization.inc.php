@@ -1,3 +1,4 @@
+
 <?php
 ###ZEPH ###
 //see arnd line77, if user is not logged in, they get sent to logout page which directs them to homepage,
@@ -167,6 +168,9 @@ if (checkAuthorization($currenturlstripped, $notallowedauthuser, $allowedauthuse
         });
     }
 </script>
+<html>
+    <head><title>TPAMC</title></head>
+</html>
 <?php
 
 // I reopened it so it wouldn't create errors (i think)
