@@ -490,6 +490,12 @@ input{
         left:1000px;
         z-index:-2;
 }
+
+.btna:hover {
+    opacity: 80%;
+
+}
+
 </style>
 
 <head>
@@ -621,8 +627,9 @@ if ($query->fetch()) {
 
     echo "Number" . "<br>";
     echo "<input type='text' name='number' value='$number'><br><br>";
+    $dateofsignup = substr($dateofsignup, 0, strpos($dateofsignup, " "));
 
-    echo "Date: " . $dateofsignup . "<br>";
+    echo "Date of Signup: " . $dateofsignup . "<br>";
 
     if ($role == 0) {
         echo "Type: Normal User <br><br>";
@@ -632,9 +639,9 @@ if ($query->fetch()) {
         echo "Type: Employee Manager <br><br>";
     }
 
-    echo '<input style="background-color:#62A969; color:white;border:#272727;" font-weight:bold; type="submit" value="Update" name="submit" formaction="/swapproj/updateprofile">';
-    echo '<br><input style="background-color:#8D1D25;color:white;border:#272727;font-weight:bold;" type="submit" value="Delete" name="submit" formaction="/swapproj/deleteprofile">';
-    echo '<br><input style="background-color:#5681BB;color:white; border:#272727;font-weight:bold;"type="submit" value="Change Password" formaction="/swapproj/changepassword">';
+    echo '<input class="btna" style="background-color:#62A969; color:white;border:#272727; font-weight:bold;" type="submit" value="Update" name="submit" formaction="/swapproj/updateprofile">';
+    echo '<br><input class="btna" style="background-color:#8D1D25;color:white;border:#272727;font-weight:bold;" type="submit" value="Delete" name="submit" formaction="/swapproj/deleteprofile">';
+    echo '<br><input class="btna" style="background-color:#5681BB;color:white; border:#272727;font-weight:bold;"type="submit" value="Change Password" formaction="/swapproj/changepassword">';
     echo "<input type='hidden' name='csrf' value='$csrf'>";
 
     echo "</form>";
