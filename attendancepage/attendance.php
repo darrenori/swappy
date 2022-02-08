@@ -8,10 +8,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 //jwt
 $jwtarray = jwtdecrypt();
 
-
 if($jwtarrayinformation['role']<1){
-    
     header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(attendance):0:$ip:Error(unauthorized)", 0);
     exit;
 }
 

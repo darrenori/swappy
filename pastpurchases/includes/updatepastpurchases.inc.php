@@ -1,19 +1,20 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
-    
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
-
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 
 
 
+if($jwtarrayinformation['role']<1){
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
+
 if(isset($_POST)){
     $postinformation = $_POST;
-    
-    // var_dump($postinformation);
-
-
     $postinformation = json_decode(json_encode($postinformation), true);
     if(isset($postinformation['info'])){
         

@@ -150,6 +150,7 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
                 }
 
 
+                // for leave 
 
                 $leaveStatus = "To be Reviewed";
 
@@ -216,8 +217,6 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
                 }
                 echo "<br><br>";
 
-                $jwtarrayinformation['status'] = "A";      
-                jwtupdate($jwtarrayinformation);  
 
                 if (isset($_GET["status"])) {
                     if (($_GET["status"]) == "Approved") {
@@ -233,6 +232,8 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
                         echo "<p>STMT All Error</p>";
                     } elseif ($_GET["error"] == "invalidurl") {
                         echo "<p>Invalid Url</p>";
+                    }elseif ($_GET["error"] == "invalid") {
+                        echo "<p>Status has already been set</p>";
                     }
                 }
 

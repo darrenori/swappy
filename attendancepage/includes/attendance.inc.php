@@ -12,7 +12,14 @@ $attendanceDate = $jwtarrayinformation['currentdate'];
 $userid = $jwtarrayinformation['userid'];
 $attendanceMonth = $jwtarrayinformation['currentmonth'];
 $attendanceYear = $jwtarrayinformation['currentyear'];
+date_default_timezone_set('Asia/Singapore');
+$date = date('d/m/Y');
 
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 
 //set variable
 $attendanceBreak = "60";
@@ -29,9 +36,54 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    
+
+
+    //check if user have clock in and out before for the day
+    try {
+        $query = $conn->prepare("SELECT attendance_in_time,attendance_out_time FROM mydb.employee_attendance WHERE attendance_userid =?  AND attendance_date =? ");
+        $query->bind_param('is', $userid, $date);
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(attendance.inc)");
+        }
+    } catch (Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+        header("location: https://www.swapamc.com/swapproj/attendance?error=stmtallerror");
+        error_log("TPAMC:ATTENDANCE:0:$ip:Error(stmtallerror)", 0);
+        exit;
+    }
+
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (attendance.inc)");
+            error_log("TPAMC:ATTENDANCE:2:$ip:failed statement", 0);
+            exit();
+        }
+    } catch (Exception $e) {
+        header("location: https://www.swapamc.com/swapproj/attendance?error=badstatement");
+        error_log("TPAMC:ATTENDANCE:0:$ip:Error(badstatement)", 0);
+        exit;
+    }
+    $query->bind_result($inTime, $outTime);
+    $query->fetch();
+    $query->close();
+
+
+
+
+
+
+
     //post clock in
     if ($_POST['clock'] === "clockIn") {
+
+        //check if clock in is empty 
+        if (!empty($inTime)) {
+            header("location: https://www.swapamc.com/swapproj/attendance?error=invalidTime");
+            error_log("TPAMC:ATTENDANCE:0:$ip:Error(invalidTime)", 0);
+            exit;
+        }
 
         // get workingid 
         try {
@@ -108,6 +160,12 @@ if (isset($_POST["submit"])) {
         //post clock out
     } elseif ($_POST['clock'] === "clockOut") {
 
+        if (!empty($outTime)) {
+            header("location: https://www.swapamc.com/swapproj/attendance?error=invalidTime");
+            error_log("TPAMC:ATTENDANCE:0:$ip:Error(invalidTime)", 0);
+            exit;
+        }
+
         //db to get attendance id
         try {
             $query = $conn->prepare("SELECT attendance_id,attendance_in_time FROM mydb.employee_attendance WHERE attendance_userid =?  AND attendance_date =? ");
@@ -145,7 +203,7 @@ if (isset($_POST["submit"])) {
         //db to update clock out time
         try {
             $query = $conn->prepare("UPDATE mydb.employee_attendance SET attendance_out_time=?,attendance_status=? WHERE attendance_id =?");
-            $query->bind_param('ssi', $attendanceTime,$attendanceStatus, $attendanceID);
+            $query->bind_param('ssi', $attendanceTime, $attendanceStatus, $attendanceID);
             if ($query === false) {
                 //change filename accordingly
                 throw new Exception("Statement Preparation failed(attendance.inc)");
@@ -177,8 +235,3 @@ if (isset($_POST["submit"])) {
         $conn->close();
     }
 }
-
-
-
-
-

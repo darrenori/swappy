@@ -16,16 +16,11 @@ $leaveDate = $_POST['leaveDate'];
 $date = date('Y-m-d');
 $verifyTime = checkDatee($date, $leaveDate);
 
-
-echo $date;
-echo "<br>";
-
-echo $leaveDate;
-echo "<br>";
-
-
-echo $verifyTime;
-
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 
 if (isset($_POST['request'])) {
 
@@ -41,10 +36,6 @@ if (isset($_POST['request'])) {
             header("location: https://www.swapamc.com/swapproj/attendance/takeleave?error=baddate");
             error_log("TPAMC:ATTENDANCE(TakeLeave):0:$ip:Error(BadDate)", 0);
             exit();
-
-
-
-
         } else {
 
 
@@ -122,30 +113,17 @@ if (isset($_POST['request'])) {
                     exit;
                 }
                 $query->close();
-
-
-
-
             } else {
                 header("location: https://www.swapamc.com/swapproj/attendance/takeleave?error=dateused");
                 error_log("TPAMC:ATTENDANCE(TakeLeave):0:$ip:Error(dateused)", 0);
                 exit();
             }
-
-
         }
-
-
-
     } else {
         header("location: https://www.swapamc.com/swapproj/attendance/takeleave?error=invalidDate");
         error_log("TPAMC:ATTENDANCE(TakeLeave):0:$ip:Error(invalidDate)", 0);
         exit();
     }
-
-
-
-
 } else {
     header("location: https://www.swapamc.com/swapproj/attendance/takeleave?error=emptyinput");
     error_log("TPAMC:ATTENDANCE(TakeLeave):0:$ip:Error(emptyinput)", 0);

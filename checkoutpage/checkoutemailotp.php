@@ -3,15 +3,24 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/sendemailotp.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
 session_start();
 session_regenerate_id();
 $csrf = generateCSRF();
-echo $_SESSION['csrf'];
 
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 $emailotp = $jwtarrayinformation["emailotp"];
-// echo $emailotp;
+
+echo $emailotp;
+
+
+if($jwtarrayinformation['role']<1){
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 
 
 if ($jwtarrayinformation["checkoutstate"] === "A") {

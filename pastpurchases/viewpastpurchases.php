@@ -6,7 +6,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
+
 $userid = $jwtarrayinformation['userid'];
+if($jwtarrayinformation['role']<1){
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 ?>
 <html>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -691,7 +697,6 @@ $userid = $jwtarrayinformation['userid'];
 
                         $j = 0;
                         echo "<p class='description'>Product " . $j + 1 . ": </p>";
-                        echo $j;
                         echo "<p>$productquantity x $productname" . "($productprice)" . "</p>";
 
 
@@ -738,7 +743,7 @@ $userid = $jwtarrayinformation['userid'];
                         while ($query->fetch()) {
 
                             echo "<p>$type: $variant</p>";
-                            echo "<p>Additional Costs: $additionalcosts</p>";
+                            echo "<p>Additional Costs:$$additionalcosts</p>";
                             // echo "<br>";
                         }
                         echo "<br>";
@@ -757,11 +762,13 @@ $userid = $jwtarrayinformation['userid'];
 
 
                     // print address , credit card and total costs
-                    echo "<p class='description'>Shipped To: $fulladdress</p>";
-                    echo "<br>";
+                    echo "<p class='description'>Shipped To:</p>";
+                    echo "<p> $fulladdress</p";
+                    echo "<br><br>";
                     echo "<p class='description'>Credit Card:</p>";
-                    echo "<p class='description'>Name: $pcardname     Type: $pcardtype</p>";
-                    echo "<p class='description'>Number: **** **** **** $cardnumber</p>";
+                    echo "<p>Name: $pcardname</p>";
+                    echo "<p>Type: $pcardtype</p>";
+                    echo "<p>Number: **** **** **** $cardnumber</p>";
                     echo "<br>";
                     echo "<p class='description'>Total Costs: $$totalcosts</p>";
                     echo "<br>";
@@ -901,10 +908,11 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-
+            
 
 
             for ($i = 0; $i < sizeOf($array); $i++) {
+
                 $time = $array[$i]['purchase_time'];
                 $totalcosts = $array[$i]['purchase_cost'];
                 $bundled = $array[$i]['cart_bundled'];
@@ -988,8 +996,7 @@ $userid = $jwtarrayinformation['userid'];
                 echo "<div class='upper'>";
 
                 echo "<div class='lefttext'>";
-                if ($pstatus == 0) {
-                }
+               
 
                 echo "<p class='description'>Purchase Time: $timepurchased</p>";
 
@@ -1091,7 +1098,7 @@ $userid = $jwtarrayinformation['userid'];
                     while ($query->fetch()) {
 
                         echo "<p>$type: $variant</p>";
-                        echo "<p>Additional Costs: $additionalcosts</p>";
+                        echo "<p>Additional Costs:$$additionalcosts</p>";
                         echo "<br>";
                     }
 
@@ -1113,11 +1120,13 @@ $userid = $jwtarrayinformation['userid'];
 
 
                 //print shipping address, card and cost 
-                echo "<p class='description'>Shipped To: $fulladdress</p>";
+                echo "<p class='description'>Shipped To:</p>";
+                echo "<p> $fulladdress</p";
                 echo "<br>";
                 echo "<p class='description'>Credit Card:</p>";
-                echo "<p class='description'>Name: $pcardname     Type: $pcardtype</p>";
-                echo "<p class='description'>Number: **** **** **** $cardnumber</p>";
+                echo "<p>Name: $pcardname</p>";
+                echo "<p>Type: $pcardtype</p>";
+                echo "<p>Number: **** **** **** $cardnumber</p>";
                 echo "<br>";
                 echo "<p class='description'>Total Costs: $$totalcosts</p>";
                 echo "<br>";
@@ -1146,6 +1155,7 @@ $userid = $jwtarrayinformation['userid'];
             echo "</div>";
             echo "</div>";
         }
+     
             ?>
 
 
@@ -1179,13 +1189,17 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-                function updateStatus(pid, uid) {
-                    // console.log(pid);
-                    // console.log(pstatus);
 
+                function updateStatus(pid, userid) {
+                    console.log(pid);
+                    
+                    
+
+                    
                     status = document.getElementById(pid).value;
-                    var jsonString = JSON.stringify(pid + ',' + uid + ',' + status);
+                    var jsonString = JSON.stringify(pid + ',' + userid + ',' + status);
 
+                    // console.log(status);
 
 
                     jQuery.ajax({

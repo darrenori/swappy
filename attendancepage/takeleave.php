@@ -5,15 +5,11 @@ require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
-
-
-
 $jwtarray = jwtdecrypt();
 $userid = $jwtarrayinformation['userid'];
-
-
 date_default_timezone_set('Asia/Singapore');
 
+if ($role == 6 || $role == 5 || $role == 4 || $role == 3 || $role == 2 || $role == 1) {
 ?>
 
 <html>
@@ -489,7 +485,7 @@ input:valid+span::after {
             <div class="thing">
                 <section style="font-family:Montserrat; color:white; align-content:center;" class="signup-form">
                 <?php
-if ($role == 6 || $role == 5 || $role == 4 || $role == 3 || $role == 2 || $role == 1) {
+
 
     echo "<h2>Take Leave</h2>";
     echo "<form method='POST' action='/swapproj/attendance/takeleaveinc'>";

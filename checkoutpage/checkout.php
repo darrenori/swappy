@@ -1,173 +1,179 @@
 <html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
 </html>
 
 
 <?php
-    //show cart
-    // ob_start();
-    ob_start();
-    require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-    session_regenerate_id();
-    // user press submit from view cart
-    $selectedcarts = [];
+//show cart
+// ob_start();
+ob_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+if (!isset($_SESSION)) {
+    session_start();
+}
+session_regenerate_id();
+// user press submit from view cart
+$selectedcarts = [];
 ?>
 <style>
     <?php
-        ob_start();
-        
-        include 'checkoutpage/css/checkout.css';
+    ob_start();
+
+    include 'checkoutpage/css/checkout.css';
+    $jwtarray = jwtdecrypt();
+    
+    if ($jwtarrayinformation['role'] < 1) {
+        header("location: https://www.swapamc.com/swapproj/campus");
+        error_log("TPAMC:CHECKOUT(checkout):0:$ip:Error(unauthorized)", 0);
+        exit;
+    }
 
     ?>
-    
-    
 </style>
 
 
 
-    <form method="POST" action="/swapproj/checkout/viewshippingaddress" class="shippinginfo">
+<form method="POST" action="/swapproj/checkout/viewshippingaddress" class="shippinginfo">
     <div style="float:left; clear:both;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="34" height="32.5" viewBox="0 0 64 64">
-        <g id="Group_415" data-name="Group 415" transform="translate(-18542 100)">
-            <rect id="Rectangle_490" data-name="Rectangle 490" width="64" height="64" transform="translate(18542 -100)" fill="#8d1d25"/>
-            <path id="iconmonstr-home-6" d="M21.848,13.485v10.4H15.606V17.646H9.364v6.242H3.121v-10.4H0L12.485,1,24.97,13.485Zm-1.04-6.146V2.04H17.687V4.218Z" transform="translate(18562 -80)" fill="#fff"/>
-        </g>
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="32.5" viewBox="0 0 64 64">
+            <g id="Group_415" data-name="Group 415" transform="translate(-18542 100)">
+                <rect id="Rectangle_490" data-name="Rectangle 490" width="64" height="64" transform="translate(18542 -100)" fill="#8d1d25" />
+                <path id="iconmonstr-home-6" d="M21.848,13.485v10.4H15.606V17.646H9.364v6.242H3.121v-10.4H0L12.485,1,24.97,13.485Zm-1.04-6.146V2.04H17.687V4.218Z" transform="translate(18562 -80)" fill="#fff" />
+            </g>
         </svg>
     </div>
-        <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; padding-bottom:4px; font-weight:300; ">
+    <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; padding-bottom:4px; font-weight:300; ">
         &nbsp;Delivery Address
-        <input type="submit" name="shipping" value="Select/Edit Address" style=" cursor:pointer; background-color: #8D1D25; border-radius:5px; font-weight:bold; border:#272727; height:30px; width:150px; ">        
-        </h2>
-        <?php
+        <input type="submit" name="shipping" value="Select/Edit Address" style=" cursor:pointer; background-color: #8D1D25; border-radius:5px; font-weight:bold; border:#272727; height:30px; width:150px; ">
+    </h2>
+    <?php
 
-        $shippingaddress = viewDefaultShippingAdd($conn);
+    $shippingaddress = viewDefaultShippingAdd($conn);
 
 
-        if (!empty($shippingaddress)) {
-            echo "<form method='POST'><br>";
-            echo "<span class='span'>". $shippingaddress['user_shipping_name'];
-            echo "&nbsp" . "(+65)" . "&nbsp" . $shippingaddress["user_shipping_number"] ."</span>";
-            echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $shippingaddress["user_shipping_address"];
-            echo ",&nbsp#" . $shippingaddress["user_shipping_unitnumber"];
-            echo "&nbsp&nbsp&nbsp&nbsp&nbsp". "<span class=default>Default</span>";
-            echo "</form>";
+    if (!empty($shippingaddress)) {
+        echo "<form method='POST'><br>";
+        echo "<span class='span'>" . $shippingaddress['user_shipping_name'];
+        echo "&nbsp" . "(+65)" . "&nbsp" . $shippingaddress["user_shipping_number"] . "</span>";
+        echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $shippingaddress["user_shipping_address"];
+        echo ",&nbsp#" . $shippingaddress["user_shipping_unitnumber"];
+        echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . "<span class=default>Default</span>";
+        echo "</form>";
 
-            $_SESSION['defaultshippingid'] = $shippingaddress['user_shipping_id'];
-            // var_dump($_SESSION);
-            //changes the shipping address variable to 1 (signifies that default address exists)
-            // $shippingaddress = $shippingaddress['user_shipping_default'];
-            $_SESSION['shippingaddress'] = $shippingaddress['user_shipping_default'];
-            echo "<br>";
-        } else {
-            $_SESSION['shippingaddress'] = 0;
-            echo "<br>";
-            echo "No default shipping address";
-        }
-        $sa = $_SESSION['shippingaddress'];
+        $_SESSION['defaultshippingid'] = $shippingaddress['user_shipping_id'];
+        // var_dump($_SESSION);
+        //changes the shipping address variable to 1 (signifies that default address exists)
+        // $shippingaddress = $shippingaddress['user_shipping_default'];
+        $_SESSION['shippingaddress'] = $shippingaddress['user_shipping_default'];
+        echo "<br>";
+    } else {
+        $_SESSION['shippingaddress'] = 0;
+        echo "<br>";
+        echo "No default shipping address";
+    }
+    $sa = $_SESSION['shippingaddress'];
 
-        ?>
-    </form>
+    ?>
+</form>
 
 <div class="cart">
-<div style="float:left; clear:both;">
-<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 64 64">
-  <g id="Group_416" data-name="Group 416" transform="translate(-18661 100)">
-    <rect id="Rectangle_491" data-name="Rectangle 491" width="64" height="64" transform="translate(18661 -100)" fill="#8d1d25"/>
-    <path id="iconmonstr-shopping-bag-7" d="M7.055,32.078,3,29.209v-19.2l4.055,1.837ZM9.759,12V32.443L27.332,29.8V9.462ZM17.82,1.352a5.747,5.747,0,0,0-5.356,5.767V9.394a.676.676,0,0,0,1.352,0V7.121A4.4,4.4,0,0,1,17.82,2.7a2.585,2.585,0,0,1,1.871.762A3.249,3.249,0,0,1,20.573,5.8V8.162a.675.675,0,0,0,1.349,0l0-2.364A4.181,4.181,0,0,0,17.82,1.352Zm-8.638,8.1a.678.678,0,0,0,.577-.669V5.769a4.4,4.4,0,0,1,4.005-4.418l.219.02A6.727,6.727,0,0,1,15.589.449,3.981,3.981,0,0,0,13.764,0,5.748,5.748,0,0,0,8.408,5.767V8.788a.675.675,0,0,0,.773.668Z" transform="translate(18677.832 -84.221)" fill="#fff"/>
-  </g>
-</svg>
+    <div style="float:left; clear:both;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 64 64">
+            <g id="Group_416" data-name="Group 416" transform="translate(-18661 100)">
+                <rect id="Rectangle_491" data-name="Rectangle 491" width="64" height="64" transform="translate(18661 -100)" fill="#8d1d25" />
+                <path id="iconmonstr-shopping-bag-7" d="M7.055,32.078,3,29.209v-19.2l4.055,1.837ZM9.759,12V32.443L27.332,29.8V9.462ZM17.82,1.352a5.747,5.747,0,0,0-5.356,5.767V9.394a.676.676,0,0,0,1.352,0V7.121A4.4,4.4,0,0,1,17.82,2.7a2.585,2.585,0,0,1,1.871.762A3.249,3.249,0,0,1,20.573,5.8V8.162a.675.675,0,0,0,1.349,0l0-2.364A4.181,4.181,0,0,0,17.82,1.352Zm-8.638,8.1a.678.678,0,0,0,.577-.669V5.769a4.4,4.4,0,0,1,4.005-4.418l.219.02A6.727,6.727,0,0,1,15.589.449,3.981,3.981,0,0,0,13.764,0,5.748,5.748,0,0,0,8.408,5.767V8.788a.675.675,0,0,0,.773.668Z" transform="translate(18677.832 -84.221)" fill="#fff" />
+            </g>
+        </svg>
     </div>
-<h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; margin-top:0.8vh;"> &nbsp;Bag</h2><br>
-<?php
+    <h2 style=" background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; margin-top:0.8vh;"> &nbsp;Bag</h2><br>
+    <?php
 
 
-if (isset($_POST["submit"])) {
-    unset($_SESSION['cart']); // unset the session for new updated values
+    if (isset($_POST["submit"])) {
+        unset($_SESSION['cart']); // unset the session for new updated values
 
-    foreach ($_POST as $key => $value) {
-        // hashes all values into htmlspecialchars versions
-        $_POST[$key] = htmlspecialchars($value, ENT_QUOTES);
+        foreach ($_POST as $key => $value) {
+            // hashes all values into htmlspecialchars versions
+            $_POST[$key] = htmlspecialchars($value, ENT_QUOTES);
 
-        if ((!is_numeric($key) || strlen((string)$key) !== 8) && $key !=='csrf') {//only allows numeric keys with strings of length eight
-            // removes any keys that are not 
-            unset($_POST[$key]);
-        }
-    }
-    //at this time all values have been cleaned to contain the IDs of selected carts
-    foreach ($_POST as $key => $val)
-    if (!in_array($key,['csrf','csrfspecial'])) {
-        array_push($selectedcarts, $key);
-    }
-
-    $_SESSION['cart'] = $selectedcarts;
-}elseif (isset($_POST)) {//remove all variables if any, because we don't want any items passed unnecessarily
-    foreach ($_POST as $key => $value) {
-            unset($_POST[$key]);
-        }
-}
-
-if (empty($selectedcarts)) {
-    if (!empty($_SESSION['cart'])) {
-        foreach ($_SESSION['cart'] as $key => $val)
-            if ($key !== "csrf") {
-                array_push($selectedcarts, $val);
+            if ((!is_numeric($key) || strlen((string)$key) !== 8) && $key !== 'csrf') { //only allows numeric keys with strings of length eight
+                // removes any keys that are not 
+                unset($_POST[$key]);
             }
-    } else {
+        }
+        //at this time all values have been cleaned to contain the IDs of selected carts
+        foreach ($_POST as $key => $val)
+            if (!in_array($key, ['csrf', 'csrfspecial'])) {
+                array_push($selectedcarts, $key);
+            }
 
-        header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=emptycart");
-        exit();
+        $_SESSION['cart'] = $selectedcarts;
+    } elseif (isset($_POST)) { //remove all variables if any, because we don't want any items passed unnecessarily
+        foreach ($_POST as $key => $value) {
+            unset($_POST[$key]);
+        }
     }
-}
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-### CSRF ####
-$csrfpass=false;
-if (isset($_SESSION['csrfspecial'])) {
-    if ($_SESSION['csrfspecial']==$_SESSION['csrf']) {
-        $csrfpass=true;
+    if (empty($selectedcarts)) {
+        if (!empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $key => $val)
+                if ($key !== "csrf") {
+                    array_push($selectedcarts, $val);
+                }
+        } else {
+
+            header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=emptycart");
+            exit();
+        }
     }
- }
-//  var_dump($_SESSION);
-//  var_dump($_POST);
-//  var_dump($u=validateCSRF());exit;
-// if(validateCSRF()==false && $csrfpass===false){
-//     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-  
-  
-//     if($actual_link=="http://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf"){
-//         echo 'bad csrf';
-//         //dont redirect if on the same page
-  
-//     } else {
-//         header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf");
-//         exit;
-//     }
-// }
 
-///commented out because this page is too diverse to contain csrf effeciently.
-include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/viewcart.php';
-$csrf = generateCSRF();
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+    ### CSRF ####
+    $csrfpass = false;
+    if (isset($_SESSION['csrfspecial'])) {
+        if ($_SESSION['csrfspecial'] == $_SESSION['csrf']) {
+            $csrfpass = true;
+        }
+    }
+    //  var_dump($_SESSION);
+    //  var_dump($_POST);
+    //  var_dump($u=validateCSRF());exit;
+    // if(validateCSRF()==false && $csrfpass===false){
+    //     $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-### CSRF ####
-?>
+
+    //     if($actual_link=="http://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf"){
+    //         echo 'bad csrf';
+    //         //dont redirect if on the same page
+
+    //     } else {
+    //         header("location: https://www.swapamc.com/swapproj/allproducts/product/viewcart?error=badcsrf");
+    //         exit;
+    //     }
+    // }
+
+    ///commented out because this page is too diverse to contain csrf effeciently.
+    include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/viewcart.php';
+    $csrf = generateCSRF();
+
+    ### CSRF ####
+    ?>
 </div>
 <br>
 <div class="payment">
-<div style="float:left; clear:both;">
-<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 64 64">
-  <g id="Group_417" data-name="Group 417" transform="translate(-18760 100)">
-    <rect id="Rectangle_492" data-name="Rectangle 492" width="64" height="64" transform="translate(18760 -100)" fill="#8d1d25"/>
-    <path id="iconmonstr-credit-card-6" d="M34.086,4H3.1A3.1,3.1,0,0,0,0,7.1V25.691a3.1,3.1,0,0,0,3.1,3.1H34.086a3.1,3.1,0,0,0,3.1-3.1V7.1A3.1,3.1,0,0,0,34.086,4Zm0,20.916a.775.775,0,0,1-.775.775H3.873a.775.775,0,0,1-.775-.775V14.845H34.086Zm0-14.719H3.1V7.873A.775.775,0,0,1,3.873,7.1H33.311a.775.775,0,0,1,.775.775Zm-13.944,9.3H6.2V17.944H20.142Zm-4.648,3.1H6.2V21.043h9.3Zm15.494-3.1H26.339V17.944h4.648Z" transform="translate(18773.408 -84.395)" fill="#fff"/>
-  </g>
-</svg>
+    <div style="float:left; clear:both;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 64 64">
+            <g id="Group_417" data-name="Group 417" transform="translate(-18760 100)">
+                <rect id="Rectangle_492" data-name="Rectangle 492" width="64" height="64" transform="translate(18760 -100)" fill="#8d1d25" />
+                <path id="iconmonstr-credit-card-6" d="M34.086,4H3.1A3.1,3.1,0,0,0,0,7.1V25.691a3.1,3.1,0,0,0,3.1,3.1H34.086a3.1,3.1,0,0,0,3.1-3.1V7.1A3.1,3.1,0,0,0,34.086,4Zm0,20.916a.775.775,0,0,1-.775.775H3.873a.775.775,0,0,1-.775-.775V14.845H34.086Zm0-14.719H3.1V7.873A.775.775,0,0,1,3.873,7.1H33.311a.775.775,0,0,1,.775.775Zm-13.944,9.3H6.2V17.944H20.142Zm-4.648,3.1H6.2V21.043h9.3Zm15.494-3.1H26.339V17.944h4.648Z" transform="translate(18773.408 -84.395)" fill="#fff" />
+            </g>
+        </svg>
     </div>
-<h2 style="background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; margin-top:0.8vh;">&nbsp;Payment</h2>
+    <h2 style="background-color: white; color: #8D1D25; border-bottom:2px solid black; font-weight:300; margin-top:0.8vh;">&nbsp;Payment</h2>
     <form action="/swapproj/checkoutinc" method="POST" style="background-color: white; color: black;">
         <!-- Payment -->
         <label style="background-color: white; color: black;">Accepted Cards</label>
@@ -181,7 +187,7 @@ $csrf = generateCSRF();
         <i class="fab fa-cc-amex" style="font-size:1.55em;"></i>
         <i class="fab fa-cc-mastercard" style="font-size:1.55em;"></i>
         <i class="fab fa-cc-discover" style="font-size:1.55em;"></i>
-        
+
 
         <br><label style="background-color: white; color: black;" for="cname">Name on Card</label>
         <br><input style="background-color: white; color: black; width:50%;" type="text" id="cname" name="cname" placeholder="John More Doe">
@@ -193,10 +199,10 @@ $csrf = generateCSRF();
         <br><label style="background-color: white; color: black;" for="expyear">Exp Year</label>
         <br><input style="background-color: white; color: black;" type="text" pattern="\d*" maxlength="4" id="expyear" name="expyear" placeholder="2018">
         <br> <label style="background-color: white; color: black;" for="cvc">CVV</label>
-        <br><input style="background-color: white; color: black;"type="text" pattern="\d*" id="cvc" name="cvc" placeholder="352" maxlength="3">
+        <br><input style="background-color: white; color: black;" type="text" pattern="\d*" id="cvc" name="cvc" placeholder="352" maxlength="3">
         <br><br>
         <input type="submit" name="submit" value="Complete Payment" class="btn">
-        <input type='hidden' name='csrf' value='<?php echo $csrf?>'>
+        <input type='hidden' name='csrf' value='<?php echo $csrf ?>'>
 
     </form>
 </div>

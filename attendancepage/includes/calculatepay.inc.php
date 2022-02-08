@@ -8,8 +8,13 @@ $jwtarray = jwtdecrypt();
 $userid = $jwtarrayinformation['userid'];
 $attendanceCurrentMonth = date('m');
 $attendanceCurrentYear = date('Y');
-// $attendanceCurrentMonth = $jwtarrayinformation['currentmonth'];
-// $attendanceCurrentYear = $jwtarrayinformation['currentyear'];
+
+
+if($jwtarrayinformation['role']<1){
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 
 ?>
 

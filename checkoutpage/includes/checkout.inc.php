@@ -2,6 +2,7 @@
 if (isset($_POST["submit"])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
     var_dump($_POST['csrf']);
     session_start();
 
@@ -16,14 +17,20 @@ if (isset($_POST["submit"])) {
 
         } else {
             header("location: https://www.swapamc.com/swapproj/home?error=badcsrf");
+            error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(badcsrf)", 0);
+
             exit;
         }
     }
     ### CSRF ####
 
     session_regenerate_id();
-    $jwtarray = jwtdecrypt();
-    $jwtarrayinformation = $jwtarray['array'];
+ 
+    if ($jwtarrayinformation['role'] < 1) {
+        header("location: https://www.swapamc.com/swapproj/campus");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(unauthorized)", 0);
+        exit;
+    }
 
     $whitelist = ['cname', 'ccnum', 'expmonth', 'expyear', 'cvc'];
     $_POST = XSSPrevention($_POST, $whitelist);
@@ -44,6 +51,7 @@ if (isset($_POST["submit"])) {
 
     if (!($bufferflag && $emptyflag)) {
         header("location: https://www.swapamc.com/swapproj/checkout/checkout?error=invalidinput");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidinput)", 0);
         exit;
     }
 
@@ -88,38 +96,46 @@ if (isset($_POST["submit"])) {
 
     if (emptyCart($emptycarts) !== false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=emptycart");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(emptycart)", 0);
         exit();
     }
     if (emptyDefaultShipping($sa) !== false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=emptydefaultshipping");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(emptydefaultshipping)", 0);
         exit();
     }
     if (emptyInputPayment($cname, $number, $expmonth, $expyear, $cvc) !== false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=paymentemptyinput");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(paymentemptyinput)", 0);
         exit();
     }
     if (validatecard($number) === false) {
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcardtype");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidcardtype)", 0);
         exit();
     }
     if (luhn_check($number) === false) {
         echo "<p>Credit Card Number Invalid</p>";
         header("location: https://www.swapamc.com/swapproj/checkout?error=paymentbadnumb");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(paymentbadnumb)", 0);
         exit();
     }
     if (invalidExpMonth($expmonth) !== false) {
         echo "<p>Invalid Exp Month</p>";
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidexpmonth");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidexpmonth)", 0);
         exit();
     }
     if (invalidExpYear($expyear) !== false) {
         echo "<p>Invalid Exp Year</p>";
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidexpyear");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidexpyear)", 0);
         exit();
     }
     if (invalidCVC($cvc) !== false) {
         echo "<p>Invalid CVC</p>";
         header("location: https://www.swapamc.com/swapproj/checkout?error=invalidcvc");
+        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidcvc)", 0);
         exit();
     } else {
 

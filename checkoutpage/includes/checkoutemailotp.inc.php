@@ -34,6 +34,11 @@ $encryptkey = $jwtarrayinformation['encryptkey'];
 $iv =  $jwtarrayinformation['iv'];
 
 
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:CHECKOUT(defaultshippinginc):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 
 if (isset($jwtarray) && $jwtarray == true) {
 

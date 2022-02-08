@@ -7,6 +7,7 @@ function validatecard($number)
     session_start();
   }
   session_regenerate_id();
+
   $cardtype = array(
     "visa"       => "/^4[0-9]{12}(?:[0-9]{3})?$/",
     "mastercard" => "/^5[1-5][0-9]{14}$/",

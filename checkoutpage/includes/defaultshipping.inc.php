@@ -1,12 +1,19 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 $csrf=generateCSRF();
 $jwtarray = jwtdecrypt();
 if(isset($jwtarray)&&$jwtarray==true){
     
     $jwtarrayinformation = $jwtarray['array'];
 
+}
+
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:CHECKOUT(defaultshippinginc):0:$ip:Error(unauthorized)", 0);
+    exit;
 }
 
 // user set default shipping = 0 / 1

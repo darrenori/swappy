@@ -3,10 +3,17 @@ if (isset($_POST["addAdr"])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
     session_start();
-    // var_dump( $_POST);
-    // var_dump( $_SESSION);
-    // var_dump($u=validateCSRF());exit;
+
+
+
+
+    if ($jwtarrayinformation['role'] < 1) {
+        header("location: https://www.swapamc.com/swapproj/campus");
+        error_log("TPAMC:CHECKOUT(addshippingaddressinc):0:$ip:Error(unauthorized)", 0);
+        exit;
+    }
     ### CSRF ####
     if (validateCSRF() == false) {
         $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -52,6 +59,7 @@ if (isset($_POST["addAdr"])) {
     $address = $_POST["address"];
     $zip = $_POST["zip"];
     $unit = $_POST["unit"];
+
 
 
     if (emptyInputShippingAdd($name, $email, $phonenumber, $address, $unit, $zip) !== false) {

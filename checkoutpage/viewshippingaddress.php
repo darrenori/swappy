@@ -32,7 +32,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/manager/includes/employeefunctions.inc.php';
 $csrf = generateCSRF();
 $_SESSION['csrfspecial'] = $csrf; //gives  viewcart page special powers hahah
-
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:CHECKOUT(checkout):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">

@@ -7,6 +7,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 session_start();
 session_regenerate_id();
 
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:CHECKOUT(updateshippinginc):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
+
+
+
 // var_dump( $_POST);
 // var_dump( $_SESSION);
 // var_dump($u=validateCSRF());exit;

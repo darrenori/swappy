@@ -7,6 +7,15 @@ if (!isset($_GET['dt'])) {
     header("location: https://www.swapamc.com/swapproj/checkout/viewshippingaddress?error=unknown");
     exit;
 }
+
+if ($jwtarrayinformation['role'] < 1) {
+    header("location: https://www.swapamc.com/swapproj/campus");
+    error_log("TPAMC:CHECKOUT(deleteshippinginc):0:$ip:Error(unauthorized)", 0);
+    exit;
+}
+
+
+
 $_GET['csrf'] = $_GET['dt'];
 
 // var_dump( $_GET);
