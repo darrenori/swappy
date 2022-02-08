@@ -296,11 +296,12 @@ foreach ($allproductslist as $key => $val) {
             echo 'background-size: cover;';
             echo 'background-image: black;';
             echo 'background-repeat: no-repeat;';
+            echo 'cursor:pointer';
         echo "}";
         echo "</style>";
         
         echo "<div class='item'>";
-        echo "<div id='test$val[1]' class='itemimage'>";
+        echo "<div id='test$val[1]' class='itemimage' onclick=" . '"window.location.href=' . "'https://www.swapamc.com/swapproj/allproducts/product?id=$val[1]';" . '">';
 
     } else {
         $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
@@ -313,11 +314,12 @@ foreach ($allproductslist as $key => $val) {
             echo 'background-size: cover;';
             echo 'background-image: black;';
             echo 'background-repeat: no-repeat;';
+            echo 'cursor:pointer';
         echo "}";
         echo "</style>";
         
         echo "<div class='item'>";
-        echo "<div id='test$val[1]' class='itemimage'>";
+        echo "<div id='test$val[1]' class='itemimage' onclick=" . '"window.location.href=' . "'https://www.swapamc.com/swapproj/allproducts/product?id=$val[1]';" . '">';
 
     }
     

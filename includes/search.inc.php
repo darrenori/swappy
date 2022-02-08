@@ -212,7 +212,7 @@ if (isset($_POST['searchitem'])) {
                 $image = new Image();
 
                 if(isset($ppic)){
-                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+                    $src = $image->show($ppic);
                     echo "<style>";
                     echo "#test$key{";
                         echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
@@ -222,10 +222,11 @@ if (isset($_POST['searchitem'])) {
                         echo 'background-size: cover;';
                         echo 'background-image: black;';
                         echo 'background-repeat: no-repeat;';
+                        echo 'cursor:pointer';
                     echo "}";
                     echo "</style>";
                     echo "<div class='item'>";
-                    echo "<div id='test$key' class='itemimage'>";
+                    echo "<div id='test$key' class='itemimage' onclick=" . '"window.location.href=' . "'https://www.swapamc.com/swapproj/allproducts/product?id=$key';" . '">';
 
                 } else {
                     $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
@@ -238,11 +239,12 @@ if (isset($_POST['searchitem'])) {
                         echo 'background-size: cover;';
                         echo 'background-image: black;';
                         echo 'background-repeat: no-repeat;';
+                        echo 'cursor:pointer';
                     echo "}";
                     echo "</style>";
                     
                     echo "<div class='item'>";
-                    echo "<div id='test$key' class='itemimage'>";
+                    echo "<div id='test$key' class='itemimage' onclick=" . '"window.location.href=' . "'https://www.swapamc.com/swapproj/allproducts/product?id=$key';" . '">';
                 }
 
                 
@@ -272,6 +274,7 @@ if (isset($_POST['searchitem'])) {
                 $image = new Image();
 
                 if(isset($ppic)){
+
                     $src = $image->show($ppic);
                 echo "<style>";
                 echo "#test$key{";
@@ -282,6 +285,7 @@ if (isset($_POST['searchitem'])) {
                     echo 'background-size: cover;';
                     echo 'background-image: black;';
                     echo 'background-repeat: no-repeat;';
+                    echo 'cursor:pointer';
                 echo "}";
                 echo "</style>";
 
@@ -296,6 +300,7 @@ if (isset($_POST['searchitem'])) {
                     echo 'background-size: cover;';
                     echo 'background-image: black;';
                     echo 'background-repeat: no-repeat;';
+                    echo 'cursor:pointer';
                 echo "}";
                 echo "</style>";
 
@@ -304,7 +309,8 @@ if (isset($_POST['searchitem'])) {
 
 
             echo "<div class='item'>";
-            echo "<div id='test$key' class='itemimage'></div>";
+            echo "<div id='test$key' class='itemimage' onclick=" . '"window.location.href=' . "'https://www.swapamc.com/swapproj/allproducts/product?id=$key';" . '">';
+            echo "</div>";
             echo "<div  class='itemname'>";
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
             

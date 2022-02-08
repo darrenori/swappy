@@ -618,15 +618,6 @@ if(sizeOf($array)==1){
 
 
 
-
-
-
-
-
-
-
-
-
     //start of reviews
     // echo "<h2>Reviews</h2>";
 
