@@ -2,7 +2,8 @@
 
 ## Originally edit.inc
 
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/manager/includes/employeefunctions.inc.php';
@@ -65,6 +66,7 @@ $perhourpay = $postinformation['pay'];
 
 
 if(badEmployeeInput([$role,$number,$department,$perhourpay])!==false){
+    error_log("TPAMC:".$filename.":3:$ipadd:Malicious Input", 0);
     header("location: https://www.swapamc.com/swapproj/employeemanager/edit?error=badinput&user=$employeeid");
     exit();
 }

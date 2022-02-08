@@ -6,7 +6,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/SMTP.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/PHPMailer.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/Exception.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 

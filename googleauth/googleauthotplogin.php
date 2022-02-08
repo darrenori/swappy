@@ -25,13 +25,15 @@ if (isset($jwtarray) && $jwtarray == true) {
         exit();
     } elseif ($jwtarrayinformation['loginstate'] === "Z") {
         ////Here is the code for right after sign up
-        require_once 'includes/dbh.inc.php';
-        require_once 'includes/functions.inc.php';
-        require 'googleauth/vendor/autoload.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/funnctions.inc.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/googleauth/vendor/autoload.php';
 
         $username = $jwtarrayinformation['username'];
+        $email = $jwtarrayinformation['useremail'];
+        // var_dump($jwtarrayinformation);exit;
 
-        $uidExists = uidExists($conn, $username, $username);
+        $uidExists = uidExists($conn, $username, $email);
 
         //GOOGLE AUTH QR CODE GENERATED
         if(!$_SESSION){
@@ -101,9 +103,9 @@ if (isset($jwtarray) && $jwtarray == true) {
 
     //All is required for login is the username for user to identify code from google auth code.
     $username = $jwtarrayinformation['username'];
+    // var_dump($jwtarrayinformation);
 
     $uidExists = uidExists($conn, $username, $username);
-
     //GOOGLE AUTH QR CODE GENERATED
     $_SESSION['usersecret'] = $uidExists['user_secret'];
     // $randomsecret = $jwtarrayinformation['usersecret'];

@@ -10,12 +10,13 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
 ?>
 <style>
 <?php include 'campus.css'; ?>
@@ -68,7 +69,7 @@ $csrf = generateCSRF();
 
 
 $ip=$_SERVER['REMOTE_ADDR'] ;
-error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0,"C:\xampp\htdocs\swap.log");
+// error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0,"C:\xampp\htdocs\swap.log");
 
 $userid = $jwtarrayinformation['userid'];
 
@@ -103,7 +104,16 @@ $query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsi
 
 if ($query->fetch()) {
 
-    
+    $username = htmlspecialchars((string)$username,ENT_QUOTES);
+    $fname = htmlspecialchars((string)$fname,ENT_QUOTES);
+    $lname = htmlspecialchars((string)$lname,ENT_QUOTES);
+    $role = htmlspecialchars((string)$role,ENT_QUOTES);
+    $email = htmlspecialchars((string)$username,ENT_QUOTES);
+    $number = htmlspecialchars((string)$number,ENT_QUOTES);
+    $dateofsignup = htmlspecialchars((string)$dateofsignup,ENT_QUOTES);
+    $profilepic = htmlspecialchars((string)$profilepic,ENT_QUOTES);
+
+
 
 
     $image = new Image();
