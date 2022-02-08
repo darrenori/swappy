@@ -170,8 +170,8 @@ if ($role == 6 || $role == 5 ||  $role == 2) {
                 $leaveStatus = "To be Reviewed";
 
                 try {
-                    $query = $conn->prepare("SELECT leave_id,leave_date,leave_status,leave_userid FROM mydb.employee_leave WHERE leave_userid =? AND leave_status=? ORDER BY leave_date ASC");
-                    $query->bind_param('is', $userid, $leaveStatus);
+                    $query = $conn->prepare("SELECT leave_id,leave_date,leave_status,leave_userid FROM mydb.employee_leave WHERE   leave_status=? ORDER BY leave_date ASC");
+                    $query->bind_param('s', $leaveStatus);
                     if ($query === false) {
                         throw new Exception("Statement Preparation failed (takeleave)");
                         error_log("TPAMC:ATTENDANCE(editemployee):2:$ip:failed statement", 0);

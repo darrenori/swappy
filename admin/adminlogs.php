@@ -11,6 +11,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $role = $jwtarrayinformation['role'];
 $username = $jwtarrayinformation['username'];
 
+
+if(isset($_GET['type'])&&$_GET['type']==5){
+    $fp = fopen("C:\\xampp\\htdocs\\swap.log", "w");
+    fclose($fp);
+}
  
 
 
@@ -755,8 +760,7 @@ html, body {
                     if(isset($_GET['type'])&&$_GET['type']!=null){
                         if($_GET['type']==1||$_GET['type']==2||$_GET['type']==3||$_GET['type']==4){
                             $type = $_GET['type'];
-                            $fp = fopen("C:\\xampp\\htdocs\\swap.log", "w");
-                            fclose($fp);
+                            
                             echo '<a href="https://www.swapamc.com/swapproj/downloadlogs?type='.$type.'"><button type="button">Download logs</button></a>';
                         }
                     } else {
