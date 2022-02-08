@@ -5,7 +5,7 @@
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
 
 ?>

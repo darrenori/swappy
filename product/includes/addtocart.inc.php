@@ -1,5 +1,4 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 
 
     function checkId($array)
@@ -29,6 +28,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/dbh.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
 
 
     $jwtarray = jwtdecrypt();

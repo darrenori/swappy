@@ -5,7 +5,7 @@
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/auth/pages.php';
     
     require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
-    // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+    
 
 function badInputThree($array){
     $pattern = "/^[a-zA-Z0-9_\- ]*$/i";

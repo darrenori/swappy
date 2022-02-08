@@ -12,7 +12,7 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
-// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 ?>
@@ -121,6 +121,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/product/includes/productfunctions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
 $jwtarray = jwtdecrypt();
     if(isset($jwtarray)&&$jwtarray==true){
         
