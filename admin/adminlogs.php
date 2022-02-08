@@ -754,6 +754,8 @@ html, body {
                     if(isset($_GET['type'])&&$_GET['type']!=null){
                         if($_GET['type']==1||$_GET['type']==2||$_GET['type']==3||$_GET['type']==4){
                             $type = $_GET['type'];
+                            $fp = fopen("C:\\xampp\\htdocs\\swap.log", "w");
+                            fclose($fp);
                             echo '<a href="https://www.swapamc.com/swapproj/downloadlogs?type='.$type.'"><button type="button">Download logs</button></a>';
                         }
                     } else {
@@ -773,7 +775,8 @@ html, body {
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=3';">Alert</button>
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=2';">Error</button>
                     <button onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=1';">Warning</button>
-                    <button style='background-color:black' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">Show All</button>
+                    <button  onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs';">Show All</button>
+                    <button style='background-color:black' onclick="location.href = 'https://www.swapamc.com/swapproj/adminlogs?type=5';">Reset All</button>
                     
                 </div>
                 

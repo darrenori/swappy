@@ -65,6 +65,7 @@ $perhourpay = $postinformation['pay'];
 
 
 if(badEmployeeInput([$role,$number,$department,$perhourpay])!==false){
+    error_log("TPAMC:".$filename.":3:$ipadd:Malicious Input", 0);
     header("location: https://www.swapamc.com/swapproj/employeemanager/edit?error=badinput&user=$employeeid");
     exit();
 }

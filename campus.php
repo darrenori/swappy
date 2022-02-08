@@ -68,7 +68,7 @@ $csrf = generateCSRF();
 
 
 $ip=$_SERVER['REMOTE_ADDR'] ;
-error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0,"C:\xampp\htdocs\swap.log");
+// error_log("TPAMC:CAMPUS:4:$ip:TESTINGERROR",0,"C:\xampp\htdocs\swap.log");
 
 $userid = $jwtarrayinformation['userid'];
 

@@ -37,6 +37,7 @@ if (!isset($_GET['user'])) {
 }
 
 if (badInput([$employeeid]) !== false) {
+    error_log("TPAMC:".$filename.":3:$ipadd:2 Malicious Input", 0);
     header("location: https://www.swapamc.com/swapproj/employeemanager?error=badinput");
     exit;
 }

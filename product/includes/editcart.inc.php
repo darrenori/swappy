@@ -1,4 +1,5 @@
 <?php 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 
 function checkId($array)
     {
