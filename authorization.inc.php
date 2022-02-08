@@ -103,25 +103,38 @@ if ((int)$role < 0 || (int)$role > 6) {
 if ($role == (int)0) {
     //if user is authorised user.. 
     $notallowedauthuser = ['employeemanager', 'productmanager', 'addnotification', 'storemanage', 'logs','storeoverview'];
+    $rolename="Normal User";
 } else if ($role == (int)1) {
     //if user is employee.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'productmanager', 'addnotification', 'storemanage', 'logs','storeoverview'];
+    $rolename="Employee";
+
 } else if ($role == (int)2) {
     //if user is Employeemanager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['viewtask', 'updatestatus', 'storemanage', 'productmanage', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
+    $rolename="Employee Manager";
+
 } else if ($role == (int)3) {
     //if user is Store Front Manager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'viewtask', 'updatestatus', 'employeemanage', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
+    $rolename="Store Front Manager";
+
 } else if ($role == (int)4) {
     //if user is Booking Manager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'viewtask', 'updatestatus', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
+    $rolename="Booking Manager";
+
 } else if ($role == (int)5) {
     //if user is Overall Manager.. I CAN DO ANYTHING TOO FOR NOW
+    $rolename="Overall Manager";
+
 } else if ($role == (int)6) {
     //if user is server admin I CAN DO ANYTHING
+    $rolename="Server Admin";
+
 }else {
     // searching a string for an empty string will always return true, so any user without roles from 0-6 will be considered unauthorized, or public users
     $notallowedauthuser=[''];

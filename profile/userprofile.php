@@ -631,13 +631,7 @@ if ($query->fetch()) {
 
     echo "Date of Signup: " . $dateofsignup . "<br>";
 
-    if ($role == 0) {
-        echo "Type: Normal User <br><br>";
-    } elseif ($role == 6) {
-        echo "Type: Server Admin <br><br>";
-    } elseif ($role == 2) {
-        echo "Type: Employee Manager <br><br>";
-    }
+    echo 'Type: '.$rolename.' <br><br>';
 
     echo '<input class="btna" style="background-color:#62A969; color:white;border:#272727; font-weight:bold;" type="submit" value="Update" name="submit" formaction="/swapproj/updateprofile">';
     echo '<br><input class="btna" style="background-color:#8D1D25;color:white;border:#272727;font-weight:bold;" type="submit" value="Delete" name="submit" formaction="/swapproj/deleteprofile">';

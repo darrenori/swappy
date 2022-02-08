@@ -410,15 +410,8 @@ if ($query->fetch()) {
                 <div class='username1'> Role </div>
                 <div class='username2'>";
                 
-                if ($role == 0) {
-                    echo 'Type: Normal User <br><br>';
-                } elseif ($role == 6) {
-                    echo 'Type: Server Admin <br><br>';
-                } elseif ($role == 2) {
-                    echo 'Type: Employee Manager <br><br>';
-                } elseif ($role==4){
-                    echo "Type: Employee";
-                }
+
+                    echo 'Type: '.$rolename.' <br><br>';
                 echo"</div>";
           echo  "</div>";
 
