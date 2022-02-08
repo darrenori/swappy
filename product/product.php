@@ -524,8 +524,8 @@ if(sizeOf($array)==1){
             echo '</div>';
         echo '</div>';
 
-        if($_GET['error']='toomuch'){
-            echo "<p>Please ensure that varaints are selected and quantity is proper</p>";
+        if(isset($_GET['error']) && $_GET['error']='toomuch'){
+            echo "<p style='text-align:center'>Please ensure that varaints are selected and quantity is proper</p>";
         }
 } else {
     // echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
@@ -538,8 +538,8 @@ if(sizeOf($array)==1){
             echo '</div>';
     echo '</div>';
 
-    if($_GET['error']='toomuch'){
-        echo "<p>Please ensure that varaints are selected and quantity is propery</p>";
+    if(isset($_GET['error']) && $_GET['error']='toomuch'){
+        echo "<p style='text-align:center'>Please ensure that varaints are selected and quantity is proper</p>";
     }
 
 }
