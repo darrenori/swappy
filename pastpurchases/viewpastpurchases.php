@@ -1,3 +1,22 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+
+
+
+
+
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+?>
+
 <?php
 
 
@@ -16,7 +35,7 @@ $userid = $jwtarrayinformation['userid'];
 // }
 ?>
 <html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" /> -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -26,7 +45,7 @@ $userid = $jwtarrayinformation['userid'];
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" /> -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -67,7 +86,7 @@ $userid = $jwtarrayinformation['userid'];
         /* nav bar */
 
 
-        .nav-bar {
+        /* .nav-bar {
             display: flex;
             padding: 40px 7vw;
             text-align: right;
@@ -127,7 +146,7 @@ $userid = $jwtarrayinformation['userid'];
 
             width: 100%;
 
-        }
+        } */
 
         .btn {
             padding: 10px 20px;
@@ -400,7 +419,7 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-    <div class='nav-bar'>
+    <!-- <div class='nav-bar'>
         <div class='nav-logo'>
             <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
 
@@ -424,7 +443,7 @@ $userid = $jwtarrayinformation['userid'];
         </div>
         <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
-    </div>
+    </div> -->
 
 
 

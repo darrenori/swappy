@@ -108,7 +108,7 @@ if ($query->fetch()) {
     $fname = htmlspecialchars((string)$fname,ENT_QUOTES);
     $lname = htmlspecialchars((string)$lname,ENT_QUOTES);
     $role = htmlspecialchars((string)$role,ENT_QUOTES);
-    $email = htmlspecialchars((string)$username,ENT_QUOTES);
+    $email = htmlspecialchars((string)$email,ENT_QUOTES);
     $number = htmlspecialchars((string)$number,ENT_QUOTES);
     $dateofsignup = htmlspecialchars((string)$dateofsignup,ENT_QUOTES);
     $profilepic = htmlspecialchars((string)$profilepic,ENT_QUOTES);
@@ -416,9 +416,39 @@ if ($query->fetch()) {
                     echo 'Type: Server Admin <br><br>';
                 } elseif ($role == 2) {
                     echo 'Type: Employee Manager <br><br>';
+                } elseif ($role==4){
+                    echo "Type: Employee";
                 }
-echo"</div>";
+                echo"</div>";
           echo  "</div>";
+
+          $query->close();
+          try {
+            $query = $conn->prepare("SELECT working_department,working_perhourpay
+        FROM mydb.working_employees WHERE user_id = ?;");
+        $query->bind_param('s',$userid);
+            if ($query === false) {
+                //change filename accordingly
+                throw new Exception("Statement Preparation failed(userprofile)");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+            //change header location accordingly
+            
+        }
+        // throws error "Statment Execution failed" when statement fails
+        try {
+            $execute = $query->execute();
+            if ($execute === false) {
+                throw new Exception("Statement Execution failed (userprofile)");
+            }
+        } catch (Exception $e) {
+            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);    
+        }
+        $query->bind_result($department,$perhourpay);
+        $query->fetch();
+
+          
             
                 if(isset($department)){
                     echo "<div class='pairing'>";
@@ -437,7 +467,7 @@ echo"</div>";
                 if(isset($perhourpay)){
                     echo "<div class='pairing'>";
                         echo "<div class='username1'> Day Rate </div>";
-                        echo "<div class='username2'> $perhourpay/hr </div>";
+                        echo "<div class='username2'> S$$perhourpay/hr </div>";
                     echo "</div>";
 
                 } else {
@@ -472,7 +502,6 @@ echo"</div>";
 
 
 
-
 ob_flush();
 
 
@@ -494,6 +523,7 @@ ob_flush();
     </form>
 </div>
 
+<div style='height:30px'></div>
 </body>
 <script type="text/javascript">
     document.getElementById("attendanceButton").onclick = function () {
