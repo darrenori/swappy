@@ -524,6 +524,9 @@ if(sizeOf($array)==1){
             echo '</div>';
         echo '</div>';
 
+        if($_GET['error']='toomuch'){
+            echo "<p>Please ensure that varaints are selected and quantity is proper</p>";
+        }
 } else {
     // echo "<div id='favorite$id'><button type='button'  onclick='favorite($id)'>Favorite this</button></div>";
 
@@ -534,6 +537,10 @@ if(sizeOf($array)==1){
                 echo "<button type='button' onclick='favorite($id)' id='favorite$id' class='favoritebtn'><i class='far fa-heart'></i></button>";
             echo '</div>';
     echo '</div>';
+
+    if($_GET['error']='toomuch'){
+        echo "<p>Please ensure that varaints are selected and quantity is propery</p>";
+    }
 
 }
 
@@ -1887,6 +1894,7 @@ if(sizeOf($array)==1){
 
                         
                         document.getElementById("left").innerHTML = "ONLY "+result+" REMAINING";
+
                         
                         document.getElementById("quantity").setAttribute("max",result);
 

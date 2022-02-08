@@ -211,23 +211,46 @@ if (isset($_POST['searchitem'])) {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
                 $image = new Image();
 
-                $src = $image->show($ppic);
-                echo "<style>";
-                echo "#test$key{";
-                    echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
-                    // echo 'flex-basis: 100%;' ;
-                    // echo 'height: 85vh;';
-                    echo 'background-position: center;';
-                    echo 'background-size: cover;';
-                    echo 'background-image: black;';
-                    echo 'background-repeat: no-repeat;';
-                echo "}";
-                echo "</style>";
+                if(isset($ppic)){
+                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+                    echo "<style>";
+                    echo "#test$key{";
+                        echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                        // echo 'flex-basis: 100%;' ;
+                        // echo 'height: 85vh;';
+                        echo 'background-position: center;';
+                        echo 'background-size: cover;';
+                        echo 'background-image: black;';
+                        echo 'background-repeat: no-repeat;';
+                    echo "}";
+                    echo "</style>";
+                    echo "<div class='item'>";
+                    echo "<div id='test$key' class='itemimage'>";
+
+                } else {
+                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+                    echo "<style>";
+                    echo "#test$key{";
+                        echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                        // echo 'flex-basis: 100%;' ;
+                        // echo 'height: 85vh;';
+                        echo 'background-position: center;';
+                        echo 'background-size: cover;';
+                        echo 'background-image: black;';
+                        echo 'background-repeat: no-repeat;';
+                    echo "}";
+                    echo "</style>";
+                    
+                    echo "<div class='item'>";
+                    echo "<div id='test$key' class='itemimage'>";
+                }
+
+                
 
 
 
-                echo "<div class='item'>";
-                echo "<div id='test$key' class='itemimage'></div>";
+                // echo "<div class='item'>";
+                // echo "<div id='test$key' class='itemimage'></div>";
                 echo "<div class='itemname'>";
                 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
                 echo "</div></div><br>";
@@ -248,7 +271,8 @@ if (isset($_POST['searchitem'])) {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
                 $image = new Image();
 
-                $src = $image->show($ppic);
+                if(isset($ppic)){
+                    $src = $image->show($ppic);
                 echo "<style>";
                 echo "#test$key{";
                     echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
@@ -260,6 +284,23 @@ if (isset($_POST['searchitem'])) {
                     echo 'background-repeat: no-repeat;';
                 echo "}";
                 echo "</style>";
+
+                }else {
+                    $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+                echo "<style>";
+                echo "#test$key{";
+                    echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                    // echo 'flex-basis: 100%;' ;
+                    // echo 'height: 85vh;';
+                    echo 'background-position: center;';
+                    echo 'background-size: cover;';
+                    echo 'background-image: black;';
+                    echo 'background-repeat: no-repeat;';
+                echo "}";
+                echo "</style>";
+
+                }
+                
 
 
             echo "<div class='item'>";

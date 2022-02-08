@@ -284,21 +284,43 @@ foreach ($allproductslist as $key => $val) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
     $image = new Image();
 
-    $src = $image->show($ppic);
-    echo "<style>";
-    echo "#test$val[1]{";
-        echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
-        // echo 'flex-basis: 100%;' ;
-        // echo 'height: 85vh;';
-        echo 'background-position: center;';
-        echo 'background-size: cover;';
-        echo 'background-image: black;';
-        echo 'background-repeat: no-repeat;';
-    echo "}";
-    echo "</style>";
+
+    if(isset($ppic)){
+        $src = $image->show($ppic);
+        echo "<style>";
+        echo "#test$val[1]{";
+            echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+            // echo 'flex-basis: 100%;' ;
+            // echo 'height: 85vh;';
+            echo 'background-position: center;';
+            echo 'background-size: cover;';
+            echo 'background-image: black;';
+            echo 'background-repeat: no-repeat;';
+        echo "}";
+        echo "</style>";
+        
+        echo "<div class='item'>";
+        echo "<div id='test$val[1]' class='itemimage'>";
+
+    } else {
+        $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+        echo "<style>";
+        echo "#test$val[1]{";
+            echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+            // echo 'flex-basis: 100%;' ;
+            // echo 'height: 85vh;';
+            echo 'background-position: center;';
+            echo 'background-size: cover;';
+            echo 'background-image: black;';
+            echo 'background-repeat: no-repeat;';
+        echo "}";
+        echo "</style>";
+        
+        echo "<div class='item'>";
+        echo "<div id='test$val[1]' class='itemimage'>";
+
+    }
     
-    echo "<div class='item'>";
-    echo "<div id='test$val[1]' class='itemimage'>";
 
 
         
