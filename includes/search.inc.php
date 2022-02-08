@@ -83,7 +83,7 @@ $searchitem = $_POST['searchitem'];
 
 //get all product names line 11-71
 try {
-    $query = $conn->prepare("SELECT product_id,product_name FROM mydb.products;");
+    $query = $conn->prepare("SELECT product_id,product_name,product_picone,product_price FROM mydb.products;");
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(allproducts)");
@@ -113,9 +113,11 @@ try {
 ## changed some things
 //Search for item 
 
-$query->bind_result($id, $name);
+$query->bind_result($id, $name,$picone,$price);
 while ($query->fetch()) {
     $allproductslist[$id] = $name;
+    $allimageslist[$id] = $picone;
+    $allothers[$id] = [$price];
 }
 
 
@@ -204,8 +206,27 @@ if (isset($_POST['searchitem'])) {
                 }
             }
             foreach ($specialproductlist as $key => $value) {
+                $ppic = $allimageslist[$key];
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+                $image = new Image();
+
+                $src = $image->show($ppic);
+                echo "<style>";
+                echo "#test$key{";
+                    echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                    // echo 'flex-basis: 100%;' ;
+                    // echo 'height: 85vh;';
+                    echo 'background-position: center;';
+                    echo 'background-size: cover;';
+                    echo 'background-image: black;';
+                    echo 'background-repeat: no-repeat;';
+                echo "}";
+                echo "</style>";
+
+
+
                 echo "<div class='item'>";
-                echo "<div class='itemimage'></div>";
+                echo "<div id='test$key' class='itemimage'></div>";
                 echo "<div class='itemname'>";
                 echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
                 echo "</div></div><br>";
@@ -221,10 +242,30 @@ if (isset($_POST['searchitem'])) {
         echo "<div class='category55'>Showing &nbsp;<b>Product</b>&nbsp; results for &nbsp;<i>" . $searchitem . "</i></div>";
         echo "<div class='container5'>";
         foreach ($filteredproductslist as $key => $value) {
+
+            $ppic = $allimageslist[$key];
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+                $image = new Image();
+
+                $src = $image->show($ppic);
+                echo "<style>";
+                echo "#test$key{";
+                    echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                    // echo 'flex-basis: 100%;' ;
+                    // echo 'height: 85vh;';
+                    echo 'background-position: center;';
+                    echo 'background-size: cover;';
+                    echo 'background-image: black;';
+                    echo 'background-repeat: no-repeat;';
+                echo "}";
+                echo "</style>";
+
+
             echo "<div class='item'>";
-            echo "<div class='itemimage'></div>";
-            echo "<div class='itemname'>";
+            echo "<div id='test$key' class='itemimage'></div>";
+            echo "<div  class='itemname'>";
             echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$value  </a>";
+            
             echo "</div></div><br>";
         }
         echo "</div><br><br>";

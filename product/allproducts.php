@@ -26,7 +26,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 
 
 try {
-    $query = $conn->prepare("SELECT product_id,product_name,product_price FROM mydb.products;");
+    $query = $conn->prepare("SELECT product_id,product_name,product_price,product_picone FROM mydb.products;");
     if ($query === false) {
         //change filename accordingly
         throw new Exception("Statement Preparation failed(allproducts)");
@@ -129,7 +129,7 @@ if (empty($_GET)) {
                     $selectedcategoryname = $key;
                     $query->close();
                     try {
-                        $query = $conn->prepare("SELECT products.product_id,product_name,product_price FROM mydb.products INNER JOIN mydb.productcat ON mydb.products.product_id = mydb.productcat.product_id WHERE mydb.productcat.cat_id=?");
+                        $query = $conn->prepare("SELECT products.product_id,product_name,product_price,mydb.products.product_picone FROM mydb.products INNER JOIN mydb.productcat ON mydb.products.product_id = mydb.productcat.product_id WHERE mydb.productcat.cat_id=?");
                         $query->bind_param('i', $selectedcategory);
                         if ($query === false) {
                             //change filename accordingly
@@ -163,12 +163,12 @@ if (empty($_GET)) {
 ## changed some things
 //Search for item 
 
-$query->bind_result($id, $name, $price);
+$query->bind_result($id, $name, $price,$picone);
 
 
 
 while ($query->fetch()) {
-    $allproductslist[$id] = [$price, $name];
+    $allproductslist[$id] = [$price, $name,$picone];
 }
 
 
@@ -244,13 +244,13 @@ $currenturlstripped = preg_replace('/[^a-zA-Z0-9\=\?\/(\/swapproj)]+/', '', $_SE
 
 
 
-<div class='category'>Product</div>
 
 <?php
 
 ###zeph
 //sort only box
 echo '<div class="box"> 
+        <p class="prodname">Products</p>
         <div class="searchresults">
         <div class="searchname">
             <?php echo $selectedcategory ?>
@@ -279,16 +279,40 @@ echo '</form></div></div></div></div>';
 
 echo "<div class='container5'>";
 foreach ($allproductslist as $key => $val) {
-    echo "
-    <div class='item'>
-        <div class='itemimage'>
-        </div>
-        <div class='itemname'>
-            <a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$val[1] </a>
-        </div>
-    </div>";
+    
+    $ppic = $val[2];
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+    $image = new Image();
+
+    $src = $image->show($ppic);
+    echo "<style>";
+    echo "#test$key{";
+        echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+        // echo 'flex-basis: 100%;' ;
+        // echo 'height: 85vh;';
+        echo 'background-position: center;';
+        echo 'background-size: cover;';
+        echo 'background-image: black;';
+        echo 'background-repeat: no-repeat;';
+    echo "}";
+    echo "</style>";
+    
+    echo "<div class='item'>";
+    echo "<div id='test$key' class='itemimage'>";
+
+
+        
+    echo "</div>";
+        echo "<div class='itemname'>";
+            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$val[1] </a>";
+            echo "<p style='background-color:white;color:#8D1D25'>$$val[0]</p>";
+
+        echo "</div>";
+    echo "</div>";
 }
 echo "</div>";
+
+echo "<div class='end'></div>";
 
 ?>
 

@@ -399,14 +399,29 @@ button:hover {
     border-color: rgb(255, 0, 0); */
 }
 
+
+
 .itemname {
-    height: 20%;
+    /* height: 24%; */
     /* border-radius: 1px;
     border-style: solid;
     border-color: rgb(255, 255, 255); */
     background-color: white;
-    padding-top: 5px;
+    padding: 5px;
     font-size: 120%;
+    text-align: left;
+    
+
+}
+
+.itemname a {
+    color: #8D1D25;
+    font-weight: bold;
+}
+
+.itemname p {
+    width: 100%;
+
 }
 
 .popular {
@@ -489,7 +504,7 @@ button:hover {
 .sortby {
     display: flex;
     color: white;
-    flex-basis: 20%;
+    flex-basis: 40%;
     margin-right: 20px;
 }
 
@@ -569,6 +584,16 @@ button:hover {
     background-color: black;
     padding-top: 20px;
     padding-bottom: 20px;
+    align-items: center;
+}
+
+.prodname {
+    color: white;
+    font-weight: bold;
+    align-self: center;
+    margin-top: 20px;
+    font-size: 1.5em;
+    margin-left: 5%;
 }
 
 .word {
