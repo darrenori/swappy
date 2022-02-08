@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/includes/functions.inc.php';
 session_start();
+session_regenerate_id();
 session_unset();
 session_destroy();
 if (isset($_COOKIE['jwt'])) {

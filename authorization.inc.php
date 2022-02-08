@@ -87,39 +87,39 @@ $currenturlstripped = preg_replace('/[^a-zA-Z0-9]+/', '', $_SERVER['REQUEST_URI'
 
 
 
-
 //array of not allowed urls
 $notallowedauthuser = [];
 //array of allowed urls
 $allowedauthuser = [];
 $role = $jwtarrayinformation['role'];
+// var_dump($role);exit;
 if ((int)$role < 0 || (int)$role > 6) {
     //if user role does not exist... (public user)
     $role=7;
 }
 
 ///changes the allowed urls depending on the role number
-if ($role === (int)0) {
+if ($role == (int)0) {
     //if user is authorised user.. 
     $notallowedauthuser = ['employeemanager', 'productmanager', 'addnotification', 'storemanage', 'logs','storeoverview'];
-} else if ($role === (int)1) {
+} else if ($role == (int)1) {
     //if user is employee.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'productmanager', 'addnotification', 'storemanage', 'logs','storeoverview'];
-} else if ($role === (int)2) {
+} else if ($role == (int)2) {
     //if user is Employeemanager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['viewtask', 'updatestatus', 'storemanage', 'productmanage', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
-} else if ($role === (int)3) {
+} else if ($role == (int)3) {
     //if user is Store Front Manager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'viewtask', 'updatestatus', 'employeemanage', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
-} else if ($role === (int)4) {
+} else if ($role == (int)4) {
     //if user is Booking Manager.. currently unable to access tasks from homepage
     $notallowedauthuser = ['employeemanager', 'viewtask', 'updatestatus', 'logs','storeoverview'];
     $allowedauthuser = ['taskmanager'];
-} else if ($role === (int)5) {
+} else if ($role == (int)5) {
     //if user is Overall Manager.. I CAN DO ANYTHING TOO FOR NOW
-} else if ($role === (int)6) {
+} else if ($role == (int)6) {
     //if user is server admin I CAN DO ANYTHING
 }else {
     // searching a string for an empty string will always return true, so any user without roles from 0-6 will be considered unauthorized, or public users

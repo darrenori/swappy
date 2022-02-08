@@ -103,7 +103,16 @@ $query->bind_result($username, $fname, $lname, $role, $email, $number, $dateofsi
 
 if ($query->fetch()) {
 
-    
+    $username = htmlspecialchars((string)$username,ENT_QUOTES);
+    $fname = htmlspecialchars((string)$fname,ENT_QUOTES);
+    $lname = htmlspecialchars((string)$lname,ENT_QUOTES);
+    $role = htmlspecialchars((string)$role,ENT_QUOTES);
+    $email = htmlspecialchars((string)$username,ENT_QUOTES);
+    $number = htmlspecialchars((string)$number,ENT_QUOTES);
+    $dateofsignup = htmlspecialchars((string)$dateofsignup,ENT_QUOTES);
+    $profilepic = htmlspecialchars((string)$profilepic,ENT_QUOTES);
+
+
 
 
     $image = new Image();

@@ -74,28 +74,57 @@ function pwdMatch($pwd, $pwdRepeat)
 // creates prepared statements so it runs into the db without input?
 function uidExists($conn, $username, $email)
 {
-    $sql = "SELECT * FROM users WHERE user_username =? OR username_email =?;";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: https://www.swapamc.com/swapproj/signup?error=stmtfailed");
-        exit();
+
+    //For LOGGING purposes
+    $filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    $ipadd = $_SERVER['REMOTE_ADDR']; //not sure if this works from another machine ://
+
+
+    try {
+        $query = $conn->prepare("SELECT * FROM mydb.users WHERE user_username =? OR username_email =?;");
+
+        $query->bind_param("ss", $username, $email);
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(productedit)");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/googleauthentication");
+        exit;
     }
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Preparation failed(checkout)");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (SELECT)", 0);
+        header("location: https://www.swapamc.com/swapproj/googleauthentication");
+        exit;
+    }
+    $resultData = $query->get_result();
 
-    mysqli_stmt_bind_param($stmt, "ss", $username, $email);
-    mysqli_stmt_execute($stmt);
-
-    $resultData = mysqli_stmt_get_result($stmt);
 
     //RETURNS THE DATA FROM THE TABLE AND STORES IT IN $ROW
     //THIS WAY WE CAN USE IT FOR LOGGING IN
-    if ($row = mysqli_fetch_assoc($resultData)) {
+    if ($row = $resultData->fetch_array(MYSQLI_ASSOC)) {
+        foreach ($row as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    $row[$key][$k] = htmlspecialchars((string)$v);
+                }
+            } else {
+                $row[$key] = htmlspecialchars((string)$value);
+            }
+        }
         return $row;
     } else {
         $result = false;
         return $result;
     }
-
-    mysqli_stmt_close($stmt);
+    $query->close();
 }
 // check if username already exists AND if it exists returns the values of the user
 // creates prepared statements so it runs into the db without input?
@@ -171,7 +200,11 @@ function createUser($conn, $firstname, $lastname, $email, $username, $pwd, $phon
     mysqli_stmt_close($stmt);
 
     $array['username'] = $username;
+    $array['useremail'] = $email;
     $array['loginstate'] = "Z";
+    foreach ($array as $key => $value) {
+        $array[$key] = htmlspecialchars($value);
+    }
 
 
     // for debugging, ignore 
@@ -334,7 +367,7 @@ function loginUser($conn, $username, $pwd, $remember)
     }
     $workingIDExists = workingIdExists($conn, $uidExists['user_id']);
     if ($workingIDExists !== false) {
-        $jwtarrayinformation['workingid']=$workingIDExists['working_id'];
+        $jwtarrayinformation['workingid'] = $workingIDExists['working_id'];
     }
 
     #IS THE USER SUSPENDED? (returns date if they still are) returns null if they ar enot
@@ -425,6 +458,11 @@ function loginUser($conn, $username, $pwd, $remember)
         $array['userid'] = $uidExists["user_id"];
         $array['useremail'] = $uidExists["username_email"];
         $array['profilepic'] = $uidExists['user_profilepicture'];
+        foreach ($array as $key => $value) {
+            $array[$key] = htmlspecialchars($value);
+        }
+        escapeString($conn, $array);
+
 
         $workingid = isEmployee($conn, $array['userid']);
 
@@ -854,10 +892,10 @@ function reduceInventory($conn)
         $query->fetch();
         $query->close();
 
-        echo "<br><br><br>";
+        // echo "<br><br><br>";
 
 
-        echo $productcode;
+        // echo $productcode;
 
 
 
