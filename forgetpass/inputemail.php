@@ -8,9 +8,9 @@ foreach ($_GET as $key => $value) {
     //cleans GET items
     $_GET[$key] = preg_replace('/[^a-z]+/', '', $_GET[$key]);
 }
-$whitelistvalues=['sent','failed','expired','invalidemail','invalidurl','stmtfailed','invaliditem'];
-$exemptkeys=[]; //alll values are expected, so no exemptkeys are specified.
-cleanValues($_GET,$whitelistvalues,$exemptkeys);
+$whitelistvalues = ['sent', 'failed', 'expired', 'invalidemail', 'invalidurl', 'stmtfailed', 'invaliditem'];
+$exemptkeys = []; //alll values are expected, so no exemptkeys are specified.
+cleanValues($_GET, $whitelistvalues, $exemptkeys);
 
 ?>
 <html>
@@ -583,6 +583,36 @@ cleanValues($_GET,$whitelistvalues,$exemptkeys);
 
                     <a href="https://www.swapamc.com/swapproj/login">Back to login page</a>
                 </form>
+                <?php
+                if (isset($_GET['email'])) {
+                    if ($_GET["email"] === "sent") {
+                        echo "<p>Email sent success. </p>";
+                        exit();
+                    } elseif ($_GET["email"] === "failed") {
+                        echo "<p>Email failed to sent. </p>";
+                        exit();
+                    } elseif ($_GET["email"] === "expired") {
+                        echo "<p>Email Link have expired. </p>";
+                        exit();
+                    }
+                }
+
+                if (isset($_GET['error'])) {
+                    if ($_GET["error"] === "invalidemail") {
+                        echo "<p> Invalid email. Try another email. </p>";
+                        exit();
+                    } elseif ($_GET["error"] === "invalidurl") {
+                        echo "<p> Invalid URL. Redo the process. </p>";
+                        exit();
+                    } elseif ($_GET["error"] === "stmtfailed") {
+                        echo "<p> STMT Error. </p>";
+                        exit();
+                    } elseif ($_GET["error"] === "failed") {
+                        echo "<p> Please try again.  </p>";
+                        exit();
+                    }
+                }
+                ?>
         </div>
     </div>
 
@@ -670,34 +700,3 @@ cleanValues($_GET,$whitelistvalues,$exemptkeys);
 </body>
 
 </html>
-
-<?php
-if (isset($_GET['email'])) {
-    if ($_GET["email"] === "sent") {
-        echo "<p>Email sent success. </p>";
-        exit();
-    } elseif ($_GET["email"] === "failed") {
-        echo "<p>Email failed to sent. </p>";
-        exit();
-    } elseif ($_GET["email"] === "expired") {
-        echo "<p>Email Link have expired. </p>";
-        exit();
-    }
-}
-
-if (isset($_GET['error'])) {
-    if ($_GET["error"] === "invalidemail") {
-        echo "<p> Invalid email. Try another email. </p>";
-        exit();
-    } elseif ($_GET["error"] === "invalidurl") {
-        echo "<p> Invalid URL. Redo the process. </p>";
-        exit();
-    } elseif ($_GET["error"] === "stmtfailed") {
-        echo "<p> STMT Error. </p>";
-        exit();
-    }elseif ($_GET["error"] === "failed") {
-        echo "<p> Please try again.  </p>";
-        exit();
-    }
-}
-?>
