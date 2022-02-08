@@ -9,6 +9,7 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 
 ?>
 
@@ -17,6 +18,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
+
 
 // NO INPUT DETECTED or used
 if ($jwtarrayinformation['checkoutstate'] == "B" ){

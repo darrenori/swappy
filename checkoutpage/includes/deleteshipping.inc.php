@@ -8,11 +8,6 @@ if (!isset($_GET['dt'])) {
     exit;
 }
 
-if ($jwtarrayinformation['role'] < 1) {
-    header("location: https://www.swapamc.com/swapproj/campus");
-    error_log("TPAMC:CHECKOUT(deleteshippinginc):0:$ip:Error(unauthorized)", 0);
-    exit;
-}
 
 
 

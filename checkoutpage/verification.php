@@ -1,5 +1,6 @@
 <?php
 // validate card number using regex
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 function validatecard($number)
 {
   global $type;

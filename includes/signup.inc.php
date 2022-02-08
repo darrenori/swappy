@@ -42,7 +42,7 @@ if (isset($_POST["submit"])) {
     $maxlengtharray['phonenumber'] = 11; // Inactive is 8 chars long
     $maxlengtharray['primaryschool'] = 45; //1,2,3,4, or 5
     $maxlengtharray['favouritefood'] = 45;
-    $maxlengtharray['g-recaptcha-response'] = 500;
+    $maxlengtharray['g-recaptcha-response'] = 50000;
 
     // bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
     $bufferflag = empty(checkLength($_POST, $maxlengtharray));
@@ -51,6 +51,8 @@ if (isset($_POST["submit"])) {
     // phoneflag will return false (undesired) if the phone number is not valid (a number and 8 characters in length)
     $phonenumber = $_POST["phonenumber"];
     $phoneflag = empty(phoneNumRegEx($phonenumber));
+
+    var_dump($maxlengtharray);
 
     if (!($bufferflag && $emptyflag)) {
         header("location: https://www.swapamc.com/swapproj/signup?error=invalidinput");

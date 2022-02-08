@@ -29,11 +29,7 @@ if (!is_numeric($shipping_id) || strlen((string)($shipping_id))>11) {
     exit();
 }
 
-if ($jwtarrayinformation['role'] < 1) {
-    header("location: https://www.swapamc.com/swapproj/campus");
-    error_log("TPAMC:CHECKOUT(editshippingaddress):0:$ip:Error(unauthorized)", 0);
-    exit;
-}
+
 
 
 $_SESSION["shippingid"] = (int)$_GET['shippingid'];
