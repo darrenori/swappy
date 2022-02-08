@@ -26,7 +26,7 @@ if (isset($jwtarray) && $jwtarray == true) {
     } elseif ($jwtarrayinformation['loginstate'] === "Z") {
         ////Here is the code for right after sign up
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/funnctions.inc.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/googleauth/vendor/autoload.php';
 
         $username = $jwtarrayinformation['username'];
