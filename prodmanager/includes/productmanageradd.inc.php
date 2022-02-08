@@ -358,7 +358,7 @@ $_SESSION['addproduct'] = 'A';
 $_SESSION['addproductinfo'] = [$name,$storeid,$about,$price];
 $_SESSION['addproductimages'] = $productimages;
 
-print_r($productimages);
+// print_r($productimages);
 
 
 header("location: https://www.swapamc.com/swapproj/productmanagertypes");

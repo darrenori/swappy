@@ -61,8 +61,7 @@ $totalrows = sizeof($array);
 
 echo "<table  border='1'><tr>";
 echo "<th>Name</th>";
-echo "<th>OGPrice</th>";
-echo "<th>Type</th>";
+echo "<th>From</th>";
 
 for ($i = 0; $i < $totalrows; $i++) {
     $product_name = $array[$i]['product_name'];
@@ -73,7 +72,6 @@ for ($i = 0; $i < $totalrows; $i++) {
     echo "<tr>";
     echo "<td><a href='https://www.swapamc.com/swapproj/allproducts/product?id=$productid'>$product_name</a></td>";
     echo "<td><a>$product_price</a></td>";
-    echo "<td><a>$product_price</a></td>";
 
     echo "<tr>";
 }
@@ -82,7 +80,7 @@ echo "</table>";
 //types
 $alltypes = getTypeForStoreProduct($id, $conn);
 
-print_r($alltypes);
+// print_r($alltypes);
 echo "<br>";
 
 
