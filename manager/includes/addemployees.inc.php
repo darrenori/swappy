@@ -194,6 +194,46 @@ if ($result) {
 
         header("location: https://www.swapamc.com/swapproj/employeemanager");
     }
+    $query->close();
+
+    try {
+        //if user is not exisitng in users table
+        $query = $conn->prepare("UPDATE mydb.users SET user_role = 1 WHERE user_id =? ");
+        $query->bind_param('s',$user_id);
+        if ($query === false) {
+            //change filename accordingly
+            throw new Exception("Statement Preparation failed(add.inc)");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (INSERT)", 0);
+        //change header location accordingly
+        header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement");
+        exit;
+    }
+    // throws error "Statment Execution failed" when statement fails
+    try {
+        $execute = $query->execute();
+        if ($execute === false) {
+            throw new Exception("Statement Execution failed (add.inc)");
+        }
+    } catch (Exception $e) {
+        error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR executing statement (INSERT)", 0);
+        header("location: https://www.swapamc.com/swapproj/employeemanager?error=badstatement");
+        exit;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 } else {
 
     header("location: https://www.swapamc.com/swapproj/employeemanager/adduser?error=usernamefailed");

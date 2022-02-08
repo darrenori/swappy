@@ -685,7 +685,7 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-    <div class="footer">
+    <!-- <div class="footer">
 
         <div class="footer-row">
             <div class="firstfooter">
@@ -745,7 +745,7 @@ $userid = $jwtarrayinformation['userid'];
 
         </div>
 
-    </div>
+    </div> -->
 
     <script>
         var show = document.getElementById('nav-links');

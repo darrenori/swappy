@@ -340,7 +340,7 @@ if ($query->fetch()) {
         
             // print_r($jwtarrayinformation);
 
-    if($role>1){
+    if($role>=1){
         // print_r($jwtarrayinformation);
         echo "<div class='attendance-btn'>
         <button id='attendanceButton' class='attendance-btn1'>VIEW ATTENDANCE</button>
@@ -350,14 +350,14 @@ if ($query->fetch()) {
         
     }
 
-    if($role>4){
+    if($role>=4){
         echo "<div class='attendance-btn'>
         <button id='notificationButton' class='attendance-btn1'>ADD NOTIFICATIONS</button>
         </div>";
 
     }
 
-    if($role>4){
+    if($role>=4){
         echo "<div class='attendance-btn'>
         <button id='adminButton' class='attendance-btn1'>ADMIN</button>
         </div>";

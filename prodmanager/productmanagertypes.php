@@ -178,6 +178,7 @@ echo "<div class='pairing'>";
 
 echo "<div id='inputfields'>";
 
+
 echo "<div class='pairing1'><p>Type:</p></div>";
 echo '<div class="pairing2"><input type="text" class="field" name="type1"/><a href="#" class="remove_field">Remove</a></div>';
 
@@ -187,9 +188,14 @@ echo "</div>";
 // echo "<input type='submit' value='submit'>";
 echo "<input type='hidden' name='csrf' value='$csrf'>";
 
+
 echo "</form></div>
+
 <button class='submit-form' form='myform' type='submit'>Next Page</button>
-</div></div>";
+</div>
+
+</div>";
+
 
 // echo '<input type="button"  id="add" value="Add input"/>';
 

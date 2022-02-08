@@ -390,6 +390,8 @@ $filename = basename(__FILE__, '.php'); // filename variable is now set as allst
     //print_r($toGetProductCode);
     $productcode =  calculateProductCode($toGetProductCode);
 
+    echo $productcode;
+
 
     //check how much of a product is elft
     try {
@@ -469,7 +471,7 @@ $filename = basename(__FILE__, '.php'); // filename variable is now set as allst
                 echo $quantity. "<br>";
                 echo $qnleft . "<br>";
                 
-                header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=toomuch");
+                // header("location: https://www.swapamc.com/swapproj/allproducts/product?id=$productid&error=toomuch");
                 exit();
             }
 
