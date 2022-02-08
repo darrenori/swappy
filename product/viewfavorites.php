@@ -130,9 +130,28 @@ echo "<div class='body5'>";
 
 while ($query->fetch()) {
 
+    
+    // echo "$productpicone";
+    $ppic = $productpicone;
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+    $image = new Image();
+
+    $src = $image->show($ppic);
+    echo "<style>";
+    echo "#test$productid{";
+        echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+        // echo 'flex-basis: 100%;' ;
+        // echo 'height: 85vh;';
+        echo 'background-position: center;';
+        echo 'background-size: cover;';
+        echo 'background-image: black;';
+        echo 'background-repeat: no-repeat;';
+    echo "}";
+    echo "</style>";
     echo "<div class='item'>";
-    echo "<div class='item-image'>";
-    echo "$productpicone";
+    echo "<div id='test$productid' class='item-image'>";
+
+
     // echo '<img src="'.$src.'"/>';
     echo "</div>";
     echo "<div class='item-details'>";

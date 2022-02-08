@@ -592,7 +592,7 @@ font .firstfooter h5 {
     }
 }
 
-/* .navic {
+.navic {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
@@ -600,13 +600,13 @@ font .firstfooter h5 {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
-/* .navic:hover { */
+.navic:hover {
     background-color: rgba(141, 29, 37, 0.8) !important;   
 }
 
 .naviclast::before:hover {
     background-color: rgba(141, 29, 37, 0.8) !important;   
-} */
+}
 
 .nav-links {
     flex:1;

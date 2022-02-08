@@ -1,3 +1,17 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
@@ -86,7 +100,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
             overflow-x: hidden;
         }
 
-        .nav-bar {
+        /* .nav-bar {
             display: flex;
             padding: 40px 7vw;
             text-align: right;
@@ -140,7 +154,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
 
             width: 100%;
 
-        }
+        } */
 
         .btn {
             padding: 10px 20px;
@@ -472,11 +486,11 @@ if ($role == 6 || $role == 5 || $role == 2) {
             z-index: -2;
         }
     </style>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <body>
-        <div class='nav-bar'>
+        <!-- <div class='nav-bar'>
             <div class='nav-logo'>
                 <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
 
@@ -500,7 +514,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
             </div>
             <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
-        </div>
+        </div> -->
 
         <div class='hero'>
 

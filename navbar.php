@@ -293,92 +293,75 @@
 
                 if(isset($jwtarray)&&$jwtarray!=null){
                     $jwtarrayinformation = $jwtarray['array'];
-                    //signedin
+                    if($jwtarrayinformation['loginstate']==="OK"){
+                        //signedin
+
+                        ###calculate cart
+
+
+
+                        $cartsze=0;
+
+                        $useriduni=$jwtarrayinformation['userid'];
+                        try {
+                        $query = $conn->prepare("SELECT cart_id FROM mydb.user_cart 
+                        WHERE user_id = ? AND mydb.user_cart.purchased='0';");
+                        $query->bind_param('s', $useriduni);
+                        if ($query === false) {
+                            //change filename accordingly
+                            throw new Exception("Statement Preparation failed(nav)");
+                        }
+                        } catch (Exception $e) {
+                            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+                            //change header location accordingly
+                            
+                        }
+                        // throws error "Statment Execution failed" when statement fails
+                        try {
+                            $execute = $query->execute();
+                            if ($execute === false) {
+                                throw new Exception("Statement Execution failed (navbar)");
+                            }
+                        } catch (Exception $e) {
+                            error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
+                            
+                        }
+                        
+                        $result = $query->get_result();
+                        $arrayone = $result->fetch_all(MYSQLI_ASSOC);
+                        $cartsze= sizeof($arrayone);
+
+
+
+                        if($cartsze>9){
+                            $cartsze="9+";
+                        }
 
 
 
 
 
 
+                        echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
+                        echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';
+                        echo '<a href="https://www.swapamc.com/swapproj/allproducts"><li class="links">PRODUCTS</li></a>';
+                        echo '<li>';
+                            echo '<div class="profileinfo" style="color: white;">';
+                                echo "<a href='https://www.swapamc.com/swapproj/campus'><i class='navic fas fa-user'></i></a>";
+                                echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><i class='navic fas fa-shopping-cart'><span class='badge badge-warning' id='lblCartCount'>$cartsze</span></i></a>";
+                                echo "<a href='https://www.swapamc.com/swapproj/viewnotifications'><i class='navic fas fa-bell'></i></a>";
+                                echo "<a href='https://www.swapamc.com/swapproj/viewfavorites'><i class='naviclast fas fa-heart'></i></a>";
+                            echo "</div>";
+                        echo "</li>";
 
-
-
-
-
-                    ###calculate cart
-
-
-
-                    $cartsze=0;
-
-                    $useriduni=$jwtarrayinformation['userid'];
-                    try {
-                       $query = $conn->prepare("SELECT cart_id FROM mydb.user_cart 
-                       WHERE user_id = ? AND mydb.user_cart.purchased='0';");
-                       $query->bind_param('s', $useriduni);
-                       if ($query === false) {
-                           //change filename accordingly
-                           throw new Exception("Statement Preparation failed(nav)");
-                       }
-                   } catch (Exception $e) {
-                       error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
-                       //change header location accordingly
-                       
-                   }
-                   // throws error "Statment Execution failed" when statement fails
-                   try {
-                       $execute = $query->execute();
-                       if ($execute === false) {
-                           throw new Exception("Statement Execution failed (navbar)");
-                       }
-                   } catch (Exception $e) {
-                       error_log("TPAMC:" . $filename . ":3:" . $ipadd . ":1 ERROR preparing statement (SELECT)", 0);
-                       
-                   }
-                   
-                   $result = $query->get_result();
-                   $arrayone = $result->fetch_all(MYSQLI_ASSOC);
-                   $cartsze= sizeof($arrayone);
-
-
-
-                   if($cartsze>9){
-                       $cartsze="9+";
-                   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
-                    echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';
-                    echo '<a href="https://www.swapamc.com/swapproj/allproducts"><li class="links">PRODUCTS</li></a>';
-                    echo '<li>';
-                        echo '<div class="profileinfo" style="color: white;">';
-                            echo "<a href='https://www.swapamc.com/swapproj/campus'><i class='navic fas fa-user'></i></a>";
-                            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product/viewcart'><i class='navic fas fa-shopping-cart'><span class='badge badge-warning' id='lblCartCount'>$cartsze</span></i></a>";
-                            echo "<a href='https://www.swapamc.com/swapproj/viewnotifications'><i class='navic fas fa-bell'></i></a>";
-                            echo "<a href='https://www.swapamc.com/swapproj/viewfavorites'><i class='naviclast fas fa-heart'></i></a>";
-                        echo "</div>";
-                    echo "</li>";
+                    } else {
+                        echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
+                        echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';
+                        echo '<a href="https://www.swapamc.com/swapproj/allproducts/product/viewcart"><li class="links">PRODUCTS</li></a>';
+                        echo "<button onclick=location.href='https://www.swapamc.com/swapproj/login' type='button' class='btn'>LOGIN</button>";
+                        
+                    }
+                    
                 } else {
                     echo '<a href="https://www.swapamc.com/swapproj/home/"><li class="links">HOME</li></a>';
                     echo '<a  href="https://www.swapamc.com/swapproj/faq/"><li class="links">FAQs</li></a>';

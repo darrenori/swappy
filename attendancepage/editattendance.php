@@ -1,3 +1,17 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
+
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
@@ -11,7 +25,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
 
     if (empty($attendanceid)) {
         header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=invalidurl");
-        error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(invalidurl)", 0);
+        error_log("TPAMC:ATTENDANCE(editattendance):0:$ipadd:Error(invalidurl)", 0);
         exit;
     }
 
@@ -21,13 +35,13 @@ if ($role == 6 || $role == 5 || $role == 2) {
         $query->bind_param('i',  $attendanceid);
         if ($query === false) {
             throw new Exception("Statement Preparation failed (editattendance)");
-            error_log("TPAMC:ATTENDANCE:2:$ip:failed statement", 0);
+            error_log("TPAMC:ATTENDANCE:2:$ipadd:failed statement", 0);
             exit();
         }
     } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
         header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=stmtallerror");
-        error_log("TPAMC:ATTENDANCE:0:$ip:Error(stmtallerror)", 0);
+        error_log("TPAMC:ATTENDANCE:0:$ipadd:Error(stmtallerror)", 0);
         exit;
     }
 
@@ -35,12 +49,12 @@ if ($role == 6 || $role == 5 || $role == 2) {
         $execute = $query->execute();
         if ($execute  === false) {
             throw new Exception("Statement Execution failed (editattendance)");
-            error_log("TPAMC:ATTENDANCE:2:$ip:failed statement", 0);
+            error_log("TPAMC:ATTENDANCE:2:$ipadd:failed statement", 0);
             exit();
         }
     } catch (Exception $e) {
         header("location: https://www.swapamc.com/swapproj/attendance/editemployee?error=badstatement");
-        error_log("TPAMC:ATTENDANCE:0:$ip:Error(badstatement)", 0);
+        error_log("TPAMC:ATTENDANCE:0:$ipadd:Error(badstatement)", 0);
         exit;
     }
     $query->bind_result($attendanceStatus);
@@ -96,7 +110,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
             overflow-x: hidden;
         }
 
-        .nav-bar {
+        /* .nav-bar {
             display: flex;
             padding: 40px 7vw;
             text-align: right;
@@ -150,7 +164,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
 
             width: 100%;
 
-        }
+        } */
 
         .btn {
             padding: 10px 20px;
@@ -482,11 +496,11 @@ if ($role == 6 || $role == 5 || $role == 2) {
             z-index: -2;
         }
     </style>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <body>
-        <div class='nav-bar'>
+        <!-- <div class='nav-bar'>
             <div class='nav-logo'>
                 <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
 
@@ -510,7 +524,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
             </div>
             <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
 
-        </div>
+        </div> -->
 
         <div class='hero'>
 
@@ -562,7 +576,7 @@ if ($role == 6 || $role == 5 || $role == 2) {
             }
         } else {
             header("location: https://www.swapamc.com/swapproj/campus?error=unauthorized");
-            error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+            error_log("TPAMC:ATTENDANCE(editattendance):0:$ipadd:Error(unauthorized)", 0);
             exit;
         }
             ?>
@@ -648,3 +662,9 @@ if ($role == 6 || $role == 5 || $role == 2) {
     </script>
 
     </html>
+
+
+    <?php
+    ob_flush();
+
+    ?>

@@ -1,3 +1,16 @@
+<html>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</html>
+<?php
+ob_start();
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/user_auth.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+
+?>
 <?php
 
 
@@ -18,8 +31,8 @@ $csrf=generateCSRF();
 ?>
 
 <html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -29,8 +42,8 @@ $csrf=generateCSRF();
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" -->
+         <!-- integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -63,7 +76,7 @@ $csrf=generateCSRF();
         /* nav bar */
 
 
-    .nav-bar {
+    /* .nav-bar {
         display:flex;
         padding: 40px 7vw;
         text-align:right;
@@ -115,7 +128,7 @@ $csrf=generateCSRF();
         
         width:100%;
         
-    }
+    } */
     .btn {
         padding: 10px 20px;
         font-weight:100;
@@ -387,7 +400,7 @@ $csrf=generateCSRF();
 
     </style>
 
-<div class='nav-bar'>
+<!-- <div class='nav-bar'>
     <div class='nav-logo'>
         <img src="https://drive.google.com/uc?export=view&id=1sDaIqkxjzSkJAbI0nhS-gd2Roe3VlHXL" class='logo'>
         
@@ -405,7 +418,7 @@ $csrf=generateCSRF();
     </div>
     <i class="fas fa-bars menu-icon" onclick="showMenu()" style="color:white"></i>
     
-</div>
+</div> -->
 
 
 <div class="whitecontainer">
