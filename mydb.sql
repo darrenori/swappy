@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Feb 02, 2022 at 11:30 AM
+-- Generation Time: Feb 08, 2022 at 09:49 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -46,7 +46,14 @@ INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type
 (268, 'Size', 'Large', '2.3', 33918750),
 (269, 'Color', 'Black', '0', 33918750),
 (271, 'Size', 'Large', '2.3', 40029523),
-(272, 'Color', 'White', '3.1', 40029523);
+(272, 'Color', 'White', '3.1', 40029523),
+(273, 'Size', 'Large', '2.3', 29693879),
+(274, 'Color', 'White', '3.1', 29693879),
+(276, 'Size', 'Small', '0', 74866969),
+(277, 'Color', 'Black', '0', 74866969),
+(278, 'Size', 'Large', '2.3', 58386542),
+(279, 'Color', 'White', '3.1', 58386542),
+(290, 'Length', '100m', '20', 90588797);
 
 -- --------------------------------------------------------
 
@@ -95,7 +102,8 @@ CREATE TABLE `employees_task` (
 --
 
 INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_details`, `task_progress`, `task_assignedby`, `task_dateassigned`, `task_datetofinish`, `task_dateedited`) VALUES
-(10, 3, 'uwu', 'chance', '1', 'root', '2022-01-30 16:13:39', '2022-02-02 16:13:00', '2022-02-01 19:00:02');
+(14, 3, 'drink water', 'yes', '0', 'uwuone', '2022-02-07 19:25:42', '2022-03-11 19:25:00', ''),
+(15, 8, 'dont drink', 'yse', '1', 'uwuone', '2022-02-07 19:26:09', '2022-03-05 19:26:00', '2022-02-07 19:26:40');
 
 -- --------------------------------------------------------
 
@@ -123,7 +131,9 @@ CREATE TABLE `employee_attendance` (
 
 INSERT INTO `employee_attendance` (`attendance_id`, `attendance_date`, `attendance_in_time`, `attendance_out_time`, `attendance_status`, `attendance_userid`, `attendance_break`, `attendance_current_month`, `attendance_current_year`, `attendance_workingid`) VALUES
 (1, '24/01/2022', '12:58:43 am', '', 'Clock In Verified', 2, '60', '01', '2022', 3),
-(2, '25/01/2022', '11:27:11 pm', '11:27:25 pm', 'Valid', 2, '60', '01', '2022', 3);
+(2, '25/01/2022', '11:27:11 pm', '11:27:25 pm', 'Valid', 2, '60', '01', '2022', 3),
+(3, '04/02/2022', '12:29:24 am', '12:34:49 am', 'Valid', 2, '60', '02', '2022', 3),
+(4, '07/02/2022', '07:31:01 pm', '07:31:09 pm', 'To be Reviewed', 10, '60', '02', '2022', 8);
 
 -- --------------------------------------------------------
 
@@ -145,7 +155,8 @@ CREATE TABLE `employee_leave` (
 
 INSERT INTO `employee_leave` (`leave_id`, `leave_date`, `leave_status`, `leave_userid`) VALUES
 (1, '25/01/2022', 'Approved', 2),
-(2, '29/01/2022', 'Approved', 2);
+(2, '29/01/2022', 'Approved', 2),
+(3, '24/02/2022', 'To be Reviewed', 2);
 
 -- --------------------------------------------------------
 
@@ -167,19 +178,19 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (1, '05bbf12433b036df8b503f774db14486', '42'),
 (1, '0d783821eeb637b7b245f0c5b53bb191', '62'),
-(1, '2b22d78d21ff5850b75ed3d38c0111fb', '39'),
+(1, '2b22d78d21ff5850b75ed3d38c0111fb', '37'),
+(28, '35561f18e311b53886af4a8f1e6c8c13', '14'),
 (5, '38fc554ba26a85cc454f3a4b8ec7b301', '14'),
 (2, '3c771bf8d75fb729a61fd38cdf7e08c2', '10'),
-(21, '408a1744d8ac2c168bf466c088858cc0', '9'),
-(25, '463c84564ef84217c934f75641aafa2f', '5'),
-(25, '5b1dbab9438b78c28f756b31d5c7324c', '5'),
 (5, '63fbb9b1eb1701eb3ab328f218ba65df', '10'),
+(26, '665a78203087d2ff4579ad936edd324d', '50'),
 (6, '6d30558d5156e1f2e9875fcc1bfaffa8', '24'),
-(1, '7588ffe7c10af6736e7f1095d6433ea1', '9'),
+(1, '7588ffe7c10af6736e7f1095d6433ea1', '6'),
 (6, '7a05910580d20aa3e139c990b68b3673', '25'),
 (2, '7a661e7347e9d0a868cc9cdf91f634ce', '41'),
-(4, 'bd8dd1cda82f264d6a392e161e290dfa', '27'),
-(21, 'c4a1c4c2054ef9b4f8b53e305bc4fac3', '4'),
+(28, 'a9f2e3cd79fd4daa8db634dd94700fe2', '4'),
+(26, 'b0f2e7c0907c3e2bde4258c34241bbd8', '50'),
+(4, 'bd8dd1cda82f264d6a392e161e290dfa', '25'),
 (3, 'c9ca592076cfdc0f97ea3132e770c1f6', '1'),
 (3, 'f40d7fba5e93532f0c84a3a874b47889', '80');
 
@@ -207,9 +218,15 @@ INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `like
 (23, 64, 2, 3, 1),
 (24, 63, 2, 3, 1),
 (25, 62, 2, 3, 1),
-(26, 42, 2, 1, 0),
 (27, 43, 2, 1, 1),
-(29, 67, 2, 1, 1);
+(29, 67, 2, 1, 1),
+(30, 68, 10, 1, 1),
+(31, 70, 10, 1, 0),
+(32, 48, 10, 2, 1),
+(33, 75, 10, 2, 0),
+(34, 71, 10, 1, 1),
+(35, 72, 10, 2, 1),
+(36, 77, 10, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -247,7 +264,8 @@ CREATE TABLE `notification` (
 INSERT INTO `notification` (`idnotification`, `user_id`, `notification`, `header`, `level`, `type`) VALUES
 (1, 0, 'uwu', 'HARLO NOTI', 0, 0),
 (2, 2, 'um root i am testing groot', 'ee', 2, 1),
-(3, 0, 'wasup nibba', 'harlo', 0, 1);
+(3, 0, 'wasup nibba', 'harlo', 0, 1),
+(4, 2, 'jsbadbsbhd', 'sad', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -316,14 +334,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_about`, `product_picone`, `product_pictwo`, `product_picthree`, `total_quantity`, `old`) VALUES
-(1, 'Torchlight', 7.99, 'lighter', NULL, NULL, NULL, 154, NULL),
-(2, 'Cisco SG250-08 8 Port Gigabit Smart Switch SG250', 190.21, 'The Cisco 250 Series is the next generation of affordable smart switches that combine powerful network performance and reliability with a complete suite of the network features you need for a solid business network. These powerful Fast Ethernet or Gigabit Ethernet switches, with Gigabit or 10 Gigabit Ethernet uplinks, provide multiple management options, sophisticated security capabilities, fine-tuned Quality-of-Service (QoS) and Layer 3 static routing features far beyond those of an unmanaged or consumer-grade switch, at a lower cost than for fully managed switches. And with an easy-to-use web user interface, Smart Network Application, and Power over Ethernet Plus (PoE) capability, you can deploy and configure a complete business network in minutes.', '', '', '', 53, NULL),
-(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', NULL, NULL, NULL, 90, NULL),
-(4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', NULL, NULL, NULL, 21, NULL),
-(5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', NULL, NULL, NULL, 25, NULL),
-(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', NULL, NULL, NULL, 50, NULL),
-(21, 'willuwork', 23.1, 'um', NULL, NULL, NULL, 13, NULL),
-(25, 'chicken rice', 2.31, 'ansdjansjndn', NULL, NULL, NULL, 10, NULL);
+(1, 'Torchlight', 7.99, 'A flashlight (US, Canada) or torch (UK, Australia) is a portable handheld electric lamp. Formerly, the light source typically was a miniature incandescent light bulb, but these have been displaced by light emitting diodes (LEDs) since the mid 2000s. A typical flashlight consists of the light source mounted in a reflector, a transparent cover (sometimes combined with a lens) to protect the light source and reflector, a battery, and a switch, all enclosed in a case.', 'prodimg/torchlight.jpg', NULL, NULL, 147, NULL),
+(2, 'Cisco SG250-08 8 Port Gigabit Smart Switch SG250', 190.21, 'The Cisco 250 Series is the next generation of affordable smart switches that combine powerful network performance and reliability with a complete suite of the network features you need for a solid business network. These powerful Fast Ethernet or Gigabit Ethernet switches, with Gigabit or 10 Gigabit Ethernet uplinks, provide multiple management options, sophisticated security capabilities, fine-tuned Quality-of-Service (QoS) and Layer 3 static routing features far beyond those of an unmanaged or consumer-grade switch, at a lower cost than for fully managed switches. And with an easy-to-use web user interface, Smart Network Application, and Power over Ethernet Plus (PoE) capability, you can deploy and configure a complete business network in minutes.', 'prodimg/cisco.jpg', '', '', 53, NULL),
+(3, 'LAN CABLE CAT 6 UTP', 10.9, 'Cat 6, is a standardized twisted pair cable for Ethernet and other network physical layers that is backward compatible with the Category 5/5e and Category 3 cable standards. Compared with Cat 5 and Cat 5e, Cat 6 features more stringent specifications for crosstalk and system noise. The cable standard specifies performance of up to 250 MHz.', 'prodimg/cable.jpg', NULL, NULL, 90, NULL),
+(4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', 'prodimg/large.jpg', NULL, NULL, 21, NULL),
+(5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', 'prodimg/tplink.jpg', NULL, NULL, 25, NULL),
+(6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', 'prodimg/engine.jpg', NULL, NULL, 50, NULL),
+(26, 'TPAMC Version 7 Router', 99, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet. Data sent through the internet, such as a web page or email, is in the form of data packets.', 'prodimg/tpamc.jpg', NULL, NULL, 100, NULL),
+(28, 'Batteries', 2.1, 'An electric battery is a source of electric power consisting of one or more electrochemical cells with external connections for powering electrical devices. When a battery is supplying electric power, its positive terminal is the cathode and its negative terminal is the anode. The terminal marked negative is the source of electrons that will flow through an external electric circuit to the positive terminal. When a battery is connected to an external electric load, a redox reaction converts high-energy reactants to lower-energy products, and the free-energy difference is delivered to the external circuit as electrical energy. Historically the term battery specifically referred to a device composed of multiple cells however, the usage has evolved to include devices composed of a single cell.', 'uploads/IMG-62020f944e7f54.21005989.jpg', NULL, NULL, 18, NULL);
 
 -- --------------------------------------------------------
 
@@ -354,12 +372,10 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 (5, 12),
 (6, 13),
 (6, 14),
-(21, 61),
-(21, 62),
-(21, 63),
-(25, 71),
-(25, 72),
-(25, 73);
+(26, 74),
+(26, 75),
+(28, 78),
+(28, 79);
 
 -- --------------------------------------------------------
 
@@ -387,20 +403,27 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `review_comment`, `review_rating`, `review_pic`, `review_total_likes`, `review_total_dislikes`, `review_date`, `childof_id`, `edited`) VALUES
-(42, 1, 2, 'ead', 2, 'uploads/IMG-61cea8bab469c9.94053952.jpg', 0, 1, '2021-12-31 14:52:42', NULL, NULL),
 (43, 1, 2, 'uwu', 0, '', 1, 0, '2021-12-31 14:54:36', 42, NULL),
-(46, 4, 2, 'dar', 2, 'uploads/IMG-61d27bbf4c5e92.66886824.png', 0, 0, '2022-01-03 12:29:51', NULL, NULL),
-(48, 2, 2, 'katamine', 2, 'uploads/IMG-61d400cc221287.01194408.jpg', 0, 0, '2022-01-04 16:09:48', NULL, NULL),
+(48, 2, 2, 'katamine', 2, 'uploads/IMG-61d400cc221287.01194408.jpg', 1, 0, '2022-01-04 16:09:48', NULL, NULL),
 (51, 2, 2, 'asdds', 3, 'uploads/IMG-61f57de7ed4421.06036147.png', 0, 0, '2022-01-30 01:48:24', NULL, NULL),
 (52, 2, 2, 'asd', 2, 'uploads/IMG-61f57dfa068300.43887107.png', 0, 0, '2022-01-30 01:48:42', NULL, NULL),
-(53, 2, 2, 'asdsd', 3, 'uploads/IMG-61f57e6f9d99c8.73472745.png', 0, 0, '2022-01-30 01:50:39', NULL, NULL),
+(53, 2, 2, 'ok', 2, 'uploads/IMG-61f57e6f9d99c8.73472745.png', 0, 0, '2022-01-30 01:50:39', NULL, 1),
 (54, 6, 2, 'asd', 2, 'uploads/IMG-61f58091b6d7a2.12559038.png', 0, 0, '2022-01-30 01:59:45', NULL, NULL),
 (55, 6, 2, 'asd', 0, '', 0, 0, '2022-01-30 02:01:22', 54, NULL),
 (62, 3, 2, 'why', 3, 'uploads/IMG-61f589788e6130.64497937.png', 1, 0, '2022-01-30 02:37:44', NULL, 1),
 (63, 3, 2, 'yay', 5, '', 1, 0, '2022-01-30 02:37:49', 62, 1),
 (64, 3, 2, 's', 0, '', 1, 0, '2022-01-30 03:01:12', 62, NULL),
 (65, 3, 2, 'hello reply', 0, '', 1, 0, '2022-01-30 03:23:04', 62, NULL),
-(67, 1, 2, 'sd', 0, '', 1, 0, '2022-01-31 02:05:25', 66, NULL);
+(67, 1, 2, 'sd', 0, '', 1, 0, '2022-01-31 02:05:25', 66, NULL),
+(68, 1, 10, 'hi! mr kenneth', 2, 'uploads/IMG-61ffbe7dd34f06.08278005.png', 1, 0, '2022-02-06 20:26:37', NULL, 1),
+(70, 1, 10, 'sa', 5, '', 0, 1, '2022-02-07 01:50:56', 68, 1),
+(71, 1, 10, 'jn', 0, '', 1, 0, '2022-02-07 03:03:05', 68, NULL),
+(72, 2, 10, 'k', 0, '', 1, 0, '2022-02-07 03:38:54', 48, NULL),
+(73, 2, 10, 'asd', 1, 'uploads/IMG-6200244a124f16.94952625.png', 0, 0, '2022-02-07 03:40:58', NULL, NULL),
+(75, 2, 10, 'y', 0, '', 0, 1, '2022-02-07 03:58:00', 52, NULL),
+(76, 1, 10, 'uwuwuwu', 0, '', 0, 0, '2022-02-07 15:29:50', 68, NULL),
+(77, 1, 10, 'sd', 4, 'uploads/IMG-6200ca7fa52ca3.82760954.png', 0, 1, '2022-02-07 15:30:07', NULL, 1),
+(78, 1, 10, 'k', 0, '', 0, 0, '2022-02-07 15:56:18', 68, NULL);
 
 -- --------------------------------------------------------
 
@@ -442,8 +465,7 @@ CREATE TABLE `store` (
 
 INSERT INTO `store` (`store_id`, `store_name`, `store_pricepoint`, `store_about`, `store_picone`, `store_pictwo`, `store_picethree`, `store_address`, `store_number`, `store_url`, `store_status`, `store_rating`) VALUES
 (1, 'TPAMC', 1, 'Industry 4.0 is set to transform Singapore’s manufacturing sector, as more companies embrace advanced manufacturing technologies to increase their productivity and efficiency.', NULL, NULL, NULL, '21 Tampines Ave 1, Singapore 529757', '6788 2000', 'https://www.tp.edu.sg/research-and-industry/centres-of-excellence/centres-under-school-of-engineering/advanced-manufacturing-centre.html', 1, NULL),
-(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL),
-(3, 'anjsndjnsdnj', 1, 'njsjdjnsdj', 'uploads/IMG-61f96efcafdee8.46392473.png', NULL, NULL, 'jndnsjnnds', '83810308', 'www.abc.com', 1, 0);
+(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -467,8 +489,8 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 21),
-(1, 25),
+(1, 26),
+(1, 28),
 (2, 2);
 
 -- --------------------------------------------------------
@@ -550,7 +572,13 @@ INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`, `autom
 (70, 'ds', '12', 0, '71622024'),
 (71, 'Color', 'green', 23, '68363530'),
 (72, 'Color', 'yellow', 10, '68363530'),
-(73, 'Size', 'large', 12, '68363530');
+(73, 'Size', 'large', 12, '68363530'),
+(74, 'Set-Up', 'Yes', 30.12, '54683389'),
+(75, 'Set-Up', 'No', 0, '54683389'),
+(76, 'Size', '10 Pack', 0, '80960914'),
+(77, 'Size', '20 Pack', 10, '80960914'),
+(78, 'Size', 'Ten', 0, '73028503'),
+(79, 'Size', 'Twenty', 0, '73028503');
 
 -- --------------------------------------------------------
 
@@ -584,11 +612,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, `user_lname`, `user_role`, `username_email`, `user_number`, `date_of_signup`, `user_security_primaryschool`, `user_security_favoritefood`, `user_secret`, `user_profilepicture`, `user_suspended`, `user_failedattempts`, `user_warning`, `suspendedfinish`) VALUES
-(2, 'root', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'root', 'root', 6, 'roos@gmail.com', '91231231', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-61e1cb8da936a9.05590953.jpg', 0, 3, NULL, 0),
+(2, 'root', '$2y$10$l1A.j48JvlRzUv9T2t5GyeICoUOeemYpLdY67CM41n99q9fvlhBWi', 'rootasd', 'root', 6, 'darrennorii@gmsdfsail.com', '91231231', '12/19/2021 07:53:08 pm', 'root', '123', 'NR32XESQHYRR7ERX', 'uploads/IMG-61fc2161542317.26040908.png', 0, 1, NULL, 0),
 (4, 'tester', '$2y$10$1miKrdsJ6O7MIYXWaBfF7uuzFDa1VqJGJtGRXCU.mvwKqpirdj636', 'tester', 'tester', 6, 'tester@gmail.com', '213aa', '2022-01-04 16:56:49', 'tester', 'tester', 'VSOARC5JUW5O5UM7', 'uploads/IMG-61d41294d13813.99076896.png', NULL, NULL, NULL, NULL),
-(5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(5, 'darrenori', '$2y$10$X5SzfUxvo7BH5yFWfVE9YOZMl0mii4AZxLMv5E.E53LrweUNsMxqG', 'darren', 'ong', 6, 'darrennsorii@gmail.com', '12311232', '2022-01-07 00:27:30', 'ed', 'as', '5W5JRR2HCZHG2HSF', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, 4, NULL, NULL),
 (6, 'uwu', '$2y$10$5CtQeNMv8ZjRTFhyJT8SIOfOsEXl.HgHZWz0SQXOQH2dOo1DJIY/i', 'uwu', 'uwu', 0, 'uwu@gmail.com', '91922121', '2022-01-07 14:38:14', '123', '123', 'G6ZZUTKR5S3UNV4Y', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
-(7, 'darrenasd', '$2y$10$MqKo09oW55SGOxbTze.mB.aFysxF1hu6vkBJ56o.ZJCrOEXdVeZTa', 'darren', 'darren', 0, 'darrenasd@gmail.com', '91031231', '2022-01-31 17:27:11', 'a', 'a', 'HOOTJPVWUD33BZAJ', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
+(7, 'darrenasd', '$2y$10$MqKo09oW55SGOxbTze.mB.aFysxF1hu6vkBJ56o.ZJCrOEXdVeZTa', 'darren', 'darren', 0, 'darrenasd@gmail.com', '91031231', '2022-01-31 17:27:11', 'a', 'a', 'HOOTJPVWUD33BZAJ', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, 1, NULL, NULL),
+(8, 'darrenong', '$2y$10$l1A.j48JvlRzUv9T2t5GyeICoUOeemYpLdY67CM41n99q9fvlhBWi', 'darrenong', 'darrenong', 0, 'asdasd', '83180308', '2022-02-04 00:01:47', '123', '123', 'KPEREHOPIZEYYJMN', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(9, 'darren', '$2y$10$ejXfpYM2tYUJwq9E/7CV0.NmUSnqdDZtLzCckQasqiTwdcIl8rlt6', 'darren', 'daren', 6, 'darrensdsnorii@gmail.com', '83180308', '2022-02-04 17:08:34', 'asd', 'asd', '74VMGSWM2QLMTYIA', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, 2, NULL, NULL),
+(10, 'uwuone', '$2y$10$dMx42Q8KpqevVjJxFB36CObK0mrRNqVEcZAlBgwWE3tOuVtoqriVK', 'uwu', 'darren', 6, 'darrennorii@gmail.com', '83180308', '2022-02-06 01:58:08', 'asd', 'asd', 'G6PNAK736DLQKVCD', 'uploads/IMG-6200ca4fb81286.45763906.jpg', NULL, 2, NULL, NULL),
+(11, 'uwu2', '$2y$10$CXFBN88rGVWIEeqFfblgfOD6XO1EhvHbrBUrNWo1JQbfm.VHT8ej2', 'uwu2', 'uwu2', 0, 'uwu2@gmail.com', '83180308', '2022-02-06 18:13:04', 'asd', 'asd', '6DECSUZDIICQYQYG', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -608,7 +640,8 @@ CREATE TABLE `usersfavorite` (
 
 INSERT INTO `usersfavorite` (`product_id`, `user_id`) VALUES
 (3, 2),
-(1, 2);
+(1, 2),
+(26, 10);
 
 -- --------------------------------------------------------
 
@@ -649,8 +682,15 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
+(18095979, 10, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 2, 824.84, 68870313, 1),
+(29693879, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 2, 26.78, 0, 0),
 (33918750, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 1, 10.29, 95414179, 1),
-(40029523, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 0, 0);
+(40029523, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 59636840, 1),
+(58386542, 10, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 54591425, 1),
+(67573068, 2, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 0, 0),
+(74866969, 2, 1, '05bbf12433b036df8b503f774db14486', 2, 15.98, 0, 0),
+(86976113, 9, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 0, 0),
+(90588797, 10, 3, 'f40d7fba5e93532f0c84a3a874b47889', 1, 30.9, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -676,7 +716,10 @@ CREATE TABLE `user_creditcardinfo` (
 --
 
 INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinfo_userid`, `user_creditcardinfo_nameoncard`, `user_creditcardinfo_expirymonth`, `user_creditcardinfo_expiryyear`, `user_creditcardinfo_cardtype`, `user_creditcardinfo_cardnumb`, `user_creditcardinfo_encryptkey`, `user_creditcardinfo_iv`) VALUES
-(35, 2, 'darren', '12', '2023', 'visa', 'Xy7WDtY21UuqlZlRIrVwZg==', '294928c71509a94cacd30b53ee81bc286eced837a5e4e8ac', '00fe9b9eee645bbfc64eb586548b9f68');
+(35, 2, 'darren', '12', '2023', 'visa', 'Xy7WDtY21UuqlZlRIrVwZg==', '294928c71509a94cacd30b53ee81bc286eced837a5e4e8ac', '00fe9b9eee645bbfc64eb586548b9f68'),
+(36, 2, 'asd', '12', '2023', 'visa', 'CdeXs3ZWwqlNzVASNW3T6g==', '7687d6e7cdd69040af8569969019198c5d993d089bf0785b', '575fe139050fb4fff02da5f60bbf23a2'),
+(37, 10, 'darren', '12', '2023', 'visa', '0IdOngV8Wwe1MDtdAAsf6A==', 'b73c6bcf2b66557325a851f52b890e07372f1889df86de9d', '2fea43b04cbff8a9786d1b60b01c79e7'),
+(38, 10, 'darren', '12', '2023', 'visa', 'ynJMX04ZoUrN64Hv15IHFA==', '5cab931eff50201cc7e40b418b0e198858d33780bdeef9a6', 'da53111577add87658716ea8b9c5d51a');
 
 -- --------------------------------------------------------
 
@@ -713,7 +756,10 @@ CREATE TABLE `user_past_purchases` (
 --
 
 INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `user_creditcards`, `purchase_time`, `purchase_cost`, `purchase_status`, `cart_bundled`) VALUES
-(27, 2, 9, 35, '2022-02-01 21:24:16', 11.0103, 2, 95414179);
+(27, 2, 9, 35, '2022-02-01 21:24:16', 11.0103, 2, 95414179),
+(28, 2, 9, 36, '2022-02-03 18:47:57', 14.3273, 2, 59636840),
+(29, 10, 12, 37, '2022-02-05 19:03:44', 14.3273, 0, 54591425),
+(30, 10, 12, 38, '2022-02-07 20:10:03', 882.579, 0, 68870313);
 
 -- --------------------------------------------------------
 
@@ -745,9 +791,10 @@ INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_numbe
 (6, '12311231', 'new@gmail.com', 'kmasdkm', '123123', '12312', 5, 1, 'new', ''),
 (7, '83182912', 'asds@gmail.com', '231 sd', '123123', '14-2301', 2, 0, 'asdasd', '1'),
 (8, '12312312', 'sndjnjn@gmail.com', 'aksndanjsndj', '123123', '12-230', 2, 0, 'asdasn', '1'),
-(9, '83810308', 'jnsadnjdsnj@gmail.com', 'absdhbahsbdbhb', '820123', '14-230', 2, 1, 'darren', ''),
+(9, '83810308', 'jnsadnjdsnj@gmail.com', 'absdhbahsbdbhb', '820123', '14-230', 2, 1, 'darrenasd', ''),
 (10, '83180308', 'darren@gmail.com', 'asd', '123123', '14-230', 2, 0, 'darrren', '1'),
-(11, '83182312', 'darern@gamil.com', 'asd', '123123', '14-230', 7, 1, 'darren', '');
+(11, '83182312', 'darern@gamil.com', 'asd', '123123', '14-230', 7, 1, 'darren', ''),
+(12, '91232312', 'jogn@gmail.com', '2223', '231123', '31231', 10, 1, 'jogn', '');
 
 -- --------------------------------------------------------
 
@@ -786,7 +833,8 @@ CREATE TABLE `working_employees` (
 --
 
 INSERT INTO `working_employees` (`working_id`, `user_id`, `working_role`, `working_number`, `working_department`, `working_perhourpay`) VALUES
-(3, 2, 'Engineers', '91226969', 'Labour', 12312);
+(3, 2, 'Engineers', '91226969', 'Labour', 10),
+(8, 10, 'C Suite', '83180308', 'C Suite', 1000);
 
 --
 -- Indexes for dumped tables
@@ -1004,7 +1052,7 @@ ALTER TABLE `working_employees`
 -- AUTO_INCREMENT for table `cart_typevariants`
 --
 ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1016,31 +1064,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `employees_task`
 --
 ALTER TABLE `employees_task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `employee_leave`
 --
 ALTER TABLE `employee_leave`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `likedby`
 --
 ALTER TABLE `likedby`
-  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `place`
@@ -1052,13 +1100,13 @@ ALTER TABLE `place`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `store`
@@ -1076,13 +1124,13 @@ ALTER TABLE `total_people_in_lab`
 -- AUTO_INCREMENT for table `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_booking`
@@ -1094,19 +1142,19 @@ ALTER TABLE `user_booking`
 -- AUTO_INCREMENT for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `user_past_purchases`
 --
 ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `user_shippinginformation`
 --
 ALTER TABLE `user_shippinginformation`
-  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `working_booking`
@@ -1118,7 +1166,7 @@ ALTER TABLE `working_booking`
 -- AUTO_INCREMENT for table `working_employees`
 --
 ALTER TABLE `working_employees`
-  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
