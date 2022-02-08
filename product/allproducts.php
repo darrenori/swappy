@@ -169,7 +169,7 @@ $query->bind_result($id, $name, $price,$picone);
 
 
 while ($query->fetch()) {
-    $allproductslist[$id] = [$price, $name,$picone];
+    $allproductslist[$name] = [$price, $id,$picone];
 }
 
 
@@ -199,10 +199,10 @@ if ($sortname) {
         $sortNamedirection = htmlentities($_GET['sortname']);
         if ($sortNamedirection === "descending") {
             $namevalue = "none";
-            rsort($allproductslist);
+            krsort($allproductslist);
         } else if ($sortNamedirection === "ascending") {
             $namevalue = "descending";
-            sort($allproductslist);
+            ksort($allproductslist);
         } else {
             $namevalue = "ascending";
         }
@@ -280,14 +280,13 @@ echo '</form></div></div></div></div>';
 
 echo "<div class='container5'>";
 foreach ($allproductslist as $key => $val) {
-    
     $ppic = $val[2];
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
     $image = new Image();
 
     $src = $image->show($ppic);
     echo "<style>";
-    echo "#test$key{";
+    echo "#test$val[1]{";
         echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
         // echo 'flex-basis: 100%;' ;
         // echo 'height: 85vh;';
@@ -299,13 +298,13 @@ foreach ($allproductslist as $key => $val) {
     echo "</style>";
     
     echo "<div class='item'>";
-    echo "<div id='test$key' class='itemimage'>";
+    echo "<div id='test$val[1]' class='itemimage'>";
 
 
         
     echo "</div>";
         echo "<div class='itemname'>";
-            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$key'>$val[1] </a>";
+            echo "<a href='https://www.swapamc.com/swapproj/allproducts/product?id=$val[1]'>$key </a>";
             echo "<p style='background-color:white;color:#8D1D25'>$$val[0]</p>";
 
         echo "</div>";
