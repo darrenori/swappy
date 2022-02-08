@@ -24,11 +24,7 @@ $selectedcarts = [];
     include 'checkoutpage/css/checkout.css';
     $jwtarray = jwtdecrypt();
     
-    if ($jwtarrayinformation['role'] < 1) {
-        header("location: https://www.swapamc.com/swapproj/campus");
-        error_log("TPAMC:CHECKOUT(checkout):0:$ip:Error(unauthorized)", 0);
-        exit;
-    }
+   
 
     ?>
 </style>

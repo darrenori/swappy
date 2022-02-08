@@ -16,11 +16,7 @@ $emailotp = $jwtarrayinformation["emailotp"];
 echo $emailotp;
 
 
-if($jwtarrayinformation['role']<1){
-    header("location: https://www.swapamc.com/swapproj/campus");
-    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
-    exit;
-}
+
 
 
 if ($jwtarrayinformation["checkoutstate"] === "A") {

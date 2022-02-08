@@ -9,11 +9,7 @@ if (isset($_POST["addAdr"])) {
 
 
 
-    if ($jwtarrayinformation['role'] < 1) {
-        header("location: https://www.swapamc.com/swapproj/campus");
-        error_log("TPAMC:CHECKOUT(addshippingaddressinc):0:$ip:Error(unauthorized)", 0);
-        exit;
-    }
+   
     ### CSRF ####
     if (validateCSRF() == false) {
         $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

@@ -8,11 +8,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/dbh.inc.php';
 
 
 $userid = $jwtarrayinformation['userid'];
-if($jwtarrayinformation['role']<1){
-    header("location: https://www.swapamc.com/swapproj/campus");
-    error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
-    exit;
-}
+// if($jwtarrayinformation['role']<1){
+//     header("location: https://www.swapamc.com/swapproj/campus");
+//     error_log("TPAMC:ATTENDANCE(editattendance):0:$ip:Error(unauthorized)", 0);
+//     exit;
+// }
 ?>
 <html>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -38,6 +38,11 @@ if($jwtarrayinformation['role']<1){
             margin: 0;
             padding: 0;
             font-family: sans-serif;
+        }
+        .empty{
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2em;
         }
 
         body {
@@ -552,7 +557,7 @@ if($jwtarrayinformation['role']<1){
 
                 $result = $query->get_result();
                 $array = $result->fetch_all(MYSQLI_ASSOC);
-
+                if (empty($array)) exit('Empty');
                 $query->close();
 
 
@@ -898,7 +903,11 @@ if($jwtarrayinformation['role']<1){
 
             $result = $query->get_result();
             $array = $result->fetch_all(MYSQLI_ASSOC);
-
+            if (empty($array)) {
+            echo "<p class=empty    >Empty</p>";
+            exit;
+            } 
+            
             $query->close();
 
 
@@ -1036,6 +1045,7 @@ if($jwtarrayinformation['role']<1){
                 }
 
                 $result = $query->get_result();
+                if (empty($result) === 0) exit('Empty');
                 $arrayone = $result->fetch_all(MYSQLI_ASSOC);
 
                 $query->close();

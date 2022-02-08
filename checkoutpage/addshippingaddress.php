@@ -17,11 +17,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
     $csrf= generateCSRF();
 
-    if ($jwtarrayinformation['role'] < 1) {
-        header("location: https://www.swapamc.com/swapproj/campus");
-        error_log("TPAMC:CHECKOUT(addshippingaddress):0:$ip:Error(unauthorized)", 0);
-        exit;
-    }
+
     ?>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

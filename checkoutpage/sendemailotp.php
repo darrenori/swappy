@@ -6,6 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/SMTP.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/PHPMailer.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/phpmailer/includes/Exception.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 $jwtarray = jwtdecrypt();
 $jwtarrayinformation = $jwtarray['array'];
 

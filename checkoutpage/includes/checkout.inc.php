@@ -26,11 +26,7 @@ if (isset($_POST["submit"])) {
 
     session_regenerate_id();
  
-    if ($jwtarrayinformation['role'] < 1) {
-        header("location: https://www.swapamc.com/swapproj/campus");
-        error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(unauthorized)", 0);
-        exit;
-    }
+   
 
     $whitelist = ['cname', 'ccnum', 'expmonth', 'expyear', 'cvc'];
     $_POST = XSSPrevention($_POST, $whitelist);

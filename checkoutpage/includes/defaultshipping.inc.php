@@ -10,11 +10,7 @@ if(isset($jwtarray)&&$jwtarray==true){
 
 }
 
-if ($jwtarrayinformation['role'] < 1) {
-    header("location: https://www.swapamc.com/swapproj/campus");
-    error_log("TPAMC:CHECKOUT(defaultshippinginc):0:$ip:Error(unauthorized)", 0);
-    exit;
-}
+
 
 // user set default shipping = 0 / 1
 $userid = $jwtarrayinformation['userid'];
