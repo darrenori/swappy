@@ -69,10 +69,10 @@ $emptyflag = empty(checkEmpty($_POST, $requiredfields));
 
 //is id valid
 if ($emptyflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
     exit();
 } elseif ($bufferflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
     exit();
 } // log changes to websitelink
 else
@@ -122,10 +122,10 @@ if ($phoneflag === false) {
 
 //is id valid
 if ($emptyflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=missingfields");
     exit();
 } elseif ($bufferflag === false) {
-    header("location: https://www.https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
+    header("location: https://www.swapamc.com/swapproj/storemanager/editstore?id=$id&error=longinput");
     exit();
 } 
 if ($phoneflag === false) {
