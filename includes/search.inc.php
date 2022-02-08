@@ -233,13 +233,20 @@ if (isset($_POST['searchitem'])) {
 
     //print out store results
     if (!empty($filteredstoreslist)) {
-        echo "Showing <b>Store</b> results for <i>" . $searchitem . "</i><br>";
+        echo "<div class='category55'>Showing &nbsp;<b>Store</b>&nbsp; results for &nbsp;<i>" . $searchitem . "</i></div>";
+        echo "<div class='container5'>";
         foreach ($filteredstoreslist as $key => $value) {
+            // echo "<div class='itemname'>";
+            // echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$value</a>";
+            // echo "<br>";
+
+            echo "<div class='item'>";
+            echo "<div class='itemimage'></div>";
             echo "<div class='itemname'>";
-            echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$value</a>";
-            echo "<br>";
+            echo "<a href='https://www.swapamc.com/swapproj/allstores/store?id=$key'>$value  </a>";
+            echo "</div></div><br>";
         }
-        echo "<br><br>";
+        echo "</div><br><br>";
     }
 
 

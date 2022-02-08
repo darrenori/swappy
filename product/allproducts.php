@@ -228,7 +228,7 @@ $currenturlstripped = preg_replace('/[^a-zA-Z0-9\=\?\/(\/swapproj)]+/', '', $_SE
                     <div class='imgdetailsprice'>Price: <span class='prc'>$99</span></div>
                     
                     <div class='imgdetailsbuynow'>
-                    <button class='buynow'>Buy Now</button>
+                    <a href='https://www.swapamc.com/swapproj/allproducts/product?id=26' style='color:white;text-decoration:none;'><button class='buynow'>Buy Now</button></a>
                     </div>
                 </div>
                 <div style='height:auto'>

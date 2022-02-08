@@ -1071,55 +1071,67 @@ function sanitizeHTML(text) {
     }
 
     function favorite(productid){
-        var array= {};
-        array['type'] = 'ajax';
-        array['productid'] = productid;
-        array['csrf'] = '<?php echo $csrf; ?>';
+            var array= {};
+            array['type'] = 'ajax';
+            array['productid'] = productid;
+            array['csrf'] = '<?php echo $csrf; ?>';
 
-        var jsonString = JSON.stringify(array);
+            var jsonString = JSON.stringify(array);
 
-        jQuery.ajax({
-            url:'https://www.swapamc.com/swapproj/product/favorite?id='+productid,
-            type:'post',
-            data: {info:jsonString},
-            
+            jQuery.ajax({
+                url:'https://www.swapamc.com/swapproj/product/favorite?id='+productid,
+                type:'post',
+                data: {info:jsonString},
+                
 
-            success:function(result){
-                console.log(result);
+                success:function(result){
+                    console.log(result);
 
-
-
-                if(result=='favorited'){
                     
 
-                    if(document.getElementById("favorite"+productid)){
-                        document.getElementById("favorite"+productid).classList.add("afterfavoritebtn");
-                        document.getElementById("favorite"+productid).classList.remove("favoritebtn");
+
+                    if(result.includes('unfavorited')){
+
                         
-                        // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
+
+                        if(document.getElementById("favorite"+productid)){
+                            document.getElementById("favorite"+productid).classList.remove("afterfavoritebtn");
+                            document.getElementById("favorite"+productid).classList.add("favoritebtn");
+
+                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
+                        }
+
+                        
+
+
+                    } else if (result.includes('favorited')){
+                        if(document.getElementById("favorite"+productid)){
+                            document.getElementById("favorite"+productid).classList.add("afterfavoritebtn");
+                            document.getElementById("favorite"+productid).classList.remove("favoritebtn");
+                            
+                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
+                        }
+
+
+                        
                     }
 
                     
 
 
-                } else if (result=='unfavorited'){
 
-                    if(document.getElementById("favorite"+productid)){
-                        document.getElementById("favorite"+productid).classList.remove("afterfavoritebtn");
-                        document.getElementById("favorite"+productid).classList.add("favoritebtn");
+                    
 
-                        // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
-                    }
+                    
+                    
+                    
                 }
 
-                
-            }
-
-        });
-        
-        
-        
-    }
+            });
+            
+            
+            
+        }
 
     function calculateInventory(){
 

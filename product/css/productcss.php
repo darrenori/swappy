@@ -36,7 +36,7 @@ overflow-x: hidden;
     display: flex;
     padding: 20px 0px;
     flex-wrap: wrap;
-    flex-basis: 35%;    
+    flex-basis: 42%;    
     /* background-color: gainsboro; */
 }
 

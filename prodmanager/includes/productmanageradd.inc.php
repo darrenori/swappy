@@ -38,7 +38,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 //check if quantity valid
 $whitelist=['storeid','about','price','name'];
 $maxlengtharray['storeid']=11;
-$maxlengtharray['about']=255;
+$maxlengtharray['about']=65535;
 $maxlengtharray['price']=11;
 $maxlengtharray['name']=100;
 $methd = $_POST;

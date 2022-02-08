@@ -293,6 +293,22 @@ function getRating($number,$reviewid){
 
 
         if(isset($productpicturea)&&$productpicturea!=null){
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+            $image = new Image();
+            // print_r($productpicturea);
+
+            $src = $image->show($productpicturea);
+            echo "<style>";
+            echo ".rectangle{";
+                echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                echo 'flex-basis: 100%;';
+                echo 'height: 85vh;';
+                echo 'background-position: center;';
+                echo 'background-size: cover;';
+                echo 'background-image: black;';
+                echo 'background-repeat: no-repeat;';
+            echo "}";
+            echo "</style>";
             
 
         } else {
@@ -1635,22 +1651,12 @@ if(sizeOf($array)==1){
                 success:function(result){
                     console.log(result);
 
+                    
 
 
-                    if(result=='favorited'){
-                        
-
-                        if(document.getElementById("favorite"+productid)){
-                            document.getElementById("favorite"+productid).classList.add("afterfavoritebtn");
-                            document.getElementById("favorite"+productid).classList.remove("favoritebtn");
-                            
-                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
-                        }
+                    if(result.includes('unfavorited')){
 
                         
-
-
-                    } else if (result=='unfavorited'){
 
                         if(document.getElementById("favorite"+productid)){
                             document.getElementById("favorite"+productid).classList.remove("afterfavoritebtn");
@@ -1658,6 +1664,20 @@ if(sizeOf($array)==1){
 
                             // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Favorite This</button>";
                         }
+
+                        
+
+
+                    } else if (result.includes('favorited')){
+                        if(document.getElementById("favorite"+productid)){
+                            document.getElementById("favorite"+productid).classList.add("afterfavoritebtn");
+                            document.getElementById("favorite"+productid).classList.remove("favoritebtn");
+                            
+                            // document.getElementById("favorite"+productid).innerHTML = "<button type='button'  onclick='favorite("+productid+")'>Unfavorite</button>";
+                        }
+
+
+                        
                     }
 
                     
