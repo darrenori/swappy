@@ -53,6 +53,7 @@ $cartidrows = [];
 $productnamerows = [];
 $productpricerows = [];
 $arrayforemptytypes = [];
+$productpicrows = [];
 $totalprice = 0;
 
 if ($query->execute()) {
@@ -64,6 +65,7 @@ if ($query->execute()) {
         array_push($productnamerows, $productname);
         array_push($productpricerows, $productprice);
         array_push($arrayforemptytypes, [$emptyquantity, $emptyprice]);
+        array_push($productpicrows,$productpic);
     }
 }
 
@@ -234,11 +236,13 @@ if (isset($selectedcarts)) {
             echo "<div class='picture'>";
 
             require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
-
+            $scpic = $productpicrows[$i];
             $image = new Image();
-            $src = $image->show("uploads/IMG-DEFAULTPROFILE.jpg");
+            $src = $image->show($scpic);
 
-            echo '<img class="pic" width=150px src="' . $src . '" />';
+            
+
+            echo '<img class="pic" width=150px height=150px src="' . $src . '" />';
 
 
             echo "</div>";

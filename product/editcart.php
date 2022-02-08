@@ -334,9 +334,24 @@ $jwtarray = jwtdecrypt();
 
 
 
+            if(isset($picone)){
+                echo "<style>";
+                echo ".rectangle{";
+                    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
+                    $image = new Image();
+                    $src = $image->show($picone);
+                    echo "background:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('$src');";
+                    echo 'flex-basis: 100%;';
+                    echo 'height: 85vh;';
+                    echo 'background-position: center;';
+                    echo 'background-size: cover;';
+                    echo 'background-image: black;';
+                    echo 'background-repeat: no-repeat;';
+                echo "}";
+                echo "</style>";
 
-
-            echo "<style>";
+            } else {
+                echo "<style>";
                 echo ".rectangle{";
                     require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
                     $image = new Image();
@@ -349,7 +364,12 @@ $jwtarray = jwtdecrypt();
                     echo 'background-image: black;';
                     echo 'background-repeat: no-repeat;';
                 echo "}";
-            echo "</style>";
+                echo "</style>";
+
+            }
+    
+
+            
 
             $query->close();
             //check if information matches in database
