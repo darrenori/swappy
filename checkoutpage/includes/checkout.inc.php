@@ -1,9 +1,9 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
+// require $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
 if (isset($_POST["submit"])) {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/checkoutpage/verification.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/authorization.inc.php';
-$filename = basename(__FILE__, '.php'); // filename variable is now set as allstores for example
+    
     var_dump($_POST['csrf']);
     session_start();
 
@@ -47,7 +47,7 @@ $filename = basename(__FILE__, '.php'); // filename variable is now set as allst
 
 
     if (!($bufferflag && $emptyflag)) {
-        header("location: https://www.swapamc.com/swapproj/checkout/checkout?error=invalidinput");
+        header("location: https://www.swapamc.com/swapproj/checkout?error=invalidinput");
         error_log("TPAMC:CHECKOUT(checkoutinc):0:$ip:Error(invalidinput)", 0);
         exit;
     }

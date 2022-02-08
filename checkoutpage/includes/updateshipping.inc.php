@@ -71,17 +71,17 @@ $unit = $_POST['unit'];
 
 
 if (emptyInputShippingAdd($name, $email, $phonenumber, $address, $unit, $zip) !== false) {
-    header("location:https://www.swapamc.com/swapproj/checkout/checkout/editshippingaddress?error=shippingaddressemptyinput");
+    header("location:https://www.swapamc.com/swapproj/checkout/editshippingaddress?error=shippingaddressemptyinput");
     exit();
 }
 
 if (invalidEmail($email) !== false) {
-    header("location: https://www.swapamc.com/swapproj/checkout/checkout/editshippingaddress?error=invalidemail");
+    header("location: https://www.swapamc.com/swapproj/checkout/editshippingaddress?error=invalidemail");
     exit();
 }
 if (invalidPostalCode($zip) !== false) {
     echo "<p>Invalid PostalCode</p>";
-    header("location: https://www.swapamc.com/swapproj/checkout/checkout/editshippingaddress?error=invalidpostalcode");
+    header("location: https://www.swapamc.com/swapproj/checkout/editshippingaddress?error=invalidpostalcode");
     exit();
 } else {
 

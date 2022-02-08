@@ -26,10 +26,12 @@ $selectedcarts = [];
     $jwtarray = jwtdecrypt();
     
    
+    if ($jwtarrayinformation['checkoutstate'] == "A"){
+        header("location:https://www.swapamc.com/swapproj/checkout/emailotp");
+    }
 
     ?>
 </style>
-
 
 
 <form method="POST" action="/swapproj/checkout/viewshippingaddress" class="shippinginfo">

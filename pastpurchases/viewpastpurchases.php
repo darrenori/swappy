@@ -1,6 +1,6 @@
 <html>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
 </html>
 
 
@@ -13,7 +13,7 @@ ob_start();
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/includes/functions.inc.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/auth/pages.php';
 
-require_once $_SERVER['DOCUMENT_ROOT']. '/swapproj/navbar.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/navbar.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/swapproj/images/showimage.php';
 ?>
 
@@ -59,7 +59,11 @@ $userid = $jwtarrayinformation['userid'];
             padding: 0;
             font-family: sans-serif;
         }
-        .empty{
+        h2 {
+            color:black;
+        }
+
+        .empty {
             color: white;
             font-family: 'Montserrat', sans-serif;
             font-size: 2em;
@@ -805,7 +809,7 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-                    // show the optinn to cnange status
+                    // show the option to cnange status
                     echo "<div class='right'>";
                     echo "<p>Progress:</p>";
 
@@ -924,10 +928,10 @@ $userid = $jwtarrayinformation['userid'];
             $result = $query->get_result();
             $array = $result->fetch_all(MYSQLI_ASSOC);
             if (empty($array)) {
-            echo "<p class=empty    >Empty</p>";
-            exit;
-            } 
-            
+                echo "<p class=empty>Empty</p>";
+                exit;
+            }
+
             $query->close();
 
 
@@ -937,7 +941,7 @@ $userid = $jwtarrayinformation['userid'];
 
 
 
-            
+
 
 
             for ($i = 0; $i < sizeOf($array); $i++) {
@@ -1025,7 +1029,7 @@ $userid = $jwtarrayinformation['userid'];
                 echo "<div class='upper'>";
 
                 echo "<div class='lefttext'>";
-               
+
 
                 echo "<p class='description'>Purchase Time: $timepurchased</p>";
 
@@ -1083,7 +1087,7 @@ $userid = $jwtarrayinformation['userid'];
 
                     echo "<p class='description'>Product " . $j + 1 . ": </p>";
                     echo "<p>$productquantity x $productname" . "($productprice)" . "</p>";
-                    echo "<br>";
+
 
 
 
@@ -1163,29 +1167,31 @@ $userid = $jwtarrayinformation['userid'];
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
+
+                echo "<div class='right'>";
+                echo "<p>Progress:</p>";
+    
+                //only can view status
+                echo "<select name='viewstatus' id='$pid'>";
+    
+                if ($pstatus == '0') {
+                    echo "<option value='0'selected>Waiting</option>";
+                } elseif ($pstatus == '1') {
+                    echo "<option value='1'selected>In Progress</option>";
+                } elseif ($pstatus == '2') {
+                    echo "<option value='2'selected>Received</option>";
+                }
+    
+    
+                echo "</select>";
+    
+                echo "</div>";
+                echo "</div>";
             }
 
-            echo "<div class='right'>";
-            echo "<p>Progress:</p>";
-
-            //only can view status
-            echo "<select name='viewstatus' id='$pid'>";
-
-            if ($pstatus == '0') {
-                echo "<option value='0'selected>Waiting</option>";
-            } elseif ($pstatus == '1') {
-                echo "<option value='1' selected>In Progress</option>";
-            } elseif ($pstatus == '2') {
-                echo "<option value='2'selected>Received</option>";
-            }
-
-
-            echo "</select>";
-
-            echo "</div>";
-            echo "</div>";
+           
         }
-     
+
             ?>
 
 
@@ -1222,10 +1228,10 @@ $userid = $jwtarrayinformation['userid'];
 
                 function updateStatus(pid, userid) {
                     console.log(pid);
-                    
-                    
 
-                    
+
+
+
                     status = document.getElementById(pid).value;
                     var jsonString = JSON.stringify(pid + ',' + userid + ',' + status);
 

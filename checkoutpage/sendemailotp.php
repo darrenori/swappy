@@ -65,9 +65,9 @@ class VerificationCode
         $mail->SetFrom($this->sender, "Verification Codes");
         $mail->AddAddress($this->receiver);
         if ($mail->send()) {
-            echo "MAIL SENT SUCCESSFULLY";
+            // echo "MAIL SENT SUCCESSFULLY";
         } else {
-            echo "FAILED TO SEND MAIL";
+            // echo "FAILED TO SEND MAIL";
         }
     }
     public function getVerificationCode()
