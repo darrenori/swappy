@@ -18,9 +18,9 @@ checkIfStoreIdExists($conn); //checks if store id exists, if it doesn't exist, c
 //if checkIfIdExists has run, the id variable would have been considered safe
 $id = (string)$_GET["id"];
 try {
-    $query = $conn->prepare("SELECT * FROM mydb.storeprod INNER JOIN mydb.store 
+    $query = $conn->prepare("SELECT * FROM mydb.storeprod RIGHT OUTER JOIN mydb.store 
     ON mydb.store.store_id = mydb.storeprod.store_id 
-    INNER JOIN mydb.products 
+    LEFT OUTER JOIN mydb.products 
     ON mydb.products.product_id = mydb.storeprod.product_id 
     WHERE mydb.store.store_id = ?;");
     $query->bind_param('s', $id);
@@ -48,7 +48,12 @@ try {
 }
 
 
+?>
+<html>
+    
+</html>
 
+<?php
 
 //convert to array. 
 //$query->bind_result() works too
@@ -58,6 +63,17 @@ $array = $result->fetch_all(MYSQLI_ASSOC);
 $totalrows = sizeof($array);
 
 //creat table
+
+if (empty($array[0]['product_id'])) {
+    echo "<h2>No Products for this store [".$array[0]['store_name']."] currently.</h2>";
+    echo "<h4>Would you like to visit <a href='https://www.swapamc.com/swapproj/allstores/store?id=1'>TPAMC</a> instead?</h4>";
+
+    if ($role>4) {
+        echo "<h4>Would you like to <a href='https://www.swapamc.com/swapproj/productmanageradd?id=".$array[0]['store_id']."'>add products</a> instead?</h4>";
+    }
+    
+}else{
+
 
 
 echo "<table  border='1'><tr>";
@@ -94,14 +110,16 @@ for ($i = 0; $i < $numberofTypes; $i++) {
     $info[$i] = getVariantsFromStoreTypes($alltypes[$i], $id, $conn);
 };
 
-
+if (isset($info[0])) {
+    $newchoicesarray = $info[0];
+    if (sizeof($info) > 1) {
+        $newcostsarray = $info[1];
+    }
+}
+}
 // for($i=-;$i<sizeof($info);$i++){
 
 // }
-$newchoicesarray = $info[0];
-if (sizeof($info) > 1) {
-    $newcostsarray = $info[1];
-}
 
 
 ##ZEPH

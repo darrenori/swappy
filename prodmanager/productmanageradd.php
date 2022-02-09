@@ -149,6 +149,24 @@ if(isset($_SESSION['addproduct'])&&$_SESSION['addproduct']!=null){
 
 
 <?php
+if(isset($_GET['id'])){
+
+
+$_GET = XSSPrevention($_GET, ['id']);
+// declares variable length in chars for each item. 
+$maxlengtharray['id'] = 11;
+// bufferflag and emptyflag return false (undesired) if length of item and item are not agreeable
+$bufferflag = empty(checkLength($_GET, $maxlengtharray));
+
+if (!$bufferflag ) {
+    $storeid='';
+}
+
+//removes any nondigit characters.
+$storeid = preg_replace('/[^\d]/', '', $_GET['id']);
+}else $storeid='';
+
+
 echo "<div class='container5'>";
 echo "<div class='role'>Product Manager</div>";
 echo "<div class='item'>";
@@ -175,7 +193,7 @@ echo "</div>";
 
 echo "<div class='pairing'>";
     echo "<div class='pairing1'><p>Store id:</p></div>";
-    echo "<div class='pairing2'><input style='height:100px' type='text' name='storeid' placeholder=''></div>";
+    echo "<div class='pairing2'><input style='height:100px' type='text' name='storeid' placeholder='' value=$storeid></div>";
 echo "</div>";
 
 echo "<div class='pairing'>";
