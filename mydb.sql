@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Feb 08, 2022 at 09:49 AM
+-- Generation Time: Feb 09, 2022 at 02:49 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -53,7 +53,17 @@ INSERT INTO `cart_typevariants` (`cart_typevariants_id`, `cart_typevariants_type
 (277, 'Color', 'Black', '0', 74866969),
 (278, 'Size', 'Large', '2.3', 58386542),
 (279, 'Color', 'White', '3.1', 58386542),
-(290, 'Length', '100m', '20', 90588797);
+(290, 'Length', '100m', '20', 90588797),
+(291, 'Size', 'Twenty', '0', 60829610),
+(292, 'Length', '10m', '0', 60430335),
+(293, 'Size', 'Ten', '0', 92627048),
+(294, 'Size', 'Ten', '0', 84228887),
+(295, 'Length', '10m', '0', 48579118),
+(298, 'SetUp', 'Yes', '31', 49745844),
+(300, 'SetUp', 'Yes', '31', 56320827),
+(301, 'Wireless', 'yes', '10', 79482107),
+(302, 'Color', 'blue', '0', 79482107),
+(304, 'SetUp', 'No', '0', 99133391);
 
 -- --------------------------------------------------------
 
@@ -103,7 +113,8 @@ CREATE TABLE `employees_task` (
 
 INSERT INTO `employees_task` (`task_id`, `working_id`, `task_name`, `task_details`, `task_progress`, `task_assignedby`, `task_dateassigned`, `task_datetofinish`, `task_dateedited`) VALUES
 (14, 3, 'drink water', 'yes', '0', 'uwuone', '2022-02-07 19:25:42', '2022-03-11 19:25:00', ''),
-(15, 8, 'dont drink', 'yse', '1', 'uwuone', '2022-02-07 19:26:09', '2022-03-05 19:26:00', '2022-02-07 19:26:40');
+(15, 8, 'dont drink', 'yse', '1', 'uwuone', '2022-02-07 19:26:09', '2022-03-05 19:26:00', '2022-02-07 19:26:40'),
+(17, 11, 'Drinmk Water', 'dsansai', '1', 'uwuone', '2022-02-09 00:44:14', '2022-02-26 00:44:00', '');
 
 -- --------------------------------------------------------
 
@@ -133,7 +144,10 @@ INSERT INTO `employee_attendance` (`attendance_id`, `attendance_date`, `attendan
 (1, '24/01/2022', '12:58:43 am', '', 'Clock In Verified', 2, '60', '01', '2022', 3),
 (2, '25/01/2022', '11:27:11 pm', '11:27:25 pm', 'Valid', 2, '60', '01', '2022', 3),
 (3, '04/02/2022', '12:29:24 am', '12:34:49 am', 'Valid', 2, '60', '02', '2022', 3),
-(4, '07/02/2022', '07:31:01 pm', '07:31:09 pm', 'To be Reviewed', 10, '60', '02', '2022', 8);
+(4, '07/02/2022', '07:31:01 pm', '07:31:09 pm', 'Valid', 10, '60', '02', '2022', 8),
+(5, '08/02/2022', '08:53:14 pm', '', 'Clock In Verified', 10, '60', '02', '2022', 8),
+(6, '09/02/2022', '12:45:46 am', '12:46:06 am', 'Valid', 16, '60', '02', '2022', 11),
+(8, '09/02/2022', '09:19:16 am', '09:19:43 am', 'Valid', 10, '60', '02', '2022', 8);
 
 -- --------------------------------------------------------
 
@@ -156,7 +170,13 @@ CREATE TABLE `employee_leave` (
 INSERT INTO `employee_leave` (`leave_id`, `leave_date`, `leave_status`, `leave_userid`) VALUES
 (1, '25/01/2022', 'Approved', 2),
 (2, '29/01/2022', 'Approved', 2),
-(3, '24/02/2022', 'To be Reviewed', 2);
+(3, '24/02/2022', 'Approved', 2),
+(4, '10/02/2022', 'Approved', 10),
+(5, '18/02/2022', 'Approved', 16),
+(6, '23/02/2022', 'Approved', 16),
+(7, '17/02/2022', 'Approved', 10),
+(8, '18/02/2022', 'Approved', 17),
+(9, '18/02/2022', 'Approved', 10);
 
 -- --------------------------------------------------------
 
@@ -178,21 +198,27 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`product_id`, `productcode`, `quantityleft`) VALUES
 (1, '05bbf12433b036df8b503f774db14486', '42'),
 (1, '0d783821eeb637b7b245f0c5b53bb191', '62'),
+(29, '1a98584877ae9a2d228a4cb31f398cf6', '14'),
 (1, '2b22d78d21ff5850b75ed3d38c0111fb', '37'),
-(28, '35561f18e311b53886af4a8f1e6c8c13', '14'),
+(28, '35561f18e311b53886af4a8f1e6c8c13', '11'),
 (5, '38fc554ba26a85cc454f3a4b8ec7b301', '14'),
 (2, '3c771bf8d75fb729a61fd38cdf7e08c2', '10'),
+(32, '41b16ebb4d2b79d1ce18dbd18e2e3166', '6'),
 (5, '63fbb9b1eb1701eb3ab328f218ba65df', '10'),
-(26, '665a78203087d2ff4579ad936edd324d', '50'),
 (6, '6d30558d5156e1f2e9875fcc1bfaffa8', '24'),
 (1, '7588ffe7c10af6736e7f1095d6433ea1', '6'),
 (6, '7a05910580d20aa3e139c990b68b3673', '25'),
 (2, '7a661e7347e9d0a868cc9cdf91f634ce', '41'),
-(28, 'a9f2e3cd79fd4daa8db634dd94700fe2', '4'),
-(26, 'b0f2e7c0907c3e2bde4258c34241bbd8', '50'),
+(28, 'a9f2e3cd79fd4daa8db634dd94700fe2', '3'),
+(29, 'bbd749b66d09c1258c6c615940b68e96', '12'),
 (4, 'bd8dd1cda82f264d6a392e161e290dfa', '25'),
 (3, 'c9ca592076cfdc0f97ea3132e770c1f6', '1'),
-(3, 'f40d7fba5e93532f0c84a3a874b47889', '80');
+(32, 'd005ce13d9359e3f09a846a7f16077a4', '8'),
+(31, 'd3f71303e34162a2b0e6a99756357e54', '21'),
+(29, 'd854b95120a60bb4d651bf856d65e019', '25'),
+(31, 'dc7fb8fa33a37ec0fc6b97fc4e4fca8e', '1'),
+(3, 'f40d7fba5e93532f0c84a3a874b47889', '78'),
+(29, 'fe9cc5e7111b88936693dc8c7cd7c590', '21');
 
 -- --------------------------------------------------------
 
@@ -216,7 +242,6 @@ CREATE TABLE `likedby` (
 INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `liked`) VALUES
 (22, 65, 2, 3, 1),
 (23, 64, 2, 3, 1),
-(24, 63, 2, 3, 1),
 (25, 62, 2, 3, 1),
 (27, 43, 2, 1, 1),
 (29, 67, 2, 1, 1),
@@ -226,7 +251,14 @@ INSERT INTO `likedby` (`likedby_id`, `review_id`, `user_id`, `product_id`, `like
 (33, 75, 10, 2, 0),
 (34, 71, 10, 1, 1),
 (35, 72, 10, 2, 1),
-(36, 77, 10, 1, 0);
+(36, 77, 10, 1, 0),
+(37, 80, 10, 1, 1),
+(39, 82, 10, 2, 0),
+(40, 62, 10, 3, 1),
+(41, 54, 10, 6, 0),
+(43, 84, 16, 31, 1),
+(44, 84, 10, 31, 1),
+(46, 87, 18, 31, 0);
 
 -- --------------------------------------------------------
 
@@ -265,7 +297,8 @@ INSERT INTO `notification` (`idnotification`, `user_id`, `notification`, `header
 (1, 0, 'uwu', 'HARLO NOTI', 0, 0),
 (2, 2, 'um root i am testing groot', 'ee', 2, 1),
 (3, 0, 'wasup nibba', 'harlo', 0, 1),
-(4, 2, 'jsbadbsbhd', 'sad', 1, 2);
+(4, 2, 'jsbadbsbhd', 'sad', 1, 2),
+(5, 15, 'asdsd', 'hi jon', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -340,8 +373,10 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_
 (4, 'Robotic Arm', 412.42, 'Reduces the front-end investment of your automation projects and gives you a quick ROI. Collaborative robot with 5kg payload, 700mm reach, free software, open-source platform. Simplify Complex Tasks. Schedule A Demo. Boost Productivity', 'prodimg/large.jpg', NULL, NULL, 21, NULL),
 (5, 'Router', 600.21, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet.', 'prodimg/tplink.jpg', NULL, NULL, 25, NULL),
 (6, 'Engine', 23.23, 'Monkey, Zoo, Kangaroo, Crocodile Giraffe LiOn engine', 'prodimg/engine.jpg', NULL, NULL, 50, NULL),
-(26, 'TPAMC Version 7 Router', 99, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet. Data sent through the internet, such as a web page or email, is in the form of data packets.', 'prodimg/tpamc.jpg', NULL, NULL, 100, NULL),
-(28, 'Batteries', 2.1, 'An electric battery is a source of electric power consisting of one or more electrochemical cells with external connections for powering electrical devices. When a battery is supplying electric power, its positive terminal is the cathode and its negative terminal is the anode. The terminal marked negative is the source of electrons that will flow through an external electric circuit to the positive terminal. When a battery is connected to an external electric load, a redox reaction converts high-energy reactants to lower-energy products, and the free-energy difference is delivered to the external circuit as electrical energy. Historically the term battery specifically referred to a device composed of multiple cells however, the usage has evolved to include devices composed of a single cell.', 'uploads/IMG-62020f944e7f54.21005989.jpg', NULL, NULL, 18, NULL);
+(28, 'Batteries', 2.1, 'An electric battery is a source of electric power consisting of one or more electrochemical cells with external connections for powering electrical devices. When a battery is supplying electric power, its positive terminal is the cathode and its negative terminal is the anode. The terminal marked negative is the source of electrons that will flow through an external electric circuit to the positive terminal. When a battery is connected to an external electric load, a redox reaction converts high-energy reactants to lower-energy products, and the free-energy difference is delivered to the external circuit as electrical energy. Historically the term battery specifically referred to a device composed of multiple cells however, the usage has evolved to include devices composed of a single cell.', 'uploads/IMG-62020f944e7f54.21005989.jpg', NULL, NULL, 18, NULL),
+(29, 'Portable Charger', 23.1, 'The charging protocol depends on the size and type of the battery being charged. Some battery types have high tolerance for overcharging and can be recharged by connection to a constant voltage source or a constant current source, depending on battery type.', 'prodimg/portable.jpg', NULL, NULL, 72, NULL),
+(31, 'TPAMC Version 7 Router', 91, 'A router is a networking device that forwards data packets between computer networks. Routers perform the traffic directing functions on the Internet. Data sent through the internet, such as a web page or email, is in the form of data packets.', 'uploads/IMG-6202911e4a40a9.43059844.jpg', NULL, NULL, 33, NULL),
+(32, 'd', 1.99, 'jasdjnands', NULL, NULL, NULL, 14, NULL);
 
 -- --------------------------------------------------------
 
@@ -372,10 +407,17 @@ INSERT INTO `product_type` (`product_id`, `type_id`) VALUES
 (5, 12),
 (6, 13),
 (6, 14),
-(26, 74),
-(26, 75),
 (28, 78),
-(28, 79);
+(28, 79),
+(29, 80),
+(29, 81),
+(29, 82),
+(29, 83),
+(31, 84),
+(31, 85),
+(32, 86),
+(32, 87),
+(32, 88);
 
 -- --------------------------------------------------------
 
@@ -408,11 +450,10 @@ INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `revi
 (51, 2, 2, 'asdds', 3, 'uploads/IMG-61f57de7ed4421.06036147.png', 0, 0, '2022-01-30 01:48:24', NULL, NULL),
 (52, 2, 2, 'asd', 2, 'uploads/IMG-61f57dfa068300.43887107.png', 0, 0, '2022-01-30 01:48:42', NULL, NULL),
 (53, 2, 2, 'ok', 2, 'uploads/IMG-61f57e6f9d99c8.73472745.png', 0, 0, '2022-01-30 01:50:39', NULL, 1),
-(54, 6, 2, 'asd', 2, 'uploads/IMG-61f58091b6d7a2.12559038.png', 0, 0, '2022-01-30 01:59:45', NULL, NULL),
+(54, 6, 2, 'asd', 2, 'uploads/IMG-61f58091b6d7a2.12559038.png', 0, 1, '2022-01-30 01:59:45', NULL, NULL),
 (55, 6, 2, 'asd', 0, '', 0, 0, '2022-01-30 02:01:22', 54, NULL),
-(62, 3, 2, 'why', 3, 'uploads/IMG-61f589788e6130.64497937.png', 1, 0, '2022-01-30 02:37:44', NULL, 1),
-(63, 3, 2, 'yay', 5, '', 1, 0, '2022-01-30 02:37:49', 62, 1),
-(64, 3, 2, 's', 0, '', 1, 0, '2022-01-30 03:01:12', 62, NULL),
+(62, 3, 2, 'why', 3, 'uploads/IMG-61f589788e6130.64497937.png', 2, 0, '2022-01-30 02:37:44', NULL, 1),
+(64, 3, 2, 'k can', 5, '', 1, 0, '2022-01-30 03:01:12', 62, 1),
 (65, 3, 2, 'hello reply', 0, '', 1, 0, '2022-01-30 03:23:04', 62, NULL),
 (67, 1, 2, 'sd', 0, '', 1, 0, '2022-01-31 02:05:25', 66, NULL),
 (68, 1, 10, 'hi! mr kenneth', 2, 'uploads/IMG-61ffbe7dd34f06.08278005.png', 1, 0, '2022-02-06 20:26:37', NULL, 1),
@@ -423,7 +464,13 @@ INSERT INTO `reviews` (`review_id`, `review_product_id`, `review_user_id`, `revi
 (75, 2, 10, 'y', 0, '', 0, 1, '2022-02-07 03:58:00', 52, NULL),
 (76, 1, 10, 'uwuwuwu', 0, '', 0, 0, '2022-02-07 15:29:50', 68, NULL),
 (77, 1, 10, 'sd', 4, 'uploads/IMG-6200ca7fa52ca3.82760954.png', 0, 1, '2022-02-07 15:30:07', NULL, 1),
-(78, 1, 10, 'k', 0, '', 0, 0, '2022-02-07 15:56:18', 68, NULL);
+(78, 1, 10, 'k', 0, '', 0, 0, '2022-02-07 15:56:18', 68, NULL),
+(79, 3, 10, 'k', 1, 'uploads/IMG-62022f0d3e6b43.88682759.jpg', 0, 0, '2022-02-08 16:51:25', NULL, NULL),
+(80, 1, 10, 'jnjnjansdn', 3, 'uploads/IMG-62022f9dc6bc62.01595784.jpg', 1, 0, '2022-02-08 16:53:49', NULL, NULL),
+(82, 2, 10, 'ekk', 3, 'uploads/IMG-62026bf04f5ae7.90604820.png', 0, 1, '2022-02-08 21:11:12', NULL, NULL),
+(84, 31, 16, 'its damn good', 5, 'uploads/IMG-62029ce6343d12.93477168.jpeg', 2, 1, '2022-02-09 00:40:06', NULL, 1),
+(85, 31, 10, 'u suck', 0, '', 0, 0, '2022-02-09 02:35:56', 84, NULL),
+(87, 31, 18, 'test', 3, 'uploads/IMG-6203132643c015.03314626.jpeg', 0, 1, '2022-02-09 09:04:38', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -454,7 +501,7 @@ CREATE TABLE `store` (
   `store_picethree` varchar(200) DEFAULT NULL,
   `store_address` varchar(100) DEFAULT NULL,
   `store_number` varchar(45) DEFAULT NULL,
-  `store_url` varchar(150) DEFAULT NULL,
+  `store_url` text DEFAULT NULL,
   `store_status` int(1) DEFAULT NULL,
   `store_rating` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -465,7 +512,8 @@ CREATE TABLE `store` (
 
 INSERT INTO `store` (`store_id`, `store_name`, `store_pricepoint`, `store_about`, `store_picone`, `store_pictwo`, `store_picethree`, `store_address`, `store_number`, `store_url`, `store_status`, `store_rating`) VALUES
 (1, 'TPAMC', 1, 'Industry 4.0 is set to transform Singapore’s manufacturing sector, as more companies embrace advanced manufacturing technologies to increase their productivity and efficiency.', NULL, NULL, NULL, '21 Tampines Ave 1, Singapore 529757', '6788 2000', 'https://www.tp.edu.sg/research-and-industry/centres-of-excellence/centres-under-school-of-engineering/advanced-manufacturing-centre.html', 1, NULL),
-(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL);
+(2, 'Cisco', 1, 'Cisco Systems, Inc. is an American multinational technology conglomerate corporation headquartered in San Jose, California. Integral to the growth of Silicon Valley, Cisco develops, manufactures and sells networking hardware, software, telecommunications equipment and other high-technology services and products', NULL, NULL, NULL, '80 Pasir Panjang Rd, Building 80, Lvl 25 Mapletree Biz City, Singapore 117372', '6721 2111', 'https://www.cisco.com/c/en_sg/index.html', 1, NULL),
+(4, 'storename', 1, 'dadasda', 'uploads/IMG-62031644e252c1.29800495.jpg', NULL, NULL, 'address', '83180308', 'www.abc.com', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -489,8 +537,10 @@ INSERT INTO `storeprod` (`store_id`, `product_id`) VALUES
 (1, 4),
 (1, 5),
 (1, 6),
-(1, 26),
 (1, 28),
+(1, 29),
+(1, 31),
+(1, 32),
 (2, 2);
 
 -- --------------------------------------------------------
@@ -578,7 +628,16 @@ INSERT INTO `type` (`type_id`, `type`, `type_choice`, `additional_costs`, `autom
 (76, 'Size', '10 Pack', 0, '80960914'),
 (77, 'Size', '20 Pack', 10, '80960914'),
 (78, 'Size', 'Ten', 0, '73028503'),
-(79, 'Size', 'Twenty', 0, '73028503');
+(79, 'Size', 'Twenty', 0, '73028503'),
+(80, 'Wireless', 'yes', 10, '48712526'),
+(81, 'Wireless', 'no', 0, '48712526'),
+(82, 'Color', 'green', 100, '48712526'),
+(83, 'Color', 'blue', 0, '48712526'),
+(84, 'SetUp', 'Yes', 31, '58959945'),
+(85, 'SetUp', 'No', 0, '58959945'),
+(86, 'color', 'green', 10, '65914344'),
+(87, 'color', 'blue', 0, '65914344'),
+(88, 'size', 'large', 0, '65914344');
 
 -- --------------------------------------------------------
 
@@ -620,7 +679,10 @@ INSERT INTO `users` (`user_id`, `user_username`, `user_password`, `user_fname`, 
 (8, 'darrenong', '$2y$10$l1A.j48JvlRzUv9T2t5GyeICoUOeemYpLdY67CM41n99q9fvlhBWi', 'darrenong', 'darrenong', 0, 'asdasd', '83180308', '2022-02-04 00:01:47', '123', '123', 'KPEREHOPIZEYYJMN', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
 (9, 'darren', '$2y$10$ejXfpYM2tYUJwq9E/7CV0.NmUSnqdDZtLzCckQasqiTwdcIl8rlt6', 'darren', 'daren', 6, 'darrensdsnorii@gmail.com', '83180308', '2022-02-04 17:08:34', 'asd', 'asd', '74VMGSWM2QLMTYIA', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, 2, NULL, NULL),
 (10, 'uwuone', '$2y$10$dMx42Q8KpqevVjJxFB36CObK0mrRNqVEcZAlBgwWE3tOuVtoqriVK', 'uwu', 'darren', 6, 'darrennorii@gmail.com', '83180308', '2022-02-06 01:58:08', 'asd', 'asd', 'G6PNAK736DLQKVCD', 'uploads/IMG-6200ca4fb81286.45763906.jpg', NULL, 2, NULL, NULL),
-(11, 'uwu2', '$2y$10$CXFBN88rGVWIEeqFfblgfOD6XO1EhvHbrBUrNWo1JQbfm.VHT8ej2', 'uwu2', 'uwu2', 0, 'uwu2@gmail.com', '83180308', '2022-02-06 18:13:04', 'asd', 'asd', '6DECSUZDIICQYQYG', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
+(11, 'uwu2', '$2y$10$CXFBN88rGVWIEeqFfblgfOD6XO1EhvHbrBUrNWo1JQbfm.VHT8ej2', 'uwu2', 'uwu2', 0, 'uwu2@gmail.com', '83180308', '2022-02-06 18:13:04', 'asd', 'asd', '6DECSUZDIICQYQYG', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(13, 'normaluser', '$2y$10$qMQjX2wVBGj1V.yvO1dzkuktWaBo.NEQQ1vjS1nR/Ys4ZEi8tUCnu', 'normaluser', 'normaluser', 0, 'ong.yanen.darren@edgefield.sg', '83180308', '2022-02-08 21:14:52', 'asd', 'asd', 'TSF27XNVUXI3XAWG', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(16, 'johndoe', '$2y$10$BcZ1i1c.XEWv.nikKhfhduaxAOOLqXMmhtj49MaC1UEfgX08u09K6', 'john', 'doe', 1, 'swapamcproj4@gmail.com', '83180308', '2022-02-09 00:38:36', 'Edgefield', 'Hotpot', 'HEKUVA5LU7NJESDS', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL),
+(18, 'justinc', '$2y$10$BIj/DDRqir5s5jzCIqrVquTgQDPqL.cyERGIt0WTZCQMisDzesW6e', 'justin', 'chong', 1, 'jctk13313@gmail.com', '83180308', '2022-02-09 09:02:23', 'Edgefield', 'Hotpot', 'KM5PZHBVIWM7Y7O6', 'uploads/IMG-DEFAULTPROFILE.jpg', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -641,7 +703,9 @@ CREATE TABLE `usersfavorite` (
 INSERT INTO `usersfavorite` (`product_id`, `user_id`) VALUES
 (3, 2),
 (1, 2),
-(26, 10);
+(4, 13),
+(31, 16),
+(31, 18);
 
 -- --------------------------------------------------------
 
@@ -682,15 +746,25 @@ CREATE TABLE `user_cart` (
 --
 
 INSERT INTO `user_cart` (`cart_id`, `user_id`, `product_id`, `productcode`, `quantity`, `price`, `bundled`, `purchased`) VALUES
-(18095979, 10, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 2, 824.84, 68870313, 1),
+(18095979, 10, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 2, 412.42, 68870313, 1),
+(21368569, 10, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 2, 412.42, 0, 0),
 (29693879, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 2, 26.78, 0, 0),
 (33918750, 2, 1, '0d783821eeb637b7b245f0c5b53bb191', 1, 10.29, 95414179, 1),
 (40029523, 2, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 59636840, 1),
+(48579118, 13, 3, 'f40d7fba5e93532f0c84a3a874b47889', 1, 10.9, 36013879, 1),
+(49745844, 10, 31, 'dc7fb8fa33a37ec0fc6b97fc4e4fca8e', 1, 122, 0, 0),
+(56320827, 16, 31, 'dc7fb8fa33a37ec0fc6b97fc4e4fca8e', 4, 488, 26767534, 1),
 (58386542, 10, 1, '2b22d78d21ff5850b75ed3d38c0111fb', 1, 13.39, 54591425, 1),
+(60430335, 13, 3, 'f40d7fba5e93532f0c84a3a874b47889', 1, 10.9, 74846222, 1),
+(60829610, 10, 28, '35561f18e311b53886af4a8f1e6c8c13', 3, 6.3, 51820095, 1),
 (67573068, 2, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 0, 0),
 (74866969, 2, 1, '05bbf12433b036df8b503f774db14486', 2, 15.98, 0, 0),
+(79482107, 10, 29, 'fe9cc5e7111b88936693dc8c7cd7c590', 1, 33.1, 0, 0),
+(84228887, 13, 28, 'a9f2e3cd79fd4daa8db634dd94700fe2', 1, 2.1, 10400248, 1),
 (86976113, 9, 4, 'bd8dd1cda82f264d6a392e161e290dfa', 1, 412.42, 0, 0),
-(90588797, 10, 3, 'f40d7fba5e93532f0c84a3a874b47889', 1, 30.9, 0, 0);
+(90588797, 10, 3, 'f40d7fba5e93532f0c84a3a874b47889', 1, 30.9, 0, 0),
+(92627048, 10, 28, 'a9f2e3cd79fd4daa8db634dd94700fe2', 1, 2.1, 0, 0),
+(99133391, 18, 31, 'd3f71303e34162a2b0e6a99756357e54', 4, 364, 83659320, 1);
 
 -- --------------------------------------------------------
 
@@ -719,7 +793,13 @@ INSERT INTO `user_creditcardinfo` (`user_creditcardinfo_id`, `user_creditcardinf
 (35, 2, 'darren', '12', '2023', 'visa', 'Xy7WDtY21UuqlZlRIrVwZg==', '294928c71509a94cacd30b53ee81bc286eced837a5e4e8ac', '00fe9b9eee645bbfc64eb586548b9f68'),
 (36, 2, 'asd', '12', '2023', 'visa', 'CdeXs3ZWwqlNzVASNW3T6g==', '7687d6e7cdd69040af8569969019198c5d993d089bf0785b', '575fe139050fb4fff02da5f60bbf23a2'),
 (37, 10, 'darren', '12', '2023', 'visa', '0IdOngV8Wwe1MDtdAAsf6A==', 'b73c6bcf2b66557325a851f52b890e07372f1889df86de9d', '2fea43b04cbff8a9786d1b60b01c79e7'),
-(38, 10, 'darren', '12', '2023', 'visa', 'ynJMX04ZoUrN64Hv15IHFA==', '5cab931eff50201cc7e40b418b0e198858d33780bdeef9a6', 'da53111577add87658716ea8b9c5d51a');
+(38, 10, 'darren', '12', '2023', 'visa', 'ynJMX04ZoUrN64Hv15IHFA==', '5cab931eff50201cc7e40b418b0e198858d33780bdeef9a6', 'da53111577add87658716ea8b9c5d51a'),
+(39, 13, 'darren ', '12', '2023', 'visa', '4lPFyMRCRUi6JC9rgW+8NA==', '07ce4f919df9e66c1a9395be99933d888a29802d70eacc6e', '3fbe959485bef086d01b8ed438fe2e6a'),
+(40, 10, 'darren', '12', '2023', 'visa', 'nh4kplT9vAlk8fezdHQonw==', '483ff0d186ccdd006a79f5cda37b479e442745955aa2eb38', '933144ffb73986d3835fb08dd431ec03'),
+(41, 13, 'darren', '12', '2023', 'visa', 'GsAWwMuNLabtqb9xUs2ayw==', 'f617076e0285241b8bdd6d31d59780efb230be23ff1a60e4', '28e0773218b9d4e61bef4984ddb88c28'),
+(42, 13, 'eq', '12', '2023', 'visa', 'vxGX3eLMOGbOOFclzbG6ig==', '7334765d21bdc5e3a3ca24e2c6fa93e00faa5184a4e5a60c', '2ad45b03454d1394fdbd4dc28625963e'),
+(44, 16, 'johndoe', '12', '2023', 'visa', 'OrsHDWT4//B5lGH4e/2haA==', 'ad31f9883af890c93e5d10d0266b9af81b1727d5fa80c3a6', '9f92f645bd897a08efd45b73ca4c6f69'),
+(46, 18, 'Darren Ong', '12', '2023', 'visa', 'lwatyQNCQpzadUvYtsZ5/Q==', '91c8b219c26a466e4c6aa0a21226a8b457ff9906a4bfe63c', 'e38185dc8157487bcf3231158251e95b');
 
 -- --------------------------------------------------------
 
@@ -759,7 +839,13 @@ INSERT INTO `user_past_purchases` (`purchase_id`, `user_id`, `user_shipping`, `u
 (27, 2, 9, 35, '2022-02-01 21:24:16', 11.0103, 2, 95414179),
 (28, 2, 9, 36, '2022-02-03 18:47:57', 14.3273, 2, 59636840),
 (29, 10, 12, 37, '2022-02-05 19:03:44', 14.3273, 0, 54591425),
-(30, 10, 12, 38, '2022-02-07 20:10:03', 882.579, 0, 68870313);
+(30, 10, 12, 38, '2022-02-07 20:10:03', 882.579, 0, 68870313),
+(31, 13, 13, 39, '2022-02-08 14:32:23', 11.663, 2, 74846222),
+(32, 10, 12, 40, '2022-02-08 15:34:07', 6.741, 0, 51820095),
+(33, 13, 13, 41, '2022-02-08 15:37:09', 2.247, 2, 10400248),
+(34, 13, 13, 42, '2022-02-08 15:46:05', 11.663, 0, 36013879),
+(36, 16, 15, 44, '2022-02-08 17:42:15', 522.16, 2, 26767534),
+(38, 18, 17, 46, '2022-02-09 02:07:21', 389.48, 1, 83659320);
 
 -- --------------------------------------------------------
 
@@ -794,7 +880,10 @@ INSERT INTO `user_shippinginformation` (`user_shipping_id`, `user_shipping_numbe
 (9, '83810308', 'jnsadnjdsnj@gmail.com', 'absdhbahsbdbhb', '820123', '14-230', 2, 1, 'darrenasd', ''),
 (10, '83180308', 'darren@gmail.com', 'asd', '123123', '14-230', 2, 0, 'darrren', '1'),
 (11, '83182312', 'darern@gamil.com', 'asd', '123123', '14-230', 7, 1, 'darren', ''),
-(12, '91232312', 'jogn@gmail.com', '2223', '231123', '31231', 10, 1, 'jogn', '');
+(12, '91232312', 'jogn@gmail.com', '2223', '231123', '31231', 10, 1, 'jogn', ''),
+(13, '83180308', 'john@gmail.com', '812312 Punggol ', '912123', '14-230', 13, 1, 'john', ''),
+(15, '83180308', 'john@gamil.com', 'Singapore Punggol', '123123', '14-230', 16, 1, 'johndoe', ''),
+(17, '83180308', 'justinc@gmail.com', '820178 Punggol', '820178', '14-230', 18, 1, 'justinc', '');
 
 -- --------------------------------------------------------
 
@@ -834,7 +923,9 @@ CREATE TABLE `working_employees` (
 
 INSERT INTO `working_employees` (`working_id`, `user_id`, `working_role`, `working_number`, `working_department`, `working_perhourpay`) VALUES
 (3, 2, 'Engineers', '91226969', 'Labour', 10),
-(8, 10, 'C Suite', '83180308', 'C Suite', 1000);
+(8, 10, 'C Suite', '83180308', 'C Suite', 1000),
+(11, 16, 'CEO', '83180308', 'C Sutie', 500),
+(13, 18, 'HR', '83180308', 'HR', 1000);
 
 --
 -- Indexes for dumped tables
@@ -1052,7 +1143,7 @@ ALTER TABLE `working_employees`
 -- AUTO_INCREMENT for table `cart_typevariants`
 --
 ALTER TABLE `cart_typevariants`
-  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
+  MODIFY `cart_typevariants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1064,31 +1155,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `employees_task`
 --
 ALTER TABLE `employees_task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `employee_attendance`
 --
 ALTER TABLE `employee_attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `employee_leave`
 --
 ALTER TABLE `employee_leave`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `likedby`
 --
 ALTER TABLE `likedby`
-  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `likedby_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idnotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `place`
@@ -1100,19 +1191,19 @@ ALTER TABLE `place`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `total_people_in_lab`
@@ -1124,13 +1215,13 @@ ALTER TABLE `total_people_in_lab`
 -- AUTO_INCREMENT for table `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_booking`
@@ -1142,19 +1233,19 @@ ALTER TABLE `user_booking`
 -- AUTO_INCREMENT for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `user_creditcardinfo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `user_past_purchases`
 --
 ALTER TABLE `user_past_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `user_shippinginformation`
 --
 ALTER TABLE `user_shippinginformation`
-  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `working_booking`
@@ -1166,7 +1257,7 @@ ALTER TABLE `working_booking`
 -- AUTO_INCREMENT for table `working_employees`
 --
 ALTER TABLE `working_employees`
-  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `working_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -1271,7 +1362,7 @@ ALTER TABLE `user_cart`
 -- Constraints for table `user_creditcardinfo`
 --
 ALTER TABLE `user_creditcardinfo`
-  ADD CONSTRAINT `user_creditcardinfo_id` FOREIGN KEY (`user_creditcardinfo_userid`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_creditcardinfo_id` FOREIGN KEY (`user_creditcardinfo_userid`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_favoritedproducts`
