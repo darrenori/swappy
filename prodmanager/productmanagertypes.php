@@ -177,6 +177,7 @@ echo "<form class='form5' id='myform' action='https://www.swapamc.com/swapproj/p
 echo "<div class='pairing'>";
 
 echo "<div id='inputfields'>";
+echo "Note: Do not attempt to use special charcters here(- or _). Examples of types are: Color  ";
 
 
 echo "<div class='pairing1'><p>Type:</p></div>";
