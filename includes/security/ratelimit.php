@@ -5,8 +5,16 @@
 
 function isRateLimited(string $key): bool
 {
-    $attempts = $_SESSION['rl'][$key]['count'] ?? 0;
-    return $attempts >= LOGIN_MAX_ATTEMPTS;
+    $entry = $_SESSION['rl'][$key] ?? null;
+    if ($entry === null) {
+        return false;
+    }
+    // once the lockout window has passed, forget the old attempts
+    if (time() - $entry['first'] > LOGIN_LOCKOUT_SECONDS) {
+        unset($_SESSION['rl'][$key]);
+        return false;
+    }
+    return $entry['count'] >= LOGIN_MAX_ATTEMPTS;
 }
 
 function registerFailedLogin(string $key): void
