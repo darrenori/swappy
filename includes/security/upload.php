@@ -20,3 +20,12 @@ function validateUpload(array $file): array
     }
     return $errors;
 }
+
+// Turn any uploaded name into something safe to store on disk.
+function safeFilename(string $name): string
+{
+    $name = basename($name);
+    $name = preg_replace('/[^a-zA-Z0-9._-]/', '_', $name);
+    $name = ltrim($name, '.');
+    return $name === '' ? 'file' : $name;
+}
