@@ -3,6 +3,10 @@
 // Rough password strength score 0..4, for feedback on the signup form.
 function scorePassword(string $pwd): int
 {
+    // a long passphrase is strong on its own, even without symbols
+    if (strlen($pwd) >= 20) {
+        return 4;
+    }
     $score = 0;
     if (strlen($pwd) >= MIN_PASSWORD_LEN) $score++;
     if (preg_match('/[A-Z]/', $pwd) && preg_match('/[a-z]/', $pwd)) $score++;
