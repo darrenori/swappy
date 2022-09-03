@@ -7,3 +7,9 @@ function slugify(string $text): string
     $text = preg_replace('/[^a-z0-9]+/', '-', $text);
     return trim($text, '-');
 }
+
+// Short alias for htmlspecialchars with sensible defaults.
+function escapeHtml($value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+}
