@@ -12,7 +12,7 @@ function hardenSession(): void
         'path'     => '/swapproj/',
         'httponly' => true,
         'secure'   => $secure,
-        'samesite' => Lax,
+        'samesite' => 'Lax',
     ]);
     session_start();
 
