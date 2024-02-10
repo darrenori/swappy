@@ -37,3 +37,15 @@ api/ and googleauth/, import mydb.sql into a database called mydb, create
 includes/dbh.inc.php, do the HTTPS setup, then open https://www.swapamc.com/swapproj/.
 
 Contact 2004217B@student.tp.edu.sg. All rights reserved.
+
+## Documentation
+
+- docs/INSTALL.md, setup
+- docs/SECURITY.md, the security model and the security library
+- docs/ARCHITECTURE.md, how a request flows
+- docs/ROUTES.md, the routes
+- docs/DATABASE.md, the schema
+- docs/DEVELOPMENT.md, working on the code
+- docs/FAQ.md, quick answers
+
+Built 2022 at Temasek Polytechnic. Reference project, not maintained. All rights reserved.
